@@ -13,243 +13,113 @@ body {
   color: #222;
   min-height: 100vh;
 }
-.screen {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 24px 16px 72px;
-}
-
-/* ── 메뉴 ── */
+.screen { max-width: 480px; margin: 0 auto; padding: 24px 16px 72px; }
 h1 { font-size: 22px; text-align: center; margin: 0 0 24px; font-weight: 700; }
-
 .menu-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 18px 20px;
-  margin-bottom: 12px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  background: #fff; border-radius: 16px; padding: 18px 20px;
+  margin-bottom: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.07);
 }
 .menu-card-title {
-  font-size: 11px;
-  font-weight: 700;
-  color: #aaa;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  margin: 0 0 12px;
+  font-size: 11px; font-weight: 700; color: #aaa;
+  letter-spacing: 0.8px; text-transform: uppercase; margin: 0 0 12px;
 }
 .check-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 2px 0;
-  -webkit-tap-highlight-color: transparent;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 15px; font-weight: 600; cursor: pointer;
+  padding: 2px 0; -webkit-tap-highlight-color: transparent;
 }
 .check-row input[type="checkbox"] {
-  width: 18px; height: 18px;
-  accent-color: #2e6ed6;
-  cursor: pointer;
-  flex-shrink: 0;
+  width: 18px; height: 18px; accent-color: #2e6ed6; cursor: pointer; flex-shrink: 0;
 }
-.week-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
-  margin-left: 28px;
-}
+.week-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; margin-left: 28px; }
 .week-chip {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  background: #f0ede6;
-  font-size: 13px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: background 0.15s;
+  display: flex; align-items: center; gap: 5px; padding: 6px 12px;
+  border-radius: 20px; background: #f0ede6; font-size: 13px;
+  cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background 0.15s;
 }
 .week-chip input { accent-color: #2e6ed6; width: 13px; height: 13px; cursor: pointer; }
 .week-chip.on { background: #eaf1fd; color: #2e6ed6; font-weight: 600; }
-
-.level-row-menu {
-  display: flex;
-  gap: 8px;
-  margin-top: 14px;
-}
+.level-row-menu { display: flex; gap: 8px; margin-top: 14px; }
 .lv-btn {
-  flex: 1;
-  padding: 9px 4px;
-  font-size: 12px;
-  line-height: 1.4;
-  border-radius: 10px;
-  border: 1.5px solid #ddd;
-  background: #fff;
-  color: #666;
-  cursor: pointer;
+  flex: 1; padding: 9px 4px; font-size: 12px; line-height: 1.4;
+  border-radius: 10px; border: 1.5px solid #ddd; background: #fff; color: #666; cursor: pointer;
 }
-.lv-btn.active {
-  border-color: #2e6ed6;
-  background: #eaf1fd;
-  color: #2e6ed6;
-  font-weight: 600;
+.lv-btn.active { border-color: #2e6ed6; background: #eaf1fd; color: #2e6ed6; font-weight: 600; }
+.mode-row { display: flex; gap: 8px; }
+.mode-btn {
+  flex: 1; padding: 10px 4px; font-size: 13px; line-height: 1.4;
+  border-radius: 10px; border: 1.5px solid #ddd; background: #fff; color: #666; cursor: pointer;
 }
-
+.mode-btn.active { border-color: #2e6ed6; background: #eaf1fd; color: #2e6ed6; font-weight: 700; }
 .start-btn {
-  width: 100%;
-  padding: 16px;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: 14px;
-  border: none;
-  background: #2e6ed6;
-  color: #fff;
-  cursor: pointer;
-  margin-top: 6px;
+  width: 100%; padding: 16px; font-size: 16px; font-weight: 700;
+  border-radius: 14px; border: none; background: #2e6ed6; color: #fff;
+  cursor: pointer; margin-top: 6px;
 }
 .start-btn:active { opacity: 0.85; }
-.menu-err {
-  text-align: center;
-  color: #d64545;
-  font-size: 13px;
-  margin-top: 10px;
-  display: none;
-}
-
-/* ── 퀴즈 ── */
+.menu-err { text-align: center; color: #d64545; font-size: 13px; margin-top: 10px; display: none; }
 .status {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 12px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14px; color: #555; margin-bottom: 12px;
 }
 #scoreEl { font-weight: 600; color: #222; }
-
 #timerEl {
-  font-size: 20px;
-  font-weight: 800;
-  color: #2e6ed6;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 2.5px solid #2e6ed6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  font-size: 20px; font-weight: 800; color: #2e6ed6;
+  width: 36px; height: 36px; border-radius: 50%; border: 2.5px solid #2e6ed6;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   transition: color 0.2s, border-color 0.2s;
 }
 #timerEl.urgent { color: #d64545; border-color: #d64545; }
 #timerEl:empty  { border-color: transparent; }
-
 .q-badge {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 3px 9px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  letter-spacing: 0.3px;
+  display: inline-block; font-size: 11px; font-weight: 700;
+  padding: 3px 9px; border-radius: 10px; margin-bottom: 10px; letter-spacing: 0.3px;
 }
 .q-badge.alpha { background: #f2ecff; color: #7c3aed; }
 .q-badge.word  { background: #eaf1fd; color: #2e6ed6; }
-
 .word-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 28px 16px 24px;
-  text-align: center;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-  margin-bottom: 18px;
-  min-height: 130px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  background: #fff; border-radius: 16px; padding: 28px 16px 24px;
+  text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  margin-bottom: 18px; min-height: 130px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
-#wordDisplay {
-  font-weight: 700;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  line-height: 1.3;
-  width: 100%;
-}
+#wordDisplay { font-weight: 700; word-break: break-word; overflow-wrap: break-word; line-height: 1.3; width: 100%; }
 #subDisplay { font-size: 16px; color: #777; margin-top: 6px; }
 #subDisplay:empty { display: none; }
-#hintText   { font-size: 13px; color: #999; margin-top: 10px; }
-
-.choices {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
+#hintText { font-size: 13px; color: #999; margin-top: 10px; }
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .choices button {
-  padding: 13px 8px;
-  font-size: 14px;
-  border-radius: 10px;
-  border: 1.5px solid #ddd;
-  background: #fff;
-  cursor: pointer;
-  line-height: 1.3;
-  word-break: keep-all;
-  overflow-wrap: break-word;
+  padding: 13px 8px; font-size: 14px; border-radius: 10px;
+  border: 1.5px solid #ddd; background: #fff; cursor: pointer;
+  line-height: 1.3; word-break: keep-all; overflow-wrap: break-word;
 }
 .choices button:active { transform: scale(0.97); }
 .choices button.correct { border-color: #2e9e4f; background: #e6f6ea; }
 .choices button.wrong   { border-color: #d64545; background: #fdecec; }
-
-#feedbackEl {
-  min-height: 20px;
-  text-align: center;
-  font-size: 14px;
-  margin-top: 14px;
-}
+#feedbackEl { min-height: 20px; text-align: center; font-size: 14px; margin-top: 14px; }
 .correct-text { color: #2e9e4f; }
 .wrong-text   { color: #d64545; }
-.final {
-  text-align: center;
-  font-size: 15px;
-  font-weight: 700;
-  margin-top: 10px;
-}
-
-.btn-row {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 18px;
-  flex-wrap: wrap;
-}
+.final { text-align: center; font-size: 15px; font-weight: 700; margin-top: 10px; }
+.btn-row { display: flex; justify-content: center; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
 .btn-row button {
-  padding: 10px 16px;
-  font-size: 13px;
-  border-radius: 10px;
-  border: 1.5px solid #ccc;
-  background: #fff;
-  cursor: pointer;
+  padding: 10px 16px; font-size: 13px; border-radius: 10px;
+  border: 1.5px solid #ccc; background: #fff; cursor: pointer;
 }
+#nextBtn  { display:none; border-color: #2e6ed6; color: #2e6ed6; font-weight: 600; }
 #menuBtn  { color: #888; border-color: #e0e0e0; font-size: 12px; }
 #retryBtn { display:none; color: #2e9e4f; border-color: #2e9e4f; font-weight: 600; }
-
-.count-line {
-  text-align: center;
-  font-size: 12px;
-  color: #aaa;
-  margin-top: 24px;
-}
-
-/* ── 틀린 목록 ── */
+.count-line { text-align: center; font-size: 12px; color: #aaa; margin-top: 24px; }
 #wrongList { display:none; margin-top: 24px; }
 .wl-title { font-size: 15px; font-weight: 700; margin: 0 0 12px; color: #333; }
+.mode-tag {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  padding: 3px 10px; border-radius: 10px; margin-bottom: 12px;
+}
+.mode-tag.practice { background: #eaf1fd; color: #2e6ed6; }
+.mode-tag.test     { background: #fdf0ec; color: #c2460a; }
 .all-correct {
   text-align: center; font-size: 15px; color: #2e9e4f;
-  font-weight: 700; background: #e6f6ea; border-radius: 14px;
-  padding: 20px; margin: 0;
+  font-weight: 700; background: #e6f6ea; border-radius: 14px; padding: 20px; margin: 0;
 }
 .wi {
   background: #fff; border-radius: 12px;
@@ -266,10 +136,20 @@ h1 { font-size: 22px; text-align: center; margin: 0 0 24px; font-weight: 700; }
 </style>
 </head>
 <body>
-
-<!-- ═══════════════ 메뉴 화면 ═══════════════ -->
 <div id="menuScreen" class="screen">
   <h1>헬라어 퀴즈</h1>
+
+  <div class="menu-card">
+    <div class="menu-card-title">모드</div>
+    <div class="mode-row" id="modeRow">
+      <button class="mode-btn active" data-mode="practice">
+        연습 모드<br><span style="font-size:11px;opacity:.7;font-weight:400">제한시간 없음</span>
+      </button>
+      <button class="mode-btn" data-mode="test">
+        테스트 모드<br><span style="font-size:11px;opacity:.7;font-weight:400">3초 제한시간</span>
+      </button>
+    </div>
+  </div>
 
   <div class="menu-card">
     <div class="menu-card-title">퀴즈 선택</div>
@@ -289,8 +169,8 @@ h1 { font-size: 22px; text-align: center; margin: 0 0 24px; font-weight: 700; }
     <div class="menu-card-title">단어 퀴즈 난이도</div>
     <div class="level-row-menu" id="lvRow">
       <button class="lv-btn active" data-lv="1">1단계<br><span style="font-size:11px;color:inherit;opacity:.75">헬라어+발음 → 뜻</span></button>
-      <button class="lv-btn"        data-lv="2">2단계<br><span style="font-size:11px;color:inherit;opacity:.75">헬라어 → 뜻</span></button>
-      <button class="lv-btn"        data-lv="3">3단계<br><span style="font-size:11px;color:inherit;opacity:.75">뜻 → 헬라어</span></button>
+      <button class="lv-btn" data-lv="2">2단계<br><span style="font-size:11px;color:inherit;opacity:.75">헬라어 → 뜻</span></button>
+      <button class="lv-btn" data-lv="3">3단계<br><span style="font-size:11px;color:inherit;opacity:.75">뜻 → 헬라어</span></button>
     </div>
   </div>
 
@@ -298,7 +178,6 @@ h1 { font-size: 22px; text-align: center; margin: 0 0 24px; font-weight: 700; }
   <div id="menuErr" class="menu-err"></div>
 </div>
 
-<!-- ═══════════════ 퀴즈 화면 ═══════════════ -->
 <div id="quizScreen" class="screen" style="display:none">
   <h1>헬라어 퀴즈</h1>
   <div class="status">
@@ -306,54 +185,38 @@ h1 { font-size: 22px; text-align: center; margin: 0 0 24px; font-weight: 700; }
     <span id="timerEl"></span>
     <span id="scoreEl">맞은 개수: 0</span>
   </div>
-
   <div class="word-card">
     <div id="qBadge" class="q-badge alpha">알파벳</div>
     <div id="wordDisplay"></div>
     <div id="subDisplay"></div>
     <div id="hintText"></div>
   </div>
-
   <div class="choices" id="choicesEl"></div>
   <div id="feedbackEl"></div>
-
   <div class="btn-row">
+    <button id="nextBtn">다음 문제 →</button>
     <button id="retryBtn">↺ 같은 설정으로 다시</button>
     <button id="menuBtn">← 메뉴로 돌아가기</button>
   </div>
-
   <div id="wrongList"></div>
   <div class="count-line" id="countEl"></div>
 </div>
 
 <script>
 const letters = [
-  {u:"Α",l:"α",name:"알파 (alpha)"},
-  {u:"Β",l:"β",name:"베타 (beta)"},
-  {u:"Γ",l:"γ",name:"감마 (gamma)"},
-  {u:"Δ",l:"δ",name:"델타 (delta)"},
-  {u:"Ε",l:"ε",name:"엡실론 (epsilon)"},
-  {u:"Ζ",l:"ζ",name:"제타 (zeta)"},
-  {u:"Η",l:"η",name:"에타 (eta)"},
-  {u:"Θ",l:"θ",name:"세타 (theta)"},
-  {u:"Ι",l:"ι",name:"이오타 (iota)"},
-  {u:"Κ",l:"κ",name:"카파 (kappa)"},
-  {u:"Λ",l:"λ",name:"람다 (lambda)"},
-  {u:"Μ",l:"μ",name:"뮤 (mu)"},
-  {u:"Ν",l:"ν",name:"뉴 (nu)"},
-  {u:"Ξ",l:"ξ",name:"크시 (xi)"},
-  {u:"Ο",l:"ο",name:"오미크론 (omicron)"},
-  {u:"Π",l:"π",name:"파이 (pi)"},
-  {u:"Ρ",l:"ρ",name:"로 (rho)"},
-  {u:"Σ",l:"σ/ς",name:"시그마 (sigma)"},
-  {u:"Τ",l:"τ",name:"타우 (tau)"},
-  {u:"Υ",l:"υ",name:"윕실론 (upsilon)"},
-  {u:"Φ",l:"φ",name:"피 (phi)"},
-  {u:"Χ",l:"χ",name:"키 (chi)"},
-  {u:"Ψ",l:"ψ",name:"프시 (psi)"},
-  {u:"Ω",l:"ω",name:"오메가 (omega)"}
+  {u:"Α",l:"α",name:"알파 (alpha)"},{u:"Β",l:"β",name:"베타 (beta)"},
+  {u:"Γ",l:"γ",name:"감마 (gamma)"},{u:"Δ",l:"δ",name:"델타 (delta)"},
+  {u:"Ε",l:"ε",name:"엡실론 (epsilon)"},{u:"Ζ",l:"ζ",name:"제타 (zeta)"},
+  {u:"Η",l:"η",name:"에타 (eta)"},{u:"Θ",l:"θ",name:"세타 (theta)"},
+  {u:"Ι",l:"ι",name:"이오타 (iota)"},{u:"Κ",l:"κ",name:"카파 (kappa)"},
+  {u:"Λ",l:"λ",name:"람다 (lambda)"},{u:"Μ",l:"μ",name:"뮤 (mu)"},
+  {u:"Ν",l:"ν",name:"뉴 (nu)"},{u:"Ξ",l:"ξ",name:"크시 (xi)"},
+  {u:"Ο",l:"ο",name:"오미크론 (omicron)"},{u:"Π",l:"π",name:"파이 (pi)"},
+  {u:"Ρ",l:"ρ",name:"로 (rho)"},{u:"Σ",l:"σ/ς",name:"시그마 (sigma)"},
+  {u:"Τ",l:"τ",name:"타우 (tau)"},{u:"Υ",l:"υ",name:"윕실론 (upsilon)"},
+  {u:"Φ",l:"φ",name:"피 (phi)"},{u:"Χ",l:"χ",name:"키 (chi)"},
+  {u:"Ψ",l:"ψ",name:"프시 (psi)"},{u:"Ω",l:"ω",name:"오메가 (omega)"}
 ];
-
 const words = [
   {gr:"ἀγάπη",       kr:"아가페",          en:"love",               ko:"사랑",            week:1},
   {gr:"ἀδελφός",     kr:"아델포스",        en:"brother",            ko:"형제",            week:1},
@@ -383,14 +246,15 @@ const words = [
 
 function shuffle(arr) {
   const a = arr.slice();
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];
   }
   return a;
 }
 
 let selectedLevel  = 1;
+let selectedMode   = 'practice';
+let currentMode    = 'practice';
 let savedConfig    = null;
 let quizOrder      = [];
 let qIdx           = 0;
@@ -407,6 +271,7 @@ const chkWord    = document.getElementById('chkWord');
 const weekChips  = document.getElementById('weekChips');
 const levelCard  = document.getElementById('levelCard');
 const lvRow      = document.getElementById('lvRow');
+const modeRow    = document.getElementById('modeRow');
 const startBtn   = document.getElementById('startBtn');
 const menuErr    = document.getElementById('menuErr');
 const progressEl = document.getElementById('progressEl');
@@ -418,13 +283,14 @@ const subDisplay = document.getElementById('subDisplay');
 const hintText   = document.getElementById('hintText');
 const choicesEl  = document.getElementById('choicesEl');
 const feedbackEl = document.getElementById('feedbackEl');
+const nextBtn    = document.getElementById('nextBtn');
 const menuBtn    = document.getElementById('menuBtn');
 const retryBtn   = document.getElementById('retryBtn');
 const wrongListEl= document.getElementById('wrongList');
 const countEl    = document.getElementById('countEl');
 
 function buildWeekChips() {
-  const weeks = [...new Set(words.map(w => w.week))].sort((a, b) => a - b);
+  const weeks = [...new Set(words.map(w => w.week))].sort((a,b) => a-b);
   weekChips.innerHTML = weeks.map(wk => {
     const cnt = words.filter(w => w.week === wk).length;
     return `<label class="week-chip on" id="chip${wk}">
@@ -433,12 +299,19 @@ function buildWeekChips() {
     </label>`;
   }).join('');
   weekChips.querySelectorAll('.wk-cb').forEach(cb => {
-    cb.addEventListener('change', () => {
-      cb.closest('.week-chip').classList.toggle('on', cb.checked);
-    });
+    cb.addEventListener('change', () => cb.closest('.week-chip').classList.toggle('on', cb.checked));
   });
 }
 buildWeekChips();
+
+// 모드 토글
+modeRow.addEventListener('click', e => {
+  const btn = e.target.closest('.mode-btn');
+  if (!btn) return;
+  modeRow.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedMode = btn.dataset.mode;
+});
 
 chkWord.addEventListener('change', function () {
   const on = this.checked;
@@ -455,29 +328,33 @@ lvRow.addEventListener('click', e => {
 });
 
 startBtn.addEventListener('click', () => {
-  const doAlpha = chkAlpha.checked;
-  const doWord  = chkWord.checked;
+  const doAlpha = chkAlpha.checked, doWord = chkWord.checked;
   if (!doAlpha && !doWord) { showErr('퀴즈 유형을 하나 이상 선택해주세요.'); return; }
   const selWeeks = doWord
     ? [...weekChips.querySelectorAll('.wk-cb:checked')].map(c => parseInt(c.value))
     : [];
   if (doWord && selWeeks.length === 0) { showErr('단어 퀴즈의 주차를 하나 이상 선택해주세요.'); return; }
   menuErr.style.display = 'none';
-  savedConfig = { doAlpha, doWord, selWeeks, level: selectedLevel };
+  savedConfig = { doAlpha, doWord, selWeeks, level: selectedLevel, mode: selectedMode };
   launchQuiz(savedConfig);
 });
 
 function showErr(msg) { menuErr.textContent = msg; menuErr.style.display = 'block'; }
 
-function launchQuiz(cfg) {
+function stopTimers() {
   if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
-  if (moveTimer) { clearTimeout(moveTimer); moveTimer = null; }
+  if (moveTimer)      { clearTimeout(moveTimer);       moveTimer = null; }
+  timerEl.textContent = '';
+  timerEl.classList.remove('urgent');
+}
+
+function launchQuiz(cfg) {
+  stopTimers();
+  currentMode = cfg.mode;
   let qs = [];
   if (cfg.doAlpha) letters.forEach(lt => qs.push({ type: 'alpha', data: lt }));
-  if (cfg.doWord) {
-    words.filter(w => cfg.selWeeks.includes(w.week))
-         .forEach(w => qs.push({ type: 'word', data: w, level: cfg.level }));
-  }
+  if (cfg.doWord)  words.filter(w => cfg.selWeeks.includes(w.week))
+                        .forEach(w => qs.push({ type: 'word', data: w, level: cfg.level }));
   quizOrder = shuffle(qs);
   qIdx = 0; score = 0; answered = false; wrongAnswers = [];
   menuScreen.style.display = 'none';
@@ -486,7 +363,7 @@ function launchQuiz(cfg) {
   renderQuestion();
 }
 
-// 제한 시간 카운트다운 (문제 표시 즉시 시작)
+// ── 테스트 모드: 제한 시간 카운트다운 ──
 function startQuestionTimer(correctVal, q) {
   let count = 3;
   timerEl.textContent = count;
@@ -497,8 +374,7 @@ function startQuestionTimer(correctVal, q) {
       timerEl.textContent = count;
       if (count === 1) timerEl.classList.add('urgent');
     } else {
-      clearInterval(countdownTimer);
-      countdownTimer = null;
+      clearInterval(countdownTimer); countdownTimer = null;
       if (answered) return;
       answered = true;
       wrongAnswers.push({ q, chosen: '(시간 초과)', correct: correctVal });
@@ -506,35 +382,39 @@ function startQuestionTimer(correctVal, q) {
         if (c.textContent === correctVal) c.classList.add('correct');
       });
       feedbackEl.innerHTML = '<span class="wrong-text">시간 초과! 정답: ' + correctVal + '</span>';
-      timerEl.textContent = '';
-      timerEl.classList.remove('urgent');
+      timerEl.textContent = ''; timerEl.classList.remove('urgent');
       scheduleNext();
     }
   }, 1000);
 }
 
+// ── 테스트 모드: 답 후 1초 대기 후 이동 ──
 function scheduleNext() {
   moveTimer = setTimeout(() => {
     moveTimer = null;
-    if (qIdx < quizOrder.length - 1) {
-      qIdx++;
-      renderQuestion();
-    } else {
-      feedbackEl.innerHTML +=
-        '<div class="final">퀴즈 종료! 최종 점수: ' + score + ' / ' + quizOrder.length + '</div>';
-      retryBtn.style.display = 'inline-block';
-      showWrongList();
-    }
+    advanceOrEnd();
   }, 1000);
 }
 
+// ── 공통: 다음 문제로 가거나 결과 표시 ──
+function advanceOrEnd() {
+  if (qIdx < quizOrder.length - 1) {
+    qIdx++;
+    renderQuestion();
+  } else {
+    const modeLabel = currentMode === 'test' ? '테스트 모드' : '연습 모드';
+    feedbackEl.innerHTML +=
+      '<div class="final">퀴즈 종료! 최종 점수: ' + score + ' / ' + quizOrder.length + '</div>';
+    retryBtn.style.display = 'inline-block';
+    showWrongList(modeLabel);
+  }
+}
+
 function renderQuestion() {
-  if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
-  if (moveTimer) { clearTimeout(moveTimer); moveTimer = null; }
-  timerEl.textContent = '';
-  timerEl.classList.remove('urgent');
+  stopTimers();
   answered = false;
   feedbackEl.innerHTML = '';
+  nextBtn.style.display  = 'none';
   retryBtn.style.display = 'none';
   wrongListEl.style.display = 'none';
   wrongListEl.innerHTML = '';
@@ -548,31 +428,29 @@ function renderQuestion() {
 
 function renderAlpha(q) {
   const lt = q.data;
-  qBadge.textContent = '알파벳';
-  qBadge.className   = 'q-badge alpha';
+  qBadge.textContent = '알파벳'; qBadge.className = 'q-badge alpha';
   wordDisplay.style.fontSize = '52px';
-  wordDisplay.textContent    = lt.u + '   ' + lt.l;
-  subDisplay.textContent     = '';
-  hintText.textContent       = '이 글자의 이름은?';
+  wordDisplay.textContent = lt.u + '   ' + lt.l;
+  subDisplay.textContent = '';
+  hintText.textContent = '이 글자의 이름은?';
   const pool = shuffle(letters.filter(x => x.name !== lt.name)).slice(0, 3);
   pool.push(lt);
   buildChoices(shuffle(pool), opt => opt.name, lt.name, q);
 }
 
 function renderWord(q) {
-  const w = q.data; const lv = q.level;
-  qBadge.textContent = w.week + '주차 단어';
-  qBadge.className   = 'q-badge word';
+  const w = q.data, lv = q.level;
+  qBadge.textContent = w.week + '주차 단어'; qBadge.className = 'q-badge word';
   if (lv === 3) {
     wordDisplay.style.fontSize = '22px';
-    wordDisplay.textContent    = w.ko || w.en;
-    subDisplay.textContent     = '';
-    hintText.textContent       = '이 뜻에 해당하는 헬라어 단어는?';
+    wordDisplay.textContent = w.ko || w.en;
+    subDisplay.textContent = '';
+    hintText.textContent = '이 뜻에 해당하는 헬라어 단어는?';
   } else {
     wordDisplay.style.fontSize = '32px';
-    wordDisplay.textContent    = w.gr;
-    subDisplay.textContent     = (lv === 1 && w.kr) ? '[' + w.kr + ']' : '';
-    hintText.textContent       = '이 단어의 뜻은?';
+    wordDisplay.textContent = w.gr;
+    subDisplay.textContent = (lv === 1 && w.kr) ? '[' + w.kr + ']' : '';
+    hintText.textContent = '이 단어의 뜻은?';
   }
   const matchKey = lv === 3 ? 'gr' : 'en';
   const pool = shuffle(words.filter(x => x[matchKey] !== w[matchKey])).slice(0, 3);
@@ -589,9 +467,11 @@ function buildChoices(opts, getValue, correctVal, q) {
     btn.addEventListener('click', () => {
       if (answered) return;
       answered = true;
-      if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
-      timerEl.textContent = '';
-      timerEl.classList.remove('urgent');
+      // 테스트 모드면 카운트다운 중지
+      if (currentMode === 'test') {
+        if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+        timerEl.textContent = ''; timerEl.classList.remove('urgent');
+      }
       if (val === correctVal) {
         score++;
         btn.classList.add('correct');
@@ -605,28 +485,36 @@ function buildChoices(opts, getValue, correctVal, q) {
       Array.from(choicesEl.children).forEach(c => {
         if (c.textContent === correctVal && c !== btn) c.classList.add('correct');
       });
-      scheduleNext();
+      if (currentMode === 'test') {
+        scheduleNext();
+      } else {
+        // 연습 모드: 다음 문제 버튼 표시
+        nextBtn.style.display = 'inline-block';
+      }
     });
     choicesEl.appendChild(btn);
   });
-  startQuestionTimer(correctVal, q);
+  // 테스트 모드일 때만 제한 시간 시작
+  if (currentMode === 'test') startQuestionTimer(correctVal, q);
 }
 
-function showWrongList() {
+function showWrongList(modeLabel) {
   wrongListEl.style.display = 'block';
   setTimeout(() => wrongListEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
+  let html = '<span class="mode-tag ' + (currentMode === 'test' ? 'test' : 'practice') + '">' + modeLabel + '</span>';
   if (wrongAnswers.length === 0) {
-    wrongListEl.innerHTML = '<p class="all-correct">모두 맞혔습니다! 🎉</p>';
+    html += '<p class="all-correct">모두 맞혔습니다! 🎉</p>';
+    wrongListEl.innerHTML = html;
     return;
   }
-  let html = '<p class="wl-title">틀린 문제 목록 (' + wrongAnswers.length + '개)</p>';
+  html += '<p class="wl-title">틀린 문제 목록 (' + wrongAnswers.length + '개)</p>';
   wrongAnswers.forEach(({ q, chosen, correct }) => {
     let badge, qText;
     if (q.type === 'alpha') {
       badge = '<div class="wi-badge alpha">알파벳</div>';
       qText = q.data.u + '  ' + q.data.l;
     } else {
-      const w = q.data; const lv = q.level;
+      const w = q.data, lv = q.level;
       badge = '<div class="wi-badge word">' + w.week + '주차 단어</div>';
       qText = lv === 3
         ? (w.ko || w.en)
@@ -641,10 +529,13 @@ function showWrongList() {
   wrongListEl.innerHTML = html;
 }
 
+nextBtn.addEventListener('click', () => {
+  nextBtn.style.display = 'none';
+  advanceOrEnd();
+});
+
 menuBtn.addEventListener('click', () => {
-  if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
-  if (moveTimer) { clearTimeout(moveTimer); moveTimer = null; }
-  timerEl.textContent = '';
+  stopTimers();
   quizScreen.style.display = 'none';
   menuScreen.style.display = 'block';
   window.scrollTo(0, 0);
