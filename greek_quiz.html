@@ -215,9 +215,18 @@ h1 { font-size: 22px; text-align: center; margin: 0 0 24px; font-weight: 700; }
   background: #fff;
   cursor: pointer;
 }
-#nextBtn  { display:none; border-color: #2e6ed6; color: #2e6ed6; font-weight: 600; }
 #menuBtn  { color: #888; border-color: #e0e0e0; font-size: 12px; }
 #retryBtn { display:none; color: #2e9e4f; border-color: #2e9e4f; font-weight: 600; }
+
+.countdown {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2e6ed6;
+  min-width: 24px;
+  text-align: center;
+}
 
 .count-line {
   text-align: center;
@@ -303,7 +312,6 @@ h1 { font-size: 22px; text-align: center; margin: 0 0 24px; font-weight: 700; }
   <div id="feedbackEl"></div>
 
   <div class="btn-row">
-    <button id="nextBtn">다음 문제 →</button>
     <button id="retryBtn">↺ 같은 설정으로 다시</button>
     <button id="menuBtn">← 메뉴로 돌아가기</button>
   </div>
@@ -398,6 +406,7 @@ let qIdx          = 0;
 let score         = 0;
 let answered      = false;
 let wrongAnswers  = [];
+let autoTimer     = null;
 
 // ════════════════════════════════════════════
 // DOM
@@ -420,7 +429,6 @@ const subDisplay = document.getElementById('subDisplay');
 const hintText   = document.getElementById('hintText');
 const choicesEl  = document.getElementById('choicesEl');
 const feedbackEl = document.getElementById('feedbackEl');
-const nextBtn    = document.getElementById('nextBtn');
 const menuBtn    = document.getElementById('menuBtn');
 const retryBtn   = document.getElementById('retryBtn');
 const wrongListEl= document.getElementById('wrongList');
@@ -512,12 +520,32 @@ function launchQuiz(cfg) {
 }
 
 // ════════════════════════════════════════════
+// 카운트다운 후 자동 다음 문제
+// ════════════════════════════════════════════
+function startCountdown() {
+  let count = 3;
+  feedbackEl.innerHTML += ' <span class="countdown">' + count + '</span>';
+  const cdEl = feedbackEl.querySelector('.countdown');
+  autoTimer = setInterval(() => {
+    count--;
+    if (count > 0) {
+      cdEl.textContent = count;
+    } else {
+      clearInterval(autoTimer);
+      autoTimer = null;
+      qIdx++;
+      renderQuestion();
+    }
+  }, 1000);
+}
+
+// ════════════════════════════════════════════
 // 문제 렌더링
 // ════════════════════════════════════════════
 function renderQuestion() {
+  if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
   answered = false;
   feedbackEl.innerHTML = '';
-  nextBtn.style.display  = 'none';
   retryBtn.style.display = 'none';
   wrongListEl.style.display = 'none';
   wrongListEl.innerHTML = '';
@@ -592,7 +620,7 @@ function buildChoices(opts, getValue, correctVal, q) {
         if (c.textContent === correctVal && c !== btn) c.classList.add('correct');
       });
       if (qIdx < quizOrder.length - 1) {
-        nextBtn.style.display = 'inline-block';
+        startCountdown();
       } else {
         feedbackEl.innerHTML +=
           '<div class="final">퀴즈 종료! 최종 점수: ' + score + ' / ' + quizOrder.length + '</div>';
@@ -644,9 +672,8 @@ function showWrongList() {
 // ════════════════════════════════════════════
 // 버튼
 // ════════════════════════════════════════════
-nextBtn.addEventListener('click', () => { qIdx++; renderQuestion(); });
-
 menuBtn.addEventListener('click', () => {
+  if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
   quizScreen.style.display = 'none';
   menuScreen.style.display = 'block';
   window.scrollTo(0, 0);
