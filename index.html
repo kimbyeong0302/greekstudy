@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>헬라어 단어 퀴즈</title>
+<style>
+  body {
+    margin: 0;
+    font-family: -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: #f4f1ea;
+    color: #222;
+    display: flex;
+    justify-content: center;
+  }
+  .wrap {
+    width: 100%;
+    max-width: 480px;
+    padding: 24px 16px 60px;
+    box-sizing: border-box;
+  }
+  h1 {
+    font-size: 20px;
+    text-align: center;
+    margin: 0 0 20px;
+  }
+  .status {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 12px;
+  }
+  .status span#score { font-weight: 600; color: #222; }
+  .level-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .level-row button {
+    flex: 1;
+    padding: 10px 4px;
+    font-size: 13px;
+    border-radius: 10px;
+    border: 1.5px solid #ddd;
+    background: #fff;
+    color: #555;
+    cursor: pointer;
+  }
+  .level-row button.active {
+    border-color: #2e6ed6;
+    background: #eaf1fd;
+    color: #2e6ed6;
+    font-weight: 600;
+  }
+  .word-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 36px 16px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    margin-bottom: 18px;
+  }
+  .word-card .word {
+    font-size: 32px;
+    font-weight: 600;
+    word-break: keep-all;
+  }
+  .word-card .pron {
+    font-size: 16px;
+    color: #777;
+    margin-top: 6px;
+  }
+  .word-card .hint {
+    font-size: 13px;
+    color: #888;
+    margin-top: 10px;
+  }
+  .choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .choices button {
+    padding: 14px 8px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1.5px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+  }
+  .choices button:active { transform: scale(0.98); }
+  .choices button.correct {
+    border-color: #2e9e4f;
+    background: #e6f6ea;
+  }
+  .choices button.wrong {
+    border-color: #d64545;
+    background: #fdecec;
+  }
+  #feedback {
+    min-height: 20px;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 14px;
+  }
+  .correct-text { color: #2e9e4f; }
+  .wrong-text { color: #d64545; }
+  .btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .btn-row button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1.5px solid #999;
+    background: #fff;
+    cursor: pointer;
+  }
+  #nextBtn {
+    display: none;
+    border-color: #2e6ed6;
+    color: #2e6ed6;
+  }
+  #restartBtn {
+    color: #555;
+  }
+  .final {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+  .count {
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    margin-top: 30px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>헬라어 단어 퀴즈</h1>
+  <div class="level-row" id="levelRow">
+    <button data-level="1" class="active">1단계<br>헬라어+발음</button>
+    <button data-level="2">2단계<br>헬라어만</button>
+    <button data-level="3">3단계<br>발음→헬라어</button>
+  </div>
+  <div class="status">
+    <span id="progress">문제 1 / 1</span>
+    <span id="score">맞은 개수: 0</span>
+  </div>
+
+  <div class="word-card">
+    <div class="word" id="wordDisplay"></div>
+    <div class="pron" id="pronDisplay"></div>
+    <div class="hint" id="hintText">이 단어의 뜻은?</div>
+  </div>
+
+  <div class="choices" id="choices"></div>
+
+  <div id="feedback"></div>
+
+  <div class="btn-row">
+    <button id="nextBtn">다음 문제</button>
+    <button id="restartBtn">처음부터 다시</button>
+  </div>
+
+  <div class="count" id="wordCount"></div>
+</div>
+
+<script>
+// ===================================================
+// 단어를 추가하려면 아래 배열에 { gr: "헬라어 단어", en: "뜻" } 형식으로
+// 줄을 계속 추가하면 됩니다. 몇 개를 추가해도 자동으로 반영됩니다.
+// ===================================================
+// kr: 한국어 발음 표기 (문제 화면에 힌트로 보여줍니다)
+const words = [
+  {gr:"ἀγάπη", kr:"아가페", en:"love"},
+  {gr:"ἀδελφός", kr:"아델포스", en:"brother"},
+  {gr:"ἅγιος", kr:"하기오스", en:"holy"},
+  {gr:"αἷμα", kr:"하이마", en:"blood"},
+  {gr:"ἁμαρτία", kr:"하마르티아", en:"sin"},
+  {gr:"γλῶσσα", kr:"글로사", en:"tongue, language"},
+  {gr:"ἐκκλησία", kr:"에클레시아", en:"church, assembly"},
+  {gr:"ἔργον", kr:"에르곤", en:"work"},
+  {gr:"εὐαγγέλιον", kr:"유앙겔리온", en:"good news, Gospel"},
+  {gr:"Ἰησοῦς", kr:"이에수스", en:"Jesus"},
+  {gr:"Ἰσραήλ", kr:"이스라엘", en:"Israel"},
+  {gr:"λίθος", kr:"리도스", en:"stone"},
+  {gr:"μέγας", kr:"메가스", en:"large, great"},
+  {gr:"μήτηρ", kr:"메테르", en:"mother"},
+  {gr:"Μωϋσῆς", kr:"모위세스", en:"Moses"},
+  {gr:"νόμος", kr:"노모스", en:"law"},
+  {gr:"παραβολή", kr:"파라볼레", en:"parable"},
+  {gr:"πατήρ", kr:"파테르", en:"father"},
+  {gr:"πρεσβύτερος", kr:"프레스뷔테로스", en:"elder"},
+  {gr:"πῦρ", kr:"퓌르", en:"fire"},
+  {gr:"ὕδωρ", kr:"휘도르", en:"water"},
+  {gr:"Φαρισαῖος", kr:"파리사이오스", en:"Pharisee"},
+  {gr:"ψυχή", kr:"프쉬케", en:"soul, life, self"}
+  // 여기 아래에 계속 추가하세요. kr(발음)은 없어도 되지만 있으면 화면에 표시됩니다. 예:
+  // ,{gr:"νέος", kr:"네오스", en:"new, young"}
+];
+// ===================================================
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+let order = shuffle(words);
+let idx = 0;
+let score = 0;
+let answered = false;
+let level = 1;
+
+const wordDisplay = document.getElementById('wordDisplay');
+const pronDisplay = document.getElementById('pronDisplay');
+const hintText = document.getElementById('hintText');
+const levelRow = document.getElementById('levelRow');
+const choicesEl = document.getElementById('choices');
+const feedbackEl = document.getElementById('feedback');
+const nextBtn = document.getElementById('nextBtn');
+const restartBtn = document.getElementById('restartBtn');
+const progressEl = document.getElementById('progress');
+const scoreEl = document.getElementById('score');
+const wordCountEl = document.getElementById('wordCount');
+
+function renderQuestion(){
+  answered = false;
+  feedbackEl.innerHTML = '';
+  nextBtn.style.display = 'none';
+  const current = order[idx];
+  if(level === 3){
+    wordDisplay.textContent = current.kr || current.gr;
+    pronDisplay.textContent = '';
+    hintText.textContent = '이 발음에 해당하는 헬라어 단어는?';
+  } else {
+    wordDisplay.textContent = current.gr;
+    pronDisplay.textContent = (level === 1 && current.kr) ? '[' + current.kr + ']' : '';
+    hintText.textContent = '이 단어의 뜻은?';
+  }
+  progressEl.textContent = '문제 ' + (idx+1) + ' / ' + order.length;
+  scoreEl.textContent = '맞은 개수: ' + score;
+  wordCountEl.textContent = '총 단어 수: ' + words.length + '개';
+
+  const matchKey = level === 3 ? 'gr' : 'en';
+  const pool = words.filter(x => x[matchKey] !== current[matchKey]);
+  const wrongCount = Math.min(3, pool.length);
+  let opts = shuffle(pool).slice(0, wrongCount);
+  opts.push(current);
+  opts = shuffle(opts);
+
+  choicesEl.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.textContent = opt[matchKey];
+    btn.addEventListener('click', () => {
+      if(answered) return;
+      answered = true;
+      if(opt[matchKey] === current[matchKey]){
+        score++;
+        btn.classList.add('correct');
+        feedbackEl.innerHTML = '<span class="correct-text">정답입니다.</span>';
+      } else {
+        btn.classList.add('wrong');
+        feedbackEl.innerHTML = '<span class="wrong-text">오답입니다. 정답: ' + current[matchKey] + '</span>';
+      }
+      scoreEl.textContent = '맞은 개수: ' + score;
+      Array.from(choicesEl.children).forEach(c => {
+        if(c.textContent === current[matchKey] && c !== btn){
+          c.classList.add('correct');
+        }
+      });
+      if(idx < order.length - 1){
+        nextBtn.style.display = 'inline-block';
+      } else {
+        feedbackEl.innerHTML += '<div class="final">퀴즈 종료. 최종 점수: ' + score + ' / ' + order.length + '</div>';
+      }
+    });
+    choicesEl.appendChild(btn);
+  });
+}
+
+levelRow.addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-level]');
+  if(!btn) return;
+  level = parseInt(btn.dataset.level, 10);
+  Array.from(levelRow.children).forEach(b => b.classList.toggle('active', b === btn));
+  order = shuffle(words);
+  idx = 0;
+  score = 0;
+  renderQuestion();
+});
+
+nextBtn.addEventListener('click', () => {
+  idx++;
+  renderQuestion();
+});
+
+restartBtn.addEventListener('click', () => {
+  order = shuffle(words);
+  idx = 0;
+  score = 0;
+  renderQuestion();
+});
+
+renderQuestion();
+</script>
+</body>
+</html>
