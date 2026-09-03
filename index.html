@@ -140,6 +140,59 @@
     color: #999;
     margin-top: 30px;
   }
+
+  /* 틀린 문제 목록 */
+  #wrongList {
+    display: none;
+    margin-top: 24px;
+  }
+  .wrong-list-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    color: #333;
+  }
+  .all-correct {
+    text-align: center;
+    font-size: 15px;
+    color: #2e9e4f;
+    font-weight: 600;
+    background: #e6f6ea;
+    border-radius: 12px;
+    padding: 18px;
+    margin: 0;
+  }
+  .wrong-item {
+    background: #fff;
+    border-radius: 12px;
+    border: 1.5px solid #f0c0c0;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .wrong-item-word {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #222;
+  }
+  .wrong-item-row {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  .wrong-item-label {
+    color: #888;
+    flex-shrink: 0;
+  }
+  .wrong-item-val-wrong {
+    color: #d64545;
+    font-weight: 500;
+  }
+  .wrong-item-val-correct {
+    color: #2e9e4f;
+    font-weight: 500;
+  }
 </style>
 </head>
 <body>
@@ -170,41 +223,42 @@
     <button id="restartBtn">처음부터 다시</button>
   </div>
 
+  <div id="wrongList"></div>
+
   <div class="count" id="wordCount"></div>
 </div>
 
 <script>
 // ===================================================
-// 단어를 추가하려면 아래 배열에 { gr: "헬라어 단어", en: "뜻" } 형식으로
-// 줄을 계속 추가하면 됩니다. 몇 개를 추가해도 자동으로 반영됩니다.
+// 단어를 추가하려면 아래 배열에 줄을 계속 추가하면 됩니다.
+// gr: 헬라어, kr: 한국어 발음, en: 영어 뜻, ko: 한국어 뜻
 // ===================================================
-// kr: 한국어 발음 표기 (문제 화면에 힌트로 보여줍니다)
 const words = [
-  {gr:"ἀγάπη", kr:"아가페", en:"love", ko:"사랑"},
-  {gr:"ἀδελφός", kr:"아델포스", en:"brother", ko:"형제"},
-  {gr:"ἅγιος", kr:"하기오스", en:"holy", ko:"거룩한"},
-  {gr:"αἷμα", kr:"하이마", en:"blood", ko:"피"},
-  {gr:"ἁμαρτία", kr:"하마르티아", en:"sin", ko:"죄"},
-  {gr:"γλῶσσα", kr:"글로사", en:"tongue, language", ko:"혀, 언어"},
-  {gr:"ἐκκλησία", kr:"에클레시아", en:"church, assembly", ko:"교회, 모임"},
-  {gr:"ἔργον", kr:"에르곤", en:"work", ko:"일, 행위"},
-  {gr:"εὐαγγέλιον", kr:"유앙겔리온", en:"good news, Gospel", ko:"좋은 소식, 복음"},
-  {gr:"Ἰησοῦς", kr:"이에수스", en:"Jesus", ko:"예수"},
-  {gr:"Ἰσραήλ", kr:"이스라엘", en:"Israel", ko:"이스라엘"},
-  {gr:"λίθος", kr:"리도스", en:"stone", ko:"돌"},
-  {gr:"μέγας", kr:"메가스", en:"large, great", ko:"크다, 위대한"},
-  {gr:"μήτηρ", kr:"메테르", en:"mother", ko:"어머니"},
-  {gr:"Μωϋσῆς", kr:"모위세스", en:"Moses", ko:"모세"},
-  {gr:"νόμος", kr:"노모스", en:"law", ko:"율법"},
-  {gr:"παραβολή", kr:"파라볼레", en:"parable", ko:"비유"},
-  {gr:"πατήρ", kr:"파테르", en:"father", ko:"아버지"},
-  {gr:"πρεσβύτερος", kr:"프레스뷔테로스", en:"elder", ko:"장로"},
-  {gr:"πῦρ", kr:"퓌르", en:"fire", ko:"불"},
-  {gr:"ὕδωρ", kr:"휘도르", en:"water", ko:"물"},
-  {gr:"Φαρισαῖος", kr:"파리사이오스", en:"Pharisee", ko:"바리새인"},
-  {gr:"ψυχή", kr:"프쉬케", en:"soul, life, self", ko:"영혼, 생명"}
-  // 여기 아래에 계속 추가하세요. kr(발음)은 없어도 되지만 있으면 화면에 표시됩니다. 예:
-  // ,{gr:"νέος", kr:"네오스", en:"new, young"}
+  {gr:"ἀγάπη",       kr:"아가페",          en:"love",               ko:"사랑"},
+  {gr:"ἀδελφός",     kr:"아델포스",        en:"brother",            ko:"형제"},
+  {gr:"ἅγιος",       kr:"하기오스",        en:"holy",               ko:"거룩한"},
+  {gr:"αἷμα",        kr:"하이마",          en:"blood",              ko:"피"},
+  {gr:"ἁμαρτία",     kr:"하마르티아",      en:"sin",                ko:"죄"},
+  {gr:"γλῶσσα",      kr:"글로사",          en:"tongue, language",   ko:"혀, 언어"},
+  {gr:"ἐκκλησία",    kr:"에클레시아",      en:"church, assembly",   ko:"교회, 모임"},
+  {gr:"ἔργον",       kr:"에르곤",          en:"work",               ko:"일, 행위"},
+  {gr:"εὐαγγέλιον",  kr:"유앙겔리온",      en:"good news, Gospel",  ko:"좋은 소식, 복음"},
+  {gr:"Ἰησοῦς",      kr:"이에수스",        en:"Jesus",              ko:"예수"},
+  {gr:"Ἰσραήλ",      kr:"이스라엘",        en:"Israel",             ko:"이스라엘"},
+  {gr:"λίθος",       kr:"리도스",          en:"stone",              ko:"돌"},
+  {gr:"μέγας",       kr:"메가스",          en:"large, great",       ko:"크다, 위대한"},
+  {gr:"μήτηρ",       kr:"메테르",          en:"mother",             ko:"어머니"},
+  {gr:"Μωϋσῆς",      kr:"모위세스",        en:"Moses",              ko:"모세"},
+  {gr:"νόμος",       kr:"노모스",          en:"law",                ko:"율법"},
+  {gr:"παραβολή",    kr:"파라볼레",        en:"parable",            ko:"비유"},
+  {gr:"πατήρ",       kr:"파테르",          en:"father",             ko:"아버지"},
+  {gr:"πρεσβύτερος", kr:"프레스뷔테로스",  en:"elder",              ko:"장로"},
+  {gr:"πῦρ",         kr:"퓌르",            en:"fire",               ko:"불"},
+  {gr:"ὕδωρ",        kr:"휘도르",          en:"water",              ko:"물"},
+  {gr:"Φαρισαῖος",   kr:"파리사이오스",    en:"Pharisee",           ko:"바리새인"},
+  {gr:"ψυχή",        kr:"프쉬케",          en:"soul, life, self",   ko:"영혼, 생명"}
+  // 여기 아래에 계속 추가하세요. 예:
+  // ,{gr:"νέος", kr:"네오스", en:"new, young", ko:"새로운, 젊은"}
 ];
 // ===================================================
 
@@ -222,23 +276,28 @@ let idx = 0;
 let score = 0;
 let answered = false;
 let level = 1;
+let wrongAnswers = [];
 
 const wordDisplay = document.getElementById('wordDisplay');
 const pronDisplay = document.getElementById('pronDisplay');
-const hintText = document.getElementById('hintText');
-const levelRow = document.getElementById('levelRow');
-const choicesEl = document.getElementById('choices');
-const feedbackEl = document.getElementById('feedback');
-const nextBtn = document.getElementById('nextBtn');
-const restartBtn = document.getElementById('restartBtn');
-const progressEl = document.getElementById('progress');
-const scoreEl = document.getElementById('score');
+const hintText    = document.getElementById('hintText');
+const levelRow    = document.getElementById('levelRow');
+const choicesEl   = document.getElementById('choices');
+const feedbackEl  = document.getElementById('feedback');
+const nextBtn     = document.getElementById('nextBtn');
+const restartBtn  = document.getElementById('restartBtn');
+const progressEl  = document.getElementById('progress');
+const scoreEl     = document.getElementById('score');
 const wordCountEl = document.getElementById('wordCount');
+const wrongListEl = document.getElementById('wrongList');
 
 function renderQuestion(){
   answered = false;
   feedbackEl.innerHTML = '';
   nextBtn.style.display = 'none';
+  wrongListEl.style.display = 'none';
+  wrongListEl.innerHTML = '';
+
   const current = order[idx];
   if(level === 3){
     wordDisplay.textContent = current.ko || current.en;
@@ -267,12 +326,22 @@ function renderQuestion(){
     btn.addEventListener('click', () => {
       if(answered) return;
       answered = true;
-      if(opt[matchKey] === current[matchKey]){
+      const isCorrect = opt[matchKey] === current[matchKey];
+      if(isCorrect){
         score++;
         btn.classList.add('correct');
         feedbackEl.innerHTML = '<span class="correct-text">정답입니다.</span>';
       } else {
         btn.classList.add('wrong');
+        wrongAnswers.push({
+          gr: current.gr,
+          kr: current.kr,
+          ko: current.ko,
+          en: current.en,
+          chosen: opt[matchKey],
+          correct: current[matchKey],
+          level: level
+        });
         feedbackEl.innerHTML = '<span class="wrong-text">오답입니다. 정답: ' + current[matchKey] + '</span>';
       }
       scoreEl.textContent = '맞은 개수: ' + score;
@@ -284,11 +353,33 @@ function renderQuestion(){
       if(idx < order.length - 1){
         nextBtn.style.display = 'inline-block';
       } else {
-        feedbackEl.innerHTML += '<div class="final">퀴즈 종료. 최종 점수: ' + score + ' / ' + order.length + '</div>';
+        feedbackEl.innerHTML += '<div class="final">퀴즈 종료! 최종 점수: ' + score + ' / ' + order.length + '</div>';
+        showWrongList();
       }
     });
     choicesEl.appendChild(btn);
   });
+}
+
+function showWrongList(){
+  wrongListEl.style.display = 'block';
+  setTimeout(() => wrongListEl.scrollIntoView({behavior:'smooth', block:'start'}), 100);
+  if(wrongAnswers.length === 0){
+    wrongListEl.innerHTML = '<p class="all-correct">모두 맞혔습니다! 🎉</p>';
+    return;
+  }
+  let html = '<p class="wrong-list-title">틀린 문제 목록 (' + wrongAnswers.length + '개)</p>';
+  wrongAnswers.forEach(w => {
+    const wordLine = w.level === 3
+      ? (w.ko || w.en)
+      : w.gr + (w.kr ? ' <span style="font-size:14px;font-weight:400;color:#666;">[' + w.kr + ']</span>' : '');
+    html += '<div class="wrong-item">'
+      + '<div class="wrong-item-word">' + wordLine + '</div>'
+      + '<div class="wrong-item-row"><span class="wrong-item-label">내 답&nbsp;</span><span class="wrong-item-val-wrong">' + w.chosen + '</span></div>'
+      + '<div class="wrong-item-row"><span class="wrong-item-label">정&nbsp;&nbsp;답&nbsp;</span><span class="wrong-item-val-correct">' + w.correct + '</span></div>'
+      + '</div>';
+  });
+  wrongListEl.innerHTML = html;
 }
 
 levelRow.addEventListener('click', (e) => {
@@ -299,6 +390,7 @@ levelRow.addEventListener('click', (e) => {
   order = shuffle(words);
   idx = 0;
   score = 0;
+  wrongAnswers = [];
   renderQuestion();
 });
 
@@ -311,6 +403,7 @@ restartBtn.addEventListener('click', () => {
   order = shuffle(words);
   idx = 0;
   score = 0;
+  wrongAnswers = [];
   renderQuestion();
 });
 
