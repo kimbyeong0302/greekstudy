@@ -123,11 +123,29 @@ h1 { font-size: 22px; text-align: center; margin: 0 0 24px; font-weight: 700; }
 .status {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 14px;
   color: #555;
   margin-bottom: 12px;
 }
 #scoreEl { font-weight: 600; color: #222; }
+
+#timerEl {
+  font-size: 20px;
+  font-weight: 800;
+  color: #2e6ed6;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2.5px solid #2e6ed6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.2s, border-color 0.2s;
+}
+#timerEl.urgent { color: #d64545; border-color: #d64545; }
+#timerEl:empty  { border-color: transparent; }
 
 .q-badge {
   display: inline-block;
@@ -218,16 +236,6 @@ h1 { font-size: 22px; text-align: center; margin: 0 0 24px; font-weight: 700; }
 #menuBtn  { color: #888; border-color: #e0e0e0; font-size: 12px; }
 #retryBtn { display:none; color: #2e9e4f; border-color: #2e9e4f; font-weight: 600; }
 
-.countdown {
-  display: inline-block;
-  margin-left: 10px;
-  font-size: 18px;
-  font-weight: 700;
-  color: #2e6ed6;
-  min-width: 24px;
-  text-align: center;
-}
-
 .count-line {
   text-align: center;
   font-size: 12px;
@@ -265,14 +273,11 @@ h1 { font-size: 22px; text-align: center; margin: 0 0 24px; font-weight: 700; }
 
   <div class="menu-card">
     <div class="menu-card-title">퀴즈 선택</div>
-
     <label class="check-row">
       <input type="checkbox" id="chkAlpha">
       알파벳 퀴즈 <span style="font-size:13px;color:#999;font-weight:400">(24자)</span>
     </label>
-
     <div style="height:14px"></div>
-
     <label class="check-row">
       <input type="checkbox" id="chkWord">
       단어 퀴즈
@@ -298,6 +303,7 @@ h1 { font-size: 22px; text-align: center; margin: 0 0 24px; font-weight: 700; }
   <h1>헬라어 퀴즈</h1>
   <div class="status">
     <span id="progressEl">문제 1 / 1</span>
+    <span id="timerEl"></span>
     <span id="scoreEl">맞은 개수: 0</span>
   </div>
 
@@ -321,9 +327,6 @@ h1 { font-size: 22px; text-align: center; margin: 0 0 24px; font-weight: 700; }
 </div>
 
 <script>
-// ════════════════════════════════════════════
-// 알파벳 데이터 (24자 고정)
-// ════════════════════════════════════════════
 const letters = [
   {u:"Α",l:"α",name:"알파 (alpha)"},
   {u:"Β",l:"β",name:"베타 (beta)"},
@@ -351,11 +354,6 @@ const letters = [
   {u:"Ω",l:"ω",name:"오메가 (omega)"}
 ];
 
-// ════════════════════════════════════════════
-// 단어 데이터
-// week 숫자를 바꾸면 주차 탭이 자동으로 생깁니다.
-// 새 주차 단어는 아래에 계속 추가하면 됩니다.
-// ════════════════════════════════════════════
 const words = [
   {gr:"ἀγάπη",       kr:"아가페",          en:"love",               ko:"사랑",            week:1},
   {gr:"ἀδελφός",     kr:"아델포스",        en:"brother",            ko:"형제",            week:1},
@@ -380,13 +378,9 @@ const words = [
   {gr:"ὕδωρ",        kr:"휘도르",          en:"water",              ko:"물",              week:1},
   {gr:"Φαρισαῖος",   kr:"파리사이오스",    en:"Pharisee",           ko:"바리새인",        week:1},
   {gr:"ψυχή",        kr:"프쉬케",          en:"soul, life, self",   ko:"영혼, 생명",      week:1}
-  // 2주차 단어는 아래에 추가하세요. 예:
   // ,{gr:"νέος", kr:"네오스", en:"new, young", ko:"새로운, 젊은", week:2}
 ];
 
-// ════════════════════════════════════════════
-// 유틸
-// ════════════════════════════════════════════
 function shuffle(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -396,21 +390,16 @@ function shuffle(arr) {
   return a;
 }
 
-// ════════════════════════════════════════════
-// 퀴즈 상태
-// ════════════════════════════════════════════
-let selectedLevel = 1;
-let savedConfig   = null;
-let quizOrder     = [];
-let qIdx          = 0;
-let score         = 0;
-let answered      = false;
-let wrongAnswers  = [];
-let autoTimer     = null;
+let selectedLevel  = 1;
+let savedConfig    = null;
+let quizOrder      = [];
+let qIdx           = 0;
+let score          = 0;
+let answered       = false;
+let wrongAnswers   = [];
+let countdownTimer = null;
+let moveTimer      = null;
 
-// ════════════════════════════════════════════
-// DOM
-// ════════════════════════════════════════════
 const menuScreen = document.getElementById('menuScreen');
 const quizScreen = document.getElementById('quizScreen');
 const chkAlpha   = document.getElementById('chkAlpha');
@@ -420,8 +409,8 @@ const levelCard  = document.getElementById('levelCard');
 const lvRow      = document.getElementById('lvRow');
 const startBtn   = document.getElementById('startBtn');
 const menuErr    = document.getElementById('menuErr');
-
 const progressEl = document.getElementById('progressEl');
+const timerEl    = document.getElementById('timerEl');
 const scoreEl    = document.getElementById('scoreEl');
 const qBadge     = document.getElementById('qBadge');
 const wordDisplay= document.getElementById('wordDisplay');
@@ -434,9 +423,6 @@ const retryBtn   = document.getElementById('retryBtn');
 const wrongListEl= document.getElementById('wrongList');
 const countEl    = document.getElementById('countEl');
 
-// ════════════════════════════════════════════
-// 메뉴 초기화: 주차 체크박스 자동 생성
-// ════════════════════════════════════════════
 function buildWeekChips() {
   const weeks = [...new Set(words.map(w => w.week))].sort((a, b) => a - b);
   weekChips.innerHTML = weeks.map(wk => {
@@ -468,95 +454,96 @@ lvRow.addEventListener('click', e => {
   selectedLevel = parseInt(btn.dataset.lv);
 });
 
-// ════════════════════════════════════════════
-// 퀴즈 시작
-// ════════════════════════════════════════════
 startBtn.addEventListener('click', () => {
   const doAlpha = chkAlpha.checked;
   const doWord  = chkWord.checked;
-
-  if (!doAlpha && !doWord) {
-    showErr('퀴즈 유형을 하나 이상 선택해주세요.');
-    return;
-  }
+  if (!doAlpha && !doWord) { showErr('퀴즈 유형을 하나 이상 선택해주세요.'); return; }
   const selWeeks = doWord
     ? [...weekChips.querySelectorAll('.wk-cb:checked')].map(c => parseInt(c.value))
     : [];
-  if (doWord && selWeeks.length === 0) {
-    showErr('단어 퀴즈의 주차를 하나 이상 선택해주세요.');
-    return;
-  }
+  if (doWord && selWeeks.length === 0) { showErr('단어 퀴즈의 주차를 하나 이상 선택해주세요.'); return; }
   menuErr.style.display = 'none';
-
   savedConfig = { doAlpha, doWord, selWeeks, level: selectedLevel };
   launchQuiz(savedConfig);
 });
 
-function showErr(msg) {
-  menuErr.textContent = msg;
-  menuErr.style.display = 'block';
-}
+function showErr(msg) { menuErr.textContent = msg; menuErr.style.display = 'block'; }
 
 function launchQuiz(cfg) {
+  if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+  if (moveTimer) { clearTimeout(moveTimer); moveTimer = null; }
   let qs = [];
-  if (cfg.doAlpha) {
-    letters.forEach(lt => qs.push({ type: 'alpha', data: lt }));
-  }
+  if (cfg.doAlpha) letters.forEach(lt => qs.push({ type: 'alpha', data: lt }));
   if (cfg.doWord) {
     words.filter(w => cfg.selWeeks.includes(w.week))
          .forEach(w => qs.push({ type: 'word', data: w, level: cfg.level }));
   }
-
-  quizOrder    = shuffle(qs);
-  qIdx         = 0;
-  score        = 0;
-  answered     = false;
-  wrongAnswers = [];
-
+  quizOrder = shuffle(qs);
+  qIdx = 0; score = 0; answered = false; wrongAnswers = [];
   menuScreen.style.display = 'none';
   quizScreen.style.display = 'block';
   window.scrollTo(0, 0);
   renderQuestion();
 }
 
-// ════════════════════════════════════════════
-// 카운트다운 후 자동 다음 문제
-// ════════════════════════════════════════════
-function startCountdown() {
+// 제한 시간 카운트다운 (문제 표시 즉시 시작)
+function startQuestionTimer(correctVal, q) {
   let count = 3;
-  feedbackEl.innerHTML += ' <span class="countdown">' + count + '</span>';
-  const cdEl = feedbackEl.querySelector('.countdown');
-  autoTimer = setInterval(() => {
+  timerEl.textContent = count;
+  timerEl.classList.remove('urgent');
+  countdownTimer = setInterval(() => {
     count--;
     if (count > 0) {
-      cdEl.textContent = count;
+      timerEl.textContent = count;
+      if (count === 1) timerEl.classList.add('urgent');
     } else {
-      clearInterval(autoTimer);
-      autoTimer = null;
-      qIdx++;
-      renderQuestion();
+      clearInterval(countdownTimer);
+      countdownTimer = null;
+      if (answered) return;
+      answered = true;
+      wrongAnswers.push({ q, chosen: '(시간 초과)', correct: correctVal });
+      Array.from(choicesEl.children).forEach(c => {
+        if (c.textContent === correctVal) c.classList.add('correct');
+      });
+      feedbackEl.innerHTML = '<span class="wrong-text">시간 초과! 정답: ' + correctVal + '</span>';
+      timerEl.textContent = '';
+      timerEl.classList.remove('urgent');
+      scheduleNext();
     }
   }, 1000);
 }
 
-// ════════════════════════════════════════════
-// 문제 렌더링
-// ════════════════════════════════════════════
+function scheduleNext() {
+  moveTimer = setTimeout(() => {
+    moveTimer = null;
+    if (qIdx < quizOrder.length - 1) {
+      qIdx++;
+      renderQuestion();
+    } else {
+      feedbackEl.innerHTML +=
+        '<div class="final">퀴즈 종료! 최종 점수: ' + score + ' / ' + quizOrder.length + '</div>';
+      retryBtn.style.display = 'inline-block';
+      showWrongList();
+    }
+  }, 1000);
+}
+
 function renderQuestion() {
-  if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+  if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+  if (moveTimer) { clearTimeout(moveTimer); moveTimer = null; }
+  timerEl.textContent = '';
+  timerEl.classList.remove('urgent');
   answered = false;
   feedbackEl.innerHTML = '';
   retryBtn.style.display = 'none';
   wrongListEl.style.display = 'none';
   wrongListEl.innerHTML = '';
-
   const q = quizOrder[qIdx];
   progressEl.textContent = '문제 ' + (qIdx + 1) + ' / ' + quizOrder.length;
   scoreEl.textContent    = '맞은 개수: ' + score;
   countEl.textContent    = '총 ' + quizOrder.length + '문제';
-
   if (q.type === 'alpha') renderAlpha(q);
-  else                    renderWord(q);
+  else renderWord(q);
 }
 
 function renderAlpha(q) {
@@ -567,18 +554,15 @@ function renderAlpha(q) {
   wordDisplay.textContent    = lt.u + '   ' + lt.l;
   subDisplay.textContent     = '';
   hintText.textContent       = '이 글자의 이름은?';
-
   const pool = shuffle(letters.filter(x => x.name !== lt.name)).slice(0, 3);
   pool.push(lt);
   buildChoices(shuffle(pool), opt => opt.name, lt.name, q);
 }
 
 function renderWord(q) {
-  const w  = q.data;
-  const lv = q.level;
+  const w = q.data; const lv = q.level;
   qBadge.textContent = w.week + '주차 단어';
   qBadge.className   = 'q-badge word';
-
   if (lv === 3) {
     wordDisplay.style.fontSize = '22px';
     wordDisplay.textContent    = w.ko || w.en;
@@ -590,7 +574,6 @@ function renderWord(q) {
     subDisplay.textContent     = (lv === 1 && w.kr) ? '[' + w.kr + ']' : '';
     hintText.textContent       = '이 단어의 뜻은?';
   }
-
   const matchKey = lv === 3 ? 'gr' : 'en';
   const pool = shuffle(words.filter(x => x[matchKey] !== w[matchKey])).slice(0, 3);
   pool.push(w);
@@ -606,6 +589,9 @@ function buildChoices(opts, getValue, correctVal, q) {
     btn.addEventListener('click', () => {
       if (answered) return;
       answered = true;
+      if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+      timerEl.textContent = '';
+      timerEl.classList.remove('urgent');
       if (val === correctVal) {
         score++;
         btn.classList.add('correct');
@@ -619,31 +605,20 @@ function buildChoices(opts, getValue, correctVal, q) {
       Array.from(choicesEl.children).forEach(c => {
         if (c.textContent === correctVal && c !== btn) c.classList.add('correct');
       });
-      if (qIdx < quizOrder.length - 1) {
-        startCountdown();
-      } else {
-        feedbackEl.innerHTML +=
-          '<div class="final">퀴즈 종료! 최종 점수: ' + score + ' / ' + quizOrder.length + '</div>';
-        retryBtn.style.display = 'inline-block';
-        showWrongList();
-      }
+      scheduleNext();
     });
     choicesEl.appendChild(btn);
   });
+  startQuestionTimer(correctVal, q);
 }
 
-// ════════════════════════════════════════════
-// 틀린 문제 목록
-// ════════════════════════════════════════════
 function showWrongList() {
   wrongListEl.style.display = 'block';
   setTimeout(() => wrongListEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
-
   if (wrongAnswers.length === 0) {
     wrongListEl.innerHTML = '<p class="all-correct">모두 맞혔습니다! 🎉</p>';
     return;
   }
-
   let html = '<p class="wl-title">틀린 문제 목록 (' + wrongAnswers.length + '개)</p>';
   wrongAnswers.forEach(({ q, chosen, correct }) => {
     let badge, qText;
@@ -651,29 +626,25 @@ function showWrongList() {
       badge = '<div class="wi-badge alpha">알파벳</div>';
       qText = q.data.u + '  ' + q.data.l;
     } else {
-      const w  = q.data;
-      const lv = q.level;
+      const w = q.data; const lv = q.level;
       badge = '<div class="wi-badge word">' + w.week + '주차 단어</div>';
       qText = lv === 3
         ? (w.ko || w.en)
         : w.gr + (w.kr ? ' <span style="font-size:13px;font-weight:400;color:#888">[' + w.kr + ']</span>' : '');
     }
-    html +=
-      '<div class="wi">' +
-        badge +
-        '<div class="wi-q">' + qText + '</div>' +
-        '<div class="wi-row"><span class="wi-lbl">내 답&nbsp;</span><span class="wi-wrong">' + chosen + '</span></div>' +
-        '<div class="wi-row"><span class="wi-lbl">정&nbsp;&nbsp;답&nbsp;</span><span class="wi-correct">' + correct + '</span></div>' +
+    html += '<div class="wi">' + badge +
+      '<div class="wi-q">' + qText + '</div>' +
+      '<div class="wi-row"><span class="wi-lbl">내 답&nbsp;</span><span class="wi-wrong">' + chosen + '</span></div>' +
+      '<div class="wi-row"><span class="wi-lbl">정&nbsp;&nbsp;답&nbsp;</span><span class="wi-correct">' + correct + '</span></div>' +
       '</div>';
   });
   wrongListEl.innerHTML = html;
 }
 
-// ════════════════════════════════════════════
-// 버튼
-// ════════════════════════════════════════════
 menuBtn.addEventListener('click', () => {
-  if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+  if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+  if (moveTimer) { clearTimeout(moveTimer); moveTimer = null; }
+  timerEl.textContent = '';
   quizScreen.style.display = 'none';
   menuScreen.style.display = 'block';
   window.scrollTo(0, 0);
