@@ -105,7 +105,6 @@ h1 { font-size: 22px; text-align: center; margin: 0 0 24px; font-weight: 700; }
   padding: 10px 16px; font-size: 13px; border-radius: 10px;
   border: 1.5px solid #ccc; background: #fff; cursor: pointer;
 }
-#nextBtn  { display:none; border-color: #2e6ed6; color: #2e6ed6; font-weight: 600; }
 #menuBtn  { color: #888; border-color: #e0e0e0; font-size: 12px; }
 #retryBtn { display:none; color: #2e9e4f; border-color: #2e9e4f; font-weight: 600; }
 .count-line { text-align: center; font-size: 12px; color: #aaa; margin-top: 24px; }
@@ -194,7 +193,6 @@ h1 { font-size: 22px; text-align: center; margin: 0 0 24px; font-weight: 700; }
   <div class="choices" id="choicesEl"></div>
   <div id="feedbackEl"></div>
   <div class="btn-row">
-    <button id="nextBtn">다음 문제 →</button>
     <button id="retryBtn">↺ 같은 설정으로 다시</button>
     <button id="menuBtn">← 메뉴로 돌아가기</button>
   </div>
@@ -282,7 +280,6 @@ const subDisplay = document.getElementById('subDisplay');
 const hintText   = document.getElementById('hintText');
 const choicesEl  = document.getElementById('choicesEl');
 const feedbackEl = document.getElementById('feedbackEl');
-const nextBtn    = document.getElementById('nextBtn');
 const menuBtn    = document.getElementById('menuBtn');
 const retryBtn   = document.getElementById('retryBtn');
 const wrongListEl= document.getElementById('wrongList');
@@ -409,7 +406,6 @@ function renderQuestion() {
   stopTimers();
   answered = false;
   feedbackEl.innerHTML = '';
-  nextBtn.style.display  = 'none';
   retryBtn.style.display = 'none';
   wrongListEl.style.display = 'none';
   wrongListEl.innerHTML = '';
@@ -479,11 +475,7 @@ function buildChoices(opts, getValue, correctVal, q) {
       Array.from(choicesEl.children).forEach(c => {
         if (c.textContent === correctVal && c !== btn) c.classList.add('correct');
       });
-      if (currentMode === 'test') {
-        scheduleNext();
-      } else {
-        nextBtn.style.display = 'inline-block';
-      }
+      scheduleNext();
     });
     choicesEl.appendChild(btn);
   });
@@ -520,11 +512,6 @@ function showWrongList(modeLabel) {
   });
   wrongListEl.innerHTML = html;
 }
-
-nextBtn.addEventListener('click', () => {
-  nextBtn.style.display = 'none';
-  advanceOrEnd();
-});
 
 menuBtn.addEventListener('click', () => {
   stopTimers();
