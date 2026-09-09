@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>헬라어 퀴즈</title>
 <style>
 * { box-sizing: border-box; }
@@ -19,7 +22,8 @@ body {
   position: relative; margin-bottom: 24px;
 }
 h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
-.bell-wrap { position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
+.bell-wrap { position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 6px; }
+.app-version { font-size: 10px; color: #bbb; letter-spacing: 0.3px; white-space: nowrap; }
 .bell-btn {
   position: relative; background: none; border: none; cursor: pointer;
   padding: 6px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
@@ -196,6 +200,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
       </button>
       <div class="updates-panel" id="updatesPanel"></div>
     </div>
+    <span class="app-version" id="versionLabel"></span>
   </div>
 
   <div class="menu-card">
@@ -261,6 +266,26 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 </div>
 
 <script>
+// ── 버전 관리 ────────────────────────────────────────────────
+// 업데이트할 때마다 이 값을 바꿔줘 (예: "2026-09-09-2", "2026-09-10-1")
+const APP_VERSION = "2026-09-09-1";
+const VER_KEY = 'appVersion';
+(function () {
+  try {
+    const stored = localStorage.getItem(VER_KEY);
+    if (stored && stored !== APP_VERSION) {
+      localStorage.setItem(VER_KEY, APP_VERSION);
+      location.reload(true);
+    } else {
+      localStorage.setItem(VER_KEY, APP_VERSION);
+    }
+  } catch (e) {}
+})();
+document.addEventListener('DOMContentLoaded', function () {
+  const el = document.getElementById('versionLabel');
+  if (el) el.textContent = 'v' + APP_VERSION;
+});
+
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
   { date: "2026-09-09", text: "업데이트 알림 기능 추가 (종 아이콘, 읽음 처리)" },
