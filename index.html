@@ -23,7 +23,6 @@ body {
 }
 h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 .bell-wrap { position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 6px; }
-.app-version { font-size: 10px; color: #bbb; letter-spacing: 0.3px; white-space: nowrap; }
 .bell-btn {
   position: relative; background: none; border: none; cursor: pointer;
   padding: 6px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
@@ -185,9 +184,117 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 .wi-lbl { color: #aaa; flex-shrink: 0; }
 .wi-wrong   { color: #d64545; font-weight: 600; }
 .wi-correct { color: #2e9e4f; font-weight: 600; }
+
+/* ── 레슨 스타일 ──────────────────────────────────────── */
+.lesson-back-btn {
+  position: absolute; left: 0;
+  background: none; border: none; cursor: pointer;
+  font-size: 13px; color: #888; padding: 6px 0;
+  display: flex; align-items: center; gap: 4px;
+}
+.lesson-back-btn:hover { color: #444; }
+.stage-pip-row {
+  display: flex; gap: 5px; justify-content: center; margin-bottom: 20px;
+}
+.stage-pip {
+  width: 28px; height: 6px; border-radius: 3px;
+  background: #ddd; transition: background .2s;
+}
+.stage-pip.active { background: #2e6ed6; }
+.stage-pip.done   { background: #2e9e4f; }
+.lesson-card {
+  background: #fff; border-radius: 16px; padding: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 14px;
+}
+.lesson-card-title {
+  font-size: 11px; font-weight: 700; color: #aaa;
+  letter-spacing: .8px; text-transform: uppercase; margin: 0 0 14px;
+}
+/* observation */
+.obs-row {
+  display: flex; gap: 14px; justify-content: center;
+  flex-wrap: wrap; padding: 8px 0 4px;
+}
+.obs-item { text-align: center; }
+.obs-form {
+  font-size: 22px; font-weight: 700; line-height: 1.2;
+}
+.obs-label { font-size: 11px; color: #999; margin-top: 3px; }
+.end-hi { color: #2e6ed6; }
+/* paradigm table */
+.paradigm-wrap { overflow-x: auto; margin-top: 10px; }
+.paradigm-table {
+  width: 100%; border-collapse: collapse; font-size: 14px;
+}
+.paradigm-table th {
+  background: #f4f1ea; font-size: 11px; color: #888;
+  padding: 7px 8px; font-weight: 600; white-space: nowrap;
+}
+.paradigm-table td {
+  padding: 9px 8px; border-bottom: 1px solid #f0ede6; text-align: center;
+}
+.paradigm-table tr:last-child td { border-bottom: none; }
+.p-form { font-size: 15px; font-weight: 700; }
+.p-tr   { font-size: 12px; color: #888; }
+/* explanation text */
+.exp-text {
+  font-size: 14px; line-height: 1.75; color: #444; margin: 0;
+}
+.exp-em { color: #2e6ed6; font-weight: 700; }
+/* stage 2 confirm question */
+.s2-q-wrap { margin-top: 14px; }
+.s2-q-text {
+  font-size: 14px; font-weight: 600; color: #222; margin-bottom: 10px;
+}
+.s2-opts { display: flex; flex-direction: column; gap: 7px; }
+.s2-opt {
+  padding: 11px 14px; font-size: 14px;
+  border-radius: 10px; border: 1.5px solid #ddd;
+  background: #fff; cursor: pointer; text-align: left;
+  transition: border-color .15s, background .15s;
+}
+.s2-opt:hover:not(:disabled) { border-color: #2e6ed6; background: #f5f8ff; }
+.s2-opt.correct { border-color: #2e9e4f; background: #e6f6ea; color: #1a6e35; font-weight: 600; }
+.s2-opt.wrong   { border-color: #d64545; background: #fdecec; color: #a02020; }
+/* lesson nav button */
+.lesson-btn {
+  width: 100%; padding: 15px; font-size: 15px; font-weight: 700;
+  border-radius: 12px; border: none; cursor: pointer; margin-top: 6px;
+}
+.lesson-btn.primary { background: #2e6ed6; color: #fff; }
+.lesson-btn.secondary { background: #fff; color: #666; border: 1.5px solid #ddd; }
+.lesson-btn.success { background: #2e9e4f; color: #fff; }
+.lesson-btn:active { opacity: .85; }
+/* lesson selection */
+.ls-section { font-size: 11px; font-weight: 700; color: #aaa; letter-spacing: .8px; text-transform: uppercase; margin: 18px 0 8px; }
+.ls-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border-radius: 12px; background: #fff;
+  margin-bottom: 7px; cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06); transition: background .15s;
+}
+.ls-item:hover { background: #eaf1fd; }
+.ls-dict { font-size: 18px; font-weight: 700; min-width: 90px; }
+.ls-meaning { font-size: 13px; color: #777; }
+.ls-arrow { margin-left: auto; color: #ccc; }
+/* grammar btn */
+.grammar-btn {
+  width: 100%; padding: 14px; font-size: 15px; font-weight: 700;
+  border-radius: 12px; border: none; background: #4a3380; color: #fff; cursor: pointer;
+}
+.grammar-btn:active { opacity: .85; }
+/* completion notice */
+.lesson-done-card {
+  background: #fff; border-radius: 16px; padding: 28px 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08); text-align: center;
+}
+.lesson-done-icon { font-size: 40px; margin-bottom: 12px; }
+.lesson-done-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.lesson-done-sub { font-size: 13px; color: #888; line-height: 1.6; }
 </style>
 </head>
 <body>
+<!-- ── 메뉴 화면 ───────────────────────────────────────── -->
 <div id="menuScreen" class="screen">
   <div class="header-row">
     <h1>헬라어 퀴즈</h1>
@@ -240,8 +347,16 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
   <button id="startBtn" class="start-btn">퀴즈 시작</button>
   <div id="menuErr" class="menu-err"></div>
+
+  <!-- 문법 연습 카드 -->
+  <div class="menu-card" style="margin-top:18px">
+    <div class="menu-card-title">문법 연습</div>
+    <p style="font-size:13px;color:#888;margin:0 0 12px;line-height:1.5">동사·명사 변화를 7단계로 차근차근 익혀요.</p>
+    <button id="lessonMenuBtn" class="grammar-btn">레슨 시작</button>
+  </div>
 </div>
 
+<!-- ── 퀴즈 화면 ───────────────────────────────────────── -->
 <div id="quizScreen" class="screen" style="display:none">
   <h1 style="text-align:center;font-size:22px;font-weight:700;margin:0 0 24px;">헬라어 퀴즈</h1>
   <div class="status">
@@ -265,10 +380,18 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   <div class="count-line" id="countEl"></div>
 </div>
 
+<!-- ── 레슨 화면 ───────────────────────────────────────── -->
+<div id="lessonScreen" class="screen" style="display:none">
+  <div class="header-row">
+    <h1>레슨</h1>
+    <button class="lesson-back-btn" id="lessonBackBtn">← 메뉴</button>
+  </div>
+  <div id="lessonContent"></div>
+</div>
+
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-// 업데이트할 때마다 이 값을 바꿔줘 (예: "2026-09-09-2", "2026-09-10-1")
-const APP_VERSION = "2026-09-10-1";
+const APP_VERSION = "2026-09-11-1";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -281,8 +404,10 @@ const VER_KEY = 'appVersion';
     }
   } catch (e) {}
 })();
+
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-09-11", text: "레슨 모드 추가 (관찰·이해 2단계, 동사 8개·명사 11개)" },
   { date: "2026-09-10", text: "2주차 단어 17개 추가" },
   { date: "2026-09-09", text: "업데이트 알림 기능 추가 (종 아이콘, 읽음 처리)" },
   { date: "2026-09-09", text: "1주차 단어 4개 추가 (Χριστός, Θεός, Υἱός, Σωτήρ)" },
@@ -290,65 +415,43 @@ const updates = [
 ];
 
 const STORAGE_KEY = 'lastSeenUpdate';
-
-function getLastSeen() {
-  try { return localStorage.getItem(STORAGE_KEY) || ''; } catch { return ''; }
-}
-function setLastSeen(date) {
-  try { localStorage.setItem(STORAGE_KEY, date); } catch {}
-}
+function getLastSeen() { try { return localStorage.getItem(STORAGE_KEY) || ''; } catch { return ''; } }
+function setLastSeen(date) { try { localStorage.setItem(STORAGE_KEY, date); } catch {} }
 function getUnreadCount() {
   const seen = getLastSeen();
   if (!seen) return updates.length;
   return updates.filter(u => u.date > seen).length;
 }
 
-const bellBtn     = document.getElementById('bellBtn');
-const bellBadge   = document.getElementById('bellBadge');
-const updatesPanel= document.getElementById('updatesPanel');
+const bellBtn      = document.getElementById('bellBtn');
+const bellBadge    = document.getElementById('bellBadge');
+const updatesPanel = document.getElementById('updatesPanel');
 
 function renderBadge() {
   const n = getUnreadCount();
-  if (n > 0) {
-    bellBadge.textContent = n > 9 ? '9+' : n;
-    bellBadge.classList.add('visible');
-  } else {
-    bellBadge.classList.remove('visible');
-  }
+  if (n > 0) { bellBadge.textContent = n > 9 ? '9+' : n; bellBadge.classList.add('visible'); }
+  else        { bellBadge.classList.remove('visible'); }
 }
-
 function renderPanel() {
   const seen = getLastSeen();
   let html = '<div class="updates-header">업데이트 내역</div>';
   updates.forEach(u => {
     const isNew = u.date > seen;
-    html += '<div class="update-item">' +
-      '<div class="update-dot' + (isNew ? '' : ' read') + '"></div>' +
-      '<div><div class="update-date">' + u.date + '</div>' +
-      '<div class="update-text">' + u.text + '</div></div>' +
-      '</div>';
+    html += '<div class="update-item">'
+      + '<div class="update-dot' + (isNew ? '' : ' read') + '"></div>'
+      + '<div><div class="update-date">' + u.date + '</div>'
+      + '<div class="update-text">' + u.text + '</div></div></div>';
   });
   updatesPanel.innerHTML = html;
 }
-
 bellBtn.addEventListener('click', e => {
   e.stopPropagation();
   const isOpen = updatesPanel.classList.toggle('open');
-  if (isOpen) {
-    renderPanel();
-    if (updates.length > 0) {
-      setLastSeen(updates[0].date);
-      renderBadge();
-    }
-  }
+  if (isOpen) { renderPanel(); if (updates.length > 0) { setLastSeen(updates[0].date); renderBadge(); } }
 });
-
 document.addEventListener('click', e => {
-  if (!updatesPanel.contains(e.target) && e.target !== bellBtn) {
-    updatesPanel.classList.remove('open');
-  }
+  if (!updatesPanel.contains(e.target) && e.target !== bellBtn) updatesPanel.classList.remove('open');
 });
-
 renderBadge();
 
 // ── 알파벳 데이터 ────────────────────────────────────────────
@@ -396,7 +499,6 @@ const words = [
   {gr:"Θεός",        kr:"데오스",          en:"God",                ko:"하나님",          week:1},
   {gr:"Υἱός",        kr:"휘오스",          en:"Son",                ko:"아들",            week:1},
   {gr:"Σωτήρ",       kr:"소테르",          en:"Savior",             ko:"구원자",          week:1},
-  // ── 2주차 ──────────────────────────────────────────────────
   {gr:"ἄνθρωπος",   kr:"안트로포스",      en:"man, person",        ko:"사람, 인간",      week:2},
   {gr:"ἀπόστολος",  kr:"아포스톨로스",    en:"apostle",            ko:"사도",            week:2},
   {gr:"δοῦλος",     kr:"둘로스",          en:"slave, servant",     ko:"종, 노예",        week:2},
@@ -416,6 +518,269 @@ const words = [
   {gr:"ἔχω",        kr:"에코",            en:"I have",             ko:"나는 가진다",     week:2}
 ];
 
+// ── 동사 변화 데이터 (현재 능동 직설법) ─────────────────────
+// end: 어미 문자열 (form 끝에서 이 길이만큼이 어미)
+const verbParadigms = [
+  { dict:"λύω",     meaning:"나는 푼다/파괴한다", tense:"현재", voice:"능동", mood:"직설법",
+    forms:[
+      {form:"λύω",       end:"ω",    person:1, number:"단수", tr:"나는 푼다"},
+      {form:"λύεις",     end:"εις",  person:2, number:"단수", tr:"네가 푼다"},
+      {form:"λύει",      end:"ει",   person:3, number:"단수", tr:"그가 푼다"},
+      {form:"λύομεν",    end:"ομεν", person:1, number:"복수", tr:"우리가 푼다"},
+      {form:"λύετε",     end:"ετε",  person:2, number:"복수", tr:"너희가 푼다"},
+      {form:"λύουσι",    end:"ουσι", person:3, number:"복수", tr:"그들이 푼다"}
+    ],
+    s2q:{ q:"-ομεν은 어떤 인칭·수를 나타낼까요?",
+          opts:["1인칭 복수","2인칭 복수","3인칭 단수","1인칭 단수"], ans:"1인칭 복수" }
+  },
+  { dict:"βλέπω",   meaning:"나는 본다", tense:"현재", voice:"능동", mood:"직설법",
+    forms:[
+      {form:"βλέπω",     end:"ω",    person:1, number:"단수", tr:"나는 본다"},
+      {form:"βλέπεις",   end:"εις",  person:2, number:"단수", tr:"네가 본다"},
+      {form:"βλέπει",    end:"ει",   person:3, number:"단수", tr:"그가 본다"},
+      {form:"βλέπομεν",  end:"ομεν", person:1, number:"복수", tr:"우리가 본다"},
+      {form:"βλέπετε",   end:"ετε",  person:2, number:"복수", tr:"너희가 본다"},
+      {form:"βλέπουσι",  end:"ουσι", person:3, number:"복수", tr:"그들이 본다"}
+    ],
+    s2q:{ q:"-ουσι는 어떤 인칭·수를 나타낼까요?",
+          opts:["3인칭 복수","1인칭 복수","2인칭 복수","3인칭 단수"], ans:"3인칭 복수" }
+  },
+  { dict:"γράφω",   meaning:"나는 쓴다", tense:"현재", voice:"능동", mood:"직설법",
+    forms:[
+      {form:"γράφω",     end:"ω",    person:1, number:"단수", tr:"나는 쓴다"},
+      {form:"γράφεις",   end:"εις",  person:2, number:"단수", tr:"네가 쓴다"},
+      {form:"γράφει",    end:"ει",   person:3, number:"단수", tr:"그가 쓴다"},
+      {form:"γράφομεν",  end:"ομεν", person:1, number:"복수", tr:"우리가 쓴다"},
+      {form:"γράφετε",   end:"ετε",  person:2, number:"복수", tr:"너희가 쓴다"},
+      {form:"γράφουσι",  end:"ουσι", person:3, number:"복수", tr:"그들이 쓴다"}
+    ],
+    s2q:{ q:"-εις는 어떤 인칭·수를 나타낼까요?",
+          opts:["2인칭 단수","1인칭 단수","3인칭 단수","2인칭 복수"], ans:"2인칭 단수" }
+  },
+  { dict:"λέγω",    meaning:"나는 말한다", tense:"현재", voice:"능동", mood:"직설법",
+    forms:[
+      {form:"λέγω",      end:"ω",    person:1, number:"단수", tr:"나는 말한다"},
+      {form:"λέγεις",    end:"εις",  person:2, number:"단수", tr:"네가 말한다"},
+      {form:"λέγει",     end:"ει",   person:3, number:"단수", tr:"그가 말한다"},
+      {form:"λέγομεν",   end:"ομεν", person:1, number:"복수", tr:"우리가 말한다"},
+      {form:"λέγετε",    end:"ετε",  person:2, number:"복수", tr:"너희가 말한다"},
+      {form:"λέγουσι",   end:"ουσι", person:3, number:"복수", tr:"그들이 말한다"}
+    ],
+    s2q:{ q:"-ετε는 어떤 인칭·수를 나타낼까요?",
+          opts:["2인칭 복수","1인칭 복수","3인칭 복수","2인칭 단수"], ans:"2인칭 복수" }
+  },
+  { dict:"γινώσκω", meaning:"나는 안다", tense:"현재", voice:"능동", mood:"직설법",
+    forms:[
+      {form:"γινώσκω",    end:"ω",    person:1, number:"단수", tr:"나는 안다"},
+      {form:"γινώσκεις",  end:"εις",  person:2, number:"단수", tr:"네가 안다"},
+      {form:"γινώσκει",   end:"ει",   person:3, number:"단수", tr:"그가 안다"},
+      {form:"γινώσκομεν", end:"ομεν", person:1, number:"복수", tr:"우리가 안다"},
+      {form:"γινώσκετε",  end:"ετε",  person:2, number:"복수", tr:"너희가 안다"},
+      {form:"γινώσκουσι", end:"ουσι", person:3, number:"복수", tr:"그들이 안다"}
+    ],
+    s2q:{ q:"-ω는 어떤 인칭·수를 나타낼까요?",
+          opts:["1인칭 단수","1인칭 복수","2인칭 단수","3인칭 단수"], ans:"1인칭 단수" }
+  },
+  { dict:"διδάσκω", meaning:"나는 가르친다", tense:"현재", voice:"능동", mood:"직설법",
+    forms:[
+      {form:"διδάσκω",    end:"ω",    person:1, number:"단수", tr:"나는 가르친다"},
+      {form:"διδάσκεις",  end:"εις",  person:2, number:"단수", tr:"네가 가르친다"},
+      {form:"διδάσκει",   end:"ει",   person:3, number:"단수", tr:"그가 가르친다"},
+      {form:"διδάσκομεν", end:"ομεν", person:1, number:"복수", tr:"우리가 가르친다"},
+      {form:"διδάσκετε",  end:"ετε",  person:2, number:"복수", tr:"너희가 가르친다"},
+      {form:"διδάσκουσι", end:"ουσι", person:3, number:"복수", tr:"그들이 가르친다"}
+    ],
+    s2q:{ q:"-ει는 어떤 인칭·수를 나타낼까요?",
+          opts:["3인칭 단수","1인칭 단수","2인칭 단수","3인칭 복수"], ans:"3인칭 단수" }
+  },
+  { dict:"λαμβάνω", meaning:"나는 취한다/받는다", tense:"현재", voice:"능동", mood:"직설법",
+    forms:[
+      {form:"λαμβάνω",    end:"ω",    person:1, number:"단수", tr:"나는 취한다"},
+      {form:"λαμβάνεις",  end:"εις",  person:2, number:"단수", tr:"네가 취한다"},
+      {form:"λαμβάνει",   end:"ει",   person:3, number:"단수", tr:"그가 취한다"},
+      {form:"λαμβάνομεν", end:"ομεν", person:1, number:"복수", tr:"우리가 취한다"},
+      {form:"λαμβάνετε",  end:"ετε",  person:2, number:"복수", tr:"너희가 취한다"},
+      {form:"λαμβάνουσι", end:"ουσι", person:3, number:"복수", tr:"그들이 취한다"}
+    ],
+    s2q:{ q:"-ομεν은 어떤 인칭·수를 나타낼까요?",
+          opts:["1인칭 복수","2인칭 복수","3인칭 복수","1인칭 단수"], ans:"1인칭 복수" }
+  },
+  { dict:"ἔχω",     meaning:"나는 가진다", tense:"현재", voice:"능동", mood:"직설법",
+    forms:[
+      {form:"ἔχω",       end:"ω",    person:1, number:"단수", tr:"나는 가진다"},
+      {form:"ἔχεις",     end:"εις",  person:2, number:"단수", tr:"네가 가진다"},
+      {form:"ἔχει",      end:"ει",   person:3, number:"단수", tr:"그가 가진다"},
+      {form:"ἔχομεν",    end:"ομεν", person:1, number:"복수", tr:"우리가 가진다"},
+      {form:"ἔχετε",     end:"ετε",  person:2, number:"복수", tr:"너희가 가진다"},
+      {form:"ἔχουσι",    end:"ουσι", person:3, number:"복수", tr:"그들이 가진다"}
+    ],
+    s2q:{ q:"-ουσι는 동사 어미 중 몇 인칭 복수일까요?",
+          opts:["3인칭 복수","1인칭 복수","2인칭 복수","3인칭 단수"], ans:"3인칭 복수" }
+  }
+];
+
+// ── 명사 변화 데이터 (2격 변화, 호격 제외 8칸) ──────────────
+// gender: 남성/중성
+const nounParadigms = [
+  // 2격 변화 남성 (7개)
+  { dict:"λόγος",     meaning:"말씀",  gender:"남성",
+    forms:[
+      {form:"λόγος",   end:"ος",  case:"주격", number:"단수", tr:"말씀이"},
+      {form:"λόγου",   end:"ου",  case:"속격", number:"단수", tr:"말씀의"},
+      {form:"λόγῳ",    end:"ῳ",   case:"여격", number:"단수", tr:"말씀에"},
+      {form:"λόγον",   end:"ον",  case:"대격", number:"단수", tr:"말씀을"},
+      {form:"λόγοι",   end:"οι",  case:"주격", number:"복수", tr:"말씀들이"},
+      {form:"λόγων",   end:"ων",  case:"속격", number:"복수", tr:"말씀들의"},
+      {form:"λόγοις",  end:"οις", case:"여격", number:"복수", tr:"말씀들에"},
+      {form:"λόγους",  end:"ους", case:"대격", number:"복수", tr:"말씀들을"}
+    ],
+    s2q:{ q:"속격 단수 어미(-ου)의 역할은?",
+          opts:["소유·~의","주어·~이/가","목적어·~을","간접목적어·~에게"], ans:"소유·~의" }
+  },
+  { dict:"ἄνθρωπος",  meaning:"사람",  gender:"남성",
+    forms:[
+      {form:"ἄνθρωπος", end:"ος",  case:"주격", number:"단수", tr:"사람이"},
+      {form:"ἀνθρώπου", end:"ου",  case:"속격", number:"단수", tr:"사람의"},
+      {form:"ἀνθρώπῳ",  end:"ῳ",   case:"여격", number:"단수", tr:"사람에게"},
+      {form:"ἄνθρωπον", end:"ον",  case:"대격", number:"단수", tr:"사람을"},
+      {form:"ἄνθρωποι", end:"οι",  case:"주격", number:"복수", tr:"사람들이"},
+      {form:"ἀνθρώπων", end:"ων",  case:"속격", number:"복수", tr:"사람들의"},
+      {form:"ἀνθρώποις",end:"οις", case:"여격", number:"복수", tr:"사람들에게"},
+      {form:"ἀνθρώπους",end:"ους", case:"대격", number:"복수", tr:"사람들을"}
+    ],
+    s2q:{ q:"주격 단수 어미(-ος)의 역할은?",
+          opts:["주어·~이/가","목적어·~을","소유·~의","간접목적어·~에게"], ans:"주어·~이/가" }
+  },
+  { dict:"ἀπόστολος", meaning:"사도",  gender:"남성",
+    forms:[
+      {form:"ἀπόστολος", end:"ος",  case:"주격", number:"단수", tr:"사도가"},
+      {form:"ἀποστόλου", end:"ου",  case:"속격", number:"단수", tr:"사도의"},
+      {form:"ἀποστόλῳ",  end:"ῳ",   case:"여격", number:"단수", tr:"사도에게"},
+      {form:"ἀπόστολον", end:"ον",  case:"대격", number:"단수", tr:"사도를"},
+      {form:"ἀπόστολοι", end:"οι",  case:"주격", number:"복수", tr:"사도들이"},
+      {form:"ἀποστόλων", end:"ων",  case:"속격", number:"복수", tr:"사도들의"},
+      {form:"ἀποστόλοις",end:"οις", case:"여격", number:"복수", tr:"사도들에게"},
+      {form:"ἀποστόλους",end:"ους", case:"대격", number:"복수", tr:"사도들을"}
+    ],
+    s2q:{ q:"대격 단수 어미(-ον)의 역할은?",
+          opts:["목적어·~을","주어·~이/가","소유·~의","간접목적어·~에게"], ans:"목적어·~을" }
+  },
+  { dict:"δοῦλος",    meaning:"종",    gender:"남성",
+    forms:[
+      {form:"δοῦλος",  end:"ος",  case:"주격", number:"단수", tr:"종이"},
+      {form:"δούλου",  end:"ου",  case:"속격", number:"단수", tr:"종의"},
+      {form:"δούλῳ",   end:"ῳ",   case:"여격", number:"단수", tr:"종에게"},
+      {form:"δοῦλον",  end:"ον",  case:"대격", number:"단수", tr:"종을"},
+      {form:"δοῦλοι",  end:"οι",  case:"주격", number:"복수", tr:"종들이"},
+      {form:"δούλων",  end:"ων",  case:"속격", number:"복수", tr:"종들의"},
+      {form:"δούλοις", end:"οις", case:"여격", number:"복수", tr:"종들에게"},
+      {form:"δούλους", end:"ους", case:"대격", number:"복수", tr:"종들을"}
+    ],
+    s2q:{ q:"여격 단수 어미(-ῳ)의 역할은?",
+          opts:["간접목적어·~에게","주어·~이/가","목적어·~을","소유·~의"], ans:"간접목적어·~에게" }
+  },
+  { dict:"οἶκος",     meaning:"집",    gender:"남성",
+    forms:[
+      {form:"οἶκος",   end:"ος",  case:"주격", number:"단수", tr:"집이"},
+      {form:"οἴκου",   end:"ου",  case:"속격", number:"단수", tr:"집의"},
+      {form:"οἴκῳ",    end:"ῳ",   case:"여격", number:"단수", tr:"집에"},
+      {form:"οἶκον",   end:"ον",  case:"대격", number:"단수", tr:"집을"},
+      {form:"οἶκοι",   end:"οι",  case:"주격", number:"복수", tr:"집들이"},
+      {form:"οἴκων",   end:"ων",  case:"속격", number:"복수", tr:"집들의"},
+      {form:"οἴκοις",  end:"οις", case:"여격", number:"복수", tr:"집들에"},
+      {form:"οἴκους",  end:"ους", case:"대격", number:"복수", tr:"집들을"}
+    ],
+    s2q:{ q:"주격 복수 어미(-οι)는 어떤 역할인가요?",
+          opts:["복수 주어·~들이","복수 목적어·~들을","복수 소유·~들의","복수 간접목적어"], ans:"복수 주어·~들이" }
+  },
+  { dict:"ἀδελφός",   meaning:"형제",  gender:"남성",
+    forms:[
+      {form:"ἀδελφός",  end:"ός",  case:"주격", number:"단수", tr:"형제가"},
+      {form:"ἀδελφοῦ",  end:"οῦ",  case:"속격", number:"단수", tr:"형제의"},
+      {form:"ἀδελφῷ",   end:"ῷ",   case:"여격", number:"단수", tr:"형제에게"},
+      {form:"ἀδελφόν",  end:"όν",  case:"대격", number:"단수", tr:"형제를"},
+      {form:"ἀδελφοί",  end:"οί",  case:"주격", number:"복수", tr:"형제들이"},
+      {form:"ἀδελφῶν",  end:"ῶν",  case:"속격", number:"복수", tr:"형제들의"},
+      {form:"ἀδελφοῖς", end:"οῖς", case:"여격", number:"복수", tr:"형제들에게"},
+      {form:"ἀδελφούς", end:"ούς", case:"대격", number:"복수", tr:"형제들을"}
+    ],
+    s2q:{ q:"속격 복수 어미(-ῶν)의 역할은?",
+          opts:["복수 소유·~들의","복수 주어·~들이","복수 목적어·~들을","복수 간접목적어"], ans:"복수 소유·~들의" }
+  },
+  { dict:"νόμος",     meaning:"율법",  gender:"남성",
+    forms:[
+      {form:"νόμος",   end:"ος",  case:"주격", number:"단수", tr:"율법이"},
+      {form:"νόμου",   end:"ου",  case:"속격", number:"단수", tr:"율법의"},
+      {form:"νόμῳ",    end:"ῳ",   case:"여격", number:"단수", tr:"율법에"},
+      {form:"νόμον",   end:"ον",  case:"대격", number:"단수", tr:"율법을"},
+      {form:"νόμοι",   end:"οι",  case:"주격", number:"복수", tr:"율법들이"},
+      {form:"νόμων",   end:"ων",  case:"속격", number:"복수", tr:"율법들의"},
+      {form:"νόμοις",  end:"οις", case:"여격", number:"복수", tr:"율법들에"},
+      {form:"νόμους",  end:"ους", case:"대격", number:"복수", tr:"율법들을"}
+    ],
+    s2q:{ q:"대격 복수 어미(-ους)의 역할은?",
+          opts:["복수 목적어·~들을","복수 주어·~들이","복수 소유·~들의","복수 간접목적어"], ans:"복수 목적어·~들을" }
+  },
+  // 2격 변화 중성 (4개)
+  { dict:"δῶρον",     meaning:"선물",  gender:"중성",
+    forms:[
+      {form:"δῶρον",   end:"ον",  case:"주격", number:"단수", tr:"선물이"},
+      {form:"δώρου",   end:"ου",  case:"속격", number:"단수", tr:"선물의"},
+      {form:"δώρῳ",    end:"ῳ",   case:"여격", number:"단수", tr:"선물에"},
+      {form:"δῶρον",   end:"ον",  case:"대격", number:"단수", tr:"선물을"},
+      {form:"δῶρα",    end:"α",   case:"주격", number:"복수", tr:"선물들이"},
+      {form:"δώρων",   end:"ων",  case:"속격", number:"복수", tr:"선물들의"},
+      {form:"δώροις",  end:"οις", case:"여격", number:"복수", tr:"선물들에"},
+      {form:"δῶρα",    end:"α",   case:"대격", number:"복수", tr:"선물들을"}
+    ],
+    s2q:{ q:"중성 명사의 특징 중 올바른 것은?",
+          opts:["주격과 대격이 같은 형태","주격과 속격이 같은 형태","모든 격이 같은 형태","단수만 존재함"], ans:"주격과 대격이 같은 형태" }
+  },
+  { dict:"ἔργον",     meaning:"일",    gender:"중성",
+    forms:[
+      {form:"ἔργον",   end:"ον",  case:"주격", number:"단수", tr:"일이"},
+      {form:"ἔργου",   end:"ου",  case:"속격", number:"단수", tr:"일의"},
+      {form:"ἔργῳ",    end:"ῳ",   case:"여격", number:"단수", tr:"일에"},
+      {form:"ἔργον",   end:"ον",  case:"대격", number:"단수", tr:"일을"},
+      {form:"ἔργα",    end:"α",   case:"주격", number:"복수", tr:"일들이"},
+      {form:"ἔργων",   end:"ων",  case:"속격", number:"복수", tr:"일들의"},
+      {form:"ἔργοις",  end:"οις", case:"여격", number:"복수", tr:"일들에"},
+      {form:"ἔργα",    end:"α",   case:"대격", number:"복수", tr:"일들을"}
+    ],
+    s2q:{ q:"중성 복수 주격/대격 어미(-α)의 특징은?",
+          opts:["주격과 대격이 같은 형태","남성 복수와 같은 어미","속격과 같은 형태","여격과 같은 형태"], ans:"주격과 대격이 같은 형태" }
+  },
+  { dict:"ἱερόν",     meaning:"성전",  gender:"중성",
+    forms:[
+      {form:"ἱερόν",   end:"όν",  case:"주격", number:"단수", tr:"성전이"},
+      {form:"ἱεροῦ",   end:"οῦ",  case:"속격", number:"단수", tr:"성전의"},
+      {form:"ἱερῷ",    end:"ῷ",   case:"여격", number:"단수", tr:"성전에"},
+      {form:"ἱερόν",   end:"όν",  case:"대격", number:"단수", tr:"성전을"},
+      {form:"ἱερά",    end:"ά",   case:"주격", number:"복수", tr:"성전들이"},
+      {form:"ἱερῶν",   end:"ῶν",  case:"속격", number:"복수", tr:"성전들의"},
+      {form:"ἱεροῖς",  end:"οῖς", case:"여격", number:"복수", tr:"성전들에"},
+      {form:"ἱερά",    end:"ά",   case:"대격", number:"복수", tr:"성전들을"}
+    ],
+    s2q:{ q:"중성 명사의 주격과 대격의 관계는?",
+          opts:["항상 같은 형태","항상 다른 형태","단수만 같음","복수만 같음"], ans:"항상 같은 형태" }
+  },
+  { dict:"εὐαγγέλιον",meaning:"복음",  gender:"중성",
+    forms:[
+      {form:"εὐαγγέλιον", end:"ον",  case:"주격", number:"단수", tr:"복음이"},
+      {form:"εὐαγγελίου", end:"ου",  case:"속격", number:"단수", tr:"복음의"},
+      {form:"εὐαγγελίῳ",  end:"ῳ",   case:"여격", number:"단수", tr:"복음에"},
+      {form:"εὐαγγέλιον", end:"ον",  case:"대격", number:"단수", tr:"복음을"},
+      {form:"εὐαγγέλια",  end:"α",   case:"주격", number:"복수", tr:"복음들이"},
+      {form:"εὐαγγελίων", end:"ων",  case:"속격", number:"복수", tr:"복음들의"},
+      {form:"εὐαγγελίοις",end:"οις", case:"여격", number:"복수", tr:"복음들에"},
+      {form:"εὐαγγέλια",  end:"α",   case:"대격", number:"복수", tr:"복음들을"}
+    ],
+    s2q:{ q:"속격 단수 어미(-ου)가 뜻하는 것은?",
+          opts:["소유·~의","주어·~이/가","목적어·~을","간접목적어·~에게"], ans:"소유·~의" }
+  }
+];
+
+// ── 퀴즈 엔진 ─────────────────────────────────────────────────
 function shuffle(arr) {
   const a = arr.slice();
   for (let i = a.length-1; i > 0; i--) {
@@ -558,10 +923,7 @@ function startQuestionTimer(correctVal, q) {
 }
 
 function scheduleNext() {
-  moveTimer = setTimeout(() => {
-    moveTimer = null;
-    advanceOrEnd();
-  }, 1000);
+  moveTimer = setTimeout(() => { moveTimer = null; advanceOrEnd(); }, 1000);
 }
 
 function advanceOrEnd() {
@@ -698,6 +1060,299 @@ menuBtn.addEventListener('click', () => {
 retryBtn.addEventListener('click', () => {
   if (savedConfig) launchQuiz(savedConfig);
 });
+
+// ── 레슨 엔진 ──────────────────────────────────────────────────
+const lessonScreen  = document.getElementById('lessonScreen');
+const lessonContent = document.getElementById('lessonContent');
+const lessonBackBtn = document.getElementById('lessonBackBtn');
+
+// 레슨 상태
+let lessonItems  = [];   // [{type:'verb'|'noun', data:paradigm}]
+let lessonIdx    = 0;    // 현재 아이템 인덱스
+let lessonStage  = 0;    // 0=선택화면, 1=관찰, 2=이해
+let s2Answered   = false;
+
+// 동사+명사 합친 레슨 목록 구성
+function buildLessonItems() {
+  lessonItems = [];
+  verbParadigms.forEach(v => lessonItems.push({ type: 'verb', data: v }));
+  nounParadigms.forEach(n => lessonItems.push({ type: 'noun', data: n }));
+}
+
+// ── 화면 전환 헬퍼
+function showLessonScreen() {
+  menuScreen.style.display = 'none';
+  quizScreen.style.display = 'none';
+  lessonScreen.style.display = 'block';
+  window.scrollTo(0, 0);
+}
+function goBackToMenu() {
+  lessonScreen.style.display = 'none';
+  menuScreen.style.display = 'block';
+  window.scrollTo(0, 0);
+}
+lessonBackBtn.addEventListener('click', () => {
+  if (lessonStage === 0) { goBackToMenu(); }
+  else { lessonStage = 0; renderLessonSelect(); }
+});
+
+// ── 레슨 메뉴 버튼
+document.getElementById('lessonMenuBtn').addEventListener('click', () => {
+  buildLessonItems();
+  lessonStage = 0;
+  showLessonScreen();
+  renderLessonSelect();
+});
+
+// ── 어미 강조 HTML 생성 (form 끝 end 길이만큼을 파란색으로)
+function formWithHi(form, end) {
+  const rootLen = form.length - end.length;
+  const root = form.slice(0, rootLen);
+  return root + '<span class="end-hi">' + end + '</span>';
+}
+
+// ── 단계 진행바 HTML
+function stagePips(current) {
+  // 1~2단계만 표시 (나머지는 준비중)
+  let html = '<div class="stage-pip-row">';
+  for (let i = 1; i <= 7; i++) {
+    let cls = 'stage-pip';
+    if (i < current) cls += ' done';
+    else if (i === current) cls += ' active';
+    html += '<div class="' + cls + '" title="' + i + '단계"></div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+// ── 레슨 선택 화면 렌더
+function renderLessonSelect() {
+  lessonBackBtn.textContent = '← 메뉴';
+  let html = '';
+  html += '<button class="lesson-btn primary" style="margin-bottom:18px" data-action="start-seq">처음부터 순서대로 시작</button>';
+  html += '<div class="ls-section">동사 (8개)</div>';
+  verbParadigms.forEach((v, i) => {
+    html += '<div class="ls-item" data-action="start-item" data-idx="' + i + '">'
+      + '<span class="ls-dict">' + v.dict + '</span>'
+      + '<span class="ls-meaning">' + v.meaning + '</span>'
+      + '<span class="ls-arrow">›</span></div>';
+  });
+  html += '<div class="ls-section">명사 (11개)</div>';
+  nounParadigms.forEach((n, i) => {
+    html += '<div class="ls-item" data-action="start-item" data-idx="' + (verbParadigms.length + i) + '">'
+      + '<span class="ls-dict">' + n.dict + '</span>'
+      + '<span class="ls-meaning">' + n.meaning + ' (' + n.gender + ')</span>'
+      + '<span class="ls-arrow">›</span></div>';
+  });
+  lessonContent.innerHTML = html;
+}
+
+// ── 이벤트 위임 (lessonContent 전체)
+lessonContent.addEventListener('click', function(e) {
+  const el = e.target.closest('[data-action]');
+  if (!el) return;
+  const action = el.dataset.action;
+
+  if (action === 'start-seq') {
+    lessonIdx = 0; startLesson();
+  } else if (action === 'start-item') {
+    lessonIdx = parseInt(el.dataset.idx); startLesson();
+  } else if (action === 'to-stage2') {
+    lessonStage = 2; s2Answered = false; renderStage2();
+  } else if (action === 's2-opt') {
+    if (s2Answered) return;
+    const chosen = el.dataset.val;
+    const item   = lessonItems[lessonIdx];
+    const q      = item.data.s2q;
+    s2Answered   = true;
+    // 모든 버튼 비활성화
+    lessonContent.querySelectorAll('[data-action="s2-opt"]').forEach(b => {
+      b.disabled = true;
+      if (b.dataset.val === q.ans) b.classList.add('correct');
+      else if (b.dataset.val === chosen && chosen !== q.ans) b.classList.add('wrong');
+    });
+    // 결과 피드백 + 다음 버튼 표시
+    const fb = document.getElementById('s2Feedback');
+    if (chosen === q.ans) {
+      fb.innerHTML = '<p style="color:#2e9e4f;font-weight:700;margin:0">정답입니다!</p>';
+    } else {
+      fb.innerHTML = '<p style="color:#d64545;font-weight:700;margin:0">오답. 정답: ' + q.ans + '</p>';
+    }
+    document.getElementById('s2DoneBtn').style.display = 'block';
+  } else if (action === 's2-done') {
+    renderLessonDone();
+  } else if (action === 'next-lesson') {
+    if (lessonIdx < lessonItems.length - 1) {
+      lessonIdx++; startLesson();
+    } else {
+      lessonIdx = 0; lessonStage = 0; renderLessonSelect();
+    }
+  } else if (action === 'back-select') {
+    lessonStage = 0; renderLessonSelect();
+  }
+});
+
+function startLesson() {
+  lessonStage = 1;
+  lessonBackBtn.textContent = '← 목록';
+  renderStage1();
+}
+
+// ── STAGE 1: 관찰 ──────────────────────────────────────────
+function renderStage1() {
+  const item = lessonItems[lessonIdx];
+  const d    = item.data;
+  const isVerb = item.type === 'verb';
+
+  // 관찰용 폼 3개 선택
+  let obsForms;
+  if (isVerb) {
+    // 1sg / 2sg / 1pl  → 어미 변화가 잘 보임
+    obsForms = [d.forms[0], d.forms[1], d.forms[3]];
+  } else {
+    // 주격sg / 속격sg / 대격sg  → 격 어미 변화
+    obsForms = [d.forms[0], d.forms[1], d.forms[3]];
+  }
+
+  let obsHtml = '<div class="obs-row">';
+  obsForms.forEach(f => {
+    const label = isVerb
+      ? f.person + '인칭 ' + f.number
+      : f.case + ' ' + f.number;
+    obsHtml += '<div class="obs-item">'
+      + '<div class="obs-form">' + formWithHi(f.form, f.end) + '</div>'
+      + '<div class="obs-label">' + label + '</div>'
+      + '</div>';
+  });
+  obsHtml += '</div>';
+
+  let hint = isVerb
+    ? '파란색 부분이 <strong>인칭 어미</strong>예요. 형태마다 어떻게 달라지는지 살펴보세요.'
+    : '파란색 부분이 <strong>격 어미</strong>예요. 격마다 어떻게 달라지는지 살펴보세요.';
+
+  lessonContent.innerHTML =
+    stagePips(1)
+    + '<p style="text-align:center;font-size:13px;color:#888;margin:0 0 4px">1단계 · 관찰</p>'
+    + '<p style="text-align:center;font-size:20px;font-weight:700;margin:0 0 18px">'
+      + d.dict + ' <span style="font-size:14px;color:#888;font-weight:400">— ' + d.meaning + '</span></p>'
+    + '<div class="lesson-card">'
+      + '<div class="lesson-card-title">형태 비교</div>'
+      + obsHtml
+      + '<p style="font-size:13px;color:#666;margin:14px 0 0;line-height:1.6">' + hint + '</p>'
+    + '</div>'
+    + '<button class="lesson-btn primary" data-action="to-stage2">알아챘어요 →</button>';
+}
+
+// ── STAGE 2: 이해 ──────────────────────────────────────────
+function renderStage2() {
+  const item   = lessonItems[lessonIdx];
+  const d      = item.data;
+  const isVerb = item.type === 'verb';
+
+  // 변화표 HTML
+  let tableHtml = '<div class="paradigm-wrap"><table class="paradigm-table">';
+  if (isVerb) {
+    tableHtml += '<tr><th>인칭·수</th><th>형태</th><th>직역</th></tr>';
+    d.forms.forEach(f => {
+      tableHtml += '<tr>'
+        + '<td>' + f.person + '인칭 ' + f.number + '</td>'
+        + '<td class="p-form">' + formWithHi(f.form, f.end) + '</td>'
+        + '<td class="p-tr">' + f.tr + '</td>'
+        + '</tr>';
+    });
+  } else {
+    tableHtml += '<tr><th>격</th><th>단수</th><th>복수</th></tr>';
+    const cases = ['주격','속격','여격','대격'];
+    cases.forEach(c => {
+      const sg = d.forms.find(f => f.case === c && f.number === '단수');
+      const pl = d.forms.find(f => f.case === c && f.number === '복수');
+      tableHtml += '<tr>'
+        + '<td style="font-weight:600;color:#555">' + c + '</td>'
+        + '<td class="p-form">' + formWithHi(sg.form, sg.end) + '</td>'
+        + '<td class="p-form">' + formWithHi(pl.form, pl.end) + '</td>'
+        + '</tr>';
+    });
+  }
+  tableHtml += '</table></div>';
+
+  // 설명 문단
+  let expHtml;
+  if (isVerb) {
+    const root = d.forms[0].form.slice(0, d.forms[0].form.length - d.forms[0].end.length);
+    expHtml = '<p class="exp-text">'
+      + '이 동사의 어근은 <span class="exp-em">' + root + '-</span>이에요. '
+      + '어근 뒤에 붙는 <span class="exp-em">어미</span>가 인칭과 수를 나타내요.<br><br>'
+      + '단수 어미: <span class="exp-em">-ω</span>(1인칭) / <span class="exp-em">-εις</span>(2인칭) / <span class="exp-em">-ει</span>(3인칭)<br>'
+      + '복수 어미: <span class="exp-em">-ομεν</span>(1인칭) / <span class="exp-em">-ετε</span>(2인칭) / <span class="exp-em">-ουσι</span>(3인칭)<br><br>'
+      + '복수 어미는 단수 어미와 완전히 다른 세트예요. 특히 복수 1인칭 <span class="exp-em">-ομεν</span>(우리), 2인칭 <span class="exp-em">-ετε</span>(너희), 3인칭 <span class="exp-em">-ουσι</span>(그들)을 함께 외워두면 좋아요.'
+      + '</p>';
+  } else {
+    const isMasc = d.gender === '남성';
+    const sg0 = d.forms[0];
+    const stem = sg0.form.slice(0, sg0.form.length - sg0.end.length);
+    expHtml = '<p class="exp-text">'
+      + '이 명사의 어간은 <span class="exp-em">' + stem + '-</span>이에요. '
+      + '어간 뒤에 붙는 <span class="exp-em">격 어미</span>가 격과 수를 나타내요. '
+      + '이 명사의 성은 <span class="exp-em">' + d.gender + '</span>으로, 외울 때 성도 함께 외워야 해요.<br><br>';
+    if (isMasc) {
+      expHtml += '단수 어미: <span class="exp-em">-ος</span>(주격) / <span class="exp-em">-ου</span>(속격) / <span class="exp-em">-ῳ</span>(여격) / <span class="exp-em">-ον</span>(대격)<br>'
+        + '복수 어미: <span class="exp-em">-οι</span>(주격) / <span class="exp-em">-ων</span>(속격) / <span class="exp-em">-οις</span>(여격) / <span class="exp-em">-ους</span>(대격)';
+    } else {
+      expHtml += '중성 명사의 단수: <span class="exp-em">-ον</span>(주격=대격) / <span class="exp-em">-ου</span>(속격) / <span class="exp-em">-ῳ</span>(여격)<br>'
+        + '중성 명사의 복수: <span class="exp-em">-α</span>(주격=대격) / <span class="exp-em">-ων</span>(속격) / <span class="exp-em">-οις</span>(여격)<br>'
+        + '<strong>중성 명사는 주격과 대격이 항상 같은 형태</strong>예요. (단수 -ον, 복수 -α)';
+    }
+    expHtml += '</p>';
+  }
+
+  // 확인 문제
+  const q = d.s2q;
+  let optsHtml = '';
+  q.opts.forEach(o => {
+    optsHtml += '<button class="s2-opt" data-action="s2-opt" data-val="' + o + '">' + o + '</button>';
+  });
+
+  lessonContent.innerHTML =
+    stagePips(2)
+    + '<p style="text-align:center;font-size:13px;color:#888;margin:0 0 4px">2단계 · 이해</p>'
+    + '<p style="text-align:center;font-size:20px;font-weight:700;margin:0 0 18px">'
+      + d.dict + ' <span style="font-size:14px;color:#888;font-weight:400">— ' + d.meaning + '</span></p>'
+
+    + '<div class="lesson-card">'
+      + '<div class="lesson-card-title">' + (isVerb ? '현재 능동 직설법 변화표' : '2격 변화 (' + d.gender + ')') + '</div>'
+      + tableHtml
+    + '</div>'
+
+    + '<div class="lesson-card">'
+      + '<div class="lesson-card-title">설명</div>'
+      + expHtml
+    + '</div>'
+
+    + '<div class="lesson-card">'
+      + '<div class="lesson-card-title">확인 문제</div>'
+      + '<p class="s2-q-text">' + q.q + '</p>'
+      + '<div class="s2-opts">' + optsHtml + '</div>'
+      + '<div id="s2Feedback" style="margin-top:10px"></div>'
+      + '<button id="s2DoneBtn" class="lesson-btn success" data-action="s2-done" style="display:none;margin-top:14px">2단계 완료 →</button>'
+    + '</div>';
+}
+
+// ── 레슨 완료 (2단계까지 구현) ─────────────────────────────
+function renderLessonDone() {
+  const item = lessonItems[lessonIdx];
+  const d    = item.data;
+  const hasNext = lessonIdx < lessonItems.length - 1;
+
+  lessonContent.innerHTML =
+    '<div class="lesson-done-card">'
+    + '<div class="lesson-done-icon">✅</div>'
+    + '<div class="lesson-done-title">' + d.dict + ' — 레슨 2/7단계 완료!</div>'
+    + '<p class="lesson-done-sub">관찰(1단계)과 이해(2단계)를 마쳤어요.<br>따라하기·회상·누적·실제분석·암기 단계는<br>곧 추가될 예정이에요.</p>'
+    + '</div>'
+    + (hasNext
+        ? '<button class="lesson-btn primary" data-action="next-lesson" style="margin-top:14px">다음 레슨 →</button>'
+        : '<button class="lesson-btn primary" data-action="back-select" style="margin-top:14px">목록으로 돌아가기</button>');
+}
 </script>
 </body>
 </html>
