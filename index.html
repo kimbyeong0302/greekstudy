@@ -336,6 +336,20 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   color: #2e6ed6; background: #eaf1fd;
   border-radius: 4px; padding: 0 3px;
 }
+
+/* ── 7단계 스타일 ─────────────────────────────────────── */
+.s7-cond {
+  text-align: center; font-size: 22px; font-weight: 700;
+  color: #2e6ed6; margin: 8px 0 14px;
+}
+.s7-input {
+  width: 100%; padding: 14px 16px; font-size: 20px; font-weight: 700;
+  border: 2px solid #ddd; border-radius: 10px; background: #fff;
+  text-align: center; outline: none; font-family: inherit;
+  letter-spacing: .5px; box-sizing: border-box;
+}
+.s7-input:focus { border-color: #2e6ed6; }
+.s7-input:disabled { background: #f5f5f5; color: #888; }
 </style>
 </head>
 <body>
@@ -436,7 +450,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-11-3";
+const APP_VERSION = "2026-09-11-4";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -455,6 +469,7 @@ const updates = [
   { date: "2026-09-11", text: "레슨 모드 5·6단계 추가 (누적적용·실제분석)" },
   { date: "2026-09-11", text: "레슨 모드 3·4단계 추가 (따라하기·회상)" },
   { date: "2026-09-11", text: "레슨 모드 추가 (관찰·이해 2단계, 동사 8개·명사 11개)" },
+  { date: "2026-09-10", text: "7단계 레슨 모드 완성 (전체 동사/명사)" },
   { date: "2026-09-10", text: "2주차 단어 17개 추가" },
   { date: "2026-09-09", text: "업데이트 알림 기능 추가 (종 아이콘, 읽음 처리)" },
   { date: "2026-09-09", text: "1주차 단어 4개 추가 (Χριστός, Θεός, Υἱός, Σωτήρ)" },
@@ -1229,6 +1244,10 @@ let s6TargetWord = null;
 let s6Fields     = null;
 let s6UserAns    = {};
 let s6Submitted  = false;
+// 7단계 상태
+let s7Forms     = [];
+let s7Idx       = 0;
+let s7Submitted = false;
 
 // 동사+명사 합친 레슨 목록 구성
 function buildLessonItems() {
@@ -1501,7 +1520,44 @@ lessonContent.addEventListener('click', function(e) {
     document.getElementById('s6Translation').hidden = false;
 
   } else if (action === 's6-next') {
-    renderLessonDone();
+    renderStage7();
+
+  } else if (action === 's7-submit') {
+    if (s7Submitted) return;
+    s7Submitted = true;
+    const item  = lessonItems[lessonIdx];
+    const isVerb = item.type === 'verb';
+    const frm   = s7Forms[s7Idx];
+    const inp   = document.getElementById('s7Input');
+    const typed = inp ? inp.value : '';
+    const isCorrect = normalizeGreek(typed) === normalizeGreek(frm.form);
+    const condition = isVerb
+      ? frm.person + '인칭 ' + frm.number
+      : frm.case + ' ' + frm.number;
+    const expln = '어미 -' + frm.end + '는 ' + condition + '를 나타내요.';
+    const fb = document.getElementById('s7Feedback');
+    if (isCorrect) {
+      fb.innerHTML = '<p style="color:#2e9e4f;font-weight:700;margin:0">정답! ✓</p>';
+      if (inp) inp.style.borderColor = '#2e9e4f';
+    } else {
+      fb.innerHTML = '<div class="s4-err-item">'
+        + '<span class="s4-err-label">[오답]</span> '
+        + '내가 입력한 답: <span class="s4-wrong-txt">' + (typed || '(없음)') + '</span>'
+        + ' → 정답: <span class="s4-right-txt">' + frm.form + '</span>'
+        + '<div class="s4-expln">' + expln + '</div></div>';
+      if (inp) inp.style.borderColor = '#d64545';
+    }
+    if (inp) inp.disabled = true;
+    document.getElementById('s7SubmitBtn').style.display = 'none';
+    document.getElementById('s7NextBtn').style.display = 'block';
+
+  } else if (action === 's7-next') {
+    s7Idx++;
+    if (s7Idx < s7Forms.length) renderS7Form();
+    else renderLessonDone();
+
+  } else if (action === 'all-done') {
+    renderAllDone();
   }
 });
 
@@ -2016,21 +2072,97 @@ function renderStage6() {
   lessonContent.innerHTML = html;
 }
 
+// ── 그리스어 정규화 (악센트·대소문자 무시) ─────────────────
+function normalizeGreek(str) {
+  return (str || '').normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/ς/g, 'σ')
+    .toLowerCase()
+    .trim();
+}
+
+// ── STAGE 7: 암기 ─────────────────────────────────────────
+function renderStage7() {
+  lessonStage = 7;
+  s7Forms = shuffle([...lessonItems[lessonIdx].data.forms]);
+  s7Idx   = 0;
+  renderS7Form();
+}
+
+function renderS7Form() {
+  s7Submitted = false;
+  const item   = lessonItems[lessonIdx];
+  const d      = item.data;
+  const isVerb = item.type === 'verb';
+  const frm    = s7Forms[s7Idx];
+  const isLast = s7Idx === s7Forms.length - 1;
+
+  const condition = isVerb
+    ? frm.person + '인칭 ' + frm.number
+    : frm.case + ' ' + frm.number;
+
+  const html = stagePips(7)
+    + '<p style="text-align:center;font-size:13px;color:#888;margin:0 0 4px">7단계 · 암기</p>'
+    + '<p style="text-align:center;font-size:20px;font-weight:700;margin:0 0 18px">'
+      + d.dict + ' <span style="font-size:14px;color:#888;font-weight:400">— ' + d.meaning + '</span></p>'
+    + '<div class="lesson-card">'
+      + '<div class="lesson-card-title" style="display:flex;justify-content:space-between">'
+        + '<span>형태 입력</span>'
+        + '<span style="font-weight:400;color:#aaa">' + (s7Idx + 1) + ' / ' + s7Forms.length + '</span>'
+        + '</div>'
+      + '<p class="s7-cond">' + condition + '</p>'
+      + '<input id="s7Input" class="s7-input" type="text" placeholder="헬라어 형태 입력..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">'
+      + '<div id="s7Feedback" style="margin-top:10px"></div>'
+      + '<button class="lesson-btn primary" id="s7SubmitBtn" data-action="s7-submit" style="margin-top:14px">확인</button>'
+      + '<button class="lesson-btn success" id="s7NextBtn" data-action="s7-next" style="display:none;margin-top:8px">'
+        + (isLast ? '레슨 완료 →' : '다음 →')
+        + '</button>'
+    + '</div>';
+
+  lessonContent.innerHTML = html;
+
+  const inp = document.getElementById('s7Input');
+  if (inp) {
+    inp.focus();
+    inp.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !s7Submitted) {
+        const sb = document.getElementById('s7SubmitBtn');
+        if (sb) sb.click();
+      }
+    });
+  }
+}
+
 // ── 레슨 완료 ─────────────────────────────────────────────
 function renderLessonDone() {
-  const item = lessonItems[lessonIdx];
-  const d    = item.data;
+  const item    = lessonItems[lessonIdx];
+  const d       = item.data;
   const hasNext = lessonIdx < lessonItems.length - 1;
+  const nextItem = hasNext ? lessonItems[lessonIdx + 1] : null;
+  const nextLabel = nextItem
+    ? '다음 ' + (nextItem.type === 'verb' ? '동사' : '명사') + ' (' + nextItem.data.dict + ') →'
+    : '';
 
   lessonContent.innerHTML =
     '<div class="lesson-done-card">'
     + '<div class="lesson-done-icon">✅</div>'
-    + '<div class="lesson-done-title">' + d.dict + ' — 레슨 6/7단계 완료!</div>'
-    + '<p class="lesson-done-sub">관찰·이해·따라하기·회상·누적적용·실제분석을 마쳤어요!<br>암기 단계는 곧 추가될 예정이에요.</p>'
+    + '<div class="lesson-done-title">' + d.dict + ' — 7/7단계 완료!</div>'
+    + '<p class="lesson-done-sub">관찰·이해·따라하기·회상·누적적용·실제분석·암기<br>모든 단계를 마쳤어요!</p>'
     + '</div>'
     + (hasNext
-        ? '<button class="lesson-btn primary" data-action="next-lesson" style="margin-top:14px">다음 레슨 →</button>'
-        : '<button class="lesson-btn primary" data-action="back-select" style="margin-top:14px">목록으로 돌아가기</button>');
+        ? '<button class="lesson-btn primary" data-action="next-lesson" style="margin-top:14px">' + nextLabel + '</button>'
+        : '<button class="lesson-btn success" data-action="all-done" style="margin-top:14px">모든 레슨 완료 →</button>');
+}
+
+// ── 전체 완료 화면 ─────────────────────────────────────────
+function renderAllDone() {
+  lessonContent.innerHTML =
+    '<div class="lesson-done-card">'
+    + '<div class="lesson-done-icon">🎉</div>'
+    + '<div class="lesson-done-title">모든 레슨 완료!</div>'
+    + '<p class="lesson-done-sub">동사 8개 · 명사 11개<br>7단계 과정을 전부 마쳤어요.<br>정말 대단해요!</p>'
+    + '</div>'
+    + '<button class="lesson-btn primary" data-action="back-select" style="margin-top:14px">목록으로 돌아가기</button>';
 }
 </script>
 </body>
