@@ -268,7 +268,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
 // 업데이트할 때마다 이 값을 바꿔줘 (예: "2026-09-09-2", "2026-09-10-1")
-const APP_VERSION = "2026-09-09-1";
+const APP_VERSION = "2026-09-10-1";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -283,6 +283,7 @@ const VER_KEY = 'appVersion';
 })();
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-09-10", text: "2주차 단어 17개 추가" },
   { date: "2026-09-09", text: "업데이트 알림 기능 추가 (종 아이콘, 읽음 처리)" },
   { date: "2026-09-09", text: "1주차 단어 4개 추가 (Χριστός, Θεός, Υἱός, Σωτήρ)" },
   { date: "2026-09-08", text: "연습/테스트 모드 추가 및 정답 선택 시 자동으로 다음 문제로 이동" }
@@ -394,7 +395,25 @@ const words = [
   {gr:"Χριστός",     kr:"크리스토스",      en:"Christ, Messiah, Anointed One", ko:"그리스도, 메시아", week:1},
   {gr:"Θεός",        kr:"데오스",          en:"God",                ko:"하나님",          week:1},
   {gr:"Υἱός",        kr:"휘오스",          en:"Son",                ko:"아들",            week:1},
-  {gr:"Σωτήρ",       kr:"소테르",          en:"Savior",             ko:"구원자",          week:1}
+  {gr:"Σωτήρ",       kr:"소테르",          en:"Savior",             ko:"구원자",          week:1},
+  // ── 2주차 ──────────────────────────────────────────────────
+  {gr:"ἄνθρωπος",   kr:"안트로포스",      en:"man, person",        ko:"사람, 인간",      week:2},
+  {gr:"ἀπόστολος",  kr:"아포스톨로스",    en:"apostle",            ko:"사도",            week:2},
+  {gr:"δοῦλος",     kr:"둘로스",          en:"slave, servant",     ko:"종, 노예",        week:2},
+  {gr:"δῶρον",      kr:"도론",            en:"gift",               ko:"선물",            week:2},
+  {gr:"θάνατος",    kr:"다나토스",        en:"death",              ko:"죽음",            week:2},
+  {gr:"ἱερόν",      kr:"히에론",          en:"temple",             ko:"성전",            week:2},
+  {gr:"καί",        kr:"카이",            en:"and",                ko:"그리고",          week:2},
+  {gr:"λόγος",      kr:"로고스",          en:"word",               ko:"말씀",            week:2},
+  {gr:"οἶκος",      kr:"오이코스",        en:"house",              ko:"집",              week:2},
+  {gr:"βλέπω",      kr:"블레포",          en:"I see",              ko:"나는 본다",       week:2},
+  {gr:"γινώσκω",    kr:"기노스코",        en:"I know",             ko:"나는 안다",       week:2},
+  {gr:"γράφω",      kr:"그라포",          en:"I write",            ko:"나는 쓴다",       week:2},
+  {gr:"διδάσκω",    kr:"디다스코",        en:"I teach",            ko:"나는 가르친다",   week:2},
+  {gr:"λαμβάνω",    kr:"람바노",          en:"I take",             ko:"나는 취한다",     week:2},
+  {gr:"λέγω",       kr:"레고",            en:"I say",              ko:"나는 말한다",     week:2},
+  {gr:"λύω",        kr:"루오",            en:"I loose, I destroy", ko:"나는 푼다, 파괴한다", week:2},
+  {gr:"ἔχω",        kr:"에코",            en:"I have",             ko:"나는 가진다",     week:2}
 ];
 
 function shuffle(arr) {
