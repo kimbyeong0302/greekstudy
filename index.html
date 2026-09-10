@@ -326,6 +326,16 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 .s4-wrong-txt { color: #d64545; font-weight: 700; }
 .s4-right-txt { color: #2e9e4f; font-weight: 700; }
 .s4-expln { font-size: 12px; color: #777; margin-top: 3px; }
+
+/* ── 5/6단계 스타일 ─────────────────────────────────────── */
+.s6-sentence {
+  font-size: 20px; font-weight: 700; text-align: center;
+  margin: 4px 0 0; letter-spacing: .5px; line-height: 1.5;
+}
+.s6-target-word {
+  color: #2e6ed6; background: #eaf1fd;
+  border-radius: 4px; padding: 0 3px;
+}
 </style>
 </head>
 <body>
@@ -426,7 +436,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-11-2";
+const APP_VERSION = "2026-09-11-3";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -442,6 +452,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-09-11", text: "레슨 모드 5·6단계 추가 (누적적용·실제분석)" },
   { date: "2026-09-11", text: "레슨 모드 3·4단계 추가 (따라하기·회상)" },
   { date: "2026-09-11", text: "레슨 모드 추가 (관찰·이해 2단계, 동사 8개·명사 11개)" },
   { date: "2026-09-10", text: "2주차 단어 17개 추가" },
@@ -816,6 +827,100 @@ const nounParadigms = [
   }
 ];
 
+// ── 4과 문장 데이터 (6단계용) ──────────────────────────────
+// words 배열: {dict, form, type, role} + 동사: {person, number} / 명사: {case, number}
+const sentences = [
+  { gr:'ὁ ἀπόστολος λέγει τὸν λόγον.',  ko:'사도가 말씀을 말한다.',
+    words:[ {dict:'ἀπόστολος',form:'ἀπόστολος',type:'noun',case:'주격',number:'단수',role:'주어'},
+            {dict:'λέγω',      form:'λέγει',      type:'verb',person:3,number:'단수',role:'서술어'},
+            {dict:'λόγος',     form:'λόγον',       type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'βλέπομεν τὸν ἄνθρωπον.',         ko:'우리가 사람을 본다.',
+    words:[ {dict:'βλέπω',     form:'βλέπομεν',   type:'verb',person:1,number:'복수',role:'서술어'},
+            {dict:'ἄνθρωπος',  form:'ἄνθρωπον',   type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'γράφει ὁ ἀπόστολος τὸ εὐαγγέλιον.', ko:'사도가 복음을 쓴다.',
+    words:[ {dict:'γράφω',     form:'γράφει',      type:'verb',person:3,number:'단수',role:'서술어'},
+            {dict:'ἀπόστολος', form:'ἀπόστολος',   type:'noun',case:'주격',number:'단수',role:'주어'},
+            {dict:'εὐαγγέλιον',form:'εὐαγγέλιον',  type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'γινώσκω τὸν νόμον.',             ko:'나는 율법을 안다.',
+    words:[ {dict:'γινώσκω',   form:'γινώσκω',     type:'verb',person:1,number:'단수',role:'서술어'},
+            {dict:'νόμος',     form:'νόμον',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'διδάσκει τοὺς ἀδελφούς.',        ko:'그가 형제들을 가르친다.',
+    words:[ {dict:'διδάσκω',   form:'διδάσκει',     type:'verb',person:3,number:'단수',role:'서술어'},
+            {dict:'ἀδελφός',   form:'ἀδελφούς',     type:'noun',case:'대격',number:'복수',role:'목적어'} ]},
+  { gr:'λαμβάνομεν τὸ δῶρον.',           ko:'우리가 선물을 취한다.',
+    words:[ {dict:'λαμβάνω',   form:'λαμβάνομεν',  type:'verb',person:1,number:'복수',role:'서술어'},
+            {dict:'δῶρον',     form:'δῶρον',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'ἔχει ὁ δοῦλος τὸ ἔργον.',       ko:'종이 일을 가진다.',
+    words:[ {dict:'ἔχω',       form:'ἔχει',         type:'verb',person:3,number:'단수',role:'서술어'},
+            {dict:'δοῦλος',    form:'δοῦλος',       type:'noun',case:'주격',number:'단수',role:'주어'},
+            {dict:'ἔργον',     form:'ἔργον',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'λύει τοὺς δούλους.',             ko:'그가 종들을 푼다.',
+    words:[ {dict:'λύω',       form:'λύει',         type:'verb',person:3,number:'단수',role:'서술어'},
+            {dict:'δοῦλος',    form:'δούλους',      type:'noun',case:'대격',number:'복수',role:'목적어'} ]},
+  { gr:'βλέπεις τὸ ἱερόν.',             ko:'네가 성전을 본다.',
+    words:[ {dict:'βλέπω',     form:'βλέπεις',     type:'verb',person:2,number:'단수',role:'서술어'},
+            {dict:'ἱερόν',     form:'ἱερόν',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'λέγουσι τὸν λόγον.',            ko:'그들이 말씀을 말한다.',
+    words:[ {dict:'λέγω',      form:'λέγουσι',     type:'verb',person:3,number:'복수',role:'서술어'},
+            {dict:'λόγος',     form:'λόγον',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'ἔχομεν τὸ εὐαγγέλιον.',         ko:'우리가 복음을 가진다.',
+    words:[ {dict:'ἔχω',       form:'ἔχομεν',      type:'verb',person:1,number:'복수',role:'서술어'},
+            {dict:'εὐαγγέλιον',form:'εὐαγγέλιον',  type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'γράφεις τῷ ἀδελφῷ.',           ko:'네가 형제에게 쓴다.',
+    words:[ {dict:'γράφω',     form:'γράφεις',     type:'verb',person:2,number:'단수',role:'서술어'},
+            {dict:'ἀδελφός',   form:'ἀδελφῷ',      type:'noun',case:'여격',number:'단수',role:'간접목적어'} ]},
+  { gr:'γινώσκουσι τὸν οἶκον.',         ko:'그들이 집을 안다.',
+    words:[ {dict:'γινώσκω',   form:'γινώσκουσι',  type:'verb',person:3,number:'복수',role:'서술어'},
+            {dict:'οἶκος',     form:'οἶκον',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'λαμβάνει ὁ ἄνθρωπος τὸ δῶρον.',ko:'사람이 선물을 취한다.',
+    words:[ {dict:'λαμβάνω',   form:'λαμβάνει',    type:'verb',person:3,number:'단수',role:'서술어'},
+            {dict:'ἄνθρωπος',  form:'ἄνθρωπος',    type:'noun',case:'주격',number:'단수',role:'주어'},
+            {dict:'δῶρον',     form:'δῶρον',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'διδάσκομεν τοὺς ἀνθρώπους.',   ko:'우리가 사람들을 가르친다.',
+    words:[ {dict:'διδάσκω',   form:'διδάσκομεν',  type:'verb',person:1,number:'복수',role:'서술어'},
+            {dict:'ἄνθρωπος',  form:'ἀνθρώπους',   type:'noun',case:'대격',number:'복수',role:'목적어'} ]},
+  { gr:'ἔχει ὁ ἀπόστολος τὸ ἔργον.',   ko:'사도가 일을 가진다.',
+    words:[ {dict:'ἔχω',       form:'ἔχει',         type:'verb',person:3,number:'단수',role:'서술어'},
+            {dict:'ἀπόστολος', form:'ἀπόστολος',    type:'noun',case:'주격',number:'단수',role:'주어'},
+            {dict:'ἔργον',     form:'ἔργον',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'βλέπει τὸν οἶκον.',             ko:'그가 집을 본다.',
+    words:[ {dict:'βλέπω',     form:'βλέπει',      type:'verb',person:3,number:'단수',role:'서술어'},
+            {dict:'οἶκος',     form:'οἶκον',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'λύετε τοὺς δούλους.',           ko:'너희가 종들을 푼다.',
+    words:[ {dict:'λύω',       form:'λύετε',       type:'verb',person:2,number:'복수',role:'서술어'},
+            {dict:'δοῦλος',    form:'δούλους',      type:'noun',case:'대격',number:'복수',role:'목적어'} ]},
+  { gr:'γινώσκεις τὸν νόμον.',          ko:'네가 율법을 안다.',
+    words:[ {dict:'γινώσκω',   form:'γινώσκεις',   type:'verb',person:2,number:'단수',role:'서술어'},
+            {dict:'νόμος',     form:'νόμον',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'ἔχει ὁ ἀδελφὸς τὸ ἱερόν.',     ko:'형제가 성전을 가진다.',
+    words:[ {dict:'ἔχω',       form:'ἔχει',         type:'verb',person:3,number:'단수',role:'서술어'},
+            {dict:'ἀδελφός',   form:'ἀδελφός',      type:'noun',case:'주격',number:'단수',role:'주어'},
+            {dict:'ἱερόν',     form:'ἱερόν',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]}
+];
+
+// ── 5단계 동사+명사 페어링 (lessonIdx → vI:verbParIdx, vFI:verbFormIdx, nI:nounParIdx, nFI:nounFormIdx)
+const pairings = [
+  {vI:0,vFI:2,nI:3,nFI:3, s5b:'λύει τὸν δοῦλον.',         s5bKo:'그가 종을 푼다.'},         // 0 λύω
+  {vI:1,vFI:2,nI:1,nFI:3, s5b:'βλέπει τὸν ἄνθρωπον.',     s5bKo:'그가 사람을 본다.'},       // 1 βλέπω
+  {vI:2,vFI:2,nI:0,nFI:3, s5b:'γράφει τὸν λόγον.',        s5bKo:'그가 말씀을 쓴다.'},       // 2 γράφω
+  {vI:3,vFI:2,nI:10,nFI:3,s5b:'λέγει τὸ εὐαγγέλιον.',    s5bKo:'그가 복음을 말한다.'},     // 3 λέγω
+  {vI:4,vFI:2,nI:6,nFI:3, s5b:'γινώσκει τὸν νόμον.',      s5bKo:'그가 율법을 안다.'},       // 4 γινώσκω
+  {vI:5,vFI:2,nI:5,nFI:7, s5b:'διδάσκει τοὺς ἀδελφούς.', s5bKo:'그가 형제들을 가르친다.'}, // 5 διδάσκω
+  {vI:6,vFI:2,nI:7,nFI:3, s5b:'λαμβάνει τὸ δῶρον.',      s5bKo:'그가 선물을 취한다.'},     // 6 λαμβάνω
+  {vI:7,vFI:2,nI:8,nFI:3, s5b:'ἔχει τὸ ἔργον.',          s5bKo:'그가 일을 가진다.'},       // 7 ἔχω
+  {vI:2,vFI:2,nI:0,nFI:3, s5b:'γράφει τὸν λόγον.',        s5bKo:'그가 말씀을 쓴다.'},       // 8 λόγος
+  {vI:1,vFI:2,nI:1,nFI:3, s5b:'βλέπει τὸν ἄνθρωπον.',     s5bKo:'그가 사람을 본다.'},       // 9 ἄνθρωπος
+  {vI:3,vFI:2,nI:2,nFI:0, s5b:'ὁ ἀπόστολος λέγει.',      s5bKo:'사도가 말한다.'},          // 10 ἀπόστολος
+  {vI:0,vFI:2,nI:3,nFI:3, s5b:'λύει τὸν δοῦλον.',         s5bKo:'그가 종을 푼다.'},         // 11 δοῦλος
+  {vI:1,vFI:2,nI:4,nFI:3, s5b:'βλέπει τὸν οἶκον.',        s5bKo:'그가 집을 본다.'},         // 12 οἶκος
+  {vI:5,vFI:2,nI:5,nFI:7, s5b:'διδάσκει τοὺς ἀδελφούς.', s5bKo:'그가 형제들을 가르친다.'}, // 13 ἀδελφός
+  {vI:4,vFI:2,nI:6,nFI:3, s5b:'γινώσκει τὸν νόμον.',      s5bKo:'그가 율법을 안다.'},       // 14 νόμος
+  {vI:6,vFI:2,nI:7,nFI:3, s5b:'λαμβάνει τὸ δῶρον.',      s5bKo:'그가 선물을 취한다.'},     // 15 δῶρον
+  {vI:7,vFI:2,nI:8,nFI:3, s5b:'ἔχει τὸ ἔργον.',          s5bKo:'그가 일을 가진다.'},       // 16 ἔργον
+  {vI:1,vFI:2,nI:9,nFI:3, s5b:'βλέπει τὸ ἱερόν.',         s5bKo:'그가 성전을 본다.'},       // 17 ἱερόν
+  {vI:7,vFI:3,nI:10,nFI:3,s5b:'ἔχομεν τὸ εὐαγγέλιον.',  s5bKo:'우리가 복음을 가진다.'}   // 18 εὐαγγέλιον
+];
+
 // ── 퀴즈 엔진 ─────────────────────────────────────────────────
 function shuffle(arr) {
   const a = arr.slice();
@@ -1105,13 +1210,25 @@ const lessonBackBtn = document.getElementById('lessonBackBtn');
 // 레슨 상태
 let lessonItems  = [];   // [{type:'verb'|'noun', data:paradigm}]
 let lessonIdx    = 0;    // 현재 아이템 인덱스
-let lessonStage  = 0;    // 0=선택화면, 1=관찰, 2=이해, 3=따라하기, 4=회상
+let lessonStage  = 0;    // 0=선택화면, 1=관찰, 2=이해, 3=따라하기, 4=회상, 5=누적적용, 6=실제분석
 let s2Answered   = false;
 let s34Sub       = 'a';  // 'a'|'b'|'c'
 let s34Form      = null;
 let s34Fields    = null;
 let s34UserAns   = {};
 let s34Submitted = false;
+// 5단계 상태
+let s5Sub        = 'a';
+let s5VerbFields = null;
+let s5NounFields = null;
+let s5UserAns    = {};
+let s5Submitted  = false;
+// 6단계 상태
+let s6Sentence   = null;
+let s6TargetWord = null;
+let s6Fields     = null;
+let s6UserAns    = {};
+let s6Submitted  = false;
 
 // 동사+명사 합친 레슨 목록 구성
 function buildLessonItems() {
@@ -1288,8 +1405,103 @@ lessonContent.addEventListener('click', function(e) {
       else if (s34Sub === 'b') renderStage3('c');
       else                     renderStage4();
     } else {
-      renderLessonDone();
+      renderStage5('a');
     }
+
+  } else if (action === 's5-select') {
+    if (s5Submitted) return;
+    const key = el.dataset.key, val = el.dataset.val;
+    lessonContent.querySelectorAll('[data-action="s5-select"][data-key="' + key + '"]').forEach(b => b.classList.remove('s34-selected'));
+    el.classList.add('s34-selected');
+    s5UserAns[key] = val;
+    const allAk = [...(s5VerbFields||[]).filter(f=>f.active).map(f=>f.key),
+                   ...(s5NounFields||[]).filter(f=>f.active).map(f=>f.key)];
+    if (allAk.length > 0 && allAk.every(k => s5UserAns[k])) {
+      const sb = document.getElementById('s5SubmitBtn');
+      if (sb) sb.style.display = 'block';
+    }
+
+  } else if (action === 's5-submit') {
+    if (s5Submitted) return;
+    s5Submitted = true;
+    const allFields = [...(s5VerbFields||[]), ...(s5NounFields||[])];
+    const activeKeys = allFields.filter(f=>f.active).map(f=>f.key);
+    let wrong = [];
+    activeKeys.forEach(key => {
+      const field = allFields.find(f => f.key === key);
+      const chosen = s5UserAns[key];
+      lessonContent.querySelectorAll('[data-action="s5-select"][data-key="' + key + '"]').forEach(b => {
+        b.disabled = true;
+        if (b.dataset.val === field.correct) b.classList.add('s34-correct');
+        else if (b.dataset.val === chosen && chosen !== field.correct) b.classList.add('s34-wrong');
+      });
+      if (chosen !== field.correct) wrong.push({ field, chosen });
+    });
+    const fb = document.getElementById('s5Feedback');
+    if (wrong.length === 0) {
+      fb.innerHTML = '<p style="color:#2e9e4f;font-weight:700;margin:0 0 4px">모두 정확해요!</p>';
+    } else {
+      let errHtml = '';
+      wrong.forEach(({ field, chosen }) => {
+        errHtml += '<div class="s4-err-item">'
+          + '<span class="s4-err-label">[' + field.label + ']</span> '
+          + '내가 고른 답: <span class="s4-wrong-txt">' + chosen + '</span>'
+          + ' → 정답: <span class="s4-right-txt">' + field.correct + '</span>'
+          + '<div class="s4-expln">' + field.expln + '</div></div>';
+      });
+      fb.innerHTML = '<div class="s4-errors">' + errHtml + '</div>';
+    }
+    document.getElementById('s5SubmitBtn').style.display = 'none';
+    document.getElementById('s5NextBtn').style.display = 'block';
+
+  } else if (action === 's5-next') {
+    if (s5Sub === 'a') renderStage5('b');
+    else renderStage6();
+
+  } else if (action === 's6-select') {
+    if (s6Submitted) return;
+    const key = el.dataset.key, val = el.dataset.val;
+    lessonContent.querySelectorAll('[data-action="s6-select"][data-key="' + key + '"]').forEach(b => b.classList.remove('s34-selected'));
+    el.classList.add('s34-selected');
+    s6UserAns[key] = val;
+    if (s6Fields && s6Fields.every(f => s6UserAns[f.key])) {
+      const sb = document.getElementById('s6SubmitBtn');
+      if (sb) sb.style.display = 'block';
+    }
+
+  } else if (action === 's6-submit') {
+    if (s6Submitted) return;
+    s6Submitted = true;
+    let wrong = [];
+    (s6Fields||[]).forEach(field => {
+      const chosen = s6UserAns[field.key];
+      lessonContent.querySelectorAll('[data-action="s6-select"][data-key="' + field.key + '"]').forEach(b => {
+        b.disabled = true;
+        if (b.dataset.val === field.correct) b.classList.add('s34-correct');
+        else if (b.dataset.val === chosen && chosen !== field.correct) b.classList.add('s34-wrong');
+      });
+      if (chosen !== field.correct) wrong.push({ field, chosen });
+    });
+    const fb = document.getElementById('s6Feedback');
+    if (wrong.length === 0) {
+      fb.innerHTML = '<p style="color:#2e9e4f;font-weight:700;margin:0 0 4px">모두 정확해요!</p>';
+    } else {
+      let errHtml = '';
+      wrong.forEach(({ field, chosen }) => {
+        errHtml += '<div class="s4-err-item">'
+          + '<span class="s4-err-label">[' + field.label + ']</span> '
+          + '내가 고른 답: <span class="s4-wrong-txt">' + chosen + '</span>'
+          + ' → 정답: <span class="s4-right-txt">' + field.correct + '</span>'
+          + '<div class="s4-expln">' + field.expln + '</div></div>';
+      });
+      fb.innerHTML = '<div class="s4-errors">' + errHtml + '</div>';
+    }
+    document.getElementById('s6SubmitBtn').style.display = 'none';
+    document.getElementById('s6NextBtn').style.display = 'block';
+    document.getElementById('s6Translation').hidden = false;
+
+  } else if (action === 's6-next') {
+    renderLessonDone();
   }
 });
 
@@ -1606,7 +1818,205 @@ function renderStage4() {
   lessonContent.innerHTML = html;
 }
 
-// ── 레슨 완료 (4단계까지 구현) ─────────────────────────────
+// ── STAGE 5 헬퍼 ──────────────────────────────────────────
+function buildS5VerbFields(par, frm, sub) {
+  const trWrong = [...new Set(par.forms.map(f => f.tr).filter(t => t !== frm.tr))];
+  const trOpts  = shuffle([...shuffle(trWrong).slice(0,3), frm.tr]);
+  const fields  = [
+    { key:'v_tense', label:'시제', correct:par.tense, opts:shuffle(['현재','미완료','부정과거']),   expln:'이 동사는 현재 시제예요.', active:false },
+    { key:'v_voice', label:'태',   correct:par.voice, opts:shuffle(['능동','중동','수동']),         expln:'능동태는 주어가 직접 행동하는 형태예요.', active:false },
+    { key:'v_mood',  label:'법',   correct:par.mood,  opts:shuffle(['직설법','가정법','명령법']),   expln:'직설법은 실제 사실을 서술하는 법이에요.', active:false },
+    { key:'v_person',label:'인칭', correct:frm.person+'인칭', opts:shuffle(['1인칭','2인칭','3인칭']), expln:'어미 -'+frm.end+'는 '+frm.person+'인칭을 나타내요.', active:true },
+    { key:'v_number',label:'수',   correct:frm.number, opts:['단수','복수'], expln:'어미 -'+frm.end+'는 '+frm.number+'를 나타내요.', active:true },
+    { key:'v_tr',    label:'직역', correct:frm.tr,    opts:trOpts, expln:'이 형태('+frm.form+')의 의미는 "'+frm.tr+'"이에요.', active:false }
+  ];
+  if (sub === 'b') fields.push({ key:'v_role', label:'문장역할', correct:'서술어', opts:shuffle(['서술어','주어','목적어','수식어']), expln:'동사는 문장에서 서술어 역할을 해요.', active:true });
+  return fields;
+}
+
+function buildS5NounFields(par, frm, sub) {
+  const trWrong    = [...new Set(par.forms.map(f => f.tr).filter(t => t !== frm.tr))];
+  const trOpts     = shuffle([...shuffle(trWrong).slice(0,3), frm.tr]);
+  const roleCorrect = frm.case === '주격' ? '주어' : frm.case === '대격' ? '목적어' : frm.case === '여격' ? '간접목적어' : '수식어';
+  const roleExpln   = roleCorrect === '주어' ? '주격은 문장에서 주어(~이/가) 역할을 해요.'
+                    : roleCorrect === '목적어' ? '대격은 문장에서 목적어(~을/를) 역할을 해요.'
+                    : roleCorrect === '간접목적어' ? '여격은 간접목적어(~에게) 역할을 해요.'
+                    : '속격은 수식어(소유, ~의) 역할을 해요.';
+  const fields = [
+    { key:'n_gender',label:'성',   correct:par.gender, opts:shuffle(['남성','여성','중성']),          expln:'이 명사는 '+par.gender+'이에요.', active:true },
+    { key:'n_number',label:'수',   correct:frm.number, opts:['단수','복수'], expln:'어미 -'+frm.end+'는 '+frm.number+'를 나타내요.', active:true },
+    { key:'n_case',  label:'격',   correct:frm.case,   opts:shuffle(['주격','속격','여격','대격']),   expln:'어미 -'+frm.end+'는 '+frm.case+' '+frm.number+'를 나타내요.', active:true },
+    { key:'n_tr',    label:'직역', correct:frm.tr,     opts:trOpts, expln:'이 형태('+frm.form+')의 의미는 "'+frm.tr+'"이에요.', active:false }
+  ];
+  if (sub === 'b') fields.push({ key:'n_role', label:'문장역할', correct:roleCorrect, opts:shuffle(['주어','목적어','간접목적어','수식어']), expln:roleExpln, active:true });
+  return fields;
+}
+
+// ── STAGE 5: 누적 적용 ─────────────────────────────────────
+function renderStage5(sub) {
+  lessonStage = 5;
+  s5Sub       = sub;
+  s5UserAns   = {};
+  s5Submitted = false;
+
+  const item    = lessonItems[lessonIdx];
+  const pair    = pairings[lessonIdx];
+  const verbPar = verbParadigms[pair.vI];
+  const verbFrm = verbPar.forms[pair.vFI];
+  const nounPar = nounParadigms[pair.nI];
+  const nounFrm = nounPar.forms[pair.nFI];
+
+  s5VerbFields = buildS5VerbFields(verbPar, verbFrm, sub);
+  s5NounFields = buildS5NounFields(nounPar, nounFrm, sub);
+
+  const subLabel = sub === 'a' ? '동사+명사 묶어보기' : '문장 속 역할 파악';
+
+  function renderFieldGroup(fields, formHtml) {
+    let h = '<div style="text-align:center;font-size:28px;font-weight:700;padding:6px 0 12px">' + formHtml + '</div>';
+    h += '<div class="s34-fields">';
+    fields.forEach(field => {
+      h += '<div class="s34-field"><div class="s34-field-lbl">' + field.label + '</div>';
+      if (field.active) {
+        h += '<div class="s34-opts">';
+        field.opts.forEach(opt => {
+          h += '<button class="s34-opt" data-action="s5-select" data-key="' + field.key + '" data-val="' + opt + '">' + opt + '</button>';
+        });
+        h += '</div>';
+      } else {
+        h += '<div class="s34-given">' + field.correct + '</div>';
+      }
+      h += '</div>';
+    });
+    h += '</div>';
+    return h;
+  }
+
+  let html = stagePips(5)
+    + '<p style="text-align:center;font-size:13px;color:#888;margin:0 0 4px">5단계 · 누적 적용 (' + subLabel + ')</p>'
+    + '<p style="text-align:center;font-size:20px;font-weight:700;margin:0 0 18px">'
+      + item.data.dict + ' <span style="font-size:14px;color:#888;font-weight:400">— ' + item.data.meaning + '</span></p>';
+
+  if (sub === 'b') {
+    html += '<div class="lesson-card">'
+      + '<div class="lesson-card-title">문장</div>'
+      + '<p class="s6-sentence">' + pair.s5b + '</p>'
+      + '<p style="text-align:center;font-size:13px;color:#999;margin:6px 0 0">' + pair.s5bKo + '</p>'
+      + '</div>';
+  }
+
+  html += '<div class="lesson-card">'
+    + '<div class="lesson-card-title">동사 — ' + verbPar.dict + '</div>'
+    + renderFieldGroup(s5VerbFields, formWithHi(verbFrm.form, verbFrm.end))
+    + '</div>'
+    + '<div class="lesson-card">'
+    + '<div class="lesson-card-title">명사 — ' + nounPar.dict + '</div>'
+    + renderFieldGroup(s5NounFields, formWithHi(nounFrm.form, nounFrm.end))
+    + '</div>'
+    + '<div id="s5Feedback" style="margin-top:12px"></div>'
+    + '<button class="lesson-btn primary" id="s5SubmitBtn" data-action="s5-submit" style="display:none;margin-top:14px">확인</button>'
+    + '<button class="lesson-btn success" id="s5NextBtn" data-action="s5-next" style="display:none;margin-top:8px">'
+      + (sub === 'a' ? '5b: 문장 역할 분석으로 →' : '6단계 실제 분석으로 →')
+      + '</button>';
+
+  lessonContent.innerHTML = html;
+}
+
+// ── STAGE 6 헬퍼 ──────────────────────────────────────────
+function buildS6Fields(word) {
+  const fields = [];
+  if (word.type === 'verb') {
+    const par = verbParadigms.find(v => v.dict === word.dict);
+    const frm = par.forms.find(f => f.person === word.person && f.number === word.number);
+    const trWrong = [...new Set(par.forms.map(f => f.tr).filter(t => t !== frm.tr))];
+    const trOpts  = shuffle([...shuffle(trWrong).slice(0,3), frm.tr]);
+    fields.push(
+      { key:'tense', label:'시제', correct:par.tense, opts:shuffle(['현재','미완료','부정과거']),   expln:'이 동사는 현재 시제예요.' },
+      { key:'voice', label:'태',   correct:par.voice, opts:shuffle(['능동','중동','수동']),         expln:'능동태는 주어가 직접 행동하는 형태예요.' },
+      { key:'mood',  label:'법',   correct:par.mood,  opts:shuffle(['직설법','가정법','명령법']),   expln:'직설법은 실제 사실을 서술하는 법이에요.' },
+      { key:'person',label:'인칭', correct:frm.person+'인칭', opts:shuffle(['1인칭','2인칭','3인칭']), expln:'어미 -'+frm.end+'는 '+frm.person+'인칭을 나타내요.' },
+      { key:'number',label:'수',   correct:frm.number, opts:['단수','복수'], expln:'어미 -'+frm.end+'는 '+frm.number+'를 나타내요.' },
+      { key:'tr',    label:'직역', correct:frm.tr, opts:trOpts, expln:'이 형태('+frm.form+')의 의미는 "'+frm.tr+'"이에요.' },
+      { key:'role',  label:'문장역할', correct:word.role, opts:shuffle(['서술어','주어','목적어','수식어']), expln:'동사는 문장에서 서술어 역할을 해요.' }
+    );
+  } else {
+    const par = nounParadigms.find(n => n.dict === word.dict);
+    const frm = par.forms.find(f => f.case === word.case && f.number === word.number);
+    const trWrong = [...new Set(par.forms.map(f => f.tr).filter(t => t !== frm.tr))];
+    const trOpts  = shuffle([...shuffle(trWrong).slice(0,3), frm.tr]);
+    const roleExpln = word.role === '주어' ? '주격은 문장에서 주어(~이/가) 역할을 해요.'
+                    : word.role === '목적어' ? '대격은 문장에서 목적어(~을/를) 역할을 해요.'
+                    : word.role === '간접목적어' ? '여격은 간접목적어(~에게) 역할을 해요.'
+                    : '속격은 수식어(소유, ~의) 역할을 해요.';
+    fields.push(
+      { key:'gender',label:'성',   correct:par.gender, opts:shuffle(['남성','여성','중성']),          expln:'이 명사는 '+par.gender+'이에요.' },
+      { key:'number',label:'수',   correct:frm.number, opts:['단수','복수'], expln:'어미 -'+frm.end+'는 '+frm.number+'를 나타내요.' },
+      { key:'case',  label:'격',   correct:frm.case,   opts:shuffle(['주격','속격','여격','대격']),   expln:'어미 -'+frm.end+'는 '+frm.case+' '+frm.number+'를 나타내요.' },
+      { key:'tr',    label:'직역', correct:frm.tr, opts:trOpts, expln:'이 형태('+frm.form+')의 의미는 "'+frm.tr+'"이에요.' },
+      { key:'role',  label:'문장역할', correct:word.role, opts:shuffle(['주어','목적어','간접목적어','수식어']), expln:roleExpln }
+    );
+  }
+  return fields;
+}
+
+// ── STAGE 6: 실제 분석 ─────────────────────────────────────
+function renderStage6() {
+  lessonStage = 6;
+  s6UserAns   = {};
+  s6Submitted = false;
+
+  const item = lessonItems[lessonIdx];
+  const dict = item.data.dict;
+  const matches = sentences.filter(s => s.words.some(w => w.dict === dict));
+
+  if (matches.length === 0) {
+    console.log('[6단계 건너뜀] ' + dict + ' — sentences 배열에 포함된 문장 없음');
+    renderLessonDone();
+    return;
+  }
+
+  s6Sentence   = matches[Math.floor(Math.random() * matches.length)];
+  s6TargetWord = s6Sentence.words.find(w => w.dict === dict);
+  s6Fields     = buildS6Fields(s6TargetWord);
+
+  const highlightedSentence = s6Sentence.gr.replace(
+    s6TargetWord.form,
+    '<span class="s6-target-word">' + s6TargetWord.form + '</span>'
+  );
+
+  let html = stagePips(6)
+    + '<p style="text-align:center;font-size:13px;color:#888;margin:0 0 4px">6단계 · 실제 분석</p>'
+    + '<p style="text-align:center;font-size:20px;font-weight:700;margin:0 0 18px">'
+      + item.data.dict + ' <span style="font-size:14px;color:#888;font-weight:400">— ' + item.data.meaning + '</span></p>'
+    + '<div class="lesson-card">'
+      + '<div class="lesson-card-title">문장 — 파란 단어를 분석하세요</div>'
+      + '<p class="s6-sentence">' + highlightedSentence + '</p>'
+    + '</div>'
+    + '<div class="lesson-card">'
+      + '<div class="lesson-card-title">완전 분석</div>'
+      + '<div style="text-align:center;font-size:28px;font-weight:700;padding:6px 0 12px">' + s6TargetWord.form + '</div>'
+      + '<div class="s34-fields">';
+
+  s6Fields.forEach(field => {
+    html += '<div class="s34-field"><div class="s34-field-lbl">' + field.label + '</div>'
+      + '<div class="s34-opts">';
+    field.opts.forEach(opt => {
+      html += '<button class="s34-opt" data-action="s6-select" data-key="' + field.key + '" data-val="' + opt + '">' + opt + '</button>';
+    });
+    html += '</div></div>';
+  });
+
+  html += '</div>'
+    + '<div id="s6Feedback" style="margin-top:12px"></div>'
+    + '<div id="s6Translation" hidden style="margin-top:12px;padding:12px 14px;background:#f0f8f0;border-radius:10px;font-size:14px;color:#1a6e35;font-weight:600;text-align:center">'
+      + '번역: ' + s6Sentence.ko + '</div>'
+    + '<button class="lesson-btn primary" id="s6SubmitBtn" data-action="s6-submit" style="display:none;margin-top:14px">확인</button>'
+    + '<button class="lesson-btn success" id="s6NextBtn" data-action="s6-next" style="display:none;margin-top:8px">레슨 완료 →</button>'
+    + '</div>';
+
+  lessonContent.innerHTML = html;
+}
+
+// ── 레슨 완료 ─────────────────────────────────────────────
 function renderLessonDone() {
   const item = lessonItems[lessonIdx];
   const d    = item.data;
@@ -1615,8 +2025,8 @@ function renderLessonDone() {
   lessonContent.innerHTML =
     '<div class="lesson-done-card">'
     + '<div class="lesson-done-icon">✅</div>'
-    + '<div class="lesson-done-title">' + d.dict + ' — 레슨 4/7단계 완료!</div>'
-    + '<p class="lesson-done-sub">관찰·이해·따라하기·회상을 마쳤어요.<br>누적·실제분석·암기 단계는<br>곧 추가될 예정이에요.</p>'
+    + '<div class="lesson-done-title">' + d.dict + ' — 레슨 6/7단계 완료!</div>'
+    + '<p class="lesson-done-sub">관찰·이해·따라하기·회상·누적적용·실제분석을 마쳤어요!<br>암기 단계는 곧 추가될 예정이에요.</p>'
     + '</div>'
     + (hasNext
         ? '<button class="lesson-btn primary" data-action="next-lesson" style="margin-top:14px">다음 레슨 →</button>'
