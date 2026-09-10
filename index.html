@@ -178,7 +178,8 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 }
 .wi-badge { font-size: 11px; font-weight: 700; margin-bottom: 6px; }
 .wi-badge.alpha { color: #7c3aed; }
-.wi-badge.word  { color: #2e6ed6; }
+.wi-badge.word   { color: #2e6ed6; }
+.wi-badge.ending { color: #9c3dd6; }
 .wi-q   { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
 .wi-row { display: flex; gap: 8px; font-size: 13px; margin-top: 4px; align-items: baseline; }
 .wi-lbl { color: #aaa; flex-shrink: 0; }
@@ -393,6 +394,11 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
       단어 퀴즈
     </label>
     <div id="weekChips" class="week-chips" style="display:none"></div>
+    <div style="height:14px"></div>
+    <label class="check-row">
+      <input type="checkbox" id="chkEnding">
+      어미 퀴즈 <span style="font-size:13px;color:#999;font-weight:400">(동사 어미 6개)</span>
+    </label>
   </div>
 
   <div id="levelCard" class="menu-card" style="display:none">
@@ -450,7 +456,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-11-4";
+const APP_VERSION = "2026-09-11-5";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -466,6 +472,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-09-11", text: "동사 어미 퀴즈 추가" },
   { date: "2026-09-11", text: "레슨 모드 5·6단계 추가 (누적적용·실제분석)" },
   { date: "2026-09-11", text: "레슨 모드 3·4단계 추가 (따라하기·회상)" },
   { date: "2026-09-11", text: "레슨 모드 추가 (관찰·이해 2단계, 동사 8개·명사 11개)" },
@@ -517,6 +524,15 @@ document.addEventListener('click', e => {
 renderBadge();
 
 // ── 알파벳 데이터 ────────────────────────────────────────────
+const verbEndings = [
+  {ending:"-ω",    person:1, number:"단수", label:"1인칭 단수"},
+  {ending:"-εις",  person:2, number:"단수", label:"2인칭 단수"},
+  {ending:"-ει",   person:3, number:"단수", label:"3인칭 단수"},
+  {ending:"-ομεν", person:1, number:"복수", label:"1인칭 복수"},
+  {ending:"-ετε",  person:2, number:"복수", label:"2인칭 복수"},
+  {ending:"-ουσι", person:3, number:"복수", label:"3인칭 복수"}
+];
+
 const letters = [
   {u:"Α",l:"α",name:"알파 (alpha)"},{u:"Β",l:"β",name:"베타 (beta)"},
   {u:"Γ",l:"γ",name:"감마 (gamma)"},{u:"Δ",l:"δ",name:"델타 (delta)"},
@@ -961,6 +977,7 @@ const menuScreen = document.getElementById('menuScreen');
 const quizScreen = document.getElementById('quizScreen');
 const chkAlpha   = document.getElementById('chkAlpha');
 const chkWord    = document.getElementById('chkWord');
+const chkEnding  = document.getElementById('chkEnding');
 const weekChips  = document.getElementById('weekChips');
 const levelCard  = document.getElementById('levelCard');
 const lvRow      = document.getElementById('lvRow');
@@ -1019,14 +1036,14 @@ lvRow.addEventListener('click', e => {
 });
 
 startBtn.addEventListener('click', () => {
-  const doAlpha = chkAlpha.checked, doWord = chkWord.checked;
-  if (!doAlpha && !doWord) { showErr('퀴즈 유형을 하나 이상 선택해주세요.'); return; }
+  const doAlpha = chkAlpha.checked, doWord = chkWord.checked, doEnding = chkEnding.checked;
+  if (!doAlpha && !doWord && !doEnding) { showErr('퀴즈 유형을 하나 이상 선택해주세요.'); return; }
   const selWeeks = doWord
     ? [...weekChips.querySelectorAll('.wk-cb:checked')].map(c => parseInt(c.value))
     : [];
   if (doWord && selWeeks.length === 0) { showErr('단어 퀴즈의 주차를 하나 이상 선택해주세요.'); return; }
   menuErr.style.display = 'none';
-  savedConfig = { doAlpha, doWord, selWeeks, level: selectedLevel, mode: selectedMode };
+  savedConfig = { doAlpha, doWord, doEnding, selWeeks, level: selectedLevel, mode: selectedMode };
   launchQuiz(savedConfig);
 });
 
@@ -1046,6 +1063,10 @@ function launchQuiz(cfg) {
   if (cfg.doAlpha) letters.forEach(lt => qs.push({ type: 'alpha', data: lt }));
   if (cfg.doWord)  words.filter(w => cfg.selWeeks.includes(w.week))
                         .forEach(w => qs.push({ type: 'word', data: w, level: cfg.level }));
+  if (cfg.doEnding) verbEndings.forEach(ve => {
+    qs.push({ type: 'ending', data: ve, dir: 'label->ending' });
+    qs.push({ type: 'ending', data: ve, dir: 'ending->label' });
+  });
   quizOrder = shuffle(qs);
   qIdx = 0; score = 0; answered = false; wrongAnswers = [];
   menuScreen.style.display = 'none';
@@ -1107,12 +1128,13 @@ function renderQuestion() {
   scoreEl.textContent    = '맞은 개수: ' + score;
   countEl.textContent    = '총 ' + quizOrder.length + '문제';
   if (q.type === 'alpha') renderAlpha(q);
+  else if (q.type === 'ending') renderEnding(q);
   else renderWord(q);
 }
 
 function renderAlpha(q) {
   const lt = q.data;
-  qBadge.textContent = '알파벳'; qBadge.className = 'q-badge alpha';
+  qBadge.textContent = '알파벳'; qBadge.className = 'q-badge alpha'; qBadge.style.color = '';
   wordDisplay.style.fontSize = '52px';
   wordDisplay.textContent = lt.u + '   ' + lt.l;
   subDisplay.textContent = '';
@@ -1124,7 +1146,7 @@ function renderAlpha(q) {
 
 function renderWord(q) {
   const w = q.data, lv = q.level;
-  qBadge.textContent = w.week + '주차 단어'; qBadge.className = 'q-badge word';
+  qBadge.textContent = w.week + '주차 단어'; qBadge.className = 'q-badge word'; qBadge.style.color = '';
   if (lv === 3) {
     wordDisplay.style.fontSize = '22px';
     wordDisplay.textContent = w.ko || w.en;
@@ -1140,6 +1162,29 @@ function renderWord(q) {
   const pool = shuffle(words.filter(x => x[matchKey] !== w[matchKey])).slice(0, 3);
   pool.push(w);
   buildChoices(shuffle(pool), opt => opt[matchKey], w[matchKey], q);
+}
+
+function renderEnding(q) {
+  const ve = q.data;
+  qBadge.textContent = '어미 퀴즈'; qBadge.className = 'q-badge';
+  qBadge.style.color = '#9c3dd6';
+  if (q.dir === 'label->ending') {
+    wordDisplay.style.fontSize = '28px';
+    wordDisplay.textContent = ve.label;
+    subDisplay.textContent = '';
+    hintText.textContent = '이 인칭/수에 해당하는 어미는?';
+    const pool = shuffle(verbEndings.filter(x => x.ending !== ve.ending)).slice(0, 3);
+    pool.push(ve);
+    buildChoices(shuffle(pool), opt => opt.ending, ve.ending, q);
+  } else {
+    wordDisplay.style.fontSize = '40px';
+    wordDisplay.textContent = ve.ending;
+    subDisplay.textContent = '';
+    hintText.textContent = '이 어미는 무엇을 나타낼까요?';
+    const pool = shuffle(verbEndings.filter(x => x.label !== ve.label)).slice(0, 3);
+    pool.push(ve);
+    buildChoices(shuffle(pool), opt => opt.label, ve.label, q);
+  }
 }
 
 function buildChoices(opts, getValue, correctVal, q) {
@@ -1190,6 +1235,11 @@ function showWrongList(modeLabel) {
     if (q.type === 'alpha') {
       badge = '<div class="wi-badge alpha">알파벳</div>';
       qText = q.data.u + '  ' + q.data.l;
+    } else if (q.type === 'ending') {
+      badge = '<div class="wi-badge ending">어미 퀴즈</div>';
+      qText = q.dir === 'label->ending'
+        ? q.data.label + ' 어미는?'
+        : '어미 ' + q.data.ending + '은(는)?';
     } else {
       const w = q.data, lv = q.level;
       badge = '<div class="wi-badge word">' + w.week + '주차 단어</div>';
