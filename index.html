@@ -397,7 +397,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
     <div style="height:14px"></div>
     <label class="check-row">
       <input type="checkbox" id="chkEnding">
-      어미 퀴즈 <span style="font-size:13px;color:#999;font-weight:400">(동사 어미 6개)</span>
+      어미 퀴즈 <span style="font-size:13px;color:#999;font-weight:400">(동사 6·명사 16개)</span>
     </label>
   </div>
 
@@ -456,7 +456,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-11-5";
+const APP_VERSION = "2026-09-11-6";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -472,6 +472,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-09-11", text: "명사 어미 퀴즈(남성/중성) 추가" },
   { date: "2026-09-11", text: "동사 어미 퀴즈 추가" },
   { date: "2026-09-11", text: "레슨 모드 5·6단계 추가 (누적적용·실제분석)" },
   { date: "2026-09-11", text: "레슨 모드 3·4단계 추가 (따라하기·회상)" },
@@ -531,6 +532,25 @@ const verbEndings = [
   {ending:"-ομεν", person:1, number:"복수", label:"1인칭 복수"},
   {ending:"-ετε",  person:2, number:"복수", label:"2인칭 복수"},
   {ending:"-ουσι", person:3, number:"복수", label:"3인칭 복수"}
+];
+
+const nounEndings = [
+  {ending:"-ος", gender:"남성", case:"주격", number:"단수"},
+  {ending:"-ου", gender:"남성", case:"속격", number:"단수"},
+  {ending:"-ῳ",  gender:"남성", case:"여격", number:"단수"},
+  {ending:"-ον", gender:"남성", case:"대격", number:"단수"},
+  {ending:"-οι", gender:"남성", case:"주격", number:"복수"},
+  {ending:"-ων", gender:"남성", case:"속격", number:"복수"},
+  {ending:"-οις",gender:"남성", case:"여격", number:"복수"},
+  {ending:"-ους",gender:"남성", case:"대격", number:"복수"},
+  {ending:"-ον", gender:"중성", case:"주격", number:"단수"},
+  {ending:"-ου", gender:"중성", case:"속격", number:"단수"},
+  {ending:"-ῳ",  gender:"중성", case:"여격", number:"단수"},
+  {ending:"-ον", gender:"중성", case:"대격", number:"단수"},
+  {ending:"-α",  gender:"중성", case:"주격", number:"복수"},
+  {ending:"-ων", gender:"중성", case:"속격", number:"복수"},
+  {ending:"-οις",gender:"중성", case:"여격", number:"복수"},
+  {ending:"-α",  gender:"중성", case:"대격", number:"복수"}
 ];
 
 const letters = [
@@ -1063,10 +1083,16 @@ function launchQuiz(cfg) {
   if (cfg.doAlpha) letters.forEach(lt => qs.push({ type: 'alpha', data: lt }));
   if (cfg.doWord)  words.filter(w => cfg.selWeeks.includes(w.week))
                         .forEach(w => qs.push({ type: 'word', data: w, level: cfg.level }));
-  if (cfg.doEnding) verbEndings.forEach(ve => {
-    qs.push({ type: 'ending', data: ve, dir: 'label->ending' });
-    qs.push({ type: 'ending', data: ve, dir: 'ending->label' });
-  });
+  if (cfg.doEnding) {
+    verbEndings.forEach(ve => {
+      qs.push({ type: 'ending', subtype: 'verb', data: ve, dir: 'label->ending' });
+      qs.push({ type: 'ending', subtype: 'verb', data: ve, dir: 'ending->label' });
+    });
+    nounEndings.forEach(ne => {
+      qs.push({ type: 'ending', subtype: 'noun', data: ne, dir: 'label->ending' });
+      qs.push({ type: 'ending', subtype: 'noun', data: ne, dir: 'ending->label' });
+    });
+  }
   quizOrder = shuffle(qs);
   qIdx = 0; score = 0; answered = false; wrongAnswers = [];
   menuScreen.style.display = 'none';
@@ -1164,26 +1190,58 @@ function renderWord(q) {
   buildChoices(shuffle(pool), opt => opt[matchKey], w[matchKey], q);
 }
 
+function nounLabel(ne) { return ne.gender + ' ' + ne.case + ' ' + ne.number; }
+
 function renderEnding(q) {
-  const ve = q.data;
+  const d = q.data;
   qBadge.textContent = '어미 퀴즈'; qBadge.className = 'q-badge';
   qBadge.style.color = '#9c3dd6';
-  if (q.dir === 'label->ending') {
-    wordDisplay.style.fontSize = '28px';
-    wordDisplay.textContent = ve.label;
-    subDisplay.textContent = '';
-    hintText.textContent = '이 인칭/수에 해당하는 어미는?';
-    const pool = shuffle(verbEndings.filter(x => x.ending !== ve.ending)).slice(0, 3);
-    pool.push(ve);
-    buildChoices(shuffle(pool), opt => opt.ending, ve.ending, q);
+
+  if (q.subtype === 'verb') {
+    if (q.dir === 'label->ending') {
+      wordDisplay.style.fontSize = '28px';
+      wordDisplay.textContent = d.label;
+      subDisplay.textContent = '';
+      hintText.textContent = '이 인칭/수에 해당하는 어미는?';
+      const pool = shuffle(verbEndings.filter(x => x.ending !== d.ending)).slice(0, 3);
+      pool.push(d);
+      buildChoices(shuffle(pool), opt => opt.ending, d.ending, q);
+    } else {
+      wordDisplay.style.fontSize = '40px';
+      wordDisplay.textContent = d.ending;
+      subDisplay.textContent = '';
+      hintText.textContent = '이 어미는 무엇을 나타낼까요?';
+      const pool = shuffle(verbEndings.filter(x => x.label !== d.label)).slice(0, 3);
+      pool.push(d);
+      buildChoices(shuffle(pool), opt => opt.label, d.label, q);
+    }
   } else {
-    wordDisplay.style.fontSize = '40px';
-    wordDisplay.textContent = ve.ending;
-    subDisplay.textContent = '';
-    hintText.textContent = '이 어미는 무엇을 나타낼까요?';
-    const pool = shuffle(verbEndings.filter(x => x.label !== ve.label)).slice(0, 3);
-    pool.push(ve);
-    buildChoices(shuffle(pool), opt => opt.label, ve.label, q);
+    // noun ending
+    const label = nounLabel(d);
+    if (q.dir === 'label->ending') {
+      wordDisplay.style.fontSize = '24px';
+      wordDisplay.textContent = label;
+      subDisplay.textContent = '';
+      hintText.textContent = '이 격/수에 해당하는 어미는?';
+      // unique distractor endings (avoid same ending string)
+      const seen = new Set([d.ending]);
+      const distractors = [];
+      for (const x of shuffle([...nounEndings])) {
+        if (!seen.has(x.ending)) { seen.add(x.ending); distractors.push(x); }
+        if (distractors.length === 3) break;
+      }
+      distractors.push(d);
+      buildChoices(shuffle(distractors), opt => opt.ending, d.ending, q);
+    } else {
+      wordDisplay.style.fontSize = '40px';
+      wordDisplay.textContent = d.ending;
+      subDisplay.textContent = d.gender;
+      hintText.textContent = '이 어미는 무엇을 나타낼까요?';
+      // distractors: exclude any entry sharing the same ending (all would be technically correct)
+      const pool = shuffle(nounEndings.filter(x => x.ending !== d.ending)).slice(0, 3);
+      pool.push(d);
+      buildChoices(shuffle(pool), opt => nounLabel(opt), label, q);
+    }
   }
 }
 
@@ -1237,9 +1295,10 @@ function showWrongList(modeLabel) {
       qText = q.data.u + '  ' + q.data.l;
     } else if (q.type === 'ending') {
       badge = '<div class="wi-badge ending">어미 퀴즈</div>';
+      const endLabel = q.subtype === 'noun' ? nounLabel(q.data) : q.data.label;
       qText = q.dir === 'label->ending'
-        ? q.data.label + ' 어미는?'
-        : '어미 ' + q.data.ending + '은(는)?';
+        ? endLabel + ' 어미는?'
+        : '어미 ' + q.data.ending + (q.subtype === 'noun' ? ' (' + q.data.gender + ')' : '') + ' 은(는)?';
     } else {
       const w = q.data, lv = q.level;
       badge = '<div class="wi-badge word">' + w.week + '주차 단어</div>';
