@@ -1904,7 +1904,11 @@ function renderStage4() {
   s34Sub = null;
   const item  = lessonItems[lessonIdx];
   const forms = item.data.forms;
-  s34Form   = forms[Math.floor(Math.random() * forms.length)];
+  // Stage 3에서 이미 보여준 인덱스(0, 중간, 마지막)를 제외하고 선택해 다양성 확보
+  const s3Used = new Set([0, Math.floor(forms.length / 2), forms.length - 1]);
+  const candidates = forms.map((_, i) => i).filter(i => !s3Used.has(i));
+  const pool = candidates.length > 0 ? candidates : forms.map((_, i) => i);
+  s34Form   = forms[pool[Math.floor(Math.random() * pool.length)]];
   s34Fields = buildFields(item, s34Form);
   s34UserAns   = {};
   s34Submitted = false;
@@ -1988,9 +1992,12 @@ function renderStage5(sub) {
   const item    = lessonItems[lessonIdx];
   const pair    = pairings[lessonIdx];
   const verbPar = verbParadigms[pair.vI];
-  const verbFrm = verbPar.forms[pair.vFI];
   const nounPar = nounParadigms[pair.nI];
-  const nounFrm = nounPar.forms[pair.nFI];
+  // 5b는 pair의 문장과 형태가 일치해야 하므로 고정, 5a는 무작위 선택
+  const verbFrmIdx = sub === 'b' ? pair.vFI : Math.floor(Math.random() * verbPar.forms.length);
+  const nounFrmIdx = sub === 'b' ? pair.nFI : Math.floor(Math.random() * nounPar.forms.length);
+  const verbFrm = verbPar.forms[verbFrmIdx];
+  const nounFrm = nounPar.forms[nounFrmIdx];
 
   s5VerbFields = buildS5VerbFields(verbPar, verbFrm, sub);
   s5NounFields = buildS5NounFields(nounPar, nounFrm, sub);
