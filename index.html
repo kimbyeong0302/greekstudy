@@ -279,6 +279,14 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   cursor: pointer; font-weight: 600; white-space: nowrap;
 }
 .ls-week-btn:active { background: #eaf1fd; }
+/* 어형 변화 퀴즈 */
+.pq-card { background:#fff;border-radius:14px;padding:14px 16px;margin:0 0 14px;box-shadow:0 1px 4px rgba(0,0,0,.07); }
+.pq-card-title { font-size:11px;font-weight:700;color:#aaa;letter-spacing:.8px;text-transform:uppercase;margin:0 0 10px; }
+.pq-week-row { display:flex;flex-wrap:wrap;gap:7px;margin:0 0 10px; }
+.pq-chip { display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:20px;background:#f0ede6;font-size:13px;cursor:pointer;-webkit-tap-highlight-color:transparent; }
+.pq-chip input { accent-color:#2e6ed6;width:13px;height:13px;cursor:pointer; }
+.pq-chip.on { background:#eaf1fd;color:#2e6ed6;font-weight:600; }
+.pq-progress { display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#aaa;margin-bottom:10px; }
 .ls-section { font-size: 11px; font-weight: 700; color: #aaa; letter-spacing: .8px; text-transform: uppercase; margin: 14px 0 6px; }
 .ls-item {
   display: flex; align-items: center; gap: 12px;
@@ -456,7 +464,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-14-5";
+const APP_VERSION = "2026-09-14-6";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -1365,6 +1373,14 @@ let s6TargetWord = null;
 let s6Fields     = null;
 let s6UserAns    = {};
 let s6Submitted  = false;
+// 어형 변화 퀴즈 상태
+let pqPool      = [];
+let pqIdx       = 0;
+let pqCurFields = null;
+let pqUserAns   = {};
+let pqSubmitted = false;
+let pqScore     = 0;
+let pqSelWeeks  = new Set([1, 2]);
 // 동사+명사 합친 레슨 목록 구성
 function buildLessonItems() {
   lessonItems = [];
@@ -1387,6 +1403,13 @@ function goBackToMenu() {
 lessonBackBtn.addEventListener('click', () => {
   if (lessonStage === 0) { goBackToMenu(); }
   else { lessonStage = 0; renderLessonSelect(); }
+});
+lessonContent.addEventListener('change', function(e) {
+  if (e.target.classList.contains('pq-wk-cb')) {
+    const wk = parseInt(e.target.dataset.week);
+    if (e.target.checked) pqSelWeeks.add(wk); else pqSelWeeks.delete(wk);
+    e.target.closest('.pq-chip').classList.toggle('on', e.target.checked);
+  }
 });
 
 // ── 레슨 메뉴 버튼
@@ -1429,7 +1452,19 @@ function renderLessonSelect() {
     weekMap[wk].push({ item, idx });
   });
   const weeks = Object.keys(weekMap).map(Number).sort((a, b) => a - b);
-  let html = '<button class="lesson-btn primary" style="margin-bottom:8px" data-action="start-seq">전체 순서대로 시작</button>';
+  let html = '<button class="lesson-btn primary" style="margin-bottom:14px" data-action="start-seq">전체 순서대로 시작</button>';
+  // 어형 변화 퀴즈 카드
+  html += '<div class="pq-card"><div class="pq-card-title">어형 변화 퀴즈</div><div class="pq-week-row">';
+  weeks.forEach(wk => {
+    const formCnt = weekMap[wk].reduce((s, e) => s + e.item.data.forms.length, 0);
+    const isOn = pqSelWeeks.has(wk);
+    html += '<label class="pq-chip' + (isOn ? ' on' : '') + '">'
+      + '<input type="checkbox" class="pq-wk-cb" data-week="' + wk + '"' + (isOn ? ' checked' : '') + '>'
+      + wk + '주차<span style="opacity:.6;font-weight:400;margin-left:3px">(' + formCnt + '형)</span></label>';
+  });
+  html += '</div>'
+    + '<button class="lesson-btn" style="font-size:13px;padding:10px;margin:0" data-action="start-pquiz">헬라어 파싱 퀴즈 →</button>'
+    + '</div>';
   weeks.forEach(wk => {
     const entries = weekMap[wk];
     html += '<div class="ls-week-hdr">'
@@ -1506,6 +1541,70 @@ lessonContent.addEventListener('click', function(e) {
     }
   } else if (action === 'back-select') {
     lessonStage = 0; renderLessonSelect();
+
+  } else if (action === 'start-pquiz') {
+    if (pqSelWeeks.size === 0) return;
+    pqPool = [];
+    lessonItems.forEach(item => {
+      if (!pqSelWeeks.has(item.data.week)) return;
+      item.data.forms.forEach(form => pqPool.push({ item, form }));
+    });
+    pqPool = shuffle(pqPool);
+    pqIdx = 0; pqScore = 0;
+    lessonStage = 7;
+    renderParadigmQuestion();
+
+  } else if (action === 'pq-select') {
+    if (pqSubmitted) return;
+    const key = el.dataset.key, val = el.dataset.val;
+    lessonContent.querySelectorAll('[data-action="pq-select"][data-key="' + key + '"]').forEach(b => b.classList.remove('s34-selected'));
+    el.classList.add('s34-selected');
+    pqUserAns[key] = val;
+    if (pqCurFields && pqCurFields.every(f => pqUserAns[f.key])) {
+      const sb = document.getElementById('pqSubmitBtn');
+      if (sb) sb.style.display = 'block';
+    }
+
+  } else if (action === 'pq-submit') {
+    if (pqSubmitted) return;
+    pqSubmitted = true;
+    let wrong = [];
+    (pqCurFields || []).forEach(field => {
+      const chosen = pqUserAns[field.key];
+      const extras = field.extras || [];
+      const isOk = val => val === field.correct || extras.includes(val);
+      lessonContent.querySelectorAll('[data-action="pq-select"][data-key="' + field.key + '"]').forEach(b => {
+        b.disabled = true;
+        if (isOk(b.dataset.val)) b.classList.add('s34-correct');
+        else if (b.dataset.val === chosen && !isOk(chosen)) b.classList.add('s34-wrong');
+      });
+      if (!isOk(chosen)) wrong.push({ field, chosen });
+    });
+    if (wrong.length === 0) pqScore++;
+    const fb = document.getElementById('pqFeedback');
+    if (wrong.length === 0) {
+      fb.innerHTML = '<p style="color:#2e9e4f;font-weight:700;margin:0">정답!</p>';
+    } else {
+      let errHtml = '';
+      wrong.forEach(({ field, chosen }) => {
+        const ex = field.extras || [];
+        const disp = field.correct + (ex.length ? ' 또는 ' + ex.join(' 또는 ') : '');
+        errHtml += '<div class="s4-err-item"><span class="s4-err-label">[' + field.label + ']</span> '
+          + '내 답: <span class="s4-wrong-txt">' + chosen + '</span> → 정답: <span class="s4-right-txt">' + disp + '</span></div>';
+      });
+      fb.innerHTML = '<div class="s4-errors">' + errHtml + '</div>';
+    }
+    document.getElementById('pqSubmitBtn').style.display = 'none';
+    document.getElementById('pqNextBtn').style.display = 'block';
+
+  } else if (action === 'pq-next') {
+    pqIdx++;
+    renderParadigmQuestion();
+
+  } else if (action === 'pq-restart') {
+    pqPool = shuffle(pqPool);
+    pqIdx = 0; pqScore = 0;
+    renderParadigmQuestion();
 
   } else if (action === 's34-select') {
     if (s34Submitted) return;
@@ -2248,6 +2347,83 @@ function renderAllDone() {
     + '<p class="lesson-done-sub">동사 8개 · 명사 11개<br>6단계 과정을 전부 마쳤어요.<br>정말 대단해요!</p>'
     + '</div>'
     + '<button class="lesson-btn primary" data-action="back-select" style="margin-top:14px">목록으로 돌아가기</button>';
+}
+
+// ── 어형 변화 퀴즈 ─────────────────────────────────────────
+function buildPQFields(item, form) {
+  const d = item.data, isVerb = item.type === 'verb';
+  if (isVerb) {
+    const trWrong = [...new Set(d.forms.map(f => f.tr).filter(t => t !== form.tr))];
+    const trOpts  = shuffle([...shuffle(trWrong).slice(0, 3), form.tr]);
+    return [
+      { key:'pq_person', label:'인칭', correct: form.person + '인칭', opts: shuffle(['1인칭','2인칭','3인칭']) },
+      { key:'pq_number', label:'수',   correct: form.number, opts: ['단수','복수'] },
+      { key:'pq_tr',     label:'직역', correct: form.tr, opts: trOpts }
+    ];
+  } else {
+    const alts    = getNeutralAlts(d, form);
+    const trWrong = [...new Set(d.forms.map(f => f.tr).filter(t => t !== form.tr))];
+    const trOpts  = shuffle([...shuffle(trWrong).slice(0, 3), form.tr]);
+    return [
+      { key:'pq_gender', label:'성',   correct: d.gender, opts: shuffle(['남성','여성','중성']) },
+      { key:'pq_case',   label:'격',   correct: form.case, opts: shuffle(['주격','속격','여격','대격']),
+        extras: alts ? [alts.altCase] : [] },
+      { key:'pq_number', label:'수',   correct: form.number, opts: ['단수','복수'] },
+      { key:'pq_tr',     label:'직역', correct: form.tr, opts: trOpts,
+        extras: alts ? [alts.altTr] : [] }
+    ];
+  }
+}
+
+function renderParadigmQuestion() {
+  if (pqIdx >= pqPool.length) { renderPQDone(); return; }
+  pqUserAns = {}; pqSubmitted = false;
+  lessonBackBtn.textContent = '← 목록';
+
+  const { item, form } = pqPool[pqIdx];
+  pqCurFields = buildPQFields(item, form);
+
+  let html = '<div class="pq-progress">'
+    + '<span>' + (pqIdx + 1) + ' / ' + pqPool.length + ' 문항</span>'
+    + '<span>점수 ' + pqScore + '/' + pqIdx + '</span></div>'
+    + '<div style="text-align:center;background:#fff;border-radius:16px;padding:16px 0 20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.07)">'
+    + '<div style="font-size:11px;color:#aaa;margin-bottom:6px">' + item.data.dict + ' — ' + item.data.meaning + '</div>'
+    + '<div style="font-size:38px;font-weight:700;letter-spacing:1px">' + formWithHi(form.form, form.end) + '</div>'
+    + '</div>'
+    + '<div class="lesson-card"><div class="s34-fields">';
+
+  pqCurFields.forEach(field => {
+    html += '<div class="s34-field"><div class="s34-field-lbl">' + field.label + '</div><div class="s34-opts">';
+    field.opts.forEach(opt => {
+      html += '<button class="s34-opt" data-action="pq-select" data-key="' + field.key + '" data-val="' + opt + '">' + opt + '</button>';
+    });
+    html += '</div></div>';
+  });
+
+  html += '</div>'
+    + '<div id="pqFeedback" style="margin-top:12px"></div>'
+    + '<button class="lesson-btn primary" id="pqSubmitBtn" data-action="pq-submit" style="display:none;margin-top:14px">확인</button>'
+    + '<button class="lesson-btn success" id="pqNextBtn" data-action="pq-next" style="display:none;margin-top:8px">'
+    + (pqIdx < pqPool.length - 1 ? '다음 →' : '결과 보기 →')
+    + '</button></div>';
+
+  lessonContent.innerHTML = html;
+}
+
+function renderPQDone() {
+  lessonStage = 7;
+  const total = pqPool.length;
+  const rate  = Math.round(pqScore / total * 100);
+  const icon  = rate === 100 ? '🎉' : rate >= 70 ? '✅' : '📚';
+  lessonContent.innerHTML =
+    '<div class="lesson-done-card">'
+    + '<div class="lesson-done-icon">' + icon + '</div>'
+    + '<div class="lesson-done-title">어형 변화 퀴즈 완료!</div>'
+    + '<p style="font-size:30px;font-weight:700;color:#2e6ed6;margin:10px 0 4px">' + pqScore + ' / ' + total + '</p>'
+    + '<p style="font-size:15px;color:#888;margin:0">정답률 ' + rate + '%</p>'
+    + '</div>'
+    + '<button class="lesson-btn primary" data-action="pq-restart" style="margin-top:14px">다시 풀기</button>'
+    + '<button class="lesson-btn" data-action="back-select" style="margin-top:8px">목록으로</button>';
 }
 </script>
 </body>
