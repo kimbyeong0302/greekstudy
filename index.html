@@ -456,7 +456,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-14-4";
+const APP_VERSION = "2026-09-14-5";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -1642,12 +1642,14 @@ lessonContent.addEventListener('click', function(e) {
     let wrong = [];
     (s6Fields||[]).forEach(field => {
       const chosen = s6UserAns[field.key];
+      const extras = field.extras || [];
+      const isCorrect = val => val === field.correct || extras.includes(val);
       lessonContent.querySelectorAll('[data-action="s6-select"][data-key="' + field.key + '"]').forEach(b => {
         b.disabled = true;
-        if (b.dataset.val === field.correct) b.classList.add('s34-correct');
-        else if (b.dataset.val === chosen && chosen !== field.correct) b.classList.add('s34-wrong');
+        if (isCorrect(b.dataset.val)) b.classList.add('s34-correct');
+        else if (b.dataset.val === chosen && !isCorrect(chosen)) b.classList.add('s34-wrong');
       });
-      if (chosen !== field.correct) wrong.push({ field, chosen });
+      if (!isCorrect(chosen)) wrong.push({ field, chosen });
     });
     const fb = document.getElementById('s6Feedback');
     if (wrong.length === 0) {
@@ -1655,10 +1657,12 @@ lessonContent.addEventListener('click', function(e) {
     } else {
       let errHtml = '';
       wrong.forEach(({ field, chosen }) => {
+        const extras = field.extras || [];
+        const correctDisplay = field.correct + (extras.length ? ' 또는 ' + extras.join(' 또는 ') : '');
         errHtml += '<div class="s4-err-item">'
           + '<span class="s4-err-label">[' + field.label + ']</span> '
           + '내가 고른 답: <span class="s4-wrong-txt">' + chosen + '</span>'
-          + ' → 정답: <span class="s4-right-txt">' + field.correct + '</span>'
+          + ' → 정답: <span class="s4-right-txt">' + correctDisplay + '</span>'
           + '<div class="s4-expln">' + field.expln + '</div></div>';
       });
       fb.innerHTML = '<div class="s4-errors">' + errHtml + '</div>';
@@ -2136,6 +2140,7 @@ function buildS6Fields(word) {
   } else {
     const par = nounParadigms.find(n => n.dict === word.dict);
     const frm = par.forms.find(f => f.case === word.case && f.number === word.number);
+    const alts = getNeutralAlts(par, frm);
     const trWrong = [...new Set(par.forms.map(f => f.tr).filter(t => t !== frm.tr))];
     const trOpts  = shuffle([...shuffle(trWrong).slice(0,3), frm.tr]);
     const roleExpln = word.role === '주어' ? '주격은 문장에서 주어(~이/가) 역할을 해요.'
@@ -2143,9 +2148,11 @@ function buildS6Fields(word) {
                     : word.role === '간접목적어' ? '여격은 간접목적어(~에게) 역할을 해요.'
                     : '속격은 수식어(소유, ~의) 역할을 해요.';
     fields.push(
-      { key:'gender',label:'성',   correct:par.gender, opts:shuffle(['남성','여성','중성']),          expln:'이 명사는 '+par.gender+'이에요.' },
+      { key:'gender',label:'성',   correct:par.gender, opts:shuffle(['남성','여성','중성']),        expln:'이 명사는 '+par.gender+'이에요.' },
       { key:'number',label:'수',   correct:frm.number, opts:['단수','복수'], expln:'어미 -'+frm.end+'는 '+frm.number+'를 나타내요.' },
-      { key:'case',  label:'격',   correct:frm.case,   opts:shuffle(['주격','속격','여격','대격']),   expln:'어미 -'+frm.end+'는 '+frm.case+' '+frm.number+'를 나타내요.' },
+      { key:'case',  label:'격',   correct:frm.case,   opts:shuffle(['주격','속격','여격','대격']),
+        extras: alts ? [alts.altCase] : [],
+        expln:'어미 -'+frm.end+'는 '+frm.case+' '+frm.number+'를 나타내요.'+(alts?' (중성 명사는 주격과 대격의 형태가 같아요.)':'') },
       { key:'tr',    label:'직역', correct:frm.tr, opts:trOpts, expln:'이 형태('+frm.form+')의 의미는 "'+frm.tr+'"이에요.' },
       { key:'role',  label:'문장역할', correct:word.role, opts:shuffle(['주어','목적어','간접목적어','수식어']), expln:roleExpln }
     );
