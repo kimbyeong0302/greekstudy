@@ -1839,7 +1839,7 @@ function buildFields(item, form) {
         opts: shuffle(['현재','미완료','부정과거']),
         expln: '이 동사는 현재 시제예요.' },
       { key:'voice',  label:'태',   correct: d.voice,
-        opts: shuffle(['능동','중동','수동']),
+        opts: shuffle(['능동','중간태','수동']),
         expln: '능동태는 주어가 직접 행동을 수행하는 형태예요.' },
       { key:'mood',   label:'법',   correct: d.mood,
         opts: shuffle(['직설법','가정법','명령법']),
@@ -2002,7 +2002,7 @@ function buildS5VerbFields(par, frm, sub) {
   const trOpts  = shuffle([...shuffle(trWrong).slice(0,3), frm.tr]);
   const fields  = [
     { key:'v_tense', label:'시제', correct:par.tense, opts:shuffle(['현재','미완료','부정과거']),   expln:'이 동사는 현재 시제예요.', active:false },
-    { key:'v_voice', label:'태',   correct:par.voice, opts:shuffle(['능동','중동','수동']),         expln:'능동태는 주어가 직접 행동하는 형태예요.', active:false },
+    { key:'v_voice', label:'태',   correct:par.voice, opts:shuffle(['능동','중간태','수동']),         expln:'능동태는 주어가 직접 행동하는 형태예요.', active:false },
     { key:'v_mood',  label:'법',   correct:par.mood,  opts:shuffle(['직설법','가정법','명령법']),   expln:'직설법은 실제 사실을 서술하는 법이에요.', active:false },
     { key:'v_person',label:'인칭', correct:frm.person+'인칭', opts:shuffle(['1인칭','2인칭','3인칭']), expln:'어미 -'+frm.end+'는 '+frm.person+'인칭을 나타내요.', active:true },
     { key:'v_number',label:'수',   correct:frm.number, opts:['단수','복수'], expln:'어미 -'+frm.end+'는 '+frm.number+'를 나타내요.', active:true },
@@ -2109,7 +2109,7 @@ function buildS6Fields(word) {
     const trOpts  = shuffle([...shuffle(trWrong).slice(0,3), frm.tr]);
     fields.push(
       { key:'tense', label:'시제', correct:par.tense, opts:shuffle(['현재','미완료','부정과거']),   expln:'이 동사는 현재 시제예요.' },
-      { key:'voice', label:'태',   correct:par.voice, opts:shuffle(['능동','중동','수동']),         expln:'능동태는 주어가 직접 행동하는 형태예요.' },
+      { key:'voice', label:'태',   correct:par.voice, opts:shuffle(['능동','중간태','수동']),         expln:'능동태는 주어가 직접 행동하는 형태예요.' },
       { key:'mood',  label:'법',   correct:par.mood,  opts:shuffle(['직설법','가정법','명령법']),   expln:'직설법은 실제 사실을 서술하는 법이에요.' },
       { key:'person',label:'인칭', correct:frm.person+'인칭', opts:shuffle(['1인칭','2인칭','3인칭']), expln:'어미 -'+frm.end+'는 '+frm.person+'인칭을 나타내요.' },
       { key:'number',label:'수',   correct:frm.number, opts:['단수','복수'], expln:'어미 -'+frm.end+'는 '+frm.number+'를 나타내요.' },
