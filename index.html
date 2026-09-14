@@ -444,7 +444,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-14-1";
+const APP_VERSION = "2026-09-14-2";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -1494,12 +1494,14 @@ lessonContent.addEventListener('click', function(e) {
     ak.forEach(key => {
       const field  = s34Fields.find(f => f.key === key);
       const chosen = s34UserAns[key];
+      const extras = field.extras || [];
+      const isCorrect = val => val === field.correct || extras.includes(val);
       lessonContent.querySelectorAll('[data-action="s34-select"][data-key="' + key + '"]').forEach(b => {
         b.disabled = true;
-        if (b.dataset.val === field.correct) b.classList.add('s34-correct');
-        else if (b.dataset.val === chosen && chosen !== field.correct) b.classList.add('s34-wrong');
+        if (isCorrect(b.dataset.val)) b.classList.add('s34-correct');
+        else if (b.dataset.val === chosen && !isCorrect(chosen)) b.classList.add('s34-wrong');
       });
-      if (chosen !== field.correct) wrong.push({ field, chosen });
+      if (!isCorrect(chosen)) wrong.push({ field, chosen });
     });
     const fb = document.getElementById('s34Feedback');
     if (wrong.length === 0) {
@@ -1507,10 +1509,12 @@ lessonContent.addEventListener('click', function(e) {
     } else if (lessonStage === 4) {
       let errHtml = '';
       wrong.forEach(({ field, chosen }) => {
+        const extras = field.extras || [];
+        const correctDisplay = field.correct + (extras.length ? ' 또는 ' + extras.join(' 또는 ') : '');
         errHtml += '<div class="s4-err-item">'
           + '<span class="s4-err-label">[' + field.label + ']</span> '
           + '내가 고른 답: <span class="s4-wrong-txt">' + chosen + '</span>'
-          + ' → 정답: <span class="s4-right-txt">' + field.correct + '</span>'
+          + ' → 정답: <span class="s4-right-txt">' + correctDisplay + '</span>'
           + '<div class="s4-expln">' + field.expln + '</div></div>';
       });
       fb.innerHTML = '<div class="s4-errors">' + errHtml + '</div>';
@@ -1553,12 +1557,14 @@ lessonContent.addEventListener('click', function(e) {
     activeKeys.forEach(key => {
       const field = allFields.find(f => f.key === key);
       const chosen = s5UserAns[key];
+      const extras = field.extras || [];
+      const isCorrect = val => val === field.correct || extras.includes(val);
       lessonContent.querySelectorAll('[data-action="s5-select"][data-key="' + key + '"]').forEach(b => {
         b.disabled = true;
-        if (b.dataset.val === field.correct) b.classList.add('s34-correct');
-        else if (b.dataset.val === chosen && chosen !== field.correct) b.classList.add('s34-wrong');
+        if (isCorrect(b.dataset.val)) b.classList.add('s34-correct');
+        else if (b.dataset.val === chosen && !isCorrect(chosen)) b.classList.add('s34-wrong');
       });
-      if (chosen !== field.correct) wrong.push({ field, chosen });
+      if (!isCorrect(chosen)) wrong.push({ field, chosen });
     });
     const fb = document.getElementById('s5Feedback');
     if (wrong.length === 0) {
@@ -1566,10 +1572,12 @@ lessonContent.addEventListener('click', function(e) {
     } else {
       let errHtml = '';
       wrong.forEach(({ field, chosen }) => {
+        const extras = field.extras || [];
+        const correctDisplay = field.correct + (extras.length ? ' 또는 ' + extras.join(' 또는 ') : '');
         errHtml += '<div class="s4-err-item">'
           + '<span class="s4-err-label">[' + field.label + ']</span> '
           + '내가 고른 답: <span class="s4-wrong-txt">' + chosen + '</span>'
-          + ' → 정답: <span class="s4-right-txt">' + field.correct + '</span>'
+          + ' → 정답: <span class="s4-right-txt">' + correctDisplay + '</span>'
           + '<div class="s4-expln">' + field.expln + '</div></div>';
       });
       fb.innerHTML = '<div class="s4-errors">' + errHtml + '</div>';
@@ -1777,6 +1785,16 @@ function renderStage2() {
 }
 
 // ── STAGE 3/4 헬퍼 ───────────────────────────────────────────
+// 중성 명사: 주격/대격이 동일 형태 → 두 격 모두 정답 허용
+function getNeutralAlts(par, form) {
+  if (par.gender !== '중성') return null;
+  if (form.case !== '주격' && form.case !== '대격') return null;
+  const altCase = form.case === '주격' ? '대격' : '주격';
+  const altForm = par.forms.find(f => f.case === altCase && f.number === form.number);
+  if (!altForm || altForm.form !== form.form) return null;
+  return { altCase, altTr: altForm.tr };
+}
+
 function buildFields(item, form) {
   const d = item.data, isVerb = item.type === 'verb';
   if (isVerb) {
@@ -1805,6 +1823,7 @@ function buildFields(item, form) {
   } else {
     const trWrong = [...new Set(d.forms.map(f => f.tr).filter(t => t !== form.tr))];
     const trOpts  = shuffle([...shuffle(trWrong).slice(0, 3), form.tr]);
+    const alts = getNeutralAlts(d, form);
     return [
       { key:'gender', label:'성',   correct: d.gender,
         opts: shuffle(['남성','여성','중성']),
@@ -1814,9 +1833,12 @@ function buildFields(item, form) {
         expln: '어미 -' + form.end + '는 ' + form.number + '를 나타내요.' },
       { key:'case',   label:'격',   correct: form.case,
         opts: shuffle(['주격','속격','여격','대격']),
-        expln: '어미 -' + form.end + '는 ' + form.case + ' ' + form.number + '를 나타내요.' },
+        extras: alts ? [alts.altCase] : [],
+        expln: '어미 -' + form.end + '는 ' + form.case + ' ' + form.number + '를 나타내요.'
+             + (alts ? ' (중성 명사는 주격과 대격의 형태가 같아요.)' : '') },
       { key:'tr',     label:'직역', correct: form.tr,
         opts: trOpts,
+        extras: alts ? [alts.altTr] : [],
         expln: '이 형태(' + form.form + ')의 의미는 "' + form.tr + '"이에요.' }
     ];
   }
@@ -1967,15 +1989,19 @@ function buildS5VerbFields(par, frm, sub) {
 function buildS5NounFields(par, frm, sub) {
   const trWrong    = [...new Set(par.forms.map(f => f.tr).filter(t => t !== frm.tr))];
   const trOpts     = shuffle([...shuffle(trWrong).slice(0,3), frm.tr]);
+  // Stage 5b는 문장 컨텍스트로 격 구별 가능 → extras 불필요
+  const alts = sub !== 'b' ? getNeutralAlts(par, frm) : null;
   const roleCorrect = frm.case === '주격' ? '주어' : frm.case === '대격' ? '목적어' : frm.case === '여격' ? '간접목적어' : '수식어';
   const roleExpln   = roleCorrect === '주어' ? '주격은 문장에서 주어(~이/가) 역할을 해요.'
                     : roleCorrect === '목적어' ? '대격은 문장에서 목적어(~을/를) 역할을 해요.'
                     : roleCorrect === '간접목적어' ? '여격은 간접목적어(~에게) 역할을 해요.'
                     : '속격은 수식어(소유, ~의) 역할을 해요.';
   const fields = [
-    { key:'n_gender',label:'성',   correct:par.gender, opts:shuffle(['남성','여성','중성']),          expln:'이 명사는 '+par.gender+'이에요.', active:true },
+    { key:'n_gender',label:'성',   correct:par.gender, opts:shuffle(['남성','여성','중성']),        expln:'이 명사는 '+par.gender+'이에요.', active:true },
     { key:'n_number',label:'수',   correct:frm.number, opts:['단수','복수'], expln:'어미 -'+frm.end+'는 '+frm.number+'를 나타내요.', active:true },
-    { key:'n_case',  label:'격',   correct:frm.case,   opts:shuffle(['주격','속격','여격','대격']),   expln:'어미 -'+frm.end+'는 '+frm.case+' '+frm.number+'를 나타내요.', active:true },
+    { key:'n_case',  label:'격',   correct:frm.case,   opts:shuffle(['주격','속격','여격','대격']),
+      extras: alts ? [alts.altCase] : [],
+      expln:'어미 -'+frm.end+'는 '+frm.case+' '+frm.number+'를 나타내요.'+(alts?' (중성 명사는 주격과 대격의 형태가 같아요.)':''), active:true },
     { key:'n_tr',    label:'직역', correct:frm.tr,     opts:trOpts, expln:'이 형태('+frm.form+')의 의미는 "'+frm.tr+'"이에요.', active:false }
   ];
   if (sub === 'b') fields.push({ key:'n_role', label:'문장역할', correct:roleCorrect, opts:shuffle(['주어','목적어','간접목적어','수식어']), expln:roleExpln, active:true });
