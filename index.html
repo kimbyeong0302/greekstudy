@@ -267,7 +267,19 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 .lesson-btn.success { background: #2e9e4f; color: #fff; }
 .lesson-btn:active { opacity: .85; }
 /* lesson selection */
-.ls-section { font-size: 11px; font-weight: 700; color: #aaa; letter-spacing: .8px; text-transform: uppercase; margin: 18px 0 8px; }
+.ls-week-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 2px 8px; margin-top: 4px;
+}
+.ls-week-title { font-size: 16px; font-weight: 700; color: #222; }
+.ls-week-count { font-size: 12px; color: #aaa; font-weight: 400; margin-left: 5px; }
+.ls-week-btn {
+  font-size: 12px; padding: 6px 14px; border-radius: 20px;
+  border: 1.5px solid #2e6ed6; background: #fff; color: #2e6ed6;
+  cursor: pointer; font-weight: 600; white-space: nowrap;
+}
+.ls-week-btn:active { background: #eaf1fd; }
+.ls-section { font-size: 11px; font-weight: 700; color: #aaa; letter-spacing: .8px; text-transform: uppercase; margin: 14px 0 6px; }
 .ls-item {
   display: flex; align-items: center; gap: 12px;
   padding: 12px 14px; border-radius: 12px; background: #fff;
@@ -444,7 +456,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-14-3";
+const APP_VERSION = "2026-09-14-4";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -607,7 +619,7 @@ const words = [
 // ── 동사 변화 데이터 (현재 능동 직설법) ─────────────────────
 // end: 어미 문자열 (form 끝에서 이 길이만큼이 어미)
 const verbParadigms = [
-  { dict:"λύω",     meaning:"나는 푼다/파괴한다", tense:"현재", voice:"능동", mood:"직설법",
+  { dict:"λύω",     meaning:"나는 푼다/파괴한다", week:2, tense:"현재", voice:"능동", mood:"직설법",
     forms:[
       {form:"λύω",       end:"ω",    person:1, number:"단수", tr:"나는 푼다"},
       {form:"λύεις",     end:"εις",  person:2, number:"단수", tr:"네가 푼다"},
@@ -619,7 +631,7 @@ const verbParadigms = [
     s2q:{ q:"-ομεν은 어떤 인칭·수를 나타낼까요?",
           opts:["1인칭 복수","2인칭 복수","3인칭 단수","1인칭 단수"], ans:"1인칭 복수" }
   },
-  { dict:"βλέπω",   meaning:"나는 본다", tense:"현재", voice:"능동", mood:"직설법",
+  { dict:"βλέπω",   meaning:"나는 본다", week:2, tense:"현재", voice:"능동", mood:"직설법",
     forms:[
       {form:"βλέπω",     end:"ω",    person:1, number:"단수", tr:"나는 본다"},
       {form:"βλέπεις",   end:"εις",  person:2, number:"단수", tr:"네가 본다"},
@@ -631,7 +643,7 @@ const verbParadigms = [
     s2q:{ q:"-ουσι는 어떤 인칭·수를 나타낼까요?",
           opts:["3인칭 복수","1인칭 복수","2인칭 복수","3인칭 단수"], ans:"3인칭 복수" }
   },
-  { dict:"γράφω",   meaning:"나는 쓴다", tense:"현재", voice:"능동", mood:"직설법",
+  { dict:"γράφω",   meaning:"나는 쓴다", week:2, tense:"현재", voice:"능동", mood:"직설법",
     forms:[
       {form:"γράφω",     end:"ω",    person:1, number:"단수", tr:"나는 쓴다"},
       {form:"γράφεις",   end:"εις",  person:2, number:"단수", tr:"네가 쓴다"},
@@ -643,7 +655,7 @@ const verbParadigms = [
     s2q:{ q:"-εις는 어떤 인칭·수를 나타낼까요?",
           opts:["2인칭 단수","1인칭 단수","3인칭 단수","2인칭 복수"], ans:"2인칭 단수" }
   },
-  { dict:"λέγω",    meaning:"나는 말한다", tense:"현재", voice:"능동", mood:"직설법",
+  { dict:"λέγω",    meaning:"나는 말한다", week:2, tense:"현재", voice:"능동", mood:"직설법",
     forms:[
       {form:"λέγω",      end:"ω",    person:1, number:"단수", tr:"나는 말한다"},
       {form:"λέγεις",    end:"εις",  person:2, number:"단수", tr:"네가 말한다"},
@@ -655,7 +667,7 @@ const verbParadigms = [
     s2q:{ q:"-ετε는 어떤 인칭·수를 나타낼까요?",
           opts:["2인칭 복수","1인칭 복수","3인칭 복수","2인칭 단수"], ans:"2인칭 복수" }
   },
-  { dict:"γινώσκω", meaning:"나는 안다", tense:"현재", voice:"능동", mood:"직설법",
+  { dict:"γινώσκω", meaning:"나는 안다", week:2, tense:"현재", voice:"능동", mood:"직설법",
     forms:[
       {form:"γινώσκω",    end:"ω",    person:1, number:"단수", tr:"나는 안다"},
       {form:"γινώσκεις",  end:"εις",  person:2, number:"단수", tr:"네가 안다"},
@@ -667,7 +679,7 @@ const verbParadigms = [
     s2q:{ q:"-ω는 어떤 인칭·수를 나타낼까요?",
           opts:["1인칭 단수","1인칭 복수","2인칭 단수","3인칭 단수"], ans:"1인칭 단수" }
   },
-  { dict:"διδάσκω", meaning:"나는 가르친다", tense:"현재", voice:"능동", mood:"직설법",
+  { dict:"διδάσκω", meaning:"나는 가르친다", week:2, tense:"현재", voice:"능동", mood:"직설법",
     forms:[
       {form:"διδάσκω",    end:"ω",    person:1, number:"단수", tr:"나는 가르친다"},
       {form:"διδάσκεις",  end:"εις",  person:2, number:"단수", tr:"네가 가르친다"},
@@ -679,7 +691,7 @@ const verbParadigms = [
     s2q:{ q:"-ει는 어떤 인칭·수를 나타낼까요?",
           opts:["3인칭 단수","1인칭 단수","2인칭 단수","3인칭 복수"], ans:"3인칭 단수" }
   },
-  { dict:"λαμβάνω", meaning:"나는 취한다/받는다", tense:"현재", voice:"능동", mood:"직설법",
+  { dict:"λαμβάνω", meaning:"나는 취한다/받는다", week:2, tense:"현재", voice:"능동", mood:"직설법",
     forms:[
       {form:"λαμβάνω",    end:"ω",    person:1, number:"단수", tr:"나는 취한다"},
       {form:"λαμβάνεις",  end:"εις",  person:2, number:"단수", tr:"네가 취한다"},
@@ -691,7 +703,7 @@ const verbParadigms = [
     s2q:{ q:"-ομεν은 어떤 인칭·수를 나타낼까요?",
           opts:["1인칭 복수","2인칭 복수","3인칭 복수","1인칭 단수"], ans:"1인칭 복수" }
   },
-  { dict:"ἔχω",     meaning:"나는 가진다", tense:"현재", voice:"능동", mood:"직설법",
+  { dict:"ἔχω",     meaning:"나는 가진다", week:2, tense:"현재", voice:"능동", mood:"직설법",
     forms:[
       {form:"ἔχω",       end:"ω",    person:1, number:"단수", tr:"나는 가진다"},
       {form:"ἔχεις",     end:"εις",  person:2, number:"단수", tr:"네가 가진다"},
@@ -709,7 +721,7 @@ const verbParadigms = [
 // gender: 남성/중성
 const nounParadigms = [
   // 2격 변화 남성 (7개)
-  { dict:"λόγος",     meaning:"말씀",  gender:"남성",
+  { dict:"λόγος",     meaning:"말씀",  week:2, gender:"남성",
     forms:[
       {form:"λόγος",   end:"ος",  case:"주격", number:"단수", tr:"말씀이"},
       {form:"λόγου",   end:"ου",  case:"속격", number:"단수", tr:"말씀의"},
@@ -723,7 +735,7 @@ const nounParadigms = [
     s2q:{ q:"속격 단수 어미(-ου)의 역할은?",
           opts:["소유·~의","주어·~이/가","목적어·~을","간접목적어·~에게"], ans:"소유·~의" }
   },
-  { dict:"ἄνθρωπος",  meaning:"사람",  gender:"남성",
+  { dict:"ἄνθρωπος",  meaning:"사람",  week:2, gender:"남성",
     forms:[
       {form:"ἄνθρωπος", end:"ος",  case:"주격", number:"단수", tr:"사람이"},
       {form:"ἀνθρώπου", end:"ου",  case:"속격", number:"단수", tr:"사람의"},
@@ -737,7 +749,7 @@ const nounParadigms = [
     s2q:{ q:"주격 단수 어미(-ος)의 역할은?",
           opts:["주어·~이/가","목적어·~을","소유·~의","간접목적어·~에게"], ans:"주어·~이/가" }
   },
-  { dict:"ἀπόστολος", meaning:"사도",  gender:"남성",
+  { dict:"ἀπόστολος", meaning:"사도",  week:2, gender:"남성",
     forms:[
       {form:"ἀπόστολος", end:"ος",  case:"주격", number:"단수", tr:"사도가"},
       {form:"ἀποστόλου", end:"ου",  case:"속격", number:"단수", tr:"사도의"},
@@ -751,7 +763,7 @@ const nounParadigms = [
     s2q:{ q:"대격 단수 어미(-ον)의 역할은?",
           opts:["목적어·~을","주어·~이/가","소유·~의","간접목적어·~에게"], ans:"목적어·~을" }
   },
-  { dict:"δοῦλος",    meaning:"종",    gender:"남성",
+  { dict:"δοῦλος",    meaning:"종",    week:2, gender:"남성",
     forms:[
       {form:"δοῦλος",  end:"ος",  case:"주격", number:"단수", tr:"종이"},
       {form:"δούλου",  end:"ου",  case:"속격", number:"단수", tr:"종의"},
@@ -765,7 +777,7 @@ const nounParadigms = [
     s2q:{ q:"여격 단수 어미(-ῳ)의 역할은?",
           opts:["간접목적어·~에게","주어·~이/가","목적어·~을","소유·~의"], ans:"간접목적어·~에게" }
   },
-  { dict:"οἶκος",     meaning:"집",    gender:"남성",
+  { dict:"οἶκος",     meaning:"집",    week:2, gender:"남성",
     forms:[
       {form:"οἶκος",   end:"ος",  case:"주격", number:"단수", tr:"집이"},
       {form:"οἴκου",   end:"ου",  case:"속격", number:"단수", tr:"집의"},
@@ -779,7 +791,7 @@ const nounParadigms = [
     s2q:{ q:"주격 복수 어미(-οι)는 어떤 역할인가요?",
           opts:["복수 주어·~들이","복수 목적어·~들을","복수 소유·~들의","복수 간접목적어"], ans:"복수 주어·~들이" }
   },
-  { dict:"ἀδελφός",   meaning:"형제",  gender:"남성",
+  { dict:"ἀδελφός",   meaning:"형제",  week:1, gender:"남성",
     forms:[
       {form:"ἀδελφός",  end:"ός",  case:"주격", number:"단수", tr:"형제가"},
       {form:"ἀδελφοῦ",  end:"οῦ",  case:"속격", number:"단수", tr:"형제의"},
@@ -793,7 +805,7 @@ const nounParadigms = [
     s2q:{ q:"속격 복수 어미(-ῶν)의 역할은?",
           opts:["복수 소유·~들의","복수 주어·~들이","복수 목적어·~들을","복수 간접목적어"], ans:"복수 소유·~들의" }
   },
-  { dict:"νόμος",     meaning:"율법",  gender:"남성",
+  { dict:"νόμος",     meaning:"율법",  week:1, gender:"남성",
     forms:[
       {form:"νόμος",   end:"ος",  case:"주격", number:"단수", tr:"율법이"},
       {form:"νόμου",   end:"ου",  case:"속격", number:"단수", tr:"율법의"},
@@ -808,7 +820,7 @@ const nounParadigms = [
           opts:["복수 목적어·~들을","복수 주어·~들이","복수 소유·~들의","복수 간접목적어"], ans:"복수 목적어·~들을" }
   },
   // 2격 변화 중성 (4개)
-  { dict:"δῶρον",     meaning:"선물",  gender:"중성",
+  { dict:"δῶρον",     meaning:"선물",  week:2, gender:"중성",
     forms:[
       {form:"δῶρον",   end:"ον",  case:"주격", number:"단수", tr:"선물이"},
       {form:"δώρου",   end:"ου",  case:"속격", number:"단수", tr:"선물의"},
@@ -822,7 +834,7 @@ const nounParadigms = [
     s2q:{ q:"중성 명사의 특징 중 올바른 것은?",
           opts:["주격과 대격이 같은 형태","주격과 속격이 같은 형태","모든 격이 같은 형태","단수만 존재함"], ans:"주격과 대격이 같은 형태" }
   },
-  { dict:"ἔργον",     meaning:"일",    gender:"중성",
+  { dict:"ἔργον",     meaning:"일",    week:1, gender:"중성",
     forms:[
       {form:"ἔργον",   end:"ον",  case:"주격", number:"단수", tr:"일이"},
       {form:"ἔργου",   end:"ου",  case:"속격", number:"단수", tr:"일의"},
@@ -836,7 +848,7 @@ const nounParadigms = [
     s2q:{ q:"중성 복수 주격/대격 어미(-α)의 특징은?",
           opts:["주격과 대격이 같은 형태","남성 복수와 같은 어미","속격과 같은 형태","여격과 같은 형태"], ans:"주격과 대격이 같은 형태" }
   },
-  { dict:"ἱερόν",     meaning:"성전",  gender:"중성",
+  { dict:"ἱερόν",     meaning:"성전",  week:2, gender:"중성",
     forms:[
       {form:"ἱερόν",   end:"όν",  case:"주격", number:"단수", tr:"성전이"},
       {form:"ἱεροῦ",   end:"οῦ",  case:"속격", number:"단수", tr:"성전의"},
@@ -850,7 +862,7 @@ const nounParadigms = [
     s2q:{ q:"중성 명사의 주격과 대격의 관계는?",
           opts:["항상 같은 형태","항상 다른 형태","단수만 같음","복수만 같음"], ans:"항상 같은 형태" }
   },
-  { dict:"εὐαγγέλιον",meaning:"복음",  gender:"중성",
+  { dict:"εὐαγγέλιον",meaning:"복음",  week:1, gender:"중성",
     forms:[
       {form:"εὐαγγέλιον", end:"ον",  case:"주격", number:"단수", tr:"복음이"},
       {form:"εὐαγγελίου", end:"ου",  case:"속격", number:"단수", tr:"복음의"},
@@ -1409,21 +1421,41 @@ function stagePips(current) {
 // ── 레슨 선택 화면 렌더
 function renderLessonSelect() {
   lessonBackBtn.textContent = '← 메뉴';
-  let html = '';
-  html += '<button class="lesson-btn primary" style="margin-bottom:18px" data-action="start-seq">처음부터 순서대로 시작</button>';
-  html += '<div class="ls-section">동사 (8개)</div>';
-  verbParadigms.forEach((v, i) => {
-    html += '<div class="ls-item" data-action="start-item" data-idx="' + i + '">'
-      + '<span class="ls-dict">' + v.dict + '</span>'
-      + '<span class="ls-meaning">' + v.meaning + '</span>'
-      + '<span class="ls-arrow">›</span></div>';
+  // 주차별 그룹화
+  const weekMap = {};
+  lessonItems.forEach((item, idx) => {
+    const wk = item.data.week;
+    if (!weekMap[wk]) weekMap[wk] = [];
+    weekMap[wk].push({ item, idx });
   });
-  html += '<div class="ls-section">명사 (11개)</div>';
-  nounParadigms.forEach((n, i) => {
-    html += '<div class="ls-item" data-action="start-item" data-idx="' + (verbParadigms.length + i) + '">'
-      + '<span class="ls-dict">' + n.dict + '</span>'
-      + '<span class="ls-meaning">' + n.meaning + ' (' + n.gender + ')</span>'
-      + '<span class="ls-arrow">›</span></div>';
+  const weeks = Object.keys(weekMap).map(Number).sort((a, b) => a - b);
+  let html = '<button class="lesson-btn primary" style="margin-bottom:8px" data-action="start-seq">전체 순서대로 시작</button>';
+  weeks.forEach(wk => {
+    const entries = weekMap[wk];
+    html += '<div class="ls-week-hdr">'
+      + '<span class="ls-week-title">' + wk + '주차<span class="ls-week-count">(' + entries.length + '개)</span></span>'
+      + '<button class="ls-week-btn" data-action="start-week" data-week="' + wk + '">이 주차 시작</button>'
+      + '</div>';
+    const verbs = entries.filter(e => e.item.type === 'verb');
+    const nouns = entries.filter(e => e.item.type === 'noun');
+    if (verbs.length) {
+      html += '<div class="ls-section">동사 (' + verbs.length + '개)</div>';
+      verbs.forEach(({ item: v, idx }) => {
+        html += '<div class="ls-item" data-action="start-item" data-idx="' + idx + '">'
+          + '<span class="ls-dict">' + v.data.dict + '</span>'
+          + '<span class="ls-meaning">' + v.data.meaning + '</span>'
+          + '<span class="ls-arrow">›</span></div>';
+      });
+    }
+    if (nouns.length) {
+      html += '<div class="ls-section">명사 (' + nouns.length + '개)</div>';
+      nouns.forEach(({ item: n, idx }) => {
+        html += '<div class="ls-item" data-action="start-item" data-idx="' + idx + '">'
+          + '<span class="ls-dict">' + n.data.dict + '</span>'
+          + '<span class="ls-meaning">' + n.data.meaning + ' (' + n.data.gender + ')</span>'
+          + '<span class="ls-arrow">›</span></div>';
+      });
+    }
   });
   lessonContent.innerHTML = html;
 }
@@ -1436,6 +1468,10 @@ lessonContent.addEventListener('click', function(e) {
 
   if (action === 'start-seq') {
     lessonIdx = 0; startLesson();
+  } else if (action === 'start-week') {
+    const wk = parseInt(el.dataset.week);
+    lessonIdx = lessonItems.findIndex(item => item.data.week === wk);
+    startLesson();
   } else if (action === 'start-item') {
     lessonIdx = parseInt(el.dataset.idx); startLesson();
   } else if (action === 'to-stage2') {
