@@ -444,7 +444,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-14-2";
+const APP_VERSION = "2026-09-14-3";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -611,7 +611,7 @@ const verbParadigms = [
     forms:[
       {form:"λύω",       end:"ω",    person:1, number:"단수", tr:"나는 푼다"},
       {form:"λύεις",     end:"εις",  person:2, number:"단수", tr:"네가 푼다"},
-      {form:"λύει",      end:"ει",   person:3, number:"단수", tr:"그가 푼다"},
+      {form:"λύει",      end:"ει",   person:3, number:"단수", tr:"그가/그녀가/그것이 푼다"},
       {form:"λύομεν",    end:"ομεν", person:1, number:"복수", tr:"우리가 푼다"},
       {form:"λύετε",     end:"ετε",  person:2, number:"복수", tr:"너희가 푼다"},
       {form:"λύουσι",    end:"ουσι", person:3, number:"복수", tr:"그들이 푼다"}
@@ -623,7 +623,7 @@ const verbParadigms = [
     forms:[
       {form:"βλέπω",     end:"ω",    person:1, number:"단수", tr:"나는 본다"},
       {form:"βλέπεις",   end:"εις",  person:2, number:"단수", tr:"네가 본다"},
-      {form:"βλέπει",    end:"ει",   person:3, number:"단수", tr:"그가 본다"},
+      {form:"βλέπει",    end:"ει",   person:3, number:"단수", tr:"그가/그녀가/그것이 본다"},
       {form:"βλέπομεν",  end:"ομεν", person:1, number:"복수", tr:"우리가 본다"},
       {form:"βλέπετε",   end:"ετε",  person:2, number:"복수", tr:"너희가 본다"},
       {form:"βλέπουσι",  end:"ουσι", person:3, number:"복수", tr:"그들이 본다"}
@@ -635,7 +635,7 @@ const verbParadigms = [
     forms:[
       {form:"γράφω",     end:"ω",    person:1, number:"단수", tr:"나는 쓴다"},
       {form:"γράφεις",   end:"εις",  person:2, number:"단수", tr:"네가 쓴다"},
-      {form:"γράφει",    end:"ει",   person:3, number:"단수", tr:"그가 쓴다"},
+      {form:"γράφει",    end:"ει",   person:3, number:"단수", tr:"그가/그녀가/그것이 쓴다"},
       {form:"γράφομεν",  end:"ομεν", person:1, number:"복수", tr:"우리가 쓴다"},
       {form:"γράφετε",   end:"ετε",  person:2, number:"복수", tr:"너희가 쓴다"},
       {form:"γράφουσι",  end:"ουσι", person:3, number:"복수", tr:"그들이 쓴다"}
@@ -647,7 +647,7 @@ const verbParadigms = [
     forms:[
       {form:"λέγω",      end:"ω",    person:1, number:"단수", tr:"나는 말한다"},
       {form:"λέγεις",    end:"εις",  person:2, number:"단수", tr:"네가 말한다"},
-      {form:"λέγει",     end:"ει",   person:3, number:"단수", tr:"그가 말한다"},
+      {form:"λέγει",     end:"ει",   person:3, number:"단수", tr:"그가/그녀가/그것이 말한다"},
       {form:"λέγομεν",   end:"ομεν", person:1, number:"복수", tr:"우리가 말한다"},
       {form:"λέγετε",    end:"ετε",  person:2, number:"복수", tr:"너희가 말한다"},
       {form:"λέγουσι",   end:"ουσι", person:3, number:"복수", tr:"그들이 말한다"}
@@ -659,7 +659,7 @@ const verbParadigms = [
     forms:[
       {form:"γινώσκω",    end:"ω",    person:1, number:"단수", tr:"나는 안다"},
       {form:"γινώσκεις",  end:"εις",  person:2, number:"단수", tr:"네가 안다"},
-      {form:"γινώσκει",   end:"ει",   person:3, number:"단수", tr:"그가 안다"},
+      {form:"γινώσκει",   end:"ει",   person:3, number:"단수", tr:"그가/그녀가/그것이 안다"},
       {form:"γινώσκομεν", end:"ομεν", person:1, number:"복수", tr:"우리가 안다"},
       {form:"γινώσκετε",  end:"ετε",  person:2, number:"복수", tr:"너희가 안다"},
       {form:"γινώσκουσι", end:"ουσι", person:3, number:"복수", tr:"그들이 안다"}
@@ -671,7 +671,7 @@ const verbParadigms = [
     forms:[
       {form:"διδάσκω",    end:"ω",    person:1, number:"단수", tr:"나는 가르친다"},
       {form:"διδάσκεις",  end:"εις",  person:2, number:"단수", tr:"네가 가르친다"},
-      {form:"διδάσκει",   end:"ει",   person:3, number:"단수", tr:"그가 가르친다"},
+      {form:"διδάσκει",   end:"ει",   person:3, number:"단수", tr:"그가/그녀가/그것이 가르친다"},
       {form:"διδάσκομεν", end:"ομεν", person:1, number:"복수", tr:"우리가 가르친다"},
       {form:"διδάσκετε",  end:"ετε",  person:2, number:"복수", tr:"너희가 가르친다"},
       {form:"διδάσκουσι", end:"ουσι", person:3, number:"복수", tr:"그들이 가르친다"}
@@ -683,7 +683,7 @@ const verbParadigms = [
     forms:[
       {form:"λαμβάνω",    end:"ω",    person:1, number:"단수", tr:"나는 취한다"},
       {form:"λαμβάνεις",  end:"εις",  person:2, number:"단수", tr:"네가 취한다"},
-      {form:"λαμβάνει",   end:"ει",   person:3, number:"단수", tr:"그가 취한다"},
+      {form:"λαμβάνει",   end:"ει",   person:3, number:"단수", tr:"그가/그녀가/그것이 취한다"},
       {form:"λαμβάνομεν", end:"ομεν", person:1, number:"복수", tr:"우리가 취한다"},
       {form:"λαμβάνετε",  end:"ετε",  person:2, number:"복수", tr:"너희가 취한다"},
       {form:"λαμβάνουσι", end:"ουσι", person:3, number:"복수", tr:"그들이 취한다"}
@@ -695,7 +695,7 @@ const verbParadigms = [
     forms:[
       {form:"ἔχω",       end:"ω",    person:1, number:"단수", tr:"나는 가진다"},
       {form:"ἔχεις",     end:"εις",  person:2, number:"단수", tr:"네가 가진다"},
-      {form:"ἔχει",      end:"ει",   person:3, number:"단수", tr:"그가 가진다"},
+      {form:"ἔχει",      end:"ει",   person:3, number:"단수", tr:"그가/그녀가/그것이 가진다"},
       {form:"ἔχομεν",    end:"ομεν", person:1, number:"복수", tr:"우리가 가진다"},
       {form:"ἔχετε",     end:"ετε",  person:2, number:"복수", tr:"너희가 가진다"},
       {form:"ἔχουσι",    end:"ουσι", person:3, number:"복수", tr:"그들이 가진다"}
