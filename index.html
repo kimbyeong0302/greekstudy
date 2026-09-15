@@ -464,7 +464,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-15-1";
+const APP_VERSION = "2026-09-15-2";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -1373,6 +1373,10 @@ let s6TargetWord = null;
 let s6Fields     = null;
 let s6UserAns    = {};
 let s6Submitted  = false;
+// 어형 변화 퀴즈 — 동사 파싱 선택지 풀 (시제/태/법이 추가될 때 여기에 추가)
+const PQ_TENSE_OPTS = ['현재', '과거', '미래', '완료'];
+const PQ_VOICE_OPTS = ['능동', '수동', '중간'];
+const PQ_MOOD_OPTS  = ['직설법', '가정법', '명령법', '희구법'];
 // 어형 변화 퀴즈 상태
 let pqPool      = [];
 let pqIdx       = 0;
@@ -2387,12 +2391,20 @@ function buildPQPool(items) {
 function buildPQFields(item, form) {
   const d = item.data, isVerb = item.type === 'verb';
   if (isVerb) {
-    const trWrong = [...new Set(d.forms.map(f => f.tr).filter(t => t !== form.tr))];
-    const trOpts  = shuffle([...shuffle(trWrong).slice(0, 3), form.tr]);
+    const trWrong     = [...new Set(d.forms.map(f => f.tr).filter(t => t !== form.tr))];
+    const trOpts      = shuffle([...shuffle(trWrong).slice(0, 3), form.tr]);
+    const tenseWrong  = PQ_TENSE_OPTS.filter(o => o !== d.tense);
+    const tenseOpts   = shuffle([...shuffle(tenseWrong).slice(0, 3), d.tense]);
+    const voiceOpts   = shuffle([...PQ_VOICE_OPTS]);
+    const moodWrong   = PQ_MOOD_OPTS.filter(o => o !== d.mood);
+    const moodOpts    = shuffle([...shuffle(moodWrong).slice(0, 3), d.mood]);
     return [
+      { key:'pq_tense',  label:'시제', correct: d.tense,              opts: tenseOpts },
+      { key:'pq_voice',  label:'태',   correct: d.voice,              opts: voiceOpts },
+      { key:'pq_mood',   label:'법',   correct: d.mood,               opts: moodOpts },
       { key:'pq_person', label:'인칭', correct: form.person + '인칭', opts: shuffle(['1인칭','2인칭','3인칭']) },
-      { key:'pq_number', label:'수',   correct: form.number, opts: ['단수','복수'] },
-      { key:'pq_tr',     label:'직역', correct: form.tr, opts: trOpts }
+      { key:'pq_number', label:'수',   correct: form.number,          opts: ['단수','복수'] },
+      { key:'pq_tr',     label:'직역', correct: form.tr,              opts: trOpts }
     ];
   } else {
     const alts    = getNeutralAlts(d, form);
