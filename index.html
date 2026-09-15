@@ -464,7 +464,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-14-6";
+const APP_VERSION = "2026-09-15-1";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -1544,12 +1544,8 @@ lessonContent.addEventListener('click', function(e) {
 
   } else if (action === 'start-pquiz') {
     if (pqSelWeeks.size === 0) return;
-    pqPool = [];
-    lessonItems.forEach(item => {
-      if (!pqSelWeeks.has(item.data.week)) return;
-      item.data.forms.forEach(form => pqPool.push({ item, form }));
-    });
-    pqPool = shuffle(pqPool);
+    const selItems = lessonItems.filter(item => pqSelWeeks.has(item.data.week));
+    pqPool = buildPQPool(selItems);
     pqIdx = 0; pqScore = 0;
     lessonStage = 7;
     renderParadigmQuestion();
@@ -1602,7 +1598,7 @@ lessonContent.addEventListener('click', function(e) {
     renderParadigmQuestion();
 
   } else if (action === 'pq-restart') {
-    pqPool = shuffle(pqPool);
+    pqPool = buildPQPool(lessonItems.filter(item => pqSelWeeks.has(item.data.week)));
     pqIdx = 0; pqScore = 0;
     renderParadigmQuestion();
 
@@ -2350,6 +2346,44 @@ function renderAllDone() {
 }
 
 // ── 어형 변화 퀴즈 ─────────────────────────────────────────
+function buildPQPool(items) {
+  const MAX_Q = 30;
+  // 동사/명사로 분리 후 각각 shuffle
+  const verbs = shuffle(items.filter(i => i.type === 'verb'));
+  const nouns = shuffle(items.filter(i => i.type === 'noun'));
+
+  // 각 단어에 폼 시작 인덱스 오프셋을 부여 → 같은 타입 단어들이 Round 0에서
+  // 서로 다른 격/인칭 슬롯을 담당하도록 분배 (verbs:6슬롯, nouns:8슬롯)
+  const queues = [];
+  [verbs, nouns].forEach(group => {
+    group.forEach((item, i) => {
+      const forms = item.data.forms;
+      const n = forms.length;
+      const start = i % n;
+      queues.push({
+        item,
+        forms: Array.from({ length: n }, (_, j) => forms[(start + j) % n])
+      });
+    });
+  });
+  shuffle(queues); // 전체 출제 순서 랜덤화
+
+  const pool = [];
+  let round = 0;
+  outer: while (true) {
+    let anyAdded = false;
+    for (const q of queues) {
+      if (round >= q.forms.length) continue;
+      pool.push({ item: q.item, form: q.forms[round] });
+      anyAdded = true;
+      if (pool.length >= MAX_Q) break outer;
+    }
+    if (!anyAdded) break;
+    round++;
+  }
+  return shuffle(pool);
+}
+
 function buildPQFields(item, form) {
   const d = item.data, isVerb = item.type === 'verb';
   if (isVerb) {
