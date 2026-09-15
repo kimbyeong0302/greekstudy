@@ -279,6 +279,14 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   cursor: pointer; font-weight: 600; white-space: nowrap;
 }
 .ls-week-btn:active { background: #eaf1fd; }
+.ls-week-toggle {
+  display: flex; align-items: center; gap: 7px;
+  background: none; border: none; padding: 0; cursor: pointer; flex: 1; text-align: left;
+}
+.ls-week-arrow {
+  font-size: 10px; color: #999; transition: transform .2s; display: inline-block;
+}
+.ls-week-arrow.open { transform: rotate(90deg); }
 /* 어형 변화 퀴즈 */
 .pq-card { background:#fff;border-radius:14px;padding:14px 16px;margin:0 0 14px;box-shadow:0 1px 4px rgba(0,0,0,.07); }
 .pq-card-title { font-size:11px;font-weight:700;color:#aaa;letter-spacing:.8px;text-transform:uppercase;margin:0 0 10px; }
@@ -464,7 +472,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-15-2";
+const APP_VERSION = "2026-09-15-3";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -1472,9 +1480,13 @@ function renderLessonSelect() {
   weeks.forEach(wk => {
     const entries = weekMap[wk];
     html += '<div class="ls-week-hdr">'
+      + '<button class="ls-week-toggle" data-action="toggle-week" data-week="' + wk + '">'
+      + '<span class="ls-week-arrow">▶</span>'
       + '<span class="ls-week-title">' + wk + '주차<span class="ls-week-count">(' + entries.length + '개)</span></span>'
+      + '</button>'
       + '<button class="ls-week-btn" data-action="start-week" data-week="' + wk + '">이 주차 시작</button>'
-      + '</div>';
+      + '</div>'
+      + '<div id="ls-body-' + wk + '" hidden>';
     const verbs = entries.filter(e => e.item.type === 'verb');
     const nouns = entries.filter(e => e.item.type === 'noun');
     if (verbs.length) {
@@ -1495,6 +1507,7 @@ function renderLessonSelect() {
           + '<span class="ls-arrow">›</span></div>';
       });
     }
+    html += '</div>';
   });
   lessonContent.innerHTML = html;
 }
@@ -1505,7 +1518,15 @@ lessonContent.addEventListener('click', function(e) {
   if (!el) return;
   const action = el.dataset.action;
 
-  if (action === 'start-seq') {
+  if (action === 'toggle-week') {
+    const wk = el.dataset.week;
+    const body  = document.getElementById('ls-body-' + wk);
+    const arrow = el.querySelector('.ls-week-arrow');
+    if (body) {
+      body.hidden = !body.hidden;
+      if (arrow) arrow.classList.toggle('open', !body.hidden);
+    }
+  } else if (action === 'start-seq') {
     lessonIdx = 0; startLesson();
   } else if (action === 'start-week') {
     const wk = parseInt(el.dataset.week);
@@ -2432,8 +2453,7 @@ function renderParadigmQuestion() {
   let html = '<div class="pq-progress">'
     + '<span>' + (pqIdx + 1) + ' / ' + pqPool.length + ' 문항</span>'
     + '<span>점수 ' + pqScore + '/' + pqIdx + '</span></div>'
-    + '<div style="text-align:center;background:#fff;border-radius:16px;padding:16px 0 20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.07)">'
-    + '<div style="font-size:11px;color:#aaa;margin-bottom:6px">' + item.data.dict + ' — ' + item.data.meaning + '</div>'
+    + '<div style="text-align:center;background:#fff;border-radius:16px;padding:24px 0 26px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.07)">'
     + '<div style="font-size:38px;font-weight:700;letter-spacing:1px">' + formWithHi(form.form, form.end) + '</div>'
     + '</div>'
     + '<div class="lesson-card"><div class="s34-fields">';
