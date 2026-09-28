@@ -312,6 +312,50 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   border-radius: 12px; border: none; background: #4a3380; color: #fff; cursor: pointer;
 }
 .grammar-btn:active { opacity: .85; }
+/* ── 암기 카드 ─────────────────────────────────────────── */
+.card-start-btn { background: #2e7d6b; margin-top: 14px; }
+.fc-top {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14px; color: #555; margin-bottom: 12px;
+}
+.flashcard { perspective: 1200px; height: 380px; cursor: pointer; -webkit-tap-highlight-color: transparent; outline: none; }
+.fc-inner {
+  position: relative; width: 100%; height: 100%;
+  transition: transform .45s; transform-style: preserve-3d;
+}
+.fc-inner.no-anim { transition: none; }
+.flashcard.flipped .fc-inner { transform: rotateY(180deg); }
+.fc-face {
+  position: absolute; inset: 0; border-radius: 16px; background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08); padding: 22px 20px;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  display: flex; flex-direction: column;
+}
+.fc-front { align-items: center; justify-content: center; text-align: center; }
+.fc-back { transform: rotateY(180deg); overflow-y: auto; }
+.fc-week { position: absolute; top: 14px; left: 16px; font-size: 11px; font-weight: 700; color: #2e7d6b; background: #e6f3ef; padding: 3px 9px; border-radius: 10px; }
+.fc-star { position: absolute; top: 12px; right: 16px; font-size: 18px; color: #e0a100; }
+.fc-greek { font-size: 40px; font-weight: 700; line-height: 1.25; word-break: break-word; }
+.fc-pron { font-size: 18px; color: #777; margin-top: 8px; }
+.fc-hint { position: absolute; bottom: 14px; left: 0; right: 0; text-align: center; font-size: 12px; color: #bbb; }
+.fc-back-greek { font-size: 15px; color: #999; margin-bottom: 4px; }
+.fc-meaning { font-size: 22px; font-weight: 700; margin-bottom: 16px; line-height: 1.35; }
+.fc-sec-lbl { font-size: 11px; font-weight: 700; color: #aaa; letter-spacing: .8px; margin: 0 0 5px; }
+.fc-ety { font-size: 14px; line-height: 1.65; color: #333; margin: 0 0 16px; }
+.fc-pun {
+  font-size: 14px; line-height: 1.65; color: #6b4e00; margin: 0;
+  background: #fff8e6; border: 1.5px dashed #f0d38a; border-radius: 10px; padding: 10px 12px;
+}
+.fc-none { font-size: 13px; color: #aaa; }
+.fc-controls { display: flex; gap: 8px; margin-top: 14px; }
+.fc-nav, .fc-mark {
+  flex: 1; padding: 13px 4px; font-size: 14px; font-weight: 600;
+  border-radius: 12px; border: 1.5px solid #ddd; background: #fff; color: #555; cursor: pointer;
+}
+.fc-nav:disabled { opacity: .4; cursor: default; }
+.fc-mark { flex: 1.3; }
+.fc-mark.on { border-color: #e0a100; background: #fff8e6; color: #9a6b00; }
+.fc-empty { text-align: center; color: #888; font-size: 14px; padding: 40px 0; }
 /* completion notice */
 .lesson-done-card {
   background: #fff; border-radius: 16px; padding: 28px 20px;
@@ -435,6 +479,15 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
     <p style="font-size:13px;color:#888;margin:0 0 12px;line-height:1.5">동사·명사 변화를 6단계로 차근차근 익혀요.</p>
     <button id="lessonMenuBtn" class="grammar-btn">레슨 시작</button>
   </div>
+
+  <!-- 암기 카드 -->
+  <div class="menu-card">
+    <div class="menu-card-title">암기 카드</div>
+    <p style="font-size:13px;color:#888;margin:0 0 4px;line-height:1.5">단어를 어원과 소리 연상으로 외워요. 주차 선택은 단어 퀴즈와 같이 바뀌어요.</p>
+    <div id="cardWeekChips" class="week-chips" style="margin-left:0"></div>
+    <div id="cardErr" class="menu-err"></div>
+    <button id="cardMenuBtn" class="grammar-btn card-start-btn">암기 카드 시작</button>
+  </div>
 </div>
 
 <!-- ── 퀴즈 화면 ───────────────────────────────────────── -->
@@ -470,9 +523,35 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   <div id="lessonContent"></div>
 </div>
 
+<!-- ── 암기 카드 화면 ───────────────────────────────────── -->
+<div id="cardScreen" class="screen" style="display:none">
+  <div class="header-row">
+    <h1>암기 카드</h1>
+    <button class="lesson-back-btn" id="cardBackBtn">← 메뉴</button>
+  </div>
+  <div class="fc-top">
+    <span id="fcProgress"></span>
+    <label class="week-chip" id="fcReviewChip">
+      <input type="checkbox" id="fcReviewOnly"> 다시 볼 단어만 <span id="fcReviewCnt" style="opacity:.6;font-weight:400"></span>
+    </label>
+  </div>
+  <div class="flashcard" id="flashcard" role="button" tabindex="0" aria-label="카드 뒤집기">
+    <div class="fc-inner" id="fcInner">
+      <div class="fc-face fc-front" id="fcFront"></div>
+      <div class="fc-face fc-back" id="fcBack"></div>
+    </div>
+  </div>
+  <div class="fc-controls">
+    <button class="fc-nav" id="fcPrev">← 이전</button>
+    <button class="fc-mark" id="fcMark">☆ 다시 볼 단어</button>
+    <button class="fc-nav" id="fcNext">다음 →</button>
+  </div>
+  <div id="fcEmpty" class="fc-empty" hidden></div>
+</div>
+
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-28-2";
+const APP_VERSION = "2026-09-28-3";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -488,6 +567,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-09-28", text: "암기 카드 추가: 주차별 단어를 어원·소리 연상 카드로 복습 (탭하여 뒤집기, 다시 볼 단어 표시). 6과(형용사·관사)를 4주차로 분리" },
   { date: "2026-09-28", text: "3주차 레슨에 6과 형용사·관사 변화표 추가 (ἀγαθός·μικρός·δίκαιος·관사): 성×격×수 분석, 명사와의 일치, 한정적·서술적 용법" },
   { date: "2026-09-28", text: "3주차 추가: 5·6과 단어 26개, 여성 명사 어미(η형·α형) 어미 퀴즈, 제1변화 여성 명사 레슨 5개(ὥρα·βασιλεία·ἀλήθεια·δόξα·γραφή)" },
   { date: "2026-09-11", text: "어미 퀴즈 추가 (현재 능동태 동사 어미 / 명사 어미 남성·중성), 카테고리 추가 시 체크박스 자동 확장 구조" },
@@ -609,12 +689,16 @@ const letters = [
 // ── 단어 데이터 ──────────────────────────────────────────────
 const words = [
   {gr:"ἀγάπη",       kr:"아가페",          en:"love",               ko:"사랑",            week:1},
-  {gr:"ἀδελφός",     kr:"아델포스",        en:"brother",            ko:"형제",            week:1},
+  {gr:"ἀδελφός",     kr:"아델포스",        en:"brother",            ko:"형제",            week:1,
+   etymology:"ἀ(함께) + δελφύς(자궁), 곧 같은 모태에서 난 자. Philadelphia는 형제 사랑의 도시",
+   pun:"필라델피아는 형제를 사랑하는 도시, 델피는 아델포스"},
   {gr:"ἅγιος",       kr:"하기오스",        en:"holy",               ko:"거룩한",          week:1},
   {gr:"αἷμα",        kr:"하이마",          en:"blood",              ko:"피",              week:1},
   {gr:"ἁμαρτία",     kr:"하마르티아",      en:"sin",                ko:"죄",              week:1},
   {gr:"γλῶσσα",      kr:"글로사",          en:"tongue, language",   ko:"혀, 언어",        week:1},
-  {gr:"ἐκκλησία",    kr:"에클레시아",      en:"church, assembly",   ko:"교회, 모임",      week:1},
+  {gr:"ἐκκλησία",    kr:"에클레시아",      en:"church, assembly",   ko:"교회, 모임",      week:1,
+   etymology:"ἐκ(밖으로) + καλέω(부르다), 곧 불러낸 무리. ecclesiastical의 뿌리",
+   pun:"ex + call = 에클, 밖으로 콜(call)해서 불러낸 무리"},
   {gr:"ἔργον",       kr:"에르곤",          en:"work",               ko:"일, 행위",        week:1},
   {gr:"εὐαγγέλιον",  kr:"유앙겔리온",      en:"good news, Gospel",  ko:"좋은 소식, 복음", week:1},
   {gr:"Ἰησοῦς",      kr:"이에수스",        en:"Jesus",              ko:"예수",            week:1},
@@ -623,63 +707,157 @@ const words = [
   {gr:"μέγας",       kr:"메가스",          en:"large, great",       ko:"크다, 위대한",    week:1},
   {gr:"μήτηρ",       kr:"메테르",          en:"mother",             ko:"어머니",          week:1},
   {gr:"Μωϋσῆς",      kr:"모위세스",        en:"Moses",              ko:"모세",            week:1},
-  {gr:"νόμος",       kr:"노모스",          en:"law",                ko:"율법",            week:1},
-  {gr:"παραβολή",    kr:"파라볼레",        en:"parable",            ko:"비유",            week:1},
+  {gr:"νόμος",       kr:"노모스",          en:"law",                ko:"율법",            week:1,
+   etymology:"νέμω(나누어 주다, 배분하다)에서 나옴. economy, astronomy, autonomy의 -nomy",
+   pun:"노(No)! 모스(more), 더는 어기면 안 되는 율법"},
+  {gr:"παραβολή",    kr:"파라볼레",        en:"parable",            ko:"비유",            week:1,
+   etymology:"παρά(옆에) + βάλλω(던지다), 곧 나란히 던져 놓다. parable(비유), parabola(포물선)의 뿌리",
+   pun:"파라(옆에) 볼(ball)을 던지면 그리는 포물선, 곁에 던져 놓은 비유"},
   {gr:"πατήρ",       kr:"파테르",          en:"father",             ko:"아버지",          week:1},
   {gr:"πρεσβύτερος", kr:"프레스뷔테로스",  en:"elder",              ko:"장로",            week:1},
   {gr:"πῦρ",         kr:"퓌르",            en:"fire",               ko:"불",              week:1},
   {gr:"ὕδωρ",        kr:"휘도르",          en:"water",              ko:"물",              week:1},
   {gr:"Φαρισαῖος",   kr:"파리사이오스",    en:"Pharisee",           ko:"바리새인",        week:1},
-  {gr:"ψυχή",        kr:"프쉬케",          en:"soul, life, self",   ko:"영혼, 생명",      week:1},
+  {gr:"ψυχή",        kr:"프쉬케",          en:"soul, life, self",   ko:"영혼, 생명",      week:1,
+   etymology:"ψύχω(숨 쉬다, 불다)에서 나옴. psychology의 뿌리",
+   pun:"푸쉬~ 하고 내쉬는 숨이 곧 혼"},
   {gr:"Χριστός",     kr:"크리스토스",      en:"Christ, Messiah, Anointed One", ko:"그리스도, 메시아", week:1},
   {gr:"Θεός",        kr:"데오스",          en:"God",                ko:"하나님",          week:1},
-  {gr:"Υἱός",        kr:"휘오스",          en:"Son",                ko:"아들",            week:1},
+  {gr:"Υἱός",        kr:"휘오스",          en:"Son",                ko:"아들",            week:1,
+   etymology:"영어 son과 같은 뿌리로 보는 견해가 있음. 파생어는 거의 없음",
+   pun:"휘~ 오스카 상 받은 아들"},
   {gr:"Σωτήρ",       kr:"소테르",          en:"Savior",             ko:"구원자",          week:1},
-  {gr:"ἄνθρωπος",   kr:"안트로포스",      en:"man, person",        ko:"사람, 인간",      week:2},
-  {gr:"ἀπόστολος",  kr:"아포스톨로스",    en:"apostle",            ko:"사도",            week:2},
-  {gr:"δοῦλος",     kr:"둘로스",          en:"slave, servant",     ko:"종, 노예",        week:2},
-  {gr:"δῶρον",      kr:"도론",            en:"gift",               ko:"선물",            week:2},
-  {gr:"θάνατος",    kr:"다나토스",        en:"death",              ko:"죽음",            week:2},
-  {gr:"ἱερόν",      kr:"히에론",          en:"temple",             ko:"성전",            week:2},
-  {gr:"καί",        kr:"카이",            en:"and",                ko:"그리고",          week:2},
-  {gr:"λόγος",      kr:"로고스",          en:"word",               ko:"말씀",            week:2},
-  {gr:"οἶκος",      kr:"오이코스",        en:"house",              ko:"집",              week:2},
-  {gr:"βλέπω",      kr:"블레포",          en:"I see",              ko:"나는 본다",       week:2},
-  {gr:"γινώσκω",    kr:"기노스코",        en:"I know",             ko:"나는 안다",       week:2},
-  {gr:"γράφω",      kr:"그라포",          en:"I write",            ko:"나는 쓴다",       week:2},
-  {gr:"διδάσκω",    kr:"디다스코",        en:"I teach",            ko:"나는 가르친다",   week:2},
-  {gr:"λαμβάνω",    kr:"람바노",          en:"I take",             ko:"나는 취한다",     week:2},
-  {gr:"λέγω",       kr:"레고",            en:"I say",              ko:"나는 말한다",     week:2},
-  {gr:"λύω",        kr:"루오",            en:"I loose, I destroy", ko:"나는 푼다, 파괴한다", week:2},
-  {gr:"ἔχω",        kr:"에코",            en:"I have",             ko:"나는 가진다",     week:2},
+  {gr:"ἄνθρωπος",   kr:"안트로포스",      en:"man, person",        ko:"사람, 인간",      week:2,
+   etymology:"anthropology(인류학), philanthropy(사람 사랑)의 뿌리. 어원 자체는 불확실",
+   pun:"안 튀어도 포스 있는 사람, 안트로포스"},
+  {gr:"ἀπόστολος",  kr:"아포스톨로스",    en:"apostle",            ko:"사도",            week:2,
+   etymology:"ἀπό(~로부터) + στέλλω(보내다), 곧 보내진 자. apostle의 뿌리",
+   pun:"아포스톨의 포스트(post)는 우편, 우편처럼 보낸 사람"},
+  {gr:"δοῦλος",     kr:"둘로스",          en:"slave, servant",     ko:"종, 노예",        week:2,
+   etymology:"어원 불확실, 영어 파생어도 거의 없음",
+   pun:"둘이 할 일을 혼자 다 하는 종, 둘로스"},
+  {gr:"δῶρον",      kr:"도론",            en:"gift",               ko:"선물",            week:2,
+   etymology:"διδωμι(주다)와 같은 뿌리. 영어 donate와도 같은 뿌리이고 Dorothy, Theodore는 하나님의 선물이라는 뜻의 이름",
+   pun:"도네이트(donate)하면 도론, 선물"},
+  {gr:"θάνατος",    kr:"다나토스",        en:"death",              ko:"죽음",            week:2,
+   etymology:"θνῄσκω(죽다)에서 나옴. euthanasia(좋은 죽음), thanatology(사망학)",
+   pun:"토스트가 타나서 죽었다, 타나토스"},
+  {gr:"ἱερόν",      kr:"히에론",          en:"temple",             ko:"성전",            week:2,
+   etymology:"ἱερός(거룩한)에서 나옴. hierarchy(거룩한 통치), hieroglyph(거룩한 새김)",
+   pun:"하이어라키의 hier가 히에론, 거룩한 성전"},
+  {gr:"καί",        kr:"카이",            en:"and",                ko:"그리고",          week:2,
+   etymology:"파생어가 없는 짧은 접속사. 문장 속에서 반복해 익히는 편이 좋음",
+   pun:"카~ 하고 감탄한 뒤 이것도, 그리고"},
+  {gr:"λόγος",      kr:"로고스",          en:"word",               ko:"말씀",            week:2,
+   etymology:"λέγω(모으다, 말하다)에서 나옴. logic, -logy의 뿌리",
+   pun:"회사의 뜻을 모아 담은 로고, 하나님의 뜻을 모아 담은 로고스"},
+  {gr:"οἶκος",      kr:"오이코스",        en:"house",              ko:"집",              week:2,
+   etymology:"economy는 οἶκος(집) + νόμος(법), 곧 집안 관리. ecology, ecumenical도 같은 뿌리",
+   pun:"에코노미는 오이코스의 살림"},
+  {gr:"βλέπω",      kr:"블레포",          en:"I see",              ko:"나는 본다",       week:2,
+   etymology:"눈꺼풀을 뜻하는 βλέφαρον(안과 용어 blepharo-)과 연관 가능성이 있다고 보는 견해가 있으나 확정적이지 않음",
+   pun:"눈꺼풀 블레파론을 들어야 블레포, 본다"},
+  {gr:"γινώσκω",    kr:"기노스코",        en:"I know",             ko:"나는 안다",       week:2,
+   etymology:"영어 know와 같은 뿌리. gnosis(앎), agnostic(알 수 없다는 사람), diagnosis(꿰뚫어 앎)",
+   pun:"기노스코의 노는 know의 노, 그래서 안다"},
+  {gr:"γράφω",      kr:"그라포",          en:"I write",            ko:"나는 쓴다",       week:2,
+   etymology:"원래 뜻은 긁다, 새기다. 영어 carve와 같은 뿌리로 알려져 있고 graph, graphic, autograph의 뿌리",
+   pun:"돌을 그라인더로 갈듯 긁어 새기던 것이 쓰다, 그라포"},
+  {gr:"διδάσκω",    kr:"디다스코",        en:"I teach",            ko:"나는 가르친다",   week:2,
+   etymology:"didactic(교훈적인)의 뿌리. 배우다 계열에서 파생",
+   pun:"아디다스 신은 코치가 디다스코, 가르친다"},
+  {gr:"λαμβάνω",    kr:"람바노",          en:"I take",             ko:"나는 취한다",     week:2,
+   etymology:"syl-lab-le(함께 취한 소리), lemma(취한 것), dilemma의 뿌리",
+   pun:"syllable의 랩(lab)이 람바노, 소리를 취해 묶은 덩어리"},
+  {gr:"λέγω",       kr:"레고",            en:"I say",              ko:"나는 말한다",     week:2,
+   etymology:"원래 뜻은 모으다, 골라내다. legend, lexicon, collect(라틴어 legere)와 연결",
+   pun:"레고 블록을 모아 쌓듯 말을 모아 이어 간다"},
+  {gr:"λύω",        kr:"루오",            en:"I loose, I destroy", ko:"나는 푼다, 파괴한다", week:2,
+   etymology:"영어 loose와 같은 뿌리. analysis(풀어 나눔), paralysis(힘이 풀림)의 뿌리",
+   pun:"매듭이 루즈(loose)해져 풀린다, 뤼오"},
+  {gr:"ἔχω",        kr:"에코",            en:"I have",             ko:"나는 가진다",     week:2,
+   etymology:"원래 뜻은 붙들고 있다. hectic의 그리스어 뿌리 ἕξις(지속되는 상태)도 여기서 나옴",
+   pun:"에코백은 물건을 가지고 있는 가방"},
   // 3주차: 5과 낱말 모음 §43 (ἐκκλησία·παραβολή·ψυχή는 1주차에 이미 있어 제외)
-  {gr:"ἀλήθεια",    kr:"알레데이아",      en:"truth",              ko:"진리",            week:3},
-  {gr:"βασιλεία",   kr:"바실레이아",      en:"kingdom",            ko:"왕국, 나라",      week:3},
-  {gr:"γραφή",      kr:"그라페",          en:"writing, Scripture", ko:"문서, 성경",      week:3},
-  {gr:"δόξα",       kr:"독사",            en:"glory",              ko:"영광",            week:3},
-  {gr:"εἰρήνη",     kr:"에이레네",        en:"peace",              ko:"평화",            week:3},
-  {gr:"ἐντολή",     kr:"엔톨레",          en:"commandment",        ko:"계명",            week:3},
-  {gr:"ζωή",        kr:"조에",            en:"life",               ko:"생명",            week:3},
-  {gr:"ἡμέρα",      kr:"헤메라",          en:"day",                ko:"날",              week:3},
-  {gr:"καρδία",     kr:"카르디아",        en:"heart",              ko:"마음",            week:3},
-  {gr:"φωνή",       kr:"포네",            en:"voice, sound",       ko:"음성",            week:3},
-  {gr:"ὥρα",        kr:"호라",            en:"hour",               ko:"시간",            week:3},
-  // 3주차: 6과 낱말 모음 §56
-  {gr:"ἀγαθός",     kr:"아가도스",        en:"good (morally)",     ko:"좋은, 착한, 선한", week:3},
-  {gr:"ἄλλος",      kr:"알로스",          en:"other, another",     ko:"다른",            week:3},
-  {gr:"δίκαιος",    kr:"디카이오스",      en:"righteous, just",    ko:"옳은",            week:3},
-  {gr:"ἐγείρω",     kr:"에게이로",        en:"I raise up",         ko:"나는 일으킨다",   week:3},
-  {gr:"ἔρημος",     kr:"에레모스",        en:"desert, wilderness", ko:"빈 들, 광야",     week:3},
-  {gr:"ἔσχατος",    kr:"에스카토스",      en:"last",               ko:"마지막의, 끝의",  week:3},
-  {gr:"κακός",      kr:"카코스",          en:"bad, evil",          ko:"나쁜",            week:3},
-  {gr:"καλός",      kr:"칼로스",          en:"good, beautiful",    ko:"좋은, 아름다운",  week:3},
-  {gr:"κύριος",     kr:"퀴리오스",        en:"lord, master",       ko:"주, 주인",        week:3},
-  {gr:"μικρός",     kr:"미크로스",        en:"small, little",      ko:"작은, 적은",      week:3},
-  {gr:"νεκρός",     kr:"네크로스",        en:"dead",               ko:"죽은",            week:3},
-  {gr:"ὁ, ἡ, τό",   kr:"호, 헤, 토",      en:"the (article)",      ko:"그 (관사)",       week:3},
-  {gr:"ὁδός",       kr:"호도스",          en:"way, road",          ko:"길",              week:3},
-  {gr:"πιστός",     kr:"피스토스",        en:"faithful",           ko:"신실한",          week:3},
-  {gr:"πρῶτος",     kr:"프로토스",        en:"first",              ko:"처음의",          week:3}
+  {gr:"ἀλήθεια",    kr:"알레데이아",      en:"truth",              ko:"진리",            week:3,
+   etymology:"ἀ(아니다) + λήθη(망각), 곧 잊히지 않는 것, 가려지지 않은 것. 망각의 강 레테(Lethe)와 반대",
+   pun:"알고 레테강을 건너지 않아 잊지 않는 것이 진리"},
+  {gr:"βασιλεία",   kr:"바실레이아",      en:"kingdom",            ko:"왕국, 나라",      week:3,
+   etymology:"βασιλεύς(왕)에서 나옴. basil(왕의 허브), basilica가 같은 뿌리",
+   pun:"바질은 왕의 허브, 바질 향 나는 곳이 왕국"},
+  {gr:"γραφή",      kr:"그라페",          en:"writing, Scripture", ko:"문서, 성경",      week:3,
+   etymology:"γράφω(새기다, 쓰다)에서 나옴. graph의 뿌리",
+   pun:"그래, 새겨 쓴 페이지가 성경"},
+  {gr:"δόξα",       kr:"독사",            en:"glory",              ko:"영광",            week:3,
+   etymology:"δοκέω(~라고 생각하다), 곧 의견에서 평판, 영광으로 넘어감. doxology, ortho-dox(바른 의견), para-dox(반대 의견)",
+   pun:"독하게 좋은 사람들의 평판이 곧 영광"},
+  {gr:"εἰρήνη",     kr:"에이레네",        en:"peace",              ko:"평화",            week:3,
+   etymology:"평화의 여신 이름. 이름 Irene(아이린)이 여기서 나옴",
+   pun:"에이~ 그만 싸워, 아이린은 평화의 여신"},
+  {gr:"ἐντολή",     kr:"엔톨레",          en:"commandment",        ko:"계명",            week:3,
+   etymology:"ἐν(안에) + τέλλω(명하다, 정하다) 계열의 동사 ἐντέλλομαι에서 나온 것으로 봄. 영어 파생어는 거의 없음",
+   pun:"안(en)에 들어가려면 톨(toll, 통행료)을 내라는 명령이 계명"},
+  {gr:"ζωή",        kr:"조에",            en:"life",               ko:"생명",            week:3,
+   etymology:"ζάω(살다)에서 나옴. zoo, zoology, zodiac(작은 동물)의 뿌리",
+   pun:"조(zoo)에 가면 생명이 가득"},
+  {gr:"ἡμέρα",      kr:"헤메라",          en:"day",                ko:"날",              week:3,
+   etymology:"ephemeral(하루만 가는), ephemera(하루살이)의 뿌리",
+   pun:"하루(헤메라)만 사는 ephemeral, 하루살이"},
+  {gr:"καρδία",     kr:"카르디아",        en:"heart",              ko:"마음",            week:3,
+   etymology:"cardiac, cardiology, cardio 운동의 뿌리. 영어 heart와도 같은 뿌리",
+   pun:"카디오 운동은 심장을 뛰게 하는 운동"},
+  {gr:"φωνή",       kr:"포네",            en:"voice, sound",       ko:"음성",            week:3,
+   etymology:"phone, telephone, symphony, phonetics의 뿌리",
+   pun:"폰에서 나오는 음성"},
+  {gr:"ὥρα",        kr:"호라",            en:"hour",               ko:"시간",            week:3,
+   etymology:"영어 hour와 연결되고 영어 year와도 같은 뿌리로 봄",
+   pun:"호~ 벌써 아워(hour), 시간이네"},
+  // 4주차: 6과 낱말 모음 §56
+  {gr:"ἀγαθός",     kr:"아가도스",        en:"good (morally)",     ko:"좋은, 착한, 선한", week:4,
+   etymology:"어원은 불확실. 여자 이름 Agatha가 선한 여자라는 뜻으로 여기서 나옴",
+   pun:"아가(아기)처럼 순한 아가타, 선한 사람"},
+  {gr:"ἄλλος",      kr:"알로스",          en:"other, another",     ko:"다른",            week:4,
+   etymology:"allergy(다른 것에 대한 반응), parallel(서로 곁에 있는 다른 선), allegory(다르게 말하기)의 뿌리",
+   pun:"알러지는 내 몸이 다른 것을 거부하는 반응"},
+  {gr:"δίκαιος",    kr:"디카이오스",      en:"righteous, just",    ko:"옳은",            week:4,
+   etymology:"δίκη(정의, 재판)에서 나옴. 정의의 여신 이름이 Dike(디케). theodicy(신정론)도 같은 뿌리",
+   pun:"디케 여신의 저울이 딱 맞으니 옳은 것, 디카이오스"},
+  {gr:"ἐγείρω",     kr:"에게이로",        en:"I raise up",         ko:"나는 일으킨다",   week:4,
+   etymology:"이름 Gregory는 깨어 있는이라는 뜻의 γρηγορέω에서 나왔고 이 동사는 ἐγείρω 계열. 신약에서 죽은 자를 일으키다, 곧 부활시키다의 뜻으로 자주 쓰임",
+   pun:"에게~ 이렇게 일으켜 세워야지, 그레고리야 깨어 있어"},
+  {gr:"ἔρημος",     kr:"에레모스",        en:"desert, wilderness", ko:"빈 들, 광야",     week:4,
+   etymology:"hermit(은둔자)은 광야에 사는 사람 ἐρημίτης에서 나옴",
+   pun:"허미트(hermit)가 사는 빈들"},
+  {gr:"ἔσχατος",    kr:"에스카토스",      en:"last",               ko:"마지막의, 끝의",  week:4,
+   etymology:"eschatology(종말론)의 뿌리",
+   pun:"에스컬레이터의 마지막 칸에서 토스, 끝이 마지막"},
+  {gr:"κακός",      kr:"카코스",          en:"bad, evil",          ko:"나쁜",            week:4,
+   etymology:"cacophony(불쾌한 소리)는 κακός + φωνή(포네)",
+   pun:"카코포니, 나쁜 소리"},
+  {gr:"καλός",      kr:"칼로스",          en:"good, beautiful",    ko:"좋은, 아름다운",  week:4,
+   etymology:"calligraphy(아름다운 글씨, κάλλος + γράφω)와 kaleidoscope(아름다운 모양을 보는 것)의 뿌리",
+   pun:"캘리그라피는 아름다운 글씨"},
+  {gr:"κύριος",     kr:"퀴리오스",        en:"lord, master",       ko:"주, 주인",        week:4,
+   etymology:"κῦρος(권위)에서 나옴. church는 κυριακόν(주님의 것)에서 왔고, 기도문 Kyrie eleison(주여 불쌍히 여기소서)도 있음",
+   pun:"퀴리오스는 키리에, 부르는 주님"},
+  {gr:"μικρός",     kr:"미크로스",        en:"small, little",      ko:"작은, 적은",      week:4,
+   etymology:"micro-, microscope, microphone의 뿌리",
+   pun:"마이크로 칩처럼 작은"},
+  {gr:"νεκρός",     kr:"네크로스",        en:"dead",               ko:"죽은",            week:4,
+   etymology:"necropolis(죽은 자의 도시), necromancer(죽은 자를 부르는 술사)의 뿌리",
+   pun:"네크로맨서가 부르는 죽은 자"},
+  {gr:"ὁ, ἡ, τό",   kr:"호, 헤, 토",      en:"the (article)",      ko:"그 (관사)",       week:4,
+   etymology:"τό는 영어 that과 같은 뿌리로 알려져 있음. 관사는 단어 하나가 아니라 변화표까지 함께 외울 것",
+   pun:"호(남)·헤(여)·토(중), 호헤토 하고 그것을 콕 집는 소리"},
+  {gr:"ὁδός",       kr:"호도스",          en:"way, road",          ko:"길",              week:4,
+   etymology:"method(길을 따라가는 방법), exodus(밖으로 나가는 길), synod(함께 가는 길)의 뿌리",
+   pun:"호두과자 사러 가는 길"},
+  {gr:"πιστός",     kr:"피스토스",        en:"faithful",           ko:"신실한",          week:4,
+   etymology:"πείθω(설득하다, 신뢰하다)에서 나왔고 πίστις(믿음)와 같은 계열. 아래 pun은 어원과 무관한 소리 연상",
+   pun:"피 나도 약속을 지키는 신실한 사람, 피스토스"},
+  {gr:"πρῶτος",     kr:"프로토스",        en:"first",              ko:"처음의",          week:4,
+   etymology:"prototype(처음 만든 원형), protagonist(첫 배우, 주인공), protocol, proton의 뿌리",
+   pun:"프로토타입은 처음 만든 모델"}
 ];
 
 // ── 동사 변화 데이터 (현재 능동 직설법) ─────────────────────
@@ -1030,7 +1208,7 @@ function adjRows(rows) {
 const AGREE_NOUNS = { '남성': 'λόγος', '여성': 'γραφή', '중성': 'δῶρον' };
 const adjParadigms = [
   // 교재 §57 변화표
-  { dict:"ἀγαθός", meaning:"좋은, 선한", week:3, kind:"adj", attr:"좋은", pred:"좋다",
+  { dict:"ἀγαθός", meaning:"좋은, 선한", week:4, kind:"adj", attr:"좋은", pred:"좋다",
     forms: adjRows([
       ['주격','단수', ['ἀγαθός','ός'],   ['ἀγαθή','ή'],     ['ἀγαθόν','όν']],
       ['속격','단수', ['ἀγαθοῦ','οῦ'],   ['ἀγαθῆς','ῆς'],   ['ἀγαθοῦ','οῦ']],
@@ -1045,7 +1223,7 @@ const adjParadigms = [
           opts:["-η로 마치는 제1변화 여성 명사","제2변화 남성 명사","제2변화 중성 명사","-α로 마치는 제1변화 명사"], ans:"-η로 마치는 제1변화 여성 명사" }
   },
   // 교재 §59 (변화표는 부록 §510·511) — 어근이 ρ나 모음으로 끝나 여성 단수가 α
-  { dict:"μικρός", meaning:"작은, 적은", week:3, kind:"adj", femAlpha:true, attr:"작은", pred:"작다",
+  { dict:"μικρός", meaning:"작은, 적은", week:4, kind:"adj", femAlpha:true, attr:"작은", pred:"작다",
     forms: adjRows([
       ['주격','단수', ['μικρός','ός'],   ['μικρά','ά'],     ['μικρόν','όν']],
       ['속격','단수', ['μικροῦ','οῦ'],   ['μικρᾶς','ᾶς'],   ['μικροῦ','οῦ']],
@@ -1059,7 +1237,7 @@ const adjParadigms = [
     s2q:{ q:"μικρός의 여성 단수 어미가 η가 아니라 α인 이유는?",
           opts:["어근의 마지막 글자가 ρ라서","중성이라서","복수라서","관사가 붙어서"], ans:"어근의 마지막 글자가 ρ라서" }
   },
-  { dict:"δίκαιος", meaning:"옳은", week:3, kind:"adj", femAlpha:true, attr:"옳은", pred:"옳다",
+  { dict:"δίκαιος", meaning:"옳은", week:4, kind:"adj", femAlpha:true, attr:"옳은", pred:"옳다",
     forms: adjRows([
       ['주격','단수', ['δίκαιος','ος'],   ['δικαία','α'],     ['δίκαιον','ον']],
       ['속격','단수', ['δικαίου','ου'],   ['δικαίας','ας'],   ['δικαίου','ου']],
@@ -1074,7 +1252,7 @@ const adjParadigms = [
           opts:["일반 법칙을 따른다 (얼티마 써컴플렉스 예외 없음)","명사처럼 항상 -ῶν","항상 애큐트가 얼티마에","악센트가 없다"], ans:"일반 법칙을 따른다 (얼티마 써컴플렉스 예외 없음)" }
   },
   // 교재 §60 변화표 (관사는 호격이 없음)
-  { dict:"ὁ, ἡ, τό", meaning:"그 (관사)", week:3, kind:"article",
+  { dict:"ὁ, ἡ, τό", meaning:"그 (관사)", week:4, kind:"article",
     forms: adjRows([
       ['주격','단수', ['ὁ','ὁ'],       ['ἡ','ἡ'],       ['τό','ό']],
       ['속격','단수', ['τοῦ','οῦ'],    ['τῆς','ῆς'],    ['τοῦ','οῦ']],
@@ -1192,7 +1370,7 @@ const sentences = [
   { gr:'βλέπομεν γραφάς.',              ko:'우리가 문서들을 본다.',
     words:[ {dict:'βλέπω',     form:'βλέπομεν',     type:'verb',person:1,number:'복수',role:'서술어'},
             {dict:'γραφή',     form:'γραφάς',       type:'noun',case:'대격',number:'복수',role:'목적어'} ]},
-  // 3주차: 교재 6과 익힘 문제 §71 — 형용사·관사 (type:'adj', role=용법, agrees=일치하는 단어)
+  // 4주차: 교재 6과 익힘 문제 §71 — 형용사·관사 (type:'adj', role=용법, agrees=일치하는 단어)
   { gr:'ἀγαθὴ ἡ ἐκκλησία καὶ ἡ βασιλεία κακή.', ko:'교회는 선하고 왕국은 나쁘다.',
     words:[ {dict:'ἀγαθός',   form:'ἀγαθὴ',  type:'adj',gender:'여성',case:'주격',number:'단수',role:'서술적',agrees:'ἐκκλησία'},
             {dict:'ὁ, ἡ, τό', form:'ἡ',      type:'adj',gender:'여성',case:'주격',number:'단수',agrees:'ἐκκλησία'} ]},
@@ -1648,7 +1826,7 @@ let pqCurFields = null;
 let pqUserAns   = {};
 let pqSubmitted = false;
 let pqScore     = 0;
-let pqSelWeeks  = new Set([1, 2, 3]);
+let pqSelWeeks  = new Set([1, 2, 3, 4]);
 // 동사+명사 합친 레슨 목록 구성
 function buildLessonItems() {
   lessonItems = [];
@@ -3075,6 +3253,181 @@ function renderPQDone() {
     + '<button class="lesson-btn primary" data-action="pq-restart" style="margin-top:14px">다시 풀기</button>'
     + '<button class="lesson-btn" data-action="back-select" style="margin-top:8px">목록으로</button>';
 }
+
+// ── 암기 카드 ─────────────────────────────────────────────────
+// 주차 선택은 단어 퀴즈의 주차 체크박스(.wk-cb)를 그대로 사용한다
+const cardScreen    = document.getElementById('cardScreen');
+const cardWeekChips = document.getElementById('cardWeekChips');
+const cardErr       = document.getElementById('cardErr');
+const flashcard     = document.getElementById('flashcard');
+const fcInner       = document.getElementById('fcInner');
+const fcFront       = document.getElementById('fcFront');
+const fcBack        = document.getElementById('fcBack');
+const fcProgress    = document.getElementById('fcProgress');
+const fcPrev        = document.getElementById('fcPrev');
+const fcNext        = document.getElementById('fcNext');
+const fcMark        = document.getElementById('fcMark');
+const fcReviewOnly  = document.getElementById('fcReviewOnly');
+const fcReviewCnt   = document.getElementById('fcReviewCnt');
+const fcEmpty       = document.getElementById('fcEmpty');
+const fcReviewChip  = document.getElementById('fcReviewChip');
+const fcControls    = document.querySelector('.fc-controls');
+const REVIEW_KEY    = 'reviewWords';
+
+let cardWeeks = [];   // 카드 화면을 열 때 선택된 주차
+let cardDeck  = [];   // 현재 보여주는 단어 목록
+let cardIdx   = 0;
+
+// "다시 볼 단어"는 이 기기(브라우저)에만 저장
+function loadReview() {
+  try { return new Set(JSON.parse(localStorage.getItem(REVIEW_KEY) || '[]')); } catch { return new Set(); }
+}
+function saveReview(set) {
+  try { localStorage.setItem(REVIEW_KEY, JSON.stringify([...set])); } catch {}
+}
+let reviewSet = loadReview();
+
+function selectedWeeks() {
+  return [...weekChips.querySelectorAll('.wk-cb:checked')].map(c => parseInt(c.value));
+}
+
+// 메뉴의 암기 카드 주차 칩 = 단어 퀴즈 주차 체크박스의 거울
+function renderCardWeekChips() {
+  cardWeekChips.innerHTML = [...weekChips.querySelectorAll('.wk-cb')].map(cb => {
+    const wk = parseInt(cb.value);
+    const cnt = words.filter(w => w.week === wk).length;
+    return '<label class="week-chip' + (cb.checked ? ' on' : '') + '">'
+      + '<input type="checkbox" class="card-wk-cb" value="' + wk + '"' + (cb.checked ? ' checked' : '') + '>'
+      + wk + '주차 <span style="opacity:.6;font-weight:400">(' + cnt + '개)</span></label>';
+  }).join('');
+}
+cardWeekChips.addEventListener('change', e => {
+  if (!e.target.classList.contains('card-wk-cb')) return;
+  const src = weekChips.querySelector('.wk-cb[value="' + e.target.value + '"]');
+  src.checked = e.target.checked;
+  src.dispatchEvent(new Event('change'));
+});
+weekChips.addEventListener('change', () => { renderCardWeekChips(); cardErr.style.display = 'none'; });
+renderCardWeekChips();
+
+function buildDeck() {
+  const pool = words.filter(w => cardWeeks.includes(w.week));
+  cardDeck = fcReviewOnly.checked ? pool.filter(w => reviewSet.has(w.gr)) : pool;
+  cardIdx = Math.min(cardIdx, Math.max(cardDeck.length - 1, 0));
+}
+
+function updateReviewCount() {
+  const n = words.filter(w => cardWeeks.includes(w.week) && reviewSet.has(w.gr)).length;
+  fcReviewCnt.textContent = '(' + n + ')';
+  fcReviewChip.classList.toggle('on', fcReviewOnly.checked);
+}
+
+// 앞면으로 되돌릴 때는 애니메이션 없이 (새 카드 뒷면이 비치지 않도록)
+function resetFlip() {
+  fcInner.classList.add('no-anim');
+  flashcard.classList.remove('flipped');
+  void fcInner.offsetWidth;
+  fcInner.classList.remove('no-anim');
+}
+
+function renderCard() {
+  updateReviewCount();
+  const empty = cardDeck.length === 0;
+  flashcard.style.display  = empty ? 'none' : '';
+  fcControls.style.display = empty ? 'none' : '';
+  fcEmpty.hidden = !empty;
+  if (empty) {
+    fcProgress.textContent = '0 / 0';
+    fcEmpty.textContent = fcReviewOnly.checked
+      ? '다시 볼 단어로 표시한 단어가 없어요. 카드에서 ☆ 다시 볼 단어를 눌러 표시하세요.'
+      : '선택한 주차에 단어가 없어요.';
+    return;
+  }
+  const w = cardDeck[cardIdx];
+  const marked = reviewSet.has(w.gr);
+  fcProgress.textContent = (cardIdx + 1) + ' / ' + cardDeck.length;
+
+  fcFront.innerHTML = '<span class="fc-week">' + w.week + '주차</span>'
+    + (marked ? '<span class="fc-star">★</span>' : '')
+    + '<div class="fc-greek">' + w.gr + '</div>'
+    + '<div class="fc-pron">[' + w.kr + ']</div>'
+    + '<div class="fc-hint">탭하면 뒤집혀요</div>';
+
+  let back = '<div class="fc-back-greek">' + w.gr + ' [' + w.kr + ']</div>'
+    + '<div class="fc-meaning">' + w.ko + '</div>';
+  if (w.etymology) {
+    back += '<div class="fc-sec-lbl">어원</div><p class="fc-ety">' + w.etymology + '</p>';
+  }
+  if (w.pun) {
+    back += '<div class="fc-sec-lbl">소리 연상 <span style="font-weight:400;letter-spacing:0">(암기용 말장난, 학술 출처 없음)</span></div>'
+      + '<p class="fc-pun">' + w.pun + '</p>';
+  }
+  if (!w.etymology && !w.pun) back += '<p class="fc-none">이 단어는 아직 연상 자료가 없어요.</p>';
+  fcBack.innerHTML = back;
+  fcBack.scrollTop = 0;
+
+  fcPrev.disabled = cardIdx === 0;
+  fcNext.disabled = cardIdx === cardDeck.length - 1;
+  fcMark.classList.toggle('on', marked);
+  fcMark.textContent = (marked ? '★' : '☆') + ' 다시 볼 단어';
+}
+
+function moveCard(delta) {
+  const next = cardIdx + delta;
+  if (next < 0 || next >= cardDeck.length) return;
+  cardIdx = next;
+  resetFlip();
+  renderCard();
+}
+
+document.getElementById('cardMenuBtn').addEventListener('click', () => {
+  cardWeeks = selectedWeeks();
+  if (cardWeeks.length === 0) {
+    cardErr.textContent = '주차를 하나 이상 선택해주세요.';
+    cardErr.style.display = 'block';
+    return;
+  }
+  cardErr.style.display = 'none';
+  cardIdx = 0;
+  fcReviewOnly.checked = false;
+  buildDeck();
+  resetFlip();
+  menuScreen.style.display = 'none';
+  cardScreen.style.display = 'block';
+  window.scrollTo(0, 0);
+  renderCard();
+});
+document.getElementById('cardBackBtn').addEventListener('click', () => {
+  cardScreen.style.display = 'none';
+  menuScreen.style.display = 'block';
+  window.scrollTo(0, 0);
+});
+flashcard.addEventListener('click', () => flashcard.classList.toggle('flipped'));
+fcPrev.addEventListener('click', () => moveCard(-1));
+fcNext.addEventListener('click', () => moveCard(1));
+fcMark.addEventListener('click', () => {
+  const w = cardDeck[cardIdx];
+  if (!w) return;
+  if (reviewSet.has(w.gr)) reviewSet.delete(w.gr); else reviewSet.add(w.gr);
+  saveReview(reviewSet);
+  // "다시 볼 단어만" 보기에서 표시를 풀면 목록에서 빠진다
+  if (fcReviewOnly.checked) { buildDeck(); resetFlip(); }
+  renderCard();
+});
+fcReviewOnly.addEventListener('change', () => {
+  cardIdx = 0;
+  buildDeck();
+  resetFlip();
+  renderCard();
+});
+document.addEventListener('keydown', e => {
+  if (cardScreen.style.display === 'none') return;
+  if (e.key === 'ArrowLeft') moveCard(-1);
+  else if (e.key === 'ArrowRight') moveCard(1);
+  else if ((e.key === ' ' || e.key === 'Enter') && !e.target.closest('button, input, label')) {
+    e.preventDefault(); flashcard.classList.toggle('flipped');
+  }
+});
 </script>
 </body>
 </html>
