@@ -472,7 +472,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-15-3";
+const APP_VERSION = "2026-09-28-1";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -488,6 +488,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-09-28", text: "3주차 추가: 5·6과 단어 26개, 여성 명사 어미(η형·α형) 어미 퀴즈, 제1변화 여성 명사 레슨 5개(ὥρα·βασιλεία·ἀλήθεια·δόξα·γραφή)" },
   { date: "2026-09-11", text: "어미 퀴즈 추가 (현재 능동태 동사 어미 / 명사 어미 남성·중성), 카테고리 추가 시 체크박스 자동 확장 구조" },
   { date: "2026-09-11", text: "동사 어미 퀴즈 추가" },
   { date: "2026-09-11", text: "레슨 모드 5·6단계 추가 (누적적용·실제분석)" },
@@ -566,7 +567,27 @@ const endings = [
   {type:"noun", category:"명사 어미 (남성·중성)", ending:"-α",  gender:"중성", case:"주격", number:"복수"},
   {type:"noun", category:"명사 어미 (남성·중성)", ending:"-ων", gender:"중성", case:"속격", number:"복수"},
   {type:"noun", category:"명사 어미 (남성·중성)", ending:"-οις",gender:"중성", case:"여격", number:"복수"},
-  {type:"noun", category:"명사 어미 (남성·중성)", ending:"-α",  gender:"중성", case:"대격", number:"복수"}
+  {type:"noun", category:"명사 어미 (남성·중성)", ending:"-α",  gender:"중성", case:"대격", number:"복수"},
+
+  // --- 명사 어미: 여성 (1변화) — 교재 5과 §44~53 ---
+  // η형: 주격 단수가 -η (γραφή)
+  {type:"noun", category:"명사 어미 (여성 η형)", ending:"-η",  gender:"여성", case:"주격", number:"단수"},
+  {type:"noun", category:"명사 어미 (여성 η형)", ending:"-ης", gender:"여성", case:"속격", number:"단수"},
+  {type:"noun", category:"명사 어미 (여성 η형)", ending:"-ῃ",  gender:"여성", case:"여격", number:"단수"},
+  {type:"noun", category:"명사 어미 (여성 η형)", ending:"-ην", gender:"여성", case:"대격", number:"단수"},
+  {type:"noun", category:"명사 어미 (여성 η형)", ending:"-αι", gender:"여성", case:"주격", number:"복수"},
+  {type:"noun", category:"명사 어미 (여성 η형)", ending:"-ων", gender:"여성", case:"속격", number:"복수"},
+  {type:"noun", category:"명사 어미 (여성 η형)", ending:"-αις",gender:"여성", case:"여격", number:"복수"},
+  {type:"noun", category:"명사 어미 (여성 η형)", ending:"-ας", gender:"여성", case:"대격", number:"복수"},
+  // α형: 어간이 ε, ι, ρ로 끝나 단수 내내 α 유지 (ὥρα, βασιλεία, ἀλήθεια)
+  {type:"noun", category:"명사 어미 (여성 α형)", ending:"-α",  gender:"여성", case:"주격", number:"단수"},
+  {type:"noun", category:"명사 어미 (여성 α형)", ending:"-ας", gender:"여성", case:"속격", number:"단수"},
+  {type:"noun", category:"명사 어미 (여성 α형)", ending:"-ᾳ",  gender:"여성", case:"여격", number:"단수"},
+  {type:"noun", category:"명사 어미 (여성 α형)", ending:"-αν", gender:"여성", case:"대격", number:"단수"},
+  {type:"noun", category:"명사 어미 (여성 α형)", ending:"-αι", gender:"여성", case:"주격", number:"복수"},
+  {type:"noun", category:"명사 어미 (여성 α형)", ending:"-ων", gender:"여성", case:"속격", number:"복수"},
+  {type:"noun", category:"명사 어미 (여성 α형)", ending:"-αις",gender:"여성", case:"여격", number:"복수"},
+  {type:"noun", category:"명사 어미 (여성 α형)", ending:"-ας", gender:"여성", case:"대격", number:"복수"}
 ];
 
 const letters = [
@@ -629,7 +650,35 @@ const words = [
   {gr:"λαμβάνω",    kr:"람바노",          en:"I take",             ko:"나는 취한다",     week:2},
   {gr:"λέγω",       kr:"레고",            en:"I say",              ko:"나는 말한다",     week:2},
   {gr:"λύω",        kr:"루오",            en:"I loose, I destroy", ko:"나는 푼다, 파괴한다", week:2},
-  {gr:"ἔχω",        kr:"에코",            en:"I have",             ko:"나는 가진다",     week:2}
+  {gr:"ἔχω",        kr:"에코",            en:"I have",             ko:"나는 가진다",     week:2},
+  // 3주차: 5과 낱말 모음 §43 (ἐκκλησία·παραβολή·ψυχή는 1주차에 이미 있어 제외)
+  {gr:"ἀλήθεια",    kr:"알레데이아",      en:"truth",              ko:"진리",            week:3},
+  {gr:"βασιλεία",   kr:"바실레이아",      en:"kingdom",            ko:"왕국, 나라",      week:3},
+  {gr:"γραφή",      kr:"그라페",          en:"writing, Scripture", ko:"문서, 성경",      week:3},
+  {gr:"δόξα",       kr:"독사",            en:"glory",              ko:"영광",            week:3},
+  {gr:"εἰρήνη",     kr:"에이레네",        en:"peace",              ko:"평화",            week:3},
+  {gr:"ἐντολή",     kr:"엔톨레",          en:"commandment",        ko:"계명",            week:3},
+  {gr:"ζωή",        kr:"조에",            en:"life",               ko:"생명",            week:3},
+  {gr:"ἡμέρα",      kr:"헤메라",          en:"day",                ko:"날",              week:3},
+  {gr:"καρδία",     kr:"카르디아",        en:"heart",              ko:"마음",            week:3},
+  {gr:"φωνή",       kr:"포네",            en:"voice, sound",       ko:"음성",            week:3},
+  {gr:"ὥρα",        kr:"호라",            en:"hour",               ko:"시간",            week:3},
+  // 3주차: 6과 낱말 모음 §56
+  {gr:"ἀγαθός",     kr:"아가도스",        en:"good (morally)",     ko:"좋은, 착한, 선한", week:3},
+  {gr:"ἄλλος",      kr:"알로스",          en:"other, another",     ko:"다른",            week:3},
+  {gr:"δίκαιος",    kr:"디카이오스",      en:"righteous, just",    ko:"옳은",            week:3},
+  {gr:"ἐγείρω",     kr:"에게이로",        en:"I raise up",         ko:"나는 일으킨다",   week:3},
+  {gr:"ἔρημος",     kr:"에레모스",        en:"desert, wilderness", ko:"빈 들, 광야",     week:3},
+  {gr:"ἔσχατος",    kr:"에스카토스",      en:"last",               ko:"마지막의, 끝의",  week:3},
+  {gr:"κακός",      kr:"카코스",          en:"bad, evil",          ko:"나쁜",            week:3},
+  {gr:"καλός",      kr:"칼로스",          en:"good, beautiful",    ko:"좋은, 아름다운",  week:3},
+  {gr:"κύριος",     kr:"퀴리오스",        en:"lord, master",       ko:"주, 주인",        week:3},
+  {gr:"μικρός",     kr:"미크로스",        en:"small, little",      ko:"작은, 적은",      week:3},
+  {gr:"νεκρός",     kr:"네크로스",        en:"dead",               ko:"죽은",            week:3},
+  {gr:"ὁ, ἡ, τό",   kr:"호, 헤, 토",      en:"the (article)",      ko:"그 (관사)",       week:3},
+  {gr:"ὁδός",       kr:"호도스",          en:"way, road",          ko:"길",              week:3},
+  {gr:"πιστός",     kr:"피스토스",        en:"faithful",           ko:"신실한",          week:3},
+  {gr:"πρῶτος",     kr:"프로토스",        en:"first",              ko:"처음의",          week:3}
 ];
 
 // ── 동사 변화 데이터 (현재 능동 직설법) ─────────────────────
@@ -733,8 +782,8 @@ const verbParadigms = [
   }
 ];
 
-// ── 명사 변화 데이터 (2격 변화, 호격 제외 8칸) ──────────────
-// gender: 남성/중성
+// ── 명사 변화 데이터 (1·2격 변화, 호격 제외 8칸) ────────────
+// gender: 남성/중성 (2격 변화) · 여성 (1격 변화)
 const nounParadigms = [
   // 2격 변화 남성 (7개)
   { dict:"λόγος",     meaning:"말씀",  week:2, gender:"남성",
@@ -891,6 +940,77 @@ const nounParadigms = [
     ],
     s2q:{ q:"속격 단수 어미(-ου)가 뜻하는 것은?",
           opts:["소유·~의","주어·~이/가","목적어·~을","간접목적어·~에게"], ans:"소유·~의" }
+  },
+  // 1격 변화 여성 (5개) — 교재 5과 §45·48·50·52 변화표
+  { dict:"ὥρα",       meaning:"시간",  week:3, gender:"여성",
+    forms:[
+      {form:"ὥρα",     end:"α",   case:"주격", number:"단수", tr:"시간이"},
+      {form:"ὥρας",    end:"ας",  case:"속격", number:"단수", tr:"시간의"},
+      {form:"ὥρᾳ",     end:"ᾳ",   case:"여격", number:"단수", tr:"시간에"},
+      {form:"ὥραν",    end:"αν",  case:"대격", number:"단수", tr:"시간을"},
+      {form:"ὧραι",    end:"αι",  case:"주격", number:"복수", tr:"시간들이"},
+      {form:"ὡρῶν",    end:"ῶν",  case:"속격", number:"복수", tr:"시간들의"},
+      {form:"ὥραις",   end:"αις", case:"여격", number:"복수", tr:"시간들에"},
+      {form:"ὥρας",    end:"ας",  case:"대격", number:"복수", tr:"시간들을"}
+    ],
+    s2q:{ q:"제1변화 명사의 복수 속격(ὡρῶν) 악센트는?",
+          opts:["항상 얼티마에 써컴플렉스","단수 주격의 악센트 위치 유지","항상 애큐트","악센트 없음"], ans:"항상 얼티마에 써컴플렉스" }
+  },
+  { dict:"βασιλεία",  meaning:"왕국",  week:3, gender:"여성",
+    forms:[
+      {form:"βασιλεία",   end:"α",   case:"주격", number:"단수", tr:"왕국이"},
+      {form:"βασιλείας",  end:"ας",  case:"속격", number:"단수", tr:"왕국의"},
+      {form:"βασιλείᾳ",   end:"ᾳ",   case:"여격", number:"단수", tr:"왕국에"},
+      {form:"βασιλείαν",  end:"αν",  case:"대격", number:"단수", tr:"왕국을"},
+      {form:"βασιλεῖαι",  end:"αι",  case:"주격", number:"복수", tr:"왕국들이"},
+      {form:"βασιλειῶν",  end:"ῶν",  case:"속격", number:"복수", tr:"왕국들의"},
+      {form:"βασιλείαις", end:"αις", case:"여격", number:"복수", tr:"왕국들에"},
+      {form:"βασιλείας",  end:"ας",  case:"대격", number:"복수", tr:"왕국들을"}
+    ],
+    s2q:{ q:"주격 단수가 -α 또는 -η로 끝나는 제1변화 명사의 성은?",
+          opts:["여성","남성","중성","단어마다 다름"], ans:"여성" }
+  },
+  { dict:"ἀλήθεια",   meaning:"진리",  week:3, gender:"여성",
+    forms:[
+      {form:"ἀλήθεια",    end:"α",   case:"주격", number:"단수", tr:"진리가"},
+      {form:"ἀληθείας",   end:"ας",  case:"속격", number:"단수", tr:"진리의"},
+      {form:"ἀληθείᾳ",    end:"ᾳ",   case:"여격", number:"단수", tr:"진리에"},
+      {form:"ἀλήθειαν",   end:"αν",  case:"대격", number:"단수", tr:"진리를"},
+      {form:"ἀλήθειαι",   end:"αι",  case:"주격", number:"복수", tr:"진리들이"},
+      {form:"ἀληθειῶν",   end:"ῶν",  case:"속격", number:"복수", tr:"진리들의"},
+      {form:"ἀληθείαις",  end:"αις", case:"여격", number:"복수", tr:"진리들에"},
+      {form:"ἀληθείας",   end:"ας",  case:"대격", number:"복수", tr:"진리들을"}
+    ],
+    s2q:{ q:"ἀληθείας는 어떤 형태일까요?",
+          opts:["속격 단수 또는 대격 복수","주격 단수","여격 단수","주격 복수"], ans:"속격 단수 또는 대격 복수" }
+  },
+  { dict:"δόξα",      meaning:"영광",  week:3, gender:"여성",
+    forms:[
+      {form:"δόξα",    end:"α",   case:"주격", number:"단수", tr:"영광이"},
+      {form:"δόξης",   end:"ης",  case:"속격", number:"단수", tr:"영광의"},
+      {form:"δόξῃ",    end:"ῃ",   case:"여격", number:"단수", tr:"영광에"},
+      {form:"δόξαν",   end:"αν",  case:"대격", number:"단수", tr:"영광을"},
+      {form:"δόξαι",   end:"αι",  case:"주격", number:"복수", tr:"영광들이"},
+      {form:"δοξῶν",   end:"ῶν",  case:"속격", number:"복수", tr:"영광들의"},
+      {form:"δόξαις",  end:"αις", case:"여격", number:"복수", tr:"영광들에"},
+      {form:"δόξας",   end:"ας",  case:"대격", number:"복수", tr:"영광들을"}
+    ],
+    s2q:{ q:"δόξα의 단수 속격·여격에서 α가 η로 바뀌는 이유는?",
+          opts:["어간이 ε, ι, ρ 이외의 글자로 끝나서","어간이 ρ로 끝나서","복수형이라서","남성 명사라서"], ans:"어간이 ε, ι, ρ 이외의 글자로 끝나서" }
+  },
+  { dict:"γραφή",     meaning:"문서, 성경", week:3, gender:"여성",
+    forms:[
+      {form:"γραφή",   end:"ή",   case:"주격", number:"단수", tr:"문서가"},
+      {form:"γραφῆς",  end:"ῆς",  case:"속격", number:"단수", tr:"문서의"},
+      {form:"γραφῇ",   end:"ῇ",   case:"여격", number:"단수", tr:"문서에"},
+      {form:"γραφήν",  end:"ήν",  case:"대격", number:"단수", tr:"문서를"},
+      {form:"γραφαί",  end:"αί",  case:"주격", number:"복수", tr:"문서들이"},
+      {form:"γραφῶν",  end:"ῶν",  case:"속격", number:"복수", tr:"문서들의"},
+      {form:"γραφαῖς", end:"αῖς", case:"여격", number:"복수", tr:"문서들에"},
+      {form:"γραφάς",  end:"άς",  case:"대격", number:"복수", tr:"문서들을"}
+    ],
+    s2q:{ q:"주격 단수가 -η인 제1변화 명사의 복수 어미는?",
+          opts:["모든 제1변화 명사와 같다 (-αι, -ων, -αις, -ας)","단수처럼 η를 유지한다","2변화 남성과 같다 (-οι, -ων, -οις, -ους)","중성과 같다 (-α)"], ans:"모든 제1변화 명사와 같다 (-αι, -ων, -αις, -ας)" }
   }
 ];
 
@@ -962,7 +1082,35 @@ const sentences = [
   { gr:'ἔχει ὁ ἀδελφὸς τὸ ἱερόν.',     ko:'형제가 성전을 가진다.',
     words:[ {dict:'ἔχω',       form:'ἔχει',         type:'verb',person:3,number:'단수',role:'서술어'},
             {dict:'ἀδελφός',   form:'ἀδελφός',      type:'noun',case:'주격',number:'단수',role:'주어'},
-            {dict:'ἱερόν',     form:'ἱερόν',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]}
+            {dict:'ἱερόν',     form:'ἱερόν',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  // 3주차: 교재 5과 익힘 문제 §55 (마지막 γραφή 문장만 교재에 예문이 없어 새로 만듦)
+  { gr:'βασιλεία γινώσκει ἀλήθειαν.',   ko:'왕국이 진리를 안다.',
+    words:[ {dict:'βασιλεία',  form:'βασιλεία',     type:'noun',case:'주격',number:'단수',role:'주어'},
+            {dict:'γινώσκω',   form:'γινώσκει',     type:'verb',person:3,number:'단수',role:'서술어'},
+            {dict:'ἀλήθεια',   form:'ἀλήθειαν',     type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'βασιλείας γινώσκετε καὶ ἐκκλησίας.', ko:'너희가 왕국들과 교회들을 안다.',
+    words:[ {dict:'βασιλεία',  form:'βασιλείας',    type:'noun',case:'대격',number:'복수',role:'목적어'},
+            {dict:'γινώσκω',   form:'γινώσκετε',    type:'verb',person:2,number:'복수',role:'서술어'} ]},
+  { gr:'ἐκκλησίαν διδάσκει ἀπόστολος καὶ βασιλείαν δοῦλος.', ko:'사도가 교회를, 종이 왕국을 가르친다.',
+    words:[ {dict:'διδάσκω',   form:'διδάσκει',     type:'verb',person:3,number:'단수',role:'서술어'},
+            {dict:'ἀπόστολος', form:'ἀπόστολος',    type:'noun',case:'주격',number:'단수',role:'주어'},
+            {dict:'βασιλεία',  form:'βασιλείαν',    type:'noun',case:'대격',number:'단수',role:'목적어'},
+            {dict:'δοῦλος',    form:'δοῦλος',       type:'noun',case:'주격',number:'단수',role:'주어'} ]},
+  { gr:'ὥρα ἔχει δόξαν.',               ko:'시간이 영광을 가진다.',
+    words:[ {dict:'ὥρα',       form:'ὥρα',          type:'noun',case:'주격',number:'단수',role:'주어'},
+            {dict:'ἔχω',       form:'ἔχει',         type:'verb',person:3,number:'단수',role:'서술어'},
+            {dict:'δόξα',      form:'δόξαν',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'φωναὶ ἐκκλησιῶν διδάσκουσι βασιλείας καὶ ἀνθρώπους.', ko:'교회들의 음성들이 왕국들과 사람들을 가르친다.',
+    words:[ {dict:'διδάσκω',   form:'διδάσκουσι',   type:'verb',person:3,number:'복수',role:'서술어'},
+            {dict:'βασιλεία',  form:'βασιλείας',    type:'noun',case:'대격',number:'복수',role:'목적어'},
+            {dict:'ἄνθρωπος',  form:'ἀνθρώπους',    type:'noun',case:'대격',number:'복수',role:'목적어'} ]},
+  { gr:'βλέπεις δῶρα καὶ δόξαν.',       ko:'네가 선물들과 영광을 본다.',
+    words:[ {dict:'βλέπω',     form:'βλέπεις',      type:'verb',person:2,number:'단수',role:'서술어'},
+            {dict:'δῶρον',     form:'δῶρα',         type:'noun',case:'대격',number:'복수',role:'목적어'},
+            {dict:'δόξα',      form:'δόξαν',        type:'noun',case:'대격',number:'단수',role:'목적어'} ]},
+  { gr:'βλέπομεν γραφάς.',              ko:'우리가 문서들을 본다.',
+    words:[ {dict:'βλέπω',     form:'βλέπομεν',     type:'verb',person:1,number:'복수',role:'서술어'},
+            {dict:'γραφή',     form:'γραφάς',       type:'noun',case:'대격',number:'복수',role:'목적어'} ]}
 ];
 
 // ── 5단계 동사+명사 페어링 (lessonIdx → vI:verbParIdx, vFI:verbFormIdx, nI:nounParIdx, nFI:nounFormIdx)
@@ -985,7 +1133,12 @@ const pairings = [
   {vI:6,vFI:2,nI:7,nFI:3, s5b:'λαμβάνει τὸ δῶρον.',      s5bKo:'그가 선물을 취한다.'},     // 15 δῶρον
   {vI:7,vFI:2,nI:8,nFI:3, s5b:'ἔχει τὸ ἔργον.',          s5bKo:'그가 일을 가진다.'},       // 16 ἔργον
   {vI:1,vFI:2,nI:9,nFI:3, s5b:'βλέπει τὸ ἱερόν.',         s5bKo:'그가 성전을 본다.'},       // 17 ἱερόν
-  {vI:7,vFI:3,nI:10,nFI:3,s5b:'ἔχομεν τὸ εὐαγγέλιον.',  s5bKo:'우리가 복음을 가진다.'}   // 18 εὐαγγέλιον
+  {vI:7,vFI:3,nI:10,nFI:3,s5b:'ἔχομεν τὸ εὐαγγέλιον.',  s5bKo:'우리가 복음을 가진다.'},  // 18 εὐαγγέλιον
+  {vI:7,vFI:2,nI:11,nFI:0,s5b:'ὥρα ἔχει δόξαν.',          s5bKo:'시간이 영광을 가진다.'},  // 19 ὥρα
+  {vI:4,vFI:2,nI:12,nFI:0,s5b:'βασιλεία γινώσκει ἀλήθειαν.', s5bKo:'왕국이 진리를 안다.'}, // 20 βασιλεία
+  {vI:4,vFI:2,nI:13,nFI:3,s5b:'βασιλεία γινώσκει ἀλήθειαν.', s5bKo:'왕국이 진리를 안다.'}, // 21 ἀλήθεια
+  {vI:1,vFI:1,nI:14,nFI:3,s5b:'βλέπεις δῶρα καὶ δόξαν.',  s5bKo:'네가 선물들과 영광을 본다.'}, // 22 δόξα
+  {vI:1,vFI:3,nI:15,nFI:7,s5b:'βλέπομεν γραφάς.',         s5bKo:'우리가 문서들을 본다.'}   // 23 γραφή
 ];
 
 // ── 퀴즈 엔진 ─────────────────────────────────────────────────
@@ -1392,7 +1545,7 @@ let pqCurFields = null;
 let pqUserAns   = {};
 let pqSubmitted = false;
 let pqScore     = 0;
-let pqSelWeeks  = new Set([1, 2]);
+let pqSelWeeks  = new Set([1, 2, 3]);
 // 동사+명사 합친 레슨 목록 구성
 function buildLessonItems() {
   lessonItems = [];
@@ -1594,12 +1747,13 @@ lessonContent.addEventListener('click', function(e) {
       const chosen = pqUserAns[field.key];
       const extras = field.extras || [];
       const isOk = val => val === field.correct || extras.includes(val);
+      const chosenOk = isAnsOk(field, chosen, pqUserAns);
       lessonContent.querySelectorAll('[data-action="pq-select"][data-key="' + field.key + '"]').forEach(b => {
         b.disabled = true;
-        if (isOk(b.dataset.val)) b.classList.add('s34-correct');
-        else if (b.dataset.val === chosen && !isOk(chosen)) b.classList.add('s34-wrong');
+        if (b.dataset.val === chosen && !chosenOk) b.classList.add('s34-wrong');
+        else if (isOk(b.dataset.val)) b.classList.add('s34-correct');
       });
-      if (!isOk(chosen)) wrong.push({ field, chosen });
+      if (!chosenOk) wrong.push({ field, chosen });
     });
     if (wrong.length === 0) pqScore++;
     const fb = document.getElementById('pqFeedback');
@@ -1652,12 +1806,13 @@ lessonContent.addEventListener('click', function(e) {
       const chosen = s34UserAns[key];
       const extras = field.extras || [];
       const isCorrect = val => val === field.correct || extras.includes(val);
+      const chosenOk = isAnsOk(field, chosen, s34UserAns);
       lessonContent.querySelectorAll('[data-action="s34-select"][data-key="' + key + '"]').forEach(b => {
         b.disabled = true;
-        if (isCorrect(b.dataset.val)) b.classList.add('s34-correct');
-        else if (b.dataset.val === chosen && !isCorrect(chosen)) b.classList.add('s34-wrong');
+        if (b.dataset.val === chosen && !chosenOk) b.classList.add('s34-wrong');
+        else if (isCorrect(b.dataset.val)) b.classList.add('s34-correct');
       });
-      if (!isCorrect(chosen)) wrong.push({ field, chosen });
+      if (!chosenOk) wrong.push({ field, chosen });
     });
     const fb = document.getElementById('s34Feedback');
     if (wrong.length === 0) {
@@ -1715,12 +1870,13 @@ lessonContent.addEventListener('click', function(e) {
       const chosen = s5UserAns[key];
       const extras = field.extras || [];
       const isCorrect = val => val === field.correct || extras.includes(val);
+      const chosenOk = isAnsOk(field, chosen, s5UserAns);
       lessonContent.querySelectorAll('[data-action="s5-select"][data-key="' + key + '"]').forEach(b => {
         b.disabled = true;
-        if (isCorrect(b.dataset.val)) b.classList.add('s34-correct');
-        else if (b.dataset.val === chosen && !isCorrect(chosen)) b.classList.add('s34-wrong');
+        if (b.dataset.val === chosen && !chosenOk) b.classList.add('s34-wrong');
+        else if (isCorrect(b.dataset.val)) b.classList.add('s34-correct');
       });
-      if (!isCorrect(chosen)) wrong.push({ field, chosen });
+      if (!chosenOk) wrong.push({ field, chosen });
     });
     const fb = document.getElementById('s5Feedback');
     if (wrong.length === 0) {
@@ -1764,12 +1920,13 @@ lessonContent.addEventListener('click', function(e) {
       const chosen = s6UserAns[field.key];
       const extras = field.extras || [];
       const isCorrect = val => val === field.correct || extras.includes(val);
+      const chosenOk = isAnsOk(field, chosen, s6UserAns);
       lessonContent.querySelectorAll('[data-action="s6-select"][data-key="' + field.key + '"]').forEach(b => {
         b.disabled = true;
-        if (isCorrect(b.dataset.val)) b.classList.add('s34-correct');
-        else if (b.dataset.val === chosen && !isCorrect(chosen)) b.classList.add('s34-wrong');
+        if (b.dataset.val === chosen && !chosenOk) b.classList.add('s34-wrong');
+        else if (isCorrect(b.dataset.val)) b.classList.add('s34-correct');
       });
-      if (!isCorrect(chosen)) wrong.push({ field, chosen });
+      if (!chosenOk) wrong.push({ field, chosen });
     });
     const fb = document.getElementById('s6Feedback');
     if (wrong.length === 0) {
@@ -1901,7 +2058,29 @@ function renderStage2() {
       + '이 명사의 어간은 <span class="exp-em">' + stem + '-</span>이에요. '
       + '어간 뒤에 붙는 <span class="exp-em">격 어미</span>가 격과 수를 나타내요. '
       + '이 명사의 성은 <span class="exp-em">' + d.gender + '</span>으로, 외울 때 성도 함께 외워야 해요.<br><br>';
-    if (isMasc) {
+    if (d.gender === '여성') {
+      // 1격 변화: η형(γραφή) / α형(ὥρα 등, 어간이 ε·ι·ρ로 끝남) / 혼합형(δόξα, 단수 속격·여격만 η)
+      const nomEta = /[ηήῆ]$/.test(sg0.end);
+      const genEta = /[ηήῆ]/.test(d.forms[1].end);
+      const plural = '<span class="exp-em">-αι</span>(주격) / <span class="exp-em">-ῶν</span>(속격) / <span class="exp-em">-αις</span>(여격) / <span class="exp-em">-ας</span>(대격)';
+      if (nomEta) {
+        expHtml += '주격 단수가 <span class="exp-em">-η</span>인 명사는 단수 내내 η를 가져요.<br>'
+          + '단수 어미: <span class="exp-em">-η</span>(주격) / <span class="exp-em">-ης</span>(속격) / <span class="exp-em">-ῃ</span>(여격) / <span class="exp-em">-ην</span>(대격)<br>'
+          + '복수 어미: ' + plural + '<br><br>'
+          + '제1변화의 <strong>복수 어미는 모든 명사가 똑같아요.</strong>';
+      } else if (genEta) {
+        expHtml += '주격 단수가 <span class="exp-em">-α</span>로 끝나도 어간이 ε, ι, ρ 이외의 글자로 끝나면 <strong>단수 속격·여격의 α가 η로</strong> 바뀌어요.<br>'
+          + '단수 어미: <span class="exp-em">-α</span>(주격) / <span class="exp-em">-ης</span>(속격) / <span class="exp-em">-ῃ</span>(여격) / <span class="exp-em">-αν</span>(대격)<br>'
+          + '복수 어미: ' + plural;
+      } else {
+        expHtml += '어간이 ε, ι, ρ로 끝나서 단수 내내 α를 가져요.<br>'
+          + '단수 어미: <span class="exp-em">-α</span>(주격) / <span class="exp-em">-ας</span>(속격) / <span class="exp-em">-ᾳ</span>(여격) / <span class="exp-em">-αν</span>(대격)<br>'
+          + '복수 어미: ' + plural + '<br><br>'
+          + '<strong>속격 단수와 대격 복수가 같은 형태(-ας)</strong>라서 문맥으로 구별해야 해요.';
+      }
+      expHtml += '<br><br>주격 단수가 -α 또는 -η로 끝나는 제1변화 명사는 모두 <strong>여성</strong>이에요. '
+        + '복수 속격은 단수 주격의 악센트와 상관없이 항상 <span class="exp-em">-ῶν</span>(얼티마에 써컴플렉스)이에요.';
+    } else if (isMasc) {
       expHtml += '단수 어미: <span class="exp-em">-ος</span>(주격) / <span class="exp-em">-ου</span>(속격) / <span class="exp-em">-ῳ</span>(여격) / <span class="exp-em">-ον</span>(대격)<br>'
         + '복수 어미: <span class="exp-em">-οι</span>(주격) / <span class="exp-em">-ων</span>(속격) / <span class="exp-em">-οις</span>(여격) / <span class="exp-em">-ους</span>(대격)';
     } else {
@@ -1926,7 +2105,7 @@ function renderStage2() {
       + d.dict + ' <span style="font-size:14px;color:#888;font-weight:400">— ' + d.meaning + '</span></p>'
 
     + '<div class="lesson-card">'
-      + '<div class="lesson-card-title">' + (isVerb ? '현재 능동 직설법 변화표' : '2격 변화 (' + d.gender + ')') + '</div>'
+      + '<div class="lesson-card-title">' + (isVerb ? '현재 능동 직설법 변화표' : (d.gender === '여성' ? '1격 변화' : '2격 변화') + ' (' + d.gender + ')') + '</div>'
       + tableHtml
     + '</div>'
 
@@ -1945,14 +2124,36 @@ function renderStage2() {
 }
 
 // ── STAGE 3/4 헬퍼 ───────────────────────────────────────────
-// 중성 명사: 주격/대격이 동일 형태 → 두 격 모두 정답 허용
-function getNeutralAlts(par, form) {
-  if (par.gender !== '중성') return null;
-  if (form.case !== '주격' && form.case !== '대격') return null;
-  const altCase = form.case === '주격' ? '대격' : '주격';
-  const altForm = par.forms.find(f => f.case === altCase && f.number === form.number);
-  if (!altForm || altForm.form !== form.form) return null;
-  return { altCase, altTr: altForm.tr };
+// 같은 형태가 여러 격·수로 읽히는 경우 (중성 주격=대격, 여성 α형 속격 단수=대격 복수 등)
+// → 가능한 모든 읽기를 정답으로 허용하되, 격·수·직역 조합이 서로 맞아야 정답
+function getFormReadings(par, form) {
+  const rs = par.forms.filter(f => f.form === form.form);
+  return rs.length > 1 ? rs : null;
+}
+// field에 extras(대체 정답)와 조합 검사용 정보를 붙인다
+// rk: 이 필드가 읽기의 어느 속성인지(case|number|tr), keys: {case,number,tr} → 필드 key
+function withReadings(field, readings, rk, keys) {
+  if (!readings) return field;
+  field.extras   = [...new Set(readings.map(r => r[rk]).filter(v => v !== field.correct))];
+  field.readings = readings;
+  field.rk       = rk;
+  field.rkeys    = keys;
+  return field;
+}
+function readingsNote(par, readings) {
+  if (!readings) return '';
+  if (par.gender === '중성') return ' (중성 명사는 주격과 대격의 형태가 같아요.)';
+  return ' (' + readings[0].form + '는 ' + readings.map(r => r.case + ' ' + r.number).join('·') + '의 형태가 같아요.)';
+}
+// 선택한 답이 정답인지: 대체 정답이면 다른 필드에서 고른 답과 같은 읽기여야 한다
+function isAnsOk(field, val, ans) {
+  if (val !== field.correct && !(field.extras || []).includes(val)) return false;
+  if (!field.readings) return true;
+  return field.readings.some(r => r[field.rk] === val
+    && Object.keys(field.rkeys).every(rk => {
+      const picked = ans[field.rkeys[rk]];
+      return rk === field.rk || picked === undefined || r[rk] === picked;
+    }));
 }
 
 function buildFields(item, form) {
@@ -1983,23 +2184,23 @@ function buildFields(item, form) {
   } else {
     const trWrong = [...new Set(d.forms.map(f => f.tr).filter(t => t !== form.tr))];
     const trOpts  = shuffle([...shuffle(trWrong).slice(0, 3), form.tr]);
-    const alts = getNeutralAlts(d, form);
+    const rds  = getFormReadings(d, form);
+    const keys = { case:'case', number:'number', tr:'tr' };
     return [
       { key:'gender', label:'성',   correct: d.gender,
         opts: shuffle(['남성','여성','중성']),
         expln: '이 명사는 ' + d.gender + '이에요. 사전형과 함께 외워야 해요.' },
-      { key:'number', label:'수',   correct: form.number,
+      withReadings({ key:'number', label:'수',   correct: form.number,
         opts: ['단수','복수'],
-        expln: '어미 -' + form.end + '는 ' + form.number + '를 나타내요.' },
-      { key:'case',   label:'격',   correct: form.case,
+        expln: '어미 -' + form.end + '는 ' + form.number + '를 나타내요.'
+             + (rds && rds.some(r => r.number !== form.number) ? readingsNote(d, rds) : '') }, rds, 'number', keys),
+      withReadings({ key:'case',   label:'격',   correct: form.case,
         opts: shuffle(['주격','속격','여격','대격']),
-        extras: alts ? [alts.altCase] : [],
         expln: '어미 -' + form.end + '는 ' + form.case + ' ' + form.number + '를 나타내요.'
-             + (alts ? ' (중성 명사는 주격과 대격의 형태가 같아요.)' : '') },
-      { key:'tr',     label:'직역', correct: form.tr,
+             + readingsNote(d, rds) }, rds, 'case', keys),
+      withReadings({ key:'tr',     label:'직역', correct: form.tr,
         opts: trOpts,
-        extras: alts ? [alts.altTr] : [],
-        expln: '이 형태(' + form.form + ')의 의미는 "' + form.tr + '"이에요.' }
+        expln: '이 형태(' + form.form + ')의 의미는 "' + form.tr + '"이에요.' }, rds, 'tr', keys)
     ];
   }
 }
@@ -2150,7 +2351,8 @@ function buildS5NounFields(par, frm, sub) {
   const trWrong    = [...new Set(par.forms.map(f => f.tr).filter(t => t !== frm.tr))];
   const trOpts     = shuffle([...shuffle(trWrong).slice(0,3), frm.tr]);
   // Stage 5b는 문장 컨텍스트로 격 구별 가능 → extras 불필요
-  const alts = sub !== 'b' ? getNeutralAlts(par, frm) : null;
+  const rds  = sub !== 'b' ? getFormReadings(par, frm) : null;
+  const keys = { case:'n_case', number:'n_number', tr:'n_tr' };
   const roleCorrect = frm.case === '주격' ? '주어' : frm.case === '대격' ? '목적어' : frm.case === '여격' ? '간접목적어' : '수식어';
   const roleExpln   = roleCorrect === '주어' ? '주격은 문장에서 주어(~이/가) 역할을 해요.'
                     : roleCorrect === '목적어' ? '대격은 문장에서 목적어(~을/를) 역할을 해요.'
@@ -2158,11 +2360,10 @@ function buildS5NounFields(par, frm, sub) {
                     : '속격은 수식어(소유, ~의) 역할을 해요.';
   const fields = [
     { key:'n_gender',label:'성',   correct:par.gender, opts:shuffle(['남성','여성','중성']),        expln:'이 명사는 '+par.gender+'이에요.', active:true },
-    { key:'n_number',label:'수',   correct:frm.number, opts:['단수','복수'], expln:'어미 -'+frm.end+'는 '+frm.number+'를 나타내요.', active:true },
-    { key:'n_case',  label:'격',   correct:frm.case,   opts:shuffle(['주격','속격','여격','대격']),
-      extras: alts ? [alts.altCase] : [],
-      expln:'어미 -'+frm.end+'는 '+frm.case+' '+frm.number+'를 나타내요.'+(alts?' (중성 명사는 주격과 대격의 형태가 같아요.)':''), active:true },
-    { key:'n_tr',    label:'직역', correct:frm.tr,     opts:trOpts, expln:'이 형태('+frm.form+')의 의미는 "'+frm.tr+'"이에요.', active:false }
+    withReadings({ key:'n_number',label:'수',   correct:frm.number, opts:['단수','복수'], expln:'어미 -'+frm.end+'는 '+frm.number+'를 나타내요.'+(rds && rds.some(r => r.number !== frm.number) ? readingsNote(par, rds) : ''), active:true }, rds, 'number', keys),
+    withReadings({ key:'n_case',  label:'격',   correct:frm.case,   opts:shuffle(['주격','속격','여격','대격']),
+      expln:'어미 -'+frm.end+'는 '+frm.case+' '+frm.number+'를 나타내요.'+readingsNote(par, rds), active:true }, rds, 'case', keys),
+    withReadings({ key:'n_tr',    label:'직역', correct:frm.tr,     opts:trOpts, expln:'이 형태('+frm.form+')의 의미는 "'+frm.tr+'"이에요.', active:false }, rds, 'tr', keys)
   ];
   if (sub === 'b') fields.push({ key:'n_role', label:'문장역할', correct:roleCorrect, opts:shuffle(['주어','목적어','간접목적어','수식어']), expln:roleExpln, active:true });
   return fields;
@@ -2260,7 +2461,8 @@ function buildS6Fields(word) {
   } else {
     const par = nounParadigms.find(n => n.dict === word.dict);
     const frm = par.forms.find(f => f.case === word.case && f.number === word.number);
-    const alts = getNeutralAlts(par, frm);
+    const rds  = getFormReadings(par, frm);
+    const keys = { case:'case', number:'number', tr:'tr' };
     const trWrong = [...new Set(par.forms.map(f => f.tr).filter(t => t !== frm.tr))];
     const trOpts  = shuffle([...shuffle(trWrong).slice(0,3), frm.tr]);
     const roleExpln = word.role === '주어' ? '주격은 문장에서 주어(~이/가) 역할을 해요.'
@@ -2269,11 +2471,10 @@ function buildS6Fields(word) {
                     : '속격은 수식어(소유, ~의) 역할을 해요.';
     fields.push(
       { key:'gender',label:'성',   correct:par.gender, opts:shuffle(['남성','여성','중성']),        expln:'이 명사는 '+par.gender+'이에요.' },
-      { key:'number',label:'수',   correct:frm.number, opts:['단수','복수'], expln:'어미 -'+frm.end+'는 '+frm.number+'를 나타내요.' },
-      { key:'case',  label:'격',   correct:frm.case,   opts:shuffle(['주격','속격','여격','대격']),
-        extras: alts ? [alts.altCase] : [],
-        expln:'어미 -'+frm.end+'는 '+frm.case+' '+frm.number+'를 나타내요.'+(alts?' (중성 명사는 주격과 대격의 형태가 같아요.)':'') },
-      { key:'tr',    label:'직역', correct:frm.tr, opts:trOpts, expln:'이 형태('+frm.form+')의 의미는 "'+frm.tr+'"이에요.' },
+      withReadings({ key:'number',label:'수',   correct:frm.number, opts:['단수','복수'], expln:'어미 -'+frm.end+'는 '+frm.number+'를 나타내요.'+(rds && rds.some(r => r.number !== frm.number) ? readingsNote(par, rds) : '') }, rds, 'number', keys),
+      withReadings({ key:'case',  label:'격',   correct:frm.case,   opts:shuffle(['주격','속격','여격','대격']),
+        expln:'어미 -'+frm.end+'는 '+frm.case+' '+frm.number+'를 나타내요.'+readingsNote(par, rds) }, rds, 'case', keys),
+      withReadings({ key:'tr',    label:'직역', correct:frm.tr, opts:trOpts, expln:'이 형태('+frm.form+')의 의미는 "'+frm.tr+'"이에요.' }, rds, 'tr', keys),
       { key:'role',  label:'문장역할', correct:word.role, opts:shuffle(['주어','목적어','간접목적어','수식어']), expln:roleExpln }
     );
   }
@@ -2428,16 +2629,15 @@ function buildPQFields(item, form) {
       { key:'pq_tr',     label:'직역', correct: form.tr,              opts: trOpts }
     ];
   } else {
-    const alts    = getNeutralAlts(d, form);
+    const rds     = getFormReadings(d, form);
+    const keys    = { case:'pq_case', number:'pq_number', tr:'pq_tr' };
     const trWrong = [...new Set(d.forms.map(f => f.tr).filter(t => t !== form.tr))];
     const trOpts  = shuffle([...shuffle(trWrong).slice(0, 3), form.tr]);
     return [
       { key:'pq_gender', label:'성',   correct: d.gender, opts: shuffle(['남성','여성','중성']) },
-      { key:'pq_case',   label:'격',   correct: form.case, opts: shuffle(['주격','속격','여격','대격']),
-        extras: alts ? [alts.altCase] : [] },
-      { key:'pq_number', label:'수',   correct: form.number, opts: ['단수','복수'] },
-      { key:'pq_tr',     label:'직역', correct: form.tr, opts: trOpts,
-        extras: alts ? [alts.altTr] : [] }
+      withReadings({ key:'pq_case',   label:'격',   correct: form.case, opts: shuffle(['주격','속격','여격','대격']) }, rds, 'case', keys),
+      withReadings({ key:'pq_number', label:'수',   correct: form.number, opts: ['단수','복수'] }, rds, 'number', keys),
+      withReadings({ key:'pq_tr',     label:'직역', correct: form.tr, opts: trOpts }, rds, 'tr', keys)
     ];
   }
 }
