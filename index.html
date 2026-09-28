@@ -551,7 +551,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-28-3";
+const APP_VERSION = "2026-09-28-4";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -567,7 +567,8 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
-  { date: "2026-09-28", text: "암기 카드 추가: 주차별 단어를 어원·소리 연상 카드로 복습 (탭하여 뒤집기, 다시 볼 단어 표시). 6과(형용사·관사)를 4주차로 분리" },
+  { date: "2026-09-28", text: "6과(형용사·관사) 단어와 레슨을 3주차로 되돌림" },
+  { date: "2026-09-28", text: "암기 카드 추가: 주차별 단어를 어원·소리 연상 카드로 복습 (탭하여 뒤집기, 다시 볼 단어 표시)" },
   { date: "2026-09-28", text: "3주차 레슨에 6과 형용사·관사 변화표 추가 (ἀγαθός·μικρός·δίκαιος·관사): 성×격×수 분석, 명사와의 일치, 한정적·서술적 용법" },
   { date: "2026-09-28", text: "3주차 추가: 5·6과 단어 26개, 여성 명사 어미(η형·α형) 어미 퀴즈, 제1변화 여성 명사 레슨 5개(ὥρα·βασιλεία·ἀλήθεια·δόξα·γραφή)" },
   { date: "2026-09-11", text: "어미 퀴즈 추가 (현재 능동태 동사 어미 / 명사 어미 남성·중성), 카테고리 추가 시 체크박스 자동 확장 구조" },
@@ -812,50 +813,50 @@ const words = [
   {gr:"ὥρα",        kr:"호라",            en:"hour",               ko:"시간",            week:3,
    etymology:"영어 hour와 연결되고 영어 year와도 같은 뿌리로 봄",
    pun:"호~ 벌써 아워(hour), 시간이네"},
-  // 4주차: 6과 낱말 모음 §56
-  {gr:"ἀγαθός",     kr:"아가도스",        en:"good (morally)",     ko:"좋은, 착한, 선한", week:4,
+  // 3주차: 6과 낱말 모음 §56
+  {gr:"ἀγαθός",     kr:"아가도스",        en:"good (morally)",     ko:"좋은, 착한, 선한", week:3,
    etymology:"어원은 불확실. 여자 이름 Agatha가 선한 여자라는 뜻으로 여기서 나옴",
    pun:"아가(아기)처럼 순한 아가타, 선한 사람"},
-  {gr:"ἄλλος",      kr:"알로스",          en:"other, another",     ko:"다른",            week:4,
+  {gr:"ἄλλος",      kr:"알로스",          en:"other, another",     ko:"다른",            week:3,
    etymology:"allergy(다른 것에 대한 반응), parallel(서로 곁에 있는 다른 선), allegory(다르게 말하기)의 뿌리",
    pun:"알러지는 내 몸이 다른 것을 거부하는 반응"},
-  {gr:"δίκαιος",    kr:"디카이오스",      en:"righteous, just",    ko:"옳은",            week:4,
+  {gr:"δίκαιος",    kr:"디카이오스",      en:"righteous, just",    ko:"옳은",            week:3,
    etymology:"δίκη(정의, 재판)에서 나옴. 정의의 여신 이름이 Dike(디케). theodicy(신정론)도 같은 뿌리",
    pun:"디케 여신의 저울이 딱 맞으니 옳은 것, 디카이오스"},
-  {gr:"ἐγείρω",     kr:"에게이로",        en:"I raise up",         ko:"나는 일으킨다",   week:4,
+  {gr:"ἐγείρω",     kr:"에게이로",        en:"I raise up",         ko:"나는 일으킨다",   week:3,
    etymology:"이름 Gregory는 깨어 있는이라는 뜻의 γρηγορέω에서 나왔고 이 동사는 ἐγείρω 계열. 신약에서 죽은 자를 일으키다, 곧 부활시키다의 뜻으로 자주 쓰임",
    pun:"에게~ 이렇게 일으켜 세워야지, 그레고리야 깨어 있어"},
-  {gr:"ἔρημος",     kr:"에레모스",        en:"desert, wilderness", ko:"빈 들, 광야",     week:4,
+  {gr:"ἔρημος",     kr:"에레모스",        en:"desert, wilderness", ko:"빈 들, 광야",     week:3,
    etymology:"hermit(은둔자)은 광야에 사는 사람 ἐρημίτης에서 나옴",
    pun:"허미트(hermit)가 사는 빈들"},
-  {gr:"ἔσχατος",    kr:"에스카토스",      en:"last",               ko:"마지막의, 끝의",  week:4,
+  {gr:"ἔσχατος",    kr:"에스카토스",      en:"last",               ko:"마지막의, 끝의",  week:3,
    etymology:"eschatology(종말론)의 뿌리",
    pun:"에스컬레이터의 마지막 칸에서 토스, 끝이 마지막"},
-  {gr:"κακός",      kr:"카코스",          en:"bad, evil",          ko:"나쁜",            week:4,
+  {gr:"κακός",      kr:"카코스",          en:"bad, evil",          ko:"나쁜",            week:3,
    etymology:"cacophony(불쾌한 소리)는 κακός + φωνή(포네)",
    pun:"카코포니, 나쁜 소리"},
-  {gr:"καλός",      kr:"칼로스",          en:"good, beautiful",    ko:"좋은, 아름다운",  week:4,
+  {gr:"καλός",      kr:"칼로스",          en:"good, beautiful",    ko:"좋은, 아름다운",  week:3,
    etymology:"calligraphy(아름다운 글씨, κάλλος + γράφω)와 kaleidoscope(아름다운 모양을 보는 것)의 뿌리",
    pun:"캘리그라피는 아름다운 글씨"},
-  {gr:"κύριος",     kr:"퀴리오스",        en:"lord, master",       ko:"주, 주인",        week:4,
+  {gr:"κύριος",     kr:"퀴리오스",        en:"lord, master",       ko:"주, 주인",        week:3,
    etymology:"κῦρος(권위)에서 나옴. church는 κυριακόν(주님의 것)에서 왔고, 기도문 Kyrie eleison(주여 불쌍히 여기소서)도 있음",
    pun:"퀴리오스는 키리에, 부르는 주님"},
-  {gr:"μικρός",     kr:"미크로스",        en:"small, little",      ko:"작은, 적은",      week:4,
+  {gr:"μικρός",     kr:"미크로스",        en:"small, little",      ko:"작은, 적은",      week:3,
    etymology:"micro-, microscope, microphone의 뿌리",
    pun:"마이크로 칩처럼 작은"},
-  {gr:"νεκρός",     kr:"네크로스",        en:"dead",               ko:"죽은",            week:4,
+  {gr:"νεκρός",     kr:"네크로스",        en:"dead",               ko:"죽은",            week:3,
    etymology:"necropolis(죽은 자의 도시), necromancer(죽은 자를 부르는 술사)의 뿌리",
    pun:"네크로맨서가 부르는 죽은 자"},
-  {gr:"ὁ, ἡ, τό",   kr:"호, 헤, 토",      en:"the (article)",      ko:"그 (관사)",       week:4,
+  {gr:"ὁ, ἡ, τό",   kr:"호, 헤, 토",      en:"the (article)",      ko:"그 (관사)",       week:3,
    etymology:"τό는 영어 that과 같은 뿌리로 알려져 있음. 관사는 단어 하나가 아니라 변화표까지 함께 외울 것",
    pun:"호(남)·헤(여)·토(중), 호헤토 하고 그것을 콕 집는 소리"},
-  {gr:"ὁδός",       kr:"호도스",          en:"way, road",          ko:"길",              week:4,
+  {gr:"ὁδός",       kr:"호도스",          en:"way, road",          ko:"길",              week:3,
    etymology:"method(길을 따라가는 방법), exodus(밖으로 나가는 길), synod(함께 가는 길)의 뿌리",
    pun:"호두과자 사러 가는 길"},
-  {gr:"πιστός",     kr:"피스토스",        en:"faithful",           ko:"신실한",          week:4,
+  {gr:"πιστός",     kr:"피스토스",        en:"faithful",           ko:"신실한",          week:3,
    etymology:"πείθω(설득하다, 신뢰하다)에서 나왔고 πίστις(믿음)와 같은 계열. 아래 pun은 어원과 무관한 소리 연상",
    pun:"피 나도 약속을 지키는 신실한 사람, 피스토스"},
-  {gr:"πρῶτος",     kr:"프로토스",        en:"first",              ko:"처음의",          week:4,
+  {gr:"πρῶτος",     kr:"프로토스",        en:"first",              ko:"처음의",          week:3,
    etymology:"prototype(처음 만든 원형), protagonist(첫 배우, 주인공), protocol, proton의 뿌리",
    pun:"프로토타입은 처음 만든 모델"}
 ];
@@ -1208,7 +1209,7 @@ function adjRows(rows) {
 const AGREE_NOUNS = { '남성': 'λόγος', '여성': 'γραφή', '중성': 'δῶρον' };
 const adjParadigms = [
   // 교재 §57 변화표
-  { dict:"ἀγαθός", meaning:"좋은, 선한", week:4, kind:"adj", attr:"좋은", pred:"좋다",
+  { dict:"ἀγαθός", meaning:"좋은, 선한", week:3, kind:"adj", attr:"좋은", pred:"좋다",
     forms: adjRows([
       ['주격','단수', ['ἀγαθός','ός'],   ['ἀγαθή','ή'],     ['ἀγαθόν','όν']],
       ['속격','단수', ['ἀγαθοῦ','οῦ'],   ['ἀγαθῆς','ῆς'],   ['ἀγαθοῦ','οῦ']],
@@ -1223,7 +1224,7 @@ const adjParadigms = [
           opts:["-η로 마치는 제1변화 여성 명사","제2변화 남성 명사","제2변화 중성 명사","-α로 마치는 제1변화 명사"], ans:"-η로 마치는 제1변화 여성 명사" }
   },
   // 교재 §59 (변화표는 부록 §510·511) — 어근이 ρ나 모음으로 끝나 여성 단수가 α
-  { dict:"μικρός", meaning:"작은, 적은", week:4, kind:"adj", femAlpha:true, attr:"작은", pred:"작다",
+  { dict:"μικρός", meaning:"작은, 적은", week:3, kind:"adj", femAlpha:true, attr:"작은", pred:"작다",
     forms: adjRows([
       ['주격','단수', ['μικρός','ός'],   ['μικρά','ά'],     ['μικρόν','όν']],
       ['속격','단수', ['μικροῦ','οῦ'],   ['μικρᾶς','ᾶς'],   ['μικροῦ','οῦ']],
@@ -1237,7 +1238,7 @@ const adjParadigms = [
     s2q:{ q:"μικρός의 여성 단수 어미가 η가 아니라 α인 이유는?",
           opts:["어근의 마지막 글자가 ρ라서","중성이라서","복수라서","관사가 붙어서"], ans:"어근의 마지막 글자가 ρ라서" }
   },
-  { dict:"δίκαιος", meaning:"옳은", week:4, kind:"adj", femAlpha:true, attr:"옳은", pred:"옳다",
+  { dict:"δίκαιος", meaning:"옳은", week:3, kind:"adj", femAlpha:true, attr:"옳은", pred:"옳다",
     forms: adjRows([
       ['주격','단수', ['δίκαιος','ος'],   ['δικαία','α'],     ['δίκαιον','ον']],
       ['속격','단수', ['δικαίου','ου'],   ['δικαίας','ας'],   ['δικαίου','ου']],
@@ -1252,7 +1253,7 @@ const adjParadigms = [
           opts:["일반 법칙을 따른다 (얼티마 써컴플렉스 예외 없음)","명사처럼 항상 -ῶν","항상 애큐트가 얼티마에","악센트가 없다"], ans:"일반 법칙을 따른다 (얼티마 써컴플렉스 예외 없음)" }
   },
   // 교재 §60 변화표 (관사는 호격이 없음)
-  { dict:"ὁ, ἡ, τό", meaning:"그 (관사)", week:4, kind:"article",
+  { dict:"ὁ, ἡ, τό", meaning:"그 (관사)", week:3, kind:"article",
     forms: adjRows([
       ['주격','단수', ['ὁ','ὁ'],       ['ἡ','ἡ'],       ['τό','ό']],
       ['속격','단수', ['τοῦ','οῦ'],    ['τῆς','ῆς'],    ['τοῦ','οῦ']],
@@ -1370,7 +1371,7 @@ const sentences = [
   { gr:'βλέπομεν γραφάς.',              ko:'우리가 문서들을 본다.',
     words:[ {dict:'βλέπω',     form:'βλέπομεν',     type:'verb',person:1,number:'복수',role:'서술어'},
             {dict:'γραφή',     form:'γραφάς',       type:'noun',case:'대격',number:'복수',role:'목적어'} ]},
-  // 4주차: 교재 6과 익힘 문제 §71 — 형용사·관사 (type:'adj', role=용법, agrees=일치하는 단어)
+  // 3주차: 교재 6과 익힘 문제 §71 — 형용사·관사 (type:'adj', role=용법, agrees=일치하는 단어)
   { gr:'ἀγαθὴ ἡ ἐκκλησία καὶ ἡ βασιλεία κακή.', ko:'교회는 선하고 왕국은 나쁘다.',
     words:[ {dict:'ἀγαθός',   form:'ἀγαθὴ',  type:'adj',gender:'여성',case:'주격',number:'단수',role:'서술적',agrees:'ἐκκλησία'},
             {dict:'ὁ, ἡ, τό', form:'ἡ',      type:'adj',gender:'여성',case:'주격',number:'단수',agrees:'ἐκκλησία'} ]},
@@ -1826,7 +1827,7 @@ let pqCurFields = null;
 let pqUserAns   = {};
 let pqSubmitted = false;
 let pqScore     = 0;
-let pqSelWeeks  = new Set([1, 2, 3, 4]);
+let pqSelWeeks  = new Set([1, 2, 3]);
 // 동사+명사 합친 레슨 목록 구성
 function buildLessonItems() {
   lessonItems = [];
