@@ -551,7 +551,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-28-5";
+const APP_VERSION = "2026-09-28-6";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -567,6 +567,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-09-28", text: "격과 해석이 짝이 맞을 때만 정답 처리 (예: δῶρον을 대격으로 고르고 해석을 '선물이'로 고르면 오답)" },
   { date: "2026-09-28", text: "중성 명사 주격·대격 같은 형태(예: δῶρον)에서 해석이 '선물을'로 나오던 문제 수정 → 주격 해석 '선물이'를 기본으로" },
   { date: "2026-09-28", text: "6과(형용사·관사) 단어와 레슨을 3주차로 되돌림" },
   { date: "2026-09-28", text: "암기 카드 추가: 주차별 단어를 어원·소리 연상 카드로 복습 (탭하여 뒤집기, 다시 볼 단어 표시)" },
@@ -2596,11 +2597,25 @@ function readingsNote(par, readings) {
 function isAnsOk(field, val, ans) {
   if (val !== field.correct && !(field.extras || []).includes(val)) return false;
   if (!field.readings) return true;
-  return field.readings.some(r => r[field.rk] === val
-    && Object.keys(field.rkeys).every(rk => {
-      const picked = ans[field.rkeys[rk]];
-      return rk === field.rk || picked === undefined || r[rk] === picked;
-    }));
+  // 고른 답들과 가장 많이 들어맞는 읽기를 기준으로 판정한다.
+  // 예) δῶρον 대격+"선물이": 주격 읽기·대격 읽기가 동점 → 둘 다에 맞는 '수'만 정답, 격·해석은 오답
+  //     ὥρας 속격+복수+"시간의": 속격 단수 읽기가 가장 잘 맞음 → '수'만 오답
+  const keys  = Object.keys(field.rkeys).filter(rk => ans[field.rkeys[rk]] !== undefined || rk === field.rk);
+  const score = r => keys.filter(rk => r[rk] === (rk === field.rk ? val : ans[field.rkeys[rk]])).length;
+  const best  = Math.max(...field.readings.map(score));
+  return field.readings.filter(r => score(r) === best).every(r => r[field.rk] === val);
+}
+// 화면에 정답으로 보여준 칸(비활성)이 있으면 그 값과 맞는 읽기만 정답으로 남긴다
+// (예: 해석이 "선물들이"로 주어졌으면 격은 주격만 정답)
+function fixGivenReadings(fields, isGiven) {
+  const given = fields.filter(f => isGiven(f) && f.readings);
+  if (!given.length) return;
+  fields.forEach(f => {
+    if (!f.readings) return;
+    const rs = f.readings.filter(r => given.every(g => r[g.rk] === g.correct));
+    f.readings = rs.length > 1 ? rs : null;
+    f.extras   = f.readings ? [...new Set(rs.map(r => r[f.rk]).filter(v => v !== f.correct))] : [];
+  });
 }
 
 function buildFields(item, form) {
@@ -2691,6 +2706,8 @@ function renderStage3(sub) {
   s34UserAns   = {};
   s34Submitted = false;
   lessonBackBtn.textContent = '← 목록';
+  const givenKeys = getActiveKeys(item, sub);
+  fixGivenReadings(s34Fields, f => !givenKeys.includes(f.key) && f.key !== 'agree');
 
   const subLabel = sub === 'a' ? '핵심 2항목' : sub === 'b' ? '주요 항목' : '전체 항목';
   const activeKeys = getActiveKeys(item, sub);
@@ -2846,6 +2863,7 @@ function renderStage5(sub) {
 
   s5VerbFields = buildS5VerbFields(verbPar, verbFrm, sub);
   s5NounFields = buildS5NounFields(nounPar, nounFrm, sub);
+  fixGivenReadings(s5NounFields, f => !f.active);
 
   const subLabel = sub === 'a' ? '동사+명사 묶어보기' : '문장 속 역할 파악';
 
@@ -2920,6 +2938,7 @@ function renderStage5Adj(item, sub) {
     s5VerbFields = buildAdjFields(d, frm, { gender:'a_gender', case:'a_case', number:'a_number' }, false)
       .map(f => Object.assign(f, { active: true }));
     s5NounFields = buildS5NounFields(nounPar, nounFrm, 'a');
+    fixGivenReadings(s5NounFields, f => !f.active);
     groups = [
       { title: (isArt ? '관사 — ' : '형용사 — ') + d.dict, fields: s5VerbFields, formHtml: formWithHi(frm.form, frm.end) },
       { title: '명사 — ' + nounPar.dict, fields: s5NounFields, formHtml: formWithHi(nounFrm.form, nounFrm.end) }
