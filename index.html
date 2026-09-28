@@ -312,6 +312,13 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   border-radius: 12px; border: none; background: #4a3380; color: #fff; cursor: pointer;
 }
 .grammar-btn:active { opacity: .85; }
+/* ── 성·수·격 퀴즈 ─────────────────────────────────────── */
+.gnc-start-btn { background: #2e6ed6; margin-top: 14px; }
+.gnc-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 10px; background: #eaf1fd; color: #2e6ed6; }
+.gnc-wrong-item { background: #fff; border-radius: 12px; padding: 12px 14px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+.gnc-wrong-form { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.gnc-wrong-dict { font-size: 12px; color: #999; font-weight: 400; margin-left: 6px; }
+.gnc-wrong-row { font-size: 13px; line-height: 1.6; }
 /* ── 암기 카드 ─────────────────────────────────────────── */
 .card-start-btn { background: #2e7d6b; margin-top: 14px; }
 .fc-top {
@@ -473,6 +480,23 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   <button id="startBtn" class="start-btn">퀴즈 시작</button>
   <div id="menuErr" class="menu-err"></div>
 
+  <!-- 성·수·격 퀴즈 (관사 / 형용사 어미) -->
+  <div class="menu-card" style="margin-top:18px">
+    <div class="menu-card-title">성·수·격 퀴즈</div>
+    <p style="font-size:13px;color:#888;margin:0 0 12px;line-height:1.5">형태를 보고 성·수·격을 모두 골라요. 셋 다 맞아야 정답이에요.</p>
+    <label class="check-row">
+      <input type="checkbox" id="chkGncArt" checked>
+      관사 퀴즈 <span id="gncArtCnt" style="font-size:13px;color:#999;font-weight:400"></span>
+    </label>
+    <div style="height:10px"></div>
+    <label class="check-row">
+      <input type="checkbox" id="chkGncAdj" checked>
+      형용사 어미 퀴즈 <span id="gncAdjCnt" style="font-size:13px;color:#999;font-weight:400"></span>
+    </label>
+    <div id="gncErr" class="menu-err"></div>
+    <button id="gncStartBtn" class="grammar-btn gnc-start-btn">성·수·격 퀴즈 시작</button>
+  </div>
+
   <!-- 문법 연습 카드 -->
   <div class="menu-card" style="margin-top:18px">
     <div class="menu-card-title">문법 연습</div>
@@ -523,6 +547,15 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   <div id="lessonContent"></div>
 </div>
 
+<!-- ── 성·수·격 퀴즈 화면 ─────────────────────────────────── -->
+<div id="gncScreen" class="screen" style="display:none">
+  <div class="header-row">
+    <h1>성·수·격 퀴즈</h1>
+    <button class="lesson-back-btn" id="gncBackBtn">← 메뉴</button>
+  </div>
+  <div id="gncContent"></div>
+</div>
+
 <!-- ── 암기 카드 화면 ───────────────────────────────────── -->
 <div id="cardScreen" class="screen" style="display:none">
   <div class="header-row">
@@ -551,7 +584,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-28-6";
+const APP_VERSION = "2026-09-28-7";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -567,6 +600,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-09-28", text: "성·수·격 퀴즈 추가: 관사 퀴즈·형용사 어미 퀴즈 (성·수·격을 모두 맞혀야 정답, 틀린 문제는 끝에 모아 보기·다시 풀기)" },
   { date: "2026-09-28", text: "격과 해석이 짝이 맞을 때만 정답 처리 (예: δῶρον을 대격으로 고르고 해석을 '선물이'로 고르면 오답)" },
   { date: "2026-09-28", text: "중성 명사 주격·대격 같은 형태(예: δῶρον)에서 해석이 '선물을'로 나오던 문제 수정 → 주격 해석 '선물이'를 기본으로" },
   { date: "2026-09-28", text: "6과(형용사·관사) 단어와 레슨을 3주차로 되돌림" },
@@ -3281,6 +3315,170 @@ function renderPQDone() {
     + '<button class="lesson-btn primary" data-action="pq-restart" style="margin-top:14px">다시 풀기</button>'
     + '<button class="lesson-btn" data-action="back-select" style="margin-top:8px">목록으로</button>';
 }
+
+// ── 성·수·격 퀴즈 (관사 / 형용사 어미) ─────────────────────────
+// 형태 하나를 보여주고 성·수·격을 모두 고르게 한다. 같은 형태가 여러 읽기를 가지면
+// (예: τοῦ = 남성·중성 속격 단수) 그중 하나와 셋이 모두 일치하면 정답.
+const GNC_ADJ_MAX = 20;
+const gncScreen  = document.getElementById('gncScreen');
+const gncContent = document.getElementById('gncContent');
+const gncErr     = document.getElementById('gncErr');
+const GNC_FIELDS = [
+  { key:'gender', label:'성', opts:['남성','여성','중성'] },
+  { key:'number', label:'수', opts:['단수','복수'] },
+  { key:'case',   label:'격', opts:['주격','속격','여격','대격'] }
+];
+let gncPool = [], gncIdx = 0, gncScore = 0, gncWrong = [], gncAns = {}, gncSubmitted = false;
+
+// 패러다임의 서로 다른 형태마다 문항 하나 (읽기는 같은 형태의 모든 칸)
+function gncItems(par) {
+  const seen = new Set(), out = [];
+  par.forms.forEach(f => {
+    if (seen.has(f.form)) return;
+    seen.add(f.form);
+    out.push({ par, form: f, readings: par.forms.filter(x => x.form === f.form) });
+  });
+  return out;
+}
+const gncArticle = () => adjParadigms.filter(p => p.kind === 'article');
+const gncAdjs    = () => adjParadigms.filter(p => p.kind === 'adj');
+document.getElementById('gncArtCnt').textContent = '(' + gncArticle().flatMap(gncItems).length + '문항)';
+document.getElementById('gncAdjCnt').textContent = '(' + gncAdjs().map(p => p.dict).join('·') + ' 중 '
+  + Math.min(GNC_ADJ_MAX, gncAdjs().flatMap(gncItems).length) + '문항)';
+
+function gncLabel(r) { return r.gender + ' ' + r.case + ' ' + r.number; }
+function gncDictLabel(par) {
+  if (par.kind === 'article') return '관사 ὁ, ἡ, τό';
+  return par.forms.slice(0, 3).map(f => f.form).join(', ');   // 남·여·중 주격 단수
+}
+
+function gncStart(pool) {
+  gncPool = pool; gncIdx = 0; gncScore = 0; gncWrong = [];
+  menuScreen.style.display = 'none';
+  gncScreen.style.display = 'block';
+  window.scrollTo(0, 0);
+  gncRender();
+}
+document.getElementById('gncStartBtn').addEventListener('click', () => {
+  const doArt = document.getElementById('chkGncArt').checked;
+  const doAdj = document.getElementById('chkGncAdj').checked;
+  if (!doArt && !doAdj) { gncErr.textContent = '퀴즈를 하나 이상 선택해주세요.'; gncErr.style.display = 'block'; return; }
+  gncErr.style.display = 'none';
+  gncStart(gncBuildPool());
+});
+// 메뉴에서 고른 종류로 문항 구성 (형용사는 매번 새로 무작위 추출)
+function gncBuildPool() {
+  const pool = [];
+  if (document.getElementById('chkGncArt').checked) pool.push(...gncArticle().flatMap(gncItems));
+  if (document.getElementById('chkGncAdj').checked) pool.push(...shuffle(gncAdjs().flatMap(gncItems)).slice(0, GNC_ADJ_MAX));
+  return shuffle(pool);
+}
+document.getElementById('gncBackBtn').addEventListener('click', () => {
+  gncScreen.style.display = 'none';
+  menuScreen.style.display = 'block';
+  window.scrollTo(0, 0);
+});
+
+function gncRender() {
+  if (gncIdx >= gncPool.length) { gncRenderDone(); return; }
+  gncAns = {}; gncSubmitted = false;
+  const q = gncPool[gncIdx];
+  let html = '<div class="pq-progress"><span>' + (gncIdx + 1) + ' / ' + gncPool.length + ' 문항</span>'
+    + '<span>맞은 개수 ' + gncScore + '</span></div>'
+    + '<div style="text-align:center;background:#fff;border-radius:16px;padding:18px 0 22px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.07)">'
+    + '<span class="gnc-badge">' + (q.par.kind === 'article' ? '관사' : '형용사 어미') + '</span>'
+    + '<div style="font-size:40px;font-weight:700;letter-spacing:1px;margin-top:10px">' + formWithHi(q.form.form, q.form.end) + '</div>'
+    + '<div style="font-size:13px;color:#999;margin-top:6px">' + gncDictLabel(q.par) + '</div>'
+    + '</div>'
+    + '<div class="lesson-card"><div class="s34-fields">';
+  GNC_FIELDS.forEach(f => {
+    html += '<div class="s34-field"><div class="s34-field-lbl">' + f.label + '</div><div class="s34-opts">';
+    f.opts.forEach(o => {
+      html += '<button class="s34-opt" data-gnc-key="' + f.key + '" data-val="' + o + '">' + o + '</button>';
+    });
+    html += '</div></div>';
+  });
+  html += '</div>'
+    + '<div id="gncFeedback" style="margin-top:12px"></div>'
+    + '<button class="lesson-btn primary" id="gncSubmitBtn" style="display:none;margin-top:14px">확인</button>'
+    + '<button class="lesson-btn success" id="gncNextBtn" style="display:none;margin-top:8px">'
+      + (gncIdx < gncPool.length - 1 ? '다음 →' : '결과 보기 →') + '</button>'
+    + '</div>';
+  gncContent.innerHTML = html;
+}
+
+function gncSubmit() {
+  if (gncSubmitted) return;
+  gncSubmitted = true;
+  const q  = gncPool[gncIdx];
+  const ok = q.readings.some(r => GNC_FIELDS.every(f => r[f.key] === gncAns[f.key]));
+  // 칸별 표시: 고른 답과 가장 많이 겹치는 읽기를 기준으로 맞은 칸/틀린 칸 구분
+  const match = r => GNC_FIELDS.filter(f => r[f.key] === gncAns[f.key]).length;
+  const ref   = q.readings.reduce((a, r) => match(r) > match(a) ? r : a);
+  gncContent.querySelectorAll('[data-gnc-key]').forEach(b => {
+    b.disabled = true;
+    const key = b.dataset.gncKey, val = b.dataset.val;
+    if (val === ref[key]) b.classList.add('s34-correct');
+    else if (val === gncAns[key]) b.classList.add('s34-wrong');
+  });
+  const answer = q.readings.map(gncLabel).join(' / ');
+  const fb = document.getElementById('gncFeedback');
+  if (ok) {
+    gncScore++;
+    fb.innerHTML = '<p style="color:#2e9e4f;font-weight:700;margin:0">정답!'
+      + (q.readings.length > 1 ? ' <span style="font-weight:400;color:#666">(가능한 답: ' + answer + ')</span>' : '') + '</p>';
+  } else {
+    gncWrong.push({ q, mine: gncLabel(gncAns), answer });
+    fb.innerHTML = '<p style="color:#d64545;font-weight:700;margin:0">오답 — 정답: ' + answer + '</p>';
+  }
+  document.getElementById('gncSubmitBtn').style.display = 'none';
+  document.getElementById('gncNextBtn').style.display = 'block';
+}
+
+function gncRenderDone() {
+  const total = gncPool.length;
+  const rate  = Math.round(gncScore / total * 100);
+  let html = '<div class="lesson-done-card">'
+    + '<div class="lesson-done-icon">' + (rate === 100 ? '🎉' : rate >= 70 ? '✅' : '📚') + '</div>'
+    + '<div class="lesson-done-title">성·수·격 퀴즈 완료!</div>'
+    + '<p style="font-size:30px;font-weight:700;color:#2e6ed6;margin:10px 0 4px">' + gncScore + ' / ' + total + '</p>'
+    + '<p style="font-size:15px;color:#888;margin:0">정답률 ' + rate + '%</p>'
+    + '</div>';
+  if (gncWrong.length) {
+    html += '<div class="menu-card-title" style="margin:18px 0 8px">틀린 문제 (' + gncWrong.length + '개)</div>'
+      + '<div class="s4-errors">';
+    gncWrong.forEach(w => {
+      html += '<div class="gnc-wrong-item">'
+        + '<div class="gnc-wrong-form">' + formWithHi(w.q.form.form, w.q.form.end)
+          + '<span class="gnc-wrong-dict">' + gncDictLabel(w.q.par) + '</span></div>'
+        + '<div class="gnc-wrong-row">내 답: <span class="s4-wrong-txt">' + w.mine + '</span></div>'
+        + '<div class="gnc-wrong-row">정답: <span class="s4-right-txt">' + w.answer + '</span></div>'
+        + '</div>';
+    });
+    html += '</div>'
+      + '<button class="lesson-btn primary" id="gncRetryWrongBtn" style="margin-top:14px">틀린 문제만 다시 풀기</button>';
+  }
+  html += '<button class="lesson-btn" id="gncRestartBtn" style="margin-top:8px">처음부터 다시</button>';
+  gncContent.innerHTML = html;
+}
+
+gncContent.addEventListener('click', e => {
+  const opt = e.target.closest('[data-gnc-key]');
+  if (opt) {
+    if (gncSubmitted) return;
+    const key = opt.dataset.gncKey;
+    gncContent.querySelectorAll('[data-gnc-key="' + key + '"]').forEach(b => b.classList.remove('s34-selected'));
+    opt.classList.add('s34-selected');
+    gncAns[key] = opt.dataset.val;
+    if (GNC_FIELDS.every(f => gncAns[f.key])) document.getElementById('gncSubmitBtn').style.display = 'block';
+    return;
+  }
+  const id = e.target.id;
+  if (id === 'gncSubmitBtn') gncSubmit();
+  else if (id === 'gncNextBtn') { gncIdx++; gncRender(); window.scrollTo(0, 0); }
+  else if (id === 'gncRetryWrongBtn') gncStart(shuffle(gncWrong.map(w => w.q)));
+  else if (id === 'gncRestartBtn') gncStart(gncBuildPool());
+});
 
 // ── 암기 카드 ─────────────────────────────────────────────────
 // 주차 선택은 단어 퀴즈의 주차 체크박스(.wk-cb)를 그대로 사용한다
