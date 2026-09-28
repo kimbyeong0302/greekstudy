@@ -551,7 +551,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-09-28-4";
+const APP_VERSION = "2026-09-28-5";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -567,6 +567,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-09-28", text: "중성 명사 주격·대격 같은 형태(예: δῶρον)에서 해석이 '선물을'로 나오던 문제 수정 → 주격 해석 '선물이'를 기본으로" },
   { date: "2026-09-28", text: "6과(형용사·관사) 단어와 레슨을 3주차로 되돌림" },
   { date: "2026-09-28", text: "암기 카드 추가: 주차별 단어를 어원·소리 연상 카드로 복습 (탭하여 뒤집기, 다시 볼 단어 표시)" },
   { date: "2026-09-28", text: "3주차 레슨에 6과 형용사·관사 변화표 추가 (ἀγαθός·μικρός·δίκαιος·관사): 성×격×수 분석, 명사와의 일치, 한정적·서술적 용법" },
@@ -2567,6 +2568,11 @@ function buildAdjFields(d, form, keys, withAgree) {
 // ── STAGE 3/4 헬퍼 ───────────────────────────────────────────
 // 같은 형태가 여러 격·수로 읽히는 경우 (중성 주격=대격, 여성 α형 속격 단수=대격 복수 등)
 // → 가능한 모든 읽기를 정답으로 허용하되, 격·수·직역 조합이 서로 맞아야 정답
+// 문맥 없이 형태만 보여줄 때는 같은 형태 중 변화표에서 먼저 나오는 읽기(주격 등)를 기본 정답으로
+// (예: 중성 δῶρον → 대격 '선물을'이 아니라 주격 '선물이')
+function canonicalForm(par, form) {
+  return par.forms.find(f => f.form === form.form) || form;
+}
 function getFormReadings(par, form) {
   const rs = par.forms.filter(f => f.form === form.form);
   return rs.length > 1 ? rs : null;
@@ -2680,7 +2686,7 @@ function renderStage3(sub) {
   lessonStage = 3;
   s34Sub = sub;
   const item = lessonItems[lessonIdx];
-  s34Form   = pickFormForSub(item, sub);
+  s34Form   = canonicalForm(item.data, pickFormForSub(item, sub));
   s34Fields = buildFields(item, s34Form);
   s34UserAns   = {};
   s34Submitted = false;
@@ -2741,7 +2747,7 @@ function renderStage4() {
   const s3Used = new Set([0, Math.floor(forms.length / 2), forms.length - 1]);
   const candidates = forms.map((_, i) => i).filter(i => !s3Used.has(i));
   const pool = candidates.length > 0 ? candidates : forms.map((_, i) => i);
-  s34Form   = forms[pool[Math.floor(Math.random() * pool.length)]];
+  s34Form   = canonicalForm(item.data, forms[pool[Math.floor(Math.random() * pool.length)]]);
   s34Fields = buildFields(item, s34Form);
   s34UserAns   = {};
   s34Submitted = false;
@@ -2835,7 +2841,8 @@ function renderStage5(sub) {
   const verbFrmIdx = sub === 'b' ? pair.vFI : Math.floor(Math.random() * verbPar.forms.length);
   const nounFrmIdx = sub === 'b' ? pair.nFI : Math.floor(Math.random() * nounPar.forms.length);
   const verbFrm = verbPar.forms[verbFrmIdx];
-  const nounFrm = nounPar.forms[nounFrmIdx];
+  // 5b는 문장 속 격이 정해져 있으므로 그대로, 5a만 기본 읽기로
+  const nounFrm = sub === 'b' ? nounPar.forms[nounFrmIdx] : canonicalForm(nounPar, nounPar.forms[nounFrmIdx]);
 
   s5VerbFields = buildS5VerbFields(verbPar, verbFrm, sub);
   s5NounFields = buildS5NounFields(nounPar, nounFrm, sub);
@@ -2904,7 +2911,7 @@ function renderStage5Adj(item, sub) {
   let phraseGr, groups;
 
   if (sub === 'a') {
-    const frm     = d.forms[Math.floor(Math.random() * d.forms.length)];
+    const frm     = canonicalForm(d, d.forms[Math.floor(Math.random() * d.forms.length)]);
     const nounPar = nounParadigms.find(n => n.dict === AGREE_NOUNS[frm.gender]);
     const nounFrm = nounPar.forms.find(f => f.case === frm.case && f.number === frm.number);
     phraseGr = isArt
@@ -3210,7 +3217,8 @@ function renderParadigmQuestion() {
   pqUserAns = {}; pqSubmitted = false;
   lessonBackBtn.textContent = '← 목록';
 
-  const { item, form } = pqPool[pqIdx];
+  const { item } = pqPool[pqIdx];
+  const form = canonicalForm(item.data, pqPool[pqIdx].form);
   pqCurFields = buildPQFields(item, form);
 
   let html = '<div class="pq-progress">'
