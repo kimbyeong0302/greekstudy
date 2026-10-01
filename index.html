@@ -324,6 +324,12 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 .game-status { display: flex; justify-content: space-between; font-size: 13px; color: #666; margin-bottom: 12px; }
 .game-status b { color: #222; }
 .game-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.game-grid.big { gap: 6px; }
+.game-grid.big .game-tile { min-height: 58px; font-size: 12px; }
+.game-grid.big .game-tile.gr { font-size: 15px; }
+.game-size-row { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 13px; color: #888; }
+.game-size-btn { padding: 6px 14px; border-radius: 20px; border: 1.5px solid #ddd; background: #fff; color: #666; font-size: 13px; cursor: pointer; }
+.game-size-btn.on { border-color: #d9822b; background: #fff3e6; color: #b5651d; font-weight: 700; }
 .game-tile {
   min-height: 72px; padding: 6px 4px; border-radius: 12px; border: 2px solid #e2ddd2;
   font-size: 13px; line-height: 1.3; color: #333; cursor: pointer; word-break: keep-all; overflow-wrap: anywhere;
@@ -529,6 +535,11 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
     <div class="menu-card-title">단어 짝맞추기 게임</div>
     <p style="font-size:13px;color:#888;margin:0 0 4px;line-height:1.5">헬라어와 뜻을 짝지어 지워요. 모든 단어를 지우면 클리어! 주차 선택은 단어 퀴즈와 같이 바뀌어요.</p>
     <div id="gameWeekChips" class="week-chips week-mirror" style="margin-left:0"></div>
+    <div class="game-size-row" id="gameSizeRow">
+      <span>한 판</span>
+      <button class="game-size-btn" data-size="8">8쌍</button>
+      <button class="game-size-btn on" data-size="16">16쌍</button>
+    </div>
     <div id="gameErr" class="menu-err"></div>
     <button id="gameMenuBtn" class="grammar-btn game-start-btn">게임 시작</button>
   </div>
@@ -623,7 +634,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-01-1";
+const APP_VERSION = "2026-10-01-2";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -639,6 +650,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-01", text: "짝맞추기 게임: 한 판 16쌍 추가(8쌍/16쌍 선택), 단어 반복 없이 무작위로, 직전 게임 첫 판 단어는 뒤로" },
   { date: "2026-10-01", text: "단어 짝맞추기 게임 추가: 헬라어와 뜻 타일을 짝지어 지우고, 모든 단어를 지우면 클리어 (시간·실수·최고 기록)" },
   { date: "2026-09-30", text: "레슨·파싱 퀴즈: 같은 형태가 여러 격·수로 읽히면(δῶρον 주격=대격 등) 1단계·2단계로 나눠 모든 답을 골라야 정답" },
   { date: "2026-09-30", text: "레슨 3·4단계의 분석 형태를 매번 무작위로 (여격 단수·속격 복수·대격 단수 등 다양한 격·수가 나오도록)" },
@@ -3679,7 +3691,8 @@ gncContent.addEventListener('click', e => {
 // ── 단어 짝맞추기 게임 (사천성식) ─────────────────────────────
 // 선택한 주차의 단어를 한 판에 최대 8쌍씩 나눠, 헬라어 타일과 뜻 타일을 짝지어 지운다.
 // 모든 판을 지우면 클리어. 주차 선택은 단어 퀴즈 주차 체크박스(.wk-cb)와 같다.
-const GAME_PAIRS  = 8;
+let   GAME_PAIRS  = 16;                 // 한 판의 짝 수 (메뉴에서 8 / 16 선택)
+const GAME_RECENT_KEY = 'gameRecentFirst';   // 직전 게임 첫 판에 나온 단어
 const GAME_BEST_KEY = 'gameBest';
 const gameScreen  = document.getElementById('gameScreen');
 const gameContent = document.getElementById('gameContent');
@@ -3704,11 +3717,20 @@ function gameStart() {
   if (weeks.length === 0) { gameErr.textContent = '주차를 하나 이상 선택해주세요.'; gameErr.style.display = 'block'; return; }
   gameErr.style.display = 'none';
   gameWeeksKey = weeks.slice().sort((a, b) => a - b).join(',');
-  const pool = shuffle(words.filter(w => weeks.includes(w.week)));
-  // 판 수를 먼저 정하고 고르게 나눈다 (마지막 판에 1~2쌍만 남지 않도록)
-  const n = Math.ceil(pool.length / GAME_PAIRS), size = Math.ceil(pool.length / n);
+  // 단어마다 한 번씩만 (반복 없음). 직전 게임 첫 판에 나온 단어는 뒤쪽으로 보내
+  // 매번 같은 단어로 시작하지 않게 한다.
+  let recent = [];
+  try { recent = JSON.parse(localStorage.getItem(GAME_RECENT_KEY) || '[]'); } catch {}
+  const all  = words.filter(w => weeks.includes(w.week));
+  const pool = [...shuffle(all.filter(w => !recent.includes(w.gr))), ...shuffle(all.filter(w => recent.includes(w.gr)))];
+  // 한 판에 GAME_PAIRS쌍씩, 마지막에 1~2쌍만 남으면 앞 판에 붙인다
   gameBoards = [];
-  for (let i = 0; i < pool.length; i += size) gameBoards.push(pool.slice(i, i + size));
+  for (let i = 0; i < pool.length; i += GAME_PAIRS) gameBoards.push(pool.slice(i, i + GAME_PAIRS));
+  if (gameBoards.length > 1 && gameBoards[gameBoards.length - 1].length <= 2) {
+    const tail = gameBoards.pop();
+    gameBoards[gameBoards.length - 1].push(...tail);
+  }
+  try { localStorage.setItem(GAME_RECENT_KEY, JSON.stringify(gameBoards[0].map(w => w.gr))); } catch {}
   gameBoardIdx = 0; gameMistakes = 0; gameMissed = new Set(); gameStartAt = Date.now();
   clearInterval(gameTimer);
   gameTimer = setInterval(gameRenderStatus, 1000);
@@ -3725,7 +3747,7 @@ function gameRenderBoard() {
     { pair: i, kind: 'ko', text: w.ko, word: w }
   ]));
   gameSel = null; gameLeft = pairs.length; gameLock = false;
-  gameContent.innerHTML = '<div class="game-grid">'
+  gameContent.innerHTML = '<div class="game-grid' + (pairs.length > 8 ? ' big' : '') + '">'
     + gameTiles.map((t, i) => '<button class="game-tile ' + t.kind + '" data-tile="' + i + '">' + t.text + '</button>').join('')
     + '</div>'
     + '<p style="text-align:center;font-size:12px;color:#aaa;margin:14px 0 0">파란 칸은 헬라어, 노란 칸은 뜻이에요. 짝을 차례로 누르세요.</p>';
@@ -3774,10 +3796,11 @@ function gameClear() {
   clearInterval(gameTimer); gameTimer = null;
   const sec = gameElapsed();
   const best = loadGameBest();
-  const prev = best[gameWeeksKey];
+  const recKey = gameWeeksKey + '|' + GAME_PAIRS;   // 주차·판 크기별 기록
+  const prev = best[recKey];
   const isBest = !prev || sec < prev.time || (sec === prev.time && gameMistakes < prev.mistakes);
   if (isBest) {
-    best[gameWeeksKey] = { time: sec, mistakes: gameMistakes };
+    best[recKey] = { time: sec, mistakes: gameMistakes };
     try { localStorage.setItem(GAME_BEST_KEY, JSON.stringify(best)); } catch {}
   }
   const total = gameBoards.reduce((n, b) => n + b.length, 0);
@@ -3809,6 +3832,12 @@ function gameExit() {
   window.scrollTo(0, 0);
 }
 document.getElementById('gameMenuBtn').addEventListener('click', gameStart);
+document.getElementById('gameSizeRow').addEventListener('click', e => {
+  const btn = e.target.closest('.game-size-btn');
+  if (!btn) return;
+  GAME_PAIRS = parseInt(btn.dataset.size);
+  document.querySelectorAll('.game-size-btn').forEach(b => b.classList.toggle('on', b === btn));
+});
 document.getElementById('gameBackBtn').addEventListener('click', gameExit);
 weekChips.addEventListener('change', () => { gameErr.style.display = 'none'; });
 gameContent.addEventListener('click', e => {
