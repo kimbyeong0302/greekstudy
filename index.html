@@ -319,6 +319,28 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 .gnc-wrong-form { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
 .gnc-wrong-dict { font-size: 12px; color: #999; font-weight: 400; margin-left: 6px; }
 .gnc-wrong-row { font-size: 13px; line-height: 1.6; }
+/* ── 전치사 도표 연습 ──────────────────────────────────── */
+.prep-start-btn { background: #3a7d44; }
+.prep-board { position: relative; width: 100%; aspect-ratio: 360 / 330; background: #fff; border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.07); margin-bottom: 12px; }
+.prep-board svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.prep-slot { position: absolute; transform: translate(-50%, -50%); width: 21%; min-height: 22px; padding: 2px 2px;
+  border: 1.5px dashed #b9b2a3; border-radius: 8px; background: #fbf9f4; font-size: 10px; line-height: 1.2; color: #a39b8b;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer;
+  -webkit-tap-highlight-color: transparent; }
+.prep-slot b { font-size: 13px; color: #1d3f7a; margin-right: 2px; }
+.prep-slot.filled { border: 1.5px solid #2e9e4f; background: #e6f6ea; color: #1a6e35; cursor: default; }
+.prep-slot.target { border-color: #2e6ed6; border-style: solid; background: #eaf1fd; }
+.prep-slot.bad { border-color: #d64545; border-style: solid; background: #fdecec; animation: game-shake .3s; }
+.prep-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.prep-chip { padding: 8px 12px; border-radius: 12px; border: 2px solid #e2ddd2; background: #fff; cursor: pointer;
+  font-size: 16px; font-weight: 700; color: #1d3f7a; -webkit-tap-highlight-color: transparent; }
+.prep-chip small { font-size: 11px; color: #888; font-weight: 400; margin-left: 4px; }
+.prep-chip.sel { border-color: #2e6ed6; box-shadow: 0 0 0 3px rgba(46,110,214,.18); }
+.prep-bar { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #666; margin-bottom: 10px; }
+.prep-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.prep-table td { padding: 7px 6px; border-bottom: 1px solid #f0ede6; }
+.prep-table td:first-child { font-weight: 700; color: #1d3f7a; white-space: nowrap; }
 /* ── 단어 짝맞추기 게임 ────────────────────────────────── */
 .game-start-btn { background: #d9822b; margin-top: 14px; }
 .game-status { display: flex; justify-content: space-between; font-size: 13px; color: #666; margin-bottom: 12px; }
@@ -519,8 +541,20 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
       <input type="checkbox" id="chkGncAdj" checked>
       형용사 어미 퀴즈 <span id="gncAdjCnt" style="font-size:13px;color:#999;font-weight:400"></span>
     </label>
+    <div style="height:10px"></div>
+    <label class="check-row">
+      <input type="checkbox" id="chkGncPron" checked>
+      대명사 αὐτός 퀴즈 <span id="gncPronCnt" style="font-size:13px;color:#999;font-weight:400"></span>
+    </label>
     <div id="gncErr" class="menu-err"></div>
     <button id="gncStartBtn" class="grammar-btn gnc-start-btn">성·수·격 퀴즈 시작</button>
+  </div>
+
+  <!-- 전치사 도표 연습 -->
+  <div class="menu-card">
+    <div class="menu-card-title">전치사 도표 연습</div>
+    <p style="font-size:13px;color:#888;margin:0 0 12px;line-height:1.5">교재 7과 §83 도표의 빈칸에 전치사를 넣어 위치·뜻·격을 익혀요.</p>
+    <button id="prepMenuBtn" class="grammar-btn prep-start-btn">전치사 도표 연습 시작</button>
   </div>
 
   <!-- 문법 연습 카드 -->
@@ -596,6 +630,15 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   <div id="gncContent"></div>
 </div>
 
+<!-- ── 전치사 도표 연습 화면 ─────────────────────────────── -->
+<div id="prepScreen" class="screen" style="display:none">
+  <div class="header-row">
+    <h1>전치사 도표</h1>
+    <button class="lesson-back-btn" id="prepBackBtn">← 메뉴</button>
+  </div>
+  <div id="prepContent"></div>
+</div>
+
 <!-- ── 단어 짝맞추기 게임 화면 ───────────────────────────── -->
 <div id="gameScreen" class="screen" style="display:none">
   <div class="header-row">
@@ -634,7 +677,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-01-2";
+const APP_VERSION = "2026-10-01-3";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -650,6 +693,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-01", text: "4주차 추가: 7과 단어·제1변화 남성 명사·동사, 8과 인칭대명사(ἐγώ·σύ·αὐτός)·εἰμί, 전치사 도표 연습(§83), 어미 퀴즈·성수격 퀴즈 확장" },
   { date: "2026-10-01", text: "짝맞추기 게임: 한 판 16쌍 추가(8쌍/16쌍 선택), 단어 반복 없이 무작위로, 직전 게임 첫 판 단어는 뒤로" },
   { date: "2026-10-01", text: "단어 짝맞추기 게임 추가: 헬라어와 뜻 타일을 짝지어 지우고, 모든 단어를 지우면 클리어 (시간·실수·최고 기록)" },
   { date: "2026-09-30", text: "레슨·파싱 퀴즈: 같은 형태가 여러 격·수로 읽히면(δῶρον 주격=대격 등) 1단계·2단계로 나눠 모든 답을 골라야 정답" },
@@ -761,7 +805,25 @@ const endings = [
   {type:"noun", category:"명사 어미 (여성 α형)", ending:"-αι", gender:"여성", case:"주격", number:"복수"},
   {type:"noun", category:"명사 어미 (여성 α형)", ending:"-ων", gender:"여성", case:"속격", number:"복수"},
   {type:"noun", category:"명사 어미 (여성 α형)", ending:"-αις",gender:"여성", case:"여격", number:"복수"},
-  {type:"noun", category:"명사 어미 (여성 α형)", ending:"-ας", gender:"여성", case:"대격", number:"복수"}
+  {type:"noun", category:"명사 어미 (여성 α형)", ending:"-ας", gender:"여성", case:"대격", number:"복수"},
+
+  // --- 명사 어미: 남성 1변화 (7과, μαθητής·προφήτης) ---
+  {type:"noun", category:"명사 어미 (남성 1변화)", ending:"-ης", gender:"남성", case:"주격", number:"단수"},
+  {type:"noun", category:"명사 어미 (남성 1변화)", ending:"-ου", gender:"남성", case:"속격", number:"단수"},
+  {type:"noun", category:"명사 어미 (남성 1변화)", ending:"-ῃ",  gender:"남성", case:"여격", number:"단수"},
+  {type:"noun", category:"명사 어미 (남성 1변화)", ending:"-ην", gender:"남성", case:"대격", number:"단수"},
+  {type:"noun", category:"명사 어미 (남성 1변화)", ending:"-αι", gender:"남성", case:"주격", number:"복수"},
+  {type:"noun", category:"명사 어미 (남성 1변화)", ending:"-ων", gender:"남성", case:"속격", number:"복수"},
+  {type:"noun", category:"명사 어미 (남성 1변화)", ending:"-αις",gender:"남성", case:"여격", number:"복수"},
+  {type:"noun", category:"명사 어미 (남성 1변화)", ending:"-ας", gender:"남성", case:"대격", number:"복수"},
+
+  // --- εἰμί 현재 직설법 (8과 §92) ---
+  {type:"verb", category:"εἰμί 현재", ending:"εἰμί",  person:1, number:"단수", label:"1인칭 단수"},
+  {type:"verb", category:"εἰμί 현재", ending:"εἶ",    person:2, number:"단수", label:"2인칭 단수"},
+  {type:"verb", category:"εἰμί 현재", ending:"ἐστί(ν)", person:3, number:"단수", label:"3인칭 단수"},
+  {type:"verb", category:"εἰμί 현재", ending:"ἐσμέν", person:1, number:"복수", label:"1인칭 복수"},
+  {type:"verb", category:"εἰμί 현재", ending:"ἐστέ",  person:2, number:"복수", label:"2인칭 복수"},
+  {type:"verb", category:"εἰμί 현재", ending:"εἰσί(ν)", person:3, number:"복수", label:"3인칭 복수"}
 ];
 
 const letters = [
@@ -950,7 +1012,32 @@ const words = [
    pun:"피 나도 약속을 지키는 신실한 사람, 피스토스"},
   {gr:"πρῶτος",     kr:"프로토스",        en:"first",              ko:"처음의",          week:3,
    etymology:"prototype(처음 만든 원형), protagonist(첫 배우, 주인공), protocol, proton의 뿌리",
-   pun:"프로토타입은 처음 만든 모델"}
+   pun:"프로토타입은 처음 만든 모델"},
+  // 4주차: 7과 낱말 모음 §72 (θεός·λίθος는 1주차에 이미 있어 제외)
+  {gr:"ἄγγελος", kr:"앙겔로스", en:"angel, messenger", ko:"천사, 사자", week:4},
+  {gr:"ἄγω", kr:"아고", en:"I lead", ko:"나는 인도한다", week:4},
+  {gr:"ἀπό", kr:"아포", en:"from (+gen.)", ko:"(+속격) ~에서, ~로부터", week:4},
+  {gr:"βάλλω", kr:"발로", en:"I throw, put", ko:"나는 던진다, 놓는다", week:4},
+  {gr:"διά", kr:"디아", en:"through (+gen.), because of (+acc.)", ko:"(+속격) 통하여, (+대격) 때문에", week:4},
+  {gr:"εἰς", kr:"에이스", en:"into (+acc.)", ko:"(+대격) ~안으로", week:4},
+  {gr:"ἐκ", kr:"에크", en:"out of (+gen.)", ko:"(+속격) ~에서 밖으로", week:4},
+  {gr:"ἐν", kr:"엔", en:"in (+dat.)", ko:"(+여격) ~안에", week:4},
+  {gr:"κόσμος", kr:"코스모스", en:"world", ko:"세상, 세계", week:4},
+  {gr:"μαθητής", kr:"마데테스", en:"disciple", ko:"제자", week:4},
+  {gr:"μένω", kr:"메노", en:"I remain", ko:"나는 머문다", week:4},
+  {gr:"μετά", kr:"메타", en:"with (+gen.), after (+acc.)", ko:"(+속격) 함께, (+대격) 후에", week:4},
+  {gr:"οὐρανός", kr:"우라노스", en:"heaven", ko:"하늘", week:4},
+  {gr:"πέμπω", kr:"펨포", en:"I send", ko:"나는 보낸다", week:4},
+  {gr:"πρός", kr:"프로스", en:"to, toward (+acc.)", ko:"(+대격) ~에게로", week:4},
+  {gr:"προφήτης", kr:"프로페테스", en:"prophet", ko:"예언자", week:4},
+  {gr:"τέκνον", kr:"테크논", en:"child", ko:"아이", week:4},
+  {gr:"τόπος", kr:"토포스", en:"place", ko:"장소, 곳", week:4},
+  {gr:"φέρω", kr:"페로", en:"I bear, bring", ko:"나는 가져온다, 진다", week:4},
+  // 4주차: 8과 인칭대명사·εἰμί (§88·89·92)
+  {gr:"ἐγώ", kr:"에고", en:"I", ko:"나", week:4},
+  {gr:"σύ", kr:"쉬", en:"you (sg.)", ko:"너", week:4},
+  {gr:"αὐτός", kr:"아우토스", en:"he, she, it", ko:"그, 그녀, 그것", week:4},
+  {gr:"εἰμί", kr:"에이미", en:"I am", ko:"나는 ~이다, 있다", week:4}
 ];
 
 // ── 동사 변화 데이터 (현재 능동 직설법) ─────────────────────
@@ -1051,6 +1138,73 @@ const verbParadigms = [
     ],
     s2q:{ q:"-ουσι는 동사 어미 중 몇 인칭 복수일까요?",
           opts:["3인칭 복수","1인칭 복수","2인칭 복수","3인칭 단수"], ans:"3인칭 복수" }
+  },
+  // 4주차: 7과 동사 + εἰμί(8과 §92)
+  { dict:"ἄγω", meaning:"나는 인도한다", week:4, tense:"현재", voice:"능동", mood:"직설법",
+    forms:[
+      {form:"ἄγω", end:"ω", person:1, number:"단수", tr:"나는 인도한다"},
+      {form:"ἄγεις", end:"εις", person:2, number:"단수", tr:"네가 인도한다"},
+      {form:"ἄγει", end:"ει", person:3, number:"단수", tr:"그가/그녀가/그것이 인도한다"},
+      {form:"ἄγομεν", end:"ομεν", person:1, number:"복수", tr:"우리가 인도한다"},
+      {form:"ἄγετε", end:"ετε", person:2, number:"복수", tr:"너희가 인도한다"},
+      {form:"ἄγουσι", end:"ουσι", person:3, number:"복수", tr:"그들이 인도한다"}
+    ],
+    s2q:{ q:"-ει는 어떤 인칭·수를 나타낼까요?", opts:["3인칭 단수","2인칭 단수","1인칭 단수","3인칭 복수"], ans:"3인칭 단수" }
+  },
+  { dict:"βάλλω", meaning:"나는 던진다/놓는다", week:4, tense:"현재", voice:"능동", mood:"직설법",
+    forms:[
+      {form:"βάλλω", end:"ω", person:1, number:"단수", tr:"나는 던진다"},
+      {form:"βάλλεις", end:"εις", person:2, number:"단수", tr:"네가 던진다"},
+      {form:"βάλλει", end:"ει", person:3, number:"단수", tr:"그가/그녀가/그것이 던진다"},
+      {form:"βάλλομεν", end:"ομεν", person:1, number:"복수", tr:"우리가 던진다"},
+      {form:"βάλλετε", end:"ετε", person:2, number:"복수", tr:"너희가 던진다"},
+      {form:"βάλλουσι", end:"ουσι", person:3, number:"복수", tr:"그들이 던진다"}
+    ],
+    s2q:{ q:"-ετε는 어떤 인칭·수를 나타낼까요?", opts:["2인칭 복수","1인칭 복수","2인칭 단수","3인칭 복수"], ans:"2인칭 복수" }
+  },
+  { dict:"μένω", meaning:"나는 머문다", week:4, tense:"현재", voice:"능동", mood:"직설법",
+    forms:[
+      {form:"μένω", end:"ω", person:1, number:"단수", tr:"나는 머문다"},
+      {form:"μένεις", end:"εις", person:2, number:"단수", tr:"네가 머문다"},
+      {form:"μένει", end:"ει", person:3, number:"단수", tr:"그가/그녀가/그것이 머문다"},
+      {form:"μένομεν", end:"ομεν", person:1, number:"복수", tr:"우리가 머문다"},
+      {form:"μένετε", end:"ετε", person:2, number:"복수", tr:"너희가 머문다"},
+      {form:"μένουσι", end:"ουσι", person:3, number:"복수", tr:"그들이 머문다"}
+    ],
+    s2q:{ q:"-εις는 어떤 인칭·수를 나타낼까요?", opts:["2인칭 단수","3인칭 단수","1인칭 단수","2인칭 복수"], ans:"2인칭 단수" }
+  },
+  { dict:"πέμπω", meaning:"나는 보낸다", week:4, tense:"현재", voice:"능동", mood:"직설법",
+    forms:[
+      {form:"πέμπω", end:"ω", person:1, number:"단수", tr:"나는 보낸다"},
+      {form:"πέμπεις", end:"εις", person:2, number:"단수", tr:"네가 보낸다"},
+      {form:"πέμπει", end:"ει", person:3, number:"단수", tr:"그가/그녀가/그것이 보낸다"},
+      {form:"πέμπομεν", end:"ομεν", person:1, number:"복수", tr:"우리가 보낸다"},
+      {form:"πέμπετε", end:"ετε", person:2, number:"복수", tr:"너희가 보낸다"},
+      {form:"πέμπουσι", end:"ουσι", person:3, number:"복수", tr:"그들이 보낸다"}
+    ],
+    s2q:{ q:"-ω는 어떤 인칭·수를 나타낼까요?", opts:["1인칭 단수","3인칭 단수","1인칭 복수","2인칭 단수"], ans:"1인칭 단수" }
+  },
+  { dict:"φέρω", meaning:"나는 가져온다/진다", week:4, tense:"현재", voice:"능동", mood:"직설법",
+    forms:[
+      {form:"φέρω", end:"ω", person:1, number:"단수", tr:"나는 가져온다"},
+      {form:"φέρεις", end:"εις", person:2, number:"단수", tr:"네가 가져온다"},
+      {form:"φέρει", end:"ει", person:3, number:"단수", tr:"그가/그녀가/그것이 가져온다"},
+      {form:"φέρομεν", end:"ομεν", person:1, number:"복수", tr:"우리가 가져온다"},
+      {form:"φέρετε", end:"ετε", person:2, number:"복수", tr:"너희가 가져온다"},
+      {form:"φέρουσι", end:"ουσι", person:3, number:"복수", tr:"그들이 가져온다"}
+    ],
+    s2q:{ q:"-ομεν은 어떤 인칭·수를 나타낼까요?", opts:["1인칭 복수","2인칭 복수","3인칭 복수","1인칭 단수"], ans:"1인칭 복수" }
+  },
+  { dict:"εἰμί", meaning:"나는 ~이다/있다", week:4, tense:"현재", mood:"직설법", irregular:true,
+    forms:[
+      {form:"εἰμί",  end:"μί",  person:1, number:"단수", tr:"나는 ~이다"},
+      {form:"εἶ",    end:"εἶ",  person:2, number:"단수", tr:"너는 ~이다"},
+      {form:"ἐστί",  end:"τί",  person:3, number:"단수", tr:"그는 ~이다"},
+      {form:"ἐσμέν", end:"μέν", person:1, number:"복수", tr:"우리는 ~이다"},
+      {form:"ἐστέ",  end:"τέ",  person:2, number:"복수", tr:"너희는 ~이다"},
+      {form:"εἰσί",  end:"σί",  person:3, number:"복수", tr:"그들은 ~이다"}
+    ],
+    s2q:{ q:"εἰμί의 3인칭 복수 형태는?", opts:["εἰσί(ν)","ἐστί(ν)","ἐσμέν","ἐστέ"], ans:"εἰσί(ν)" }
   }
 ];
 
@@ -1283,6 +1437,33 @@ const nounParadigms = [
     ],
     s2q:{ q:"주격 단수가 -η인 제1변화 명사의 복수 어미는?",
           opts:["모든 제1변화 명사와 같다 (-αι, -ων, -αις, -ας)","단수처럼 η를 유지한다","2변화 남성과 같다 (-οι, -ων, -οις, -ους)","중성과 같다 (-α)"], ans:"모든 제1변화 명사와 같다 (-αι, -ων, -αις, -ας)" }
+  },
+  // 4주차: 7과 제1변화 남성 명사 (주격 단수 -ης, §73)
+  { dict:"μαθητής", meaning:"제자", week:4, gender:"남성", decl:1,
+    forms:[
+      {form:"μαθητής", end:"ής", case:"주격", number:"단수", tr:"제자가"},
+      {form:"μαθητοῦ", end:"οῦ", case:"속격", number:"단수", tr:"제자의"},
+      {form:"μαθητῇ", end:"ῇ", case:"여격", number:"단수", tr:"제자에게"},
+      {form:"μαθητήν", end:"ήν", case:"대격", number:"단수", tr:"제자를"},
+      {form:"μαθηταί", end:"αί", case:"주격", number:"복수", tr:"제자들이"},
+      {form:"μαθητῶν", end:"ῶν", case:"속격", number:"복수", tr:"제자들의"},
+      {form:"μαθηταῖς", end:"αῖς", case:"여격", number:"복수", tr:"제자들에게"},
+      {form:"μαθητάς", end:"άς", case:"대격", number:"복수", tr:"제자들을"}
+    ],
+    s2q:{ q:"주격 단수가 -ης로 끝나는 제1변화 명사의 성은?", opts:["남성","여성","중성","단어마다 다름"], ans:"남성" }
+  },
+  { dict:"προφήτης", meaning:"예언자", week:4, gender:"남성", decl:1,
+    forms:[
+      {form:"προφήτης", end:"ης", case:"주격", number:"단수", tr:"예언자가"},
+      {form:"προφήτου", end:"ου", case:"속격", number:"단수", tr:"예언자의"},
+      {form:"προφήτῃ", end:"ῃ", case:"여격", number:"단수", tr:"예언자에게"},
+      {form:"προφήτην", end:"ην", case:"대격", number:"단수", tr:"예언자를"},
+      {form:"προφῆται", end:"αι", case:"주격", number:"복수", tr:"예언자들이"},
+      {form:"προφητῶν", end:"ῶν", case:"속격", number:"복수", tr:"예언자들의"},
+      {form:"προφήταις", end:"αις", case:"여격", number:"복수", tr:"예언자들에게"},
+      {form:"προφήτας", end:"ας", case:"대격", number:"복수", tr:"예언자들을"}
+    ],
+    s2q:{ q:"제1변화 남성 명사 προφήτης의 단수 속격 어미는?", opts:["-ου","-ης","-ας","-ῃ"], ans:"-ου" }
   }
 ];
 
@@ -1358,6 +1539,21 @@ const adjParadigms = [
     ]),
     s2q:{ q:"관사가 형용사 ἀγαθός의 변화와 다른 점이 아닌 것은?",
           opts:["속격 복수가 성마다 다르다","ὁ, ἡ, οἱ, αἱ에 τ가 없다","중성 단수 주격·대격이 τό이다","호격이 없다"], ans:"속격 복수가 성마다 다르다" }
+  },
+  // 4주차: 8과 3인칭 대명사 αὐτός — ἀγαθός처럼 변화하되 호격 없음, 중성 단수 주·대격 αὐτό
+  { dict:"αὐτός", meaning:"그, 그녀, 그것", week:4, kind:"pronoun",
+    forms: adjRows([
+      ['주격','단수', ['αὐτός','ός'],   ['αὐτή','ή'],     ['αὐτό','ό']],
+      ['속격','단수', ['αὐτοῦ','οῦ'],   ['αὐτῆς','ῆς'],   ['αὐτοῦ','οῦ']],
+      ['여격','단수', ['αὐτῷ','ῷ'],     ['αὐτῇ','ῇ'],     ['αὐτῷ','ῷ']],
+      ['대격','단수', ['αὐτόν','όν'],   ['αὐτήν','ήν'],   ['αὐτό','ό']],
+      ['주격','복수', ['αὐτοί','οί'],   ['αὐταί','αί'],   ['αὐτά','ά']],
+      ['속격','복수', ['αὐτῶν','ῶν'],   ['αὐτῶν','ῶν'],   ['αὐτῶν','ῶν']],
+      ['여격','복수', ['αὐτοῖς','οῖς'], ['αὐταῖς','αῖς'], ['αὐτοῖς','οῖς']],
+      ['대격','복수', ['αὐτούς','ούς'], ['αὐτάς','άς'],   ['αὐτά','ά']]
+    ]),
+    s2q:{ q:"αὐτός의 변화가 ἀγαθός와 다른 점은?",
+          opts:["중성 단수 주격·대격이 αὐτό이고 호격이 없다","여성이 α로 변화한다","속격 복수가 성마다 다르다","복수형이 없다"], ans:"중성 단수 주격·대격이 αὐτό이고 호격이 없다" }
   }
 ];
 // 각 형태에 성·수·격이 일치하는 명사 형태를 붙인다 (예: ἀγαθῆς → γραφῆς)
@@ -1365,6 +1561,43 @@ adjParadigms.forEach(p => p.forms.forEach(f => {
   const np = nounParadigms.find(n => n.dict === AGREE_NOUNS[f.gender]);
   f.agree = np.forms.find(x => x.case === f.case && x.number === f.number).form;
 }));
+
+// ── 1·2인칭 대명사 (8과 §88·89) — 성 없음, 강조형/전접어형(μου 등) 함께 ─────
+// 앞 8개는 강조형(격·수 순서), 뒤의 전접어형은 같은 격·수의 다른 형태
+const pronParadigms = [
+  { dict:"ἐγώ", meaning:"나", week:4, person:1,
+    forms:[
+      {form:"ἐγώ",   end:"ἐγώ",   case:"주격", number:"단수", tr:"내가"},
+      {form:"ἐμοῦ",  end:"οῦ",    case:"속격", number:"단수", tr:"나의"},
+      {form:"ἐμοί",  end:"οί",    case:"여격", number:"단수", tr:"나에게"},
+      {form:"ἐμέ",   end:"έ",     case:"대격", number:"단수", tr:"나를"},
+      {form:"ἡμεῖς", end:"εῖς",   case:"주격", number:"복수", tr:"우리가"},
+      {form:"ἡμῶν",  end:"ῶν",    case:"속격", number:"복수", tr:"우리의"},
+      {form:"ἡμῖν",  end:"ῖν",    case:"여격", number:"복수", tr:"우리에게"},
+      {form:"ἡμᾶς",  end:"ᾶς",    case:"대격", number:"복수", tr:"우리를"},
+      {form:"μου",   end:"ου",    case:"속격", number:"단수", tr:"나의", enclitic:true},
+      {form:"μοι",   end:"οι",    case:"여격", number:"단수", tr:"나에게", enclitic:true},
+      {form:"με",    end:"ε",     case:"대격", number:"단수", tr:"나를", enclitic:true}
+    ],
+    s2q:{ q:"ἐμοῦ, ἐμοί, ἐμέ와 μου, μοι, με의 차이는?", opts:["ἐμοῦ 등은 강조할 때, μου 등은 보통 때 쓴다","μου 등이 복수형이다","ἐμοῦ 등이 호격이다","뜻이 완전히 다르다"], ans:"ἐμοῦ 등은 강조할 때, μου 등은 보통 때 쓴다" }
+  },
+  { dict:"σύ", meaning:"너", week:4, person:2,
+    forms:[
+      {form:"σύ",    end:"ύ",     case:"주격", number:"단수", tr:"네가"},
+      {form:"σοῦ",   end:"οῦ",    case:"속격", number:"단수", tr:"너의"},
+      {form:"σοί",   end:"οί",    case:"여격", number:"단수", tr:"너에게"},
+      {form:"σέ",    end:"έ",     case:"대격", number:"단수", tr:"너를"},
+      {form:"ὑμεῖς", end:"εῖς",   case:"주격", number:"복수", tr:"너희가"},
+      {form:"ὑμῶν",  end:"ῶν",    case:"속격", number:"복수", tr:"너희의"},
+      {form:"ὑμῖν",  end:"ῖν",    case:"여격", number:"복수", tr:"너희에게"},
+      {form:"ὑμᾶς",  end:"ᾶς",    case:"대격", number:"복수", tr:"너희를"},
+      {form:"σου",   end:"ου",    case:"속격", number:"단수", tr:"너의", enclitic:true},
+      {form:"σοι",   end:"οι",    case:"여격", number:"단수", tr:"너에게", enclitic:true},
+      {form:"σε",    end:"ε",     case:"대격", number:"단수", tr:"너를", enclitic:true}
+    ],
+    s2q:{ q:"인칭대명사 변화에 없는 격은?", opts:["호격","속격","여격","대격"], ans:"호격" }
+  }
+];
 
 // ── 4과 문장 데이터 (6단계용) ──────────────────────────────
 // words 배열: {dict, form, type, role} + 동사: {person, number} / 명사: {case, number}
@@ -1484,35 +1717,60 @@ const sentences = [
   { gr:'ὁ κύριος τῆς ζωῆς ἐγείρει τοὺς νεκρούς.', ko:'생명의 주께서 죽은 자들을 일으키신다.',
     words:[ {dict:'ὁ, ἡ, τό', form:'τῆς',    type:'adj',gender:'여성',case:'속격',number:'단수',agrees:'ζωῆς'} ]},
   { gr:'ταῖς πισταῖς λέγει ὁ κύριος παραβολὴν καλὴν καὶ τοῖς πιστοῖς.', ko:'주께서 신실한 여자들과 신실한 남자들에게 좋은 비유를 말씀하신다.',
-    words:[ {dict:'ὁ, ἡ, τό', form:'ταῖς',   type:'adj',gender:'여성',case:'여격',number:'복수',agrees:'πισταῖς'} ]}
+    words:[ {dict:'ὁ, ἡ, τό', form:'ταῖς',   type:'adj',gender:'여성',case:'여격',number:'복수',agrees:'πισταῖς'} ]},
+  // 4주차: 교재 7과 익힘 문제 §84
+  { gr:'οἱ μαθηταὶ τῶν προφητῶν μένουσιν ἐν τῷ κόσμῳ.', ko:'예언자들의 제자들이 세상에 머문다.',
+    words:[ {dict:'μαθητής',  form:'μαθηταὶ',   type:'noun',case:'주격',number:'복수',role:'주어'},
+            {dict:'προφήτης', form:'προφητῶν',  type:'noun',case:'속격',number:'복수',role:'수식어'},
+            {dict:'μένω',     form:'μένουσιν',  type:'verb',person:3,number:'복수',role:'서술어'} ]},
+  { gr:'οἱ κακοὶ βάλλουσιν λίθους εἰς τὸν οἶκον τῶν μαθητῶν.', ko:'악한 자들이 제자들의 집 안으로 돌들을 던진다.',
+    words:[ {dict:'βάλλω',    form:'βάλλουσιν', type:'verb',person:3,number:'복수',role:'서술어'},
+            {dict:'μαθητής',  form:'μαθητῶν',   type:'noun',case:'속격',number:'복수',role:'수식어'} ]},
+  { gr:'ὁ θεὸς πέμπει τοὺς ἀγγέλους εἰς τὸν κόσμον.', ko:'하나님이 천사들을 세상 안으로 보내신다.',
+    words:[ {dict:'πέμπω',    form:'πέμπει',    type:'verb',person:3,number:'단수',role:'서술어'} ]},
+  { gr:'ὁ προφήτης πέμπει τοὺς μαθητὰς τοῦ κυρίου ἐκ τῶν οἴκων εἰς τὴν ἐκκλησίαν.', ko:'예언자가 주의 제자들을 집들에서 교회로 보낸다.',
+    words:[ {dict:'προφήτης', form:'προφήτης',  type:'noun',case:'주격',number:'단수',role:'주어'},
+            {dict:'πέμπω',    form:'πέμπει',    type:'verb',person:3,number:'단수',role:'서술어'},
+            {dict:'μαθητής',  form:'μαθητὰς',   type:'noun',case:'대격',number:'복수',role:'목적어'},
+            {dict:'ὁ, ἡ, τό', form:'τοῦ',       type:'adj',gender:'남성',case:'속격',number:'단수',agrees:'κυρίου'} ]},
+  { gr:'λαμβάνετε τὰ καλὰ δῶρα ἀπὸ τῶν τέκνων.', ko:'너희가 아이들에게서 좋은 선물들을 받는다.',
+    words:[ {dict:'λαμβάνω',  form:'λαμβάνετε', type:'verb',person:2,number:'복수',role:'서술어'},
+            {dict:'δῶρον',    form:'δῶρα',      type:'noun',case:'대격',number:'복수',role:'목적어'} ]}
 ];
 
-// ── 5단계 동사+명사 페어링 (lessonIdx → vI:verbParIdx, vFI:verbFormIdx, nI:nounParIdx, nFI:nounFormIdx)
+// ── 5단계 동사+명사 페어링 (for: 레슨 항목 사전형 → vI:verbParIdx, vFI:verbFormIdx, nI:nounParIdx, nFI:nounFormIdx)
+// 짝이 없는 항목(ἄγω·φέρω·εἰμί·대명사 등)은 5단계를 건너뛴다
 const pairings = [
-  {vI:0,vFI:2,nI:3,nFI:3, s5b:'λύει τὸν δοῦλον.',         s5bKo:'그가 종을 푼다.'},         // 0 λύω
-  {vI:1,vFI:2,nI:1,nFI:3, s5b:'βλέπει τὸν ἄνθρωπον.',     s5bKo:'그가 사람을 본다.'},       // 1 βλέπω
-  {vI:2,vFI:2,nI:0,nFI:3, s5b:'γράφει τὸν λόγον.',        s5bKo:'그가 말씀을 쓴다.'},       // 2 γράφω
-  {vI:3,vFI:2,nI:10,nFI:3,s5b:'λέγει τὸ εὐαγγέλιον.',    s5bKo:'그가 복음을 말한다.'},     // 3 λέγω
-  {vI:4,vFI:2,nI:6,nFI:3, s5b:'γινώσκει τὸν νόμον.',      s5bKo:'그가 율법을 안다.'},       // 4 γινώσκω
-  {vI:5,vFI:2,nI:5,nFI:7, s5b:'διδάσκει τοὺς ἀδελφούς.', s5bKo:'그가 형제들을 가르친다.'}, // 5 διδάσκω
-  {vI:6,vFI:2,nI:7,nFI:3, s5b:'λαμβάνει τὸ δῶρον.',      s5bKo:'그가 선물을 취한다.'},     // 6 λαμβάνω
-  {vI:7,vFI:2,nI:8,nFI:3, s5b:'ἔχει τὸ ἔργον.',          s5bKo:'그가 일을 가진다.'},       // 7 ἔχω
-  {vI:2,vFI:2,nI:0,nFI:3, s5b:'γράφει τὸν λόγον.',        s5bKo:'그가 말씀을 쓴다.'},       // 8 λόγος
-  {vI:1,vFI:2,nI:1,nFI:3, s5b:'βλέπει τὸν ἄνθρωπον.',     s5bKo:'그가 사람을 본다.'},       // 9 ἄνθρωπος
-  {vI:3,vFI:2,nI:2,nFI:0, s5b:'ὁ ἀπόστολος λέγει.',      s5bKo:'사도가 말한다.'},          // 10 ἀπόστολος
-  {vI:0,vFI:2,nI:3,nFI:3, s5b:'λύει τὸν δοῦλον.',         s5bKo:'그가 종을 푼다.'},         // 11 δοῦλος
-  {vI:1,vFI:2,nI:4,nFI:3, s5b:'βλέπει τὸν οἶκον.',        s5bKo:'그가 집을 본다.'},         // 12 οἶκος
-  {vI:5,vFI:2,nI:5,nFI:7, s5b:'διδάσκει τοὺς ἀδελφούς.', s5bKo:'그가 형제들을 가르친다.'}, // 13 ἀδελφός
-  {vI:4,vFI:2,nI:6,nFI:3, s5b:'γινώσκει τὸν νόμον.',      s5bKo:'그가 율법을 안다.'},       // 14 νόμος
-  {vI:6,vFI:2,nI:7,nFI:3, s5b:'λαμβάνει τὸ δῶρον.',      s5bKo:'그가 선물을 취한다.'},     // 15 δῶρον
-  {vI:7,vFI:2,nI:8,nFI:3, s5b:'ἔχει τὸ ἔργον.',          s5bKo:'그가 일을 가진다.'},       // 16 ἔργον
-  {vI:1,vFI:2,nI:9,nFI:3, s5b:'βλέπει τὸ ἱερόν.',         s5bKo:'그가 성전을 본다.'},       // 17 ἱερόν
-  {vI:7,vFI:3,nI:10,nFI:3,s5b:'ἔχομεν τὸ εὐαγγέλιον.',  s5bKo:'우리가 복음을 가진다.'},  // 18 εὐαγγέλιον
-  {vI:7,vFI:2,nI:11,nFI:0,s5b:'ὥρα ἔχει δόξαν.',          s5bKo:'시간이 영광을 가진다.'},  // 19 ὥρα
-  {vI:4,vFI:2,nI:12,nFI:0,s5b:'βασιλεία γινώσκει ἀλήθειαν.', s5bKo:'왕국이 진리를 안다.'}, // 20 βασιλεία
-  {vI:4,vFI:2,nI:13,nFI:3,s5b:'βασιλεία γινώσκει ἀλήθειαν.', s5bKo:'왕국이 진리를 안다.'}, // 21 ἀλήθεια
-  {vI:1,vFI:1,nI:14,nFI:3,s5b:'βλέπεις δῶρα καὶ δόξαν.',  s5bKo:'네가 선물들과 영광을 본다.'}, // 22 δόξα
-  {vI:1,vFI:3,nI:15,nFI:7,s5b:'βλέπομεν γραφάς.',         s5bKo:'우리가 문서들을 본다.'}   // 23 γραφή
+  {for:'λύω', vI:0,vFI:2,nI:3,nFI:3, s5b:'λύει τὸν δοῦλον.',         s5bKo:'그가 종을 푼다.'},         // 0 λύω
+  {for:'βλέπω', vI:1,vFI:2,nI:1,nFI:3, s5b:'βλέπει τὸν ἄνθρωπον.',     s5bKo:'그가 사람을 본다.'},       // 1 βλέπω
+  {for:'γράφω', vI:2,vFI:2,nI:0,nFI:3, s5b:'γράφει τὸν λόγον.',        s5bKo:'그가 말씀을 쓴다.'},       // 2 γράφω
+  {for:'λέγω', vI:3,vFI:2,nI:10,nFI:3,s5b:'λέγει τὸ εὐαγγέλιον.',    s5bKo:'그가 복음을 말한다.'},     // 3 λέγω
+  {for:'γινώσκω', vI:4,vFI:2,nI:6,nFI:3, s5b:'γινώσκει τὸν νόμον.',      s5bKo:'그가 율법을 안다.'},       // 4 γινώσκω
+  {for:'διδάσκω', vI:5,vFI:2,nI:5,nFI:7, s5b:'διδάσκει τοὺς ἀδελφούς.', s5bKo:'그가 형제들을 가르친다.'}, // 5 διδάσκω
+  {for:'λαμβάνω', vI:6,vFI:2,nI:7,nFI:3, s5b:'λαμβάνει τὸ δῶρον.',      s5bKo:'그가 선물을 취한다.'},     // 6 λαμβάνω
+  {for:'ἔχω', vI:7,vFI:2,nI:8,nFI:3, s5b:'ἔχει τὸ ἔργον.',          s5bKo:'그가 일을 가진다.'},       // 7 ἔχω
+  {for:'λόγος', vI:2,vFI:2,nI:0,nFI:3, s5b:'γράφει τὸν λόγον.',        s5bKo:'그가 말씀을 쓴다.'},       // 8 λόγος
+  {for:'ἄνθρωπος', vI:1,vFI:2,nI:1,nFI:3, s5b:'βλέπει τὸν ἄνθρωπον.',     s5bKo:'그가 사람을 본다.'},       // 9 ἄνθρωπος
+  {for:'ἀπόστολος', vI:3,vFI:2,nI:2,nFI:0, s5b:'ὁ ἀπόστολος λέγει.',      s5bKo:'사도가 말한다.'},          // 10 ἀπόστολος
+  {for:'δοῦλος', vI:0,vFI:2,nI:3,nFI:3, s5b:'λύει τὸν δοῦλον.',         s5bKo:'그가 종을 푼다.'},         // 11 δοῦλος
+  {for:'οἶκος', vI:1,vFI:2,nI:4,nFI:3, s5b:'βλέπει τὸν οἶκον.',        s5bKo:'그가 집을 본다.'},         // 12 οἶκος
+  {for:'ἀδελφός', vI:5,vFI:2,nI:5,nFI:7, s5b:'διδάσκει τοὺς ἀδελφούς.', s5bKo:'그가 형제들을 가르친다.'}, // 13 ἀδελφός
+  {for:'νόμος', vI:4,vFI:2,nI:6,nFI:3, s5b:'γινώσκει τὸν νόμον.',      s5bKo:'그가 율법을 안다.'},       // 14 νόμος
+  {for:'δῶρον', vI:6,vFI:2,nI:7,nFI:3, s5b:'λαμβάνει τὸ δῶρον.',      s5bKo:'그가 선물을 취한다.'},     // 15 δῶρον
+  {for:'ἔργον', vI:7,vFI:2,nI:8,nFI:3, s5b:'ἔχει τὸ ἔργον.',          s5bKo:'그가 일을 가진다.'},       // 16 ἔργον
+  {for:'ἱερόν', vI:1,vFI:2,nI:9,nFI:3, s5b:'βλέπει τὸ ἱερόν.',         s5bKo:'그가 성전을 본다.'},       // 17 ἱερόν
+  {for:'εὐαγγέλιον', vI:7,vFI:3,nI:10,nFI:3,s5b:'ἔχομεν τὸ εὐαγγέλιον.',  s5bKo:'우리가 복음을 가진다.'},  // 18 εὐαγγέλιον
+  {for:'ὥρα', vI:7,vFI:2,nI:11,nFI:0,s5b:'ὥρα ἔχει δόξαν.',          s5bKo:'시간이 영광을 가진다.'},  // 19 ὥρα
+  {for:'βασιλεία', vI:4,vFI:2,nI:12,nFI:0,s5b:'βασιλεία γινώσκει ἀλήθειαν.', s5bKo:'왕국이 진리를 안다.'}, // 20 βασιλεία
+  {for:'ἀλήθεια', vI:4,vFI:2,nI:13,nFI:3,s5b:'βασιλεία γινώσκει ἀλήθειαν.', s5bKo:'왕국이 진리를 안다.'}, // 21 ἀλήθεια
+  {for:'δόξα', vI:1,vFI:1,nI:14,nFI:3,s5b:'βλέπεις δῶρα καὶ δόξαν.',  s5bKo:'네가 선물들과 영광을 본다.'}, // 22 δόξα
+  {for:'γραφή', vI:1,vFI:3,nI:15,nFI:7,s5b:'βλέπομεν γραφάς.',         s5bKo:'우리가 문서들을 본다.'},  // 23 γραφή
+  // 4주차 (교재 7과 익힘 §84 문장)
+  {for:'μένω',     vI:10,vFI:5,nI:16,nFI:4, s5b:'οἱ μαθηταὶ τῶν προφητῶν μένουσιν ἐν τῷ κόσμῳ.', s5bKo:'예언자들의 제자들이 세상에 머문다.'},
+  {for:'βάλλω',    vI:9, vFI:5,nI:16,nFI:5, s5b:'οἱ κακοὶ βάλλουσιν λίθους εἰς τὸν οἶκον τῶν μαθητῶν.', s5bKo:'악한 자들이 제자들의 집 안으로 돌들을 던진다.'},
+  {for:'πέμπω',    vI:11,vFI:2,nI:16,nFI:7, s5b:'ὁ προφήτης πέμπει τοὺς μαθητὰς τοῦ κυρίου.', s5bKo:'예언자가 주의 제자들을 보낸다.'},
+  {for:'μαθητής',  vI:10,vFI:5,nI:16,nFI:4, s5b:'οἱ μαθηταὶ τῶν προφητῶν μένουσιν ἐν τῷ κόσμῳ.', s5bKo:'예언자들의 제자들이 세상에 머문다.'},
+  {for:'προφήτης', vI:11,vFI:2,nI:17,nFI:0, s5b:'ὁ προφήτης πέμπει τοὺς μαθητὰς τοῦ κυρίου.', s5bKo:'예언자가 주의 제자들을 보낸다.'}
 ];
 
 // ── 퀴즈 엔진 ─────────────────────────────────────────────────
@@ -1920,16 +2178,18 @@ let pqCurFields = null;
 let pqUserAns   = {};
 let pqSubmitted = false;
 let pqScore     = 0;
-let pqSelWeeks  = new Set([1, 2, 3]);
+let pqSelWeeks  = new Set([1, 2, 3, 4]);
 // 동사+명사 합친 레슨 목록 구성
 function buildLessonItems() {
   lessonItems = [];
   verbParadigms.forEach(v => lessonItems.push({ type: 'verb', data: v }));
   nounParadigms.forEach(n => lessonItems.push({ type: 'noun', data: n }));
   adjParadigms.forEach(a => lessonItems.push({ type: 'adj', data: a }));
+  pronParadigms.forEach(a => lessonItems.push({ type: 'pron', data: a }));
 }
 function itemTypeLabel(item) {
   return item.type === 'verb' ? '동사' : item.type === 'noun' ? '명사'
+       : item.type === 'pron' || item.data.kind === 'pronoun' ? '대명사'
        : item.data.kind === 'article' ? '관사' : '형용사';
 }
 
@@ -2040,9 +2300,10 @@ function renderLessonSelect() {
           + '<span class="ls-arrow">›</span></div>';
       });
     }
-    const adjs = entries.filter(e => e.item.type === 'adj');
+    const adjs = entries.filter(e => e.item.type === 'adj' || e.item.type === 'pron');
     if (adjs.length) {
-      html += '<div class="ls-section">형용사·관사 (' + adjs.length + '개)</div>';
+      const hasPron = adjs.some(e => e.item.type === 'pron' || e.item.data.kind === 'pronoun');
+      html += '<div class="ls-section">' + (hasPron ? '형용사·관사·대명사' : '형용사·관사') + ' (' + adjs.length + '개)</div>';
       adjs.forEach(({ item: a, idx }) => {
         html += '<div class="ls-item" data-action="start-item" data-idx="' + idx + '">'
           + '<span class="ls-dict">' + a.data.dict + '</span>'
@@ -2428,6 +2689,7 @@ function renderStage2() {
   const d      = item.data;
   const isVerb = item.type === 'verb';
   if (item.type === 'adj') { renderStage2Adj(d); return; }
+  const isPron = item.type === 'pron';
 
   // 변화표 HTML
   let tableHtml = '<div class="paradigm-wrap"><table class="paradigm-table">';
@@ -2444,12 +2706,13 @@ function renderStage2() {
     tableHtml += '<tr><th>격</th><th>단수</th><th>복수</th></tr>';
     const cases = ['주격','속격','여격','대격'];
     cases.forEach(c => {
-      const sg = d.forms.find(f => f.case === c && f.number === '단수');
-      const pl = d.forms.find(f => f.case === c && f.number === '복수');
+      // 같은 격·수의 다른 형태(인칭대명사 전접어형 μου 등)는 "또는"으로 함께
+      const cell = n => d.forms.filter(f => f.case === c && f.number === n)
+        .map(f => formWithHi(f.form, f.end)).join(' <span style="font-size:12px;color:#999;font-weight:400">또는</span> ');
       tableHtml += '<tr>'
         + '<td style="font-weight:600;color:#555">' + c + '</td>'
-        + '<td class="p-form">' + formWithHi(sg.form, sg.end) + '</td>'
-        + '<td class="p-form">' + formWithHi(pl.form, pl.end) + '</td>'
+        + '<td class="p-form">' + cell('단수') + '</td>'
+        + '<td class="p-form">' + cell('복수') + '</td>'
         + '</tr>';
     });
   }
@@ -2457,7 +2720,23 @@ function renderStage2() {
 
   // 설명 문단
   let expHtml;
-  if (isVerb) {
+  if (isVerb && d.irregular) {
+    expHtml = '<p class="exp-text">'
+      + '<span class="exp-em">εἰμί</span>(나는 ~이다, 나는 ~있다)는 -ω 동사와 어미가 다른 <strong>불규칙 동사</strong>예요. 형태를 통째로 외워야 해요.<br><br>'
+      + '단수: <span class="exp-em">εἰμί</span> / <span class="exp-em">εἶ</span> / <span class="exp-em">ἐστί(ν)</span><br>'
+      + '복수: <span class="exp-em">ἐσμέν</span> / <span class="exp-em">ἐστέ</span> / <span class="exp-em">εἰσί(ν)</span><br><br>'
+      + '교재 표처럼 악센트 없는 형태(εἰμι, ἐστι 등)와 있는 형태(εἰμί, ἐστί 등)가 함께 쓰이고, '
+      + 'ἐστί(ν)·εἰσί(ν)에는 ν가 붙기도 해요. 태는 따로 구분하지 않아요.'
+      + '</p>';
+  } else if (isPron) {
+    expHtml = '<p class="exp-text">'
+      + (d.person === 1 ? '1인칭' : '2인칭') + ' 대명사는 <strong>성이 없고</strong> 격과 수로만 변화해요.<br><br>'
+      + (d.person === 1
+          ? '<span class="exp-em">ἐμοῦ, ἐμοί, ἐμέ</span>는 강조할 때 쓰고, 보통은 <span class="exp-em">μου, μοι, με</span>라는 전접어 형태를 써요.'
+          : '<span class="exp-em">σοῦ, σοί, σέ</span>는 강조할 때 쓰고, <span class="exp-em">σου, σοι, σε</span>는 전접어로서 그 밖의 경우에 써요.')
+      + '<br><br>인칭대명사 변화에는 <strong>호격이 없어요.</strong>'
+      + '</p>';
+  } else if (isVerb) {
     const root = d.forms[0].form.slice(0, d.forms[0].form.length - d.forms[0].end.length);
     expHtml = '<p class="exp-text">'
       + '이 동사의 어근은 <span class="exp-em">' + root + '-</span>이에요. '
@@ -2474,7 +2753,12 @@ function renderStage2() {
       + '이 명사의 어간은 <span class="exp-em">' + stem + '-</span>이에요. '
       + '어간 뒤에 붙는 <span class="exp-em">격 어미</span>가 격과 수를 나타내요. '
       + '이 명사의 성은 <span class="exp-em">' + d.gender + '</span>으로, 외울 때 성도 함께 외워야 해요.<br><br>';
-    if (d.gender === '여성') {
+    if (d.decl === 1 && d.gender === '남성') {
+      expHtml += '주격 단수가 <span class="exp-em">-ης</span>로 끝나는 제1변화 명사는 <strong>남성</strong>이에요.<br>'
+        + '단수 어미: <span class="exp-em">-ης</span>(주격) / <span class="exp-em">-ου</span>(속격) / <span class="exp-em">-ῃ</span>(여격) / <span class="exp-em">-ην</span>(대격)<br>'
+        + '복수 어미: <span class="exp-em">-αι</span>(주격) / <span class="exp-em">-ῶν</span>(속격) / <span class="exp-em">-αις</span>(여격) / <span class="exp-em">-ας</span>(대격)<br><br>'
+        + '단수 속격만 제2변화 남성처럼 <span class="exp-em">-ου</span>이고, 나머지 단수는 -η형 여성 명사와 같아요. 복수는 모든 제1변화 명사와 같아요.';
+    } else if (d.gender === '여성') {
       // 1격 변화: η형(γραφή) / α형(ὥρα 등, 어간이 ε·ι·ρ로 끝남) / 혼합형(δόξα, 단수 속격·여격만 η)
       const nomEta = /[ηήῆ]$/.test(sg0.end);
       const genEta = /[ηήῆ]/.test(d.forms[1].end);
@@ -2521,7 +2805,9 @@ function renderStage2() {
       + d.dict + ' <span style="font-size:14px;color:#888;font-weight:400">— ' + d.meaning + '</span></p>'
 
     + '<div class="lesson-card">'
-      + '<div class="lesson-card-title">' + (isVerb ? '현재 능동 직설법 변화표' : (d.gender === '여성' ? '1격 변화' : '2격 변화') + ' (' + d.gender + ')') + '</div>'
+      + '<div class="lesson-card-title">' + (isVerb ? (d.irregular ? 'εἰμί 현재 직설법 변화표' : '현재 능동 직설법 변화표')
+        : isPron ? (d.person === 1 ? '1인칭' : '2인칭') + ' 대명사 변화표'
+        : (d.gender === '여성' || d.decl === 1 ? '1격 변화' : '2격 변화') + ' (' + d.gender + ')') + '</div>'
       + tableHtml
     + '</div>'
 
@@ -2559,7 +2845,12 @@ function renderStage2Adj(d) {
   tableHtml += '</table></div>';
 
   let expHtml = '<p class="exp-text">';
-  if (isArt) {
+  if (d.kind === 'pronoun') {
+    expHtml += '<span class="exp-em">αὐτός</span>의 변화는 <span class="exp-em">ἀγαθός</span>의 변화와 같아요. 다른 점은<br>'
+      + '① <strong>호격이 없고</strong>,<br>'
+      + '② 중성 단수 주격과 대격이 <span class="exp-em">αὐτόν</span>이 아니라 <span class="exp-em">αὐτό</span>예요.<br><br>'
+      + '뜻: αὐτός 그(남자)가 · αὐτή 그(여자)가 · αὐτό 그것이 / αὐτοί·αὐταί·αὐτά 그들이·그것들이';
+  } else if (isArt) {
     expHtml += '관사 변화는 대체로 <span class="exp-em">ἀγαθός</span> 변화와 같아요. 다른 점은<br>'
       + '① <span class="exp-em">ὁ, ἡ, οἱ, αἱ</span>에는 τ가 없고 악센트도 없어요. 뒤따르는 낱말에 붙여 읽는 <strong>후접어(proclitic)</strong>예요.<br>'
       + '② 중성 단수 주격·대격이 <span class="exp-em">τόν</span>이 아니라 <span class="exp-em">τό</span>예요.<br>'
@@ -2592,7 +2883,7 @@ function renderStage2Adj(d) {
     + '<p style="text-align:center;font-size:20px;font-weight:700;margin:0 0 18px">'
       + d.dict + ' <span style="font-size:14px;color:#888;font-weight:400">— ' + d.meaning + '</span></p>'
     + '<div class="lesson-card">'
-      + '<div class="lesson-card-title">' + (isArt ? '관사 변화표' : '제1·2변화 형용사 변화표') + '</div>'
+      + '<div class="lesson-card-title">' + (isArt ? '관사 변화표' : d.kind === 'pronoun' ? '3인칭 대명사 αὐτός 변화표' : '제1·2변화 형용사 변화표') + '</div>'
       + tableHtml
     + '</div>'
     + '<div class="lesson-card"><div class="lesson-card-title">설명</div>' + expHtml + '</div>'
@@ -2669,7 +2960,7 @@ function buildAdjFields(d, form, keys, withAgree) {
     const correctSet = rds ? [...new Set(rds.map(r => r.agree))] : [form.agree];
     fields.push(withReadings({ key:keys.agree, label:'일치 명사', correct: form.agree,
       opts: shuffle([...correctSet, ...agreeOpts(correctSet)]),
-      expln: (d.kind === 'article' ? '관사' : '형용사') + '는 꾸미는 명사와 성·수·격이 일치해요. '
+      expln: (d.kind === 'article' ? '관사' : d.kind === 'pronoun' ? '대명사' : '형용사') + '는 가리키는 명사와 성·수·격이 일치해요. '
         + form.form + ' → ' + correctSet.join(' / ') }, rds, 'agree', keys));
   }
   return fields;
@@ -2809,15 +3100,36 @@ function stepWrongItem(stepRes) {
     + '같은 형태의 답을 모두 골라야 해요 → 정답: <span class="s4-right-txt">' + stepRes.answer + '</span></div>';
 }
 
+// 태가 없는 동사(εἰμί)는 '태' 칸을 뺀다
+function withoutVoice(d, fields) {
+  return d.voice ? fields : fields.filter(f => !/voice$/.test(f.key));
+}
+// 1·2인칭 대명사: 인칭·수·격·직역 (같은 격·수의 강조형/전접어형은 서로 다른 형태)
+function buildPronFields(d, form, keys) {
+  const trWrong = [...new Set(d.forms.map(f => f.tr).filter(t => t !== form.tr))];
+  const trOpts  = shuffle([...shuffle(trWrong).slice(0, 3), form.tr]);
+  const note = form.enclitic ? ' (전접어 형태)' : '';
+  return [
+    { key:keys.person, label:'인칭', correct: d.person + '인칭', opts: shuffle(['1인칭','2인칭','3인칭']),
+      expln: form.form + '는 ' + d.person + '인칭 대명사 ' + d.dict + '의 형태예요.' },
+    { key:keys.number, label:'수', correct: form.number, opts: ['단수','복수'],
+      expln: form.form + '는 ' + form.number + '예요.' + note },
+    { key:keys.case, label:'격', correct: form.case, opts: shuffle(['주격','속격','여격','대격']),
+      expln: form.form + '는 ' + form.case + ' ' + form.number + '예요.' + note },
+    { key:keys.tr, label:'직역', correct: form.tr, opts: trOpts,
+      expln: '이 형태(' + form.form + ')의 의미는 "' + form.tr + '"이에요.' }
+  ];
+}
 function buildFields(item, form) {
   const d = item.data, isVerb = item.type === 'verb';
   if (item.type === 'adj') {
     return buildAdjFields(d, form, { gender:'gender', case:'case', number:'number', agree:'agree' }, true);
   }
+  if (item.type === 'pron') return buildPronFields(d, form, { person:'person', case:'case', number:'number', tr:'tr' });
   if (isVerb) {
     const trWrong = [...new Set(d.forms.map(f => f.tr).filter(t => t !== form.tr))];
     const trOpts  = shuffle([...shuffle(trWrong).slice(0, 3), form.tr]);
-    return [
+    return withoutVoice(d, [
       { key:'tense',  label:'시제', correct: d.tense,
         opts: shuffle(['현재','미완료','부정과거']),
         expln: '이 동사는 현재 시제예요.' },
@@ -2836,7 +3148,7 @@ function buildFields(item, form) {
       { key:'tr',     label:'직역', correct: form.tr,
         opts: trOpts,
         expln: '이 형태(' + form.form + ')의 의미는 "' + form.tr + '"이에요.' }
-    ];
+    ]);
   } else {
     const trWrong = [...new Set(d.forms.map(f => f.tr).filter(t => t !== form.tr))];
     const trOpts  = shuffle([...shuffle(trWrong).slice(0, 3), form.tr]);
@@ -2868,10 +3180,15 @@ function getActiveKeys(item, sub) {
     if (sub === 'b') return ['gender', 'number', 'case'];
     return ['gender', 'number', 'case', 'agree'];
   }
+  if (item.type === 'pron') {
+    if (sub === 'a') return ['number', 'case'];
+    if (sub === 'b') return ['person', 'number', 'case'];
+    return ['person', 'number', 'case', 'tr'];
+  }
   if (isVerb) {
     if (sub === 'a') return ['person', 'number'];
     if (sub === 'b') return ['person', 'number', 'tr'];
-    return ['tense', 'voice', 'mood', 'person', 'number', 'tr'];
+    return ['tense', ...(item.data.voice ? ['voice'] : []), 'mood', 'person', 'number', 'tr'];
   } else {
     if (sub === 'a') return ['number', 'case'];
     if (sub === 'b') return ['gender', 'number', 'case'];
@@ -3050,7 +3367,9 @@ function renderStage5(sub) {
 
   const item    = lessonItems[lessonIdx];
   if (item.type === 'adj') { renderStage5Adj(item, sub); return; }
-  const pair    = pairings[lessonIdx];
+  if (item.type === 'pron') { renderStage6(); return; }
+  const pair    = pairings.find(p => p.for === item.data.dict);
+  if (!pair) { renderStage6(); return; }   // 짝 문장이 없는 항목은 5단계 건너뜀
   const verbPar = verbParadigms[pair.vI];
   const nounPar = nounParadigms[pair.nI];
   // 5b는 pair의 문장과 형태가 일치해야 하므로 고정, 5a는 무작위 선택
@@ -3124,6 +3443,7 @@ function renderStage5(sub) {
 const AGREE_KO = { '남성': '말씀', '여성': '문서', '중성': '선물' };
 function renderStage5Adj(item, sub) {
   const d     = item.data;
+  if (d.kind === 'pronoun') { renderStage6(); return; }   // αὐτός는 5단계 없음
   const isArt = d.kind === 'article';
   const art   = adjParadigms.find(p => p.kind === 'article');
   const pick  = (par, g, c, n) => par.forms.find(f => f.gender === g && f.case === c && f.number === n);
@@ -3353,7 +3673,7 @@ function renderAllDone() {
     '<div class="lesson-done-card">'
     + '<div class="lesson-done-icon">🎉</div>'
     + '<div class="lesson-done-title">모든 레슨 완료!</div>'
-    + '<p class="lesson-done-sub">동사 ' + verbParadigms.length + '개 · 명사 ' + nounParadigms.length + '개 · 형용사·관사 ' + adjParadigms.length + '개'
+    + '<p class="lesson-done-sub">동사 ' + verbParadigms.length + '개 · 명사 ' + nounParadigms.length + '개 · 형용사·관사·대명사 ' + (adjParadigms.length + pronParadigms.length) + '개'
       + '<br>6단계 과정을 전부 마쳤어요.<br>정말 대단해요!</p>'
     + '</div>'
     + '<button class="lesson-btn primary" data-action="back-select" style="margin-top:14px">목록으로 돌아가기</button>';
@@ -3366,11 +3686,12 @@ function buildPQPool(items) {
   const verbs = shuffle(items.filter(i => i.type === 'verb'));
   const nouns = shuffle(items.filter(i => i.type === 'noun'));
   const adjs  = shuffle(items.filter(i => i.type === 'adj'));
+  const prons = shuffle(items.filter(i => i.type === 'pron'));
 
   // 각 단어에 폼 시작 인덱스 오프셋을 부여 → 같은 타입 단어들이 Round 0에서
   // 서로 다른 격/인칭 슬롯을 담당하도록 분배 (verbs:6슬롯, nouns:8슬롯)
   const queues = [];
-  [verbs, nouns, adjs].forEach(group => {
+  [verbs, nouns, adjs, prons].forEach(group => {
     group.forEach((item, i) => {
       const forms = item.data.forms;
       const n = forms.length;
@@ -3404,6 +3725,7 @@ function buildPQFields(item, form) {
   if (item.type === 'adj') {
     return buildAdjFields(d, form, { gender:'pq_gender', case:'pq_case', number:'pq_number', agree:'pq_agree' }, true);
   }
+  if (item.type === 'pron') return buildPronFields(d, form, { person:'pq_person', case:'pq_case', number:'pq_number', tr:'pq_tr' });
   if (isVerb) {
     const trWrong     = [...new Set(d.forms.map(f => f.tr).filter(t => t !== form.tr))];
     const trOpts      = shuffle([...shuffle(trWrong).slice(0, 3), form.tr]);
@@ -3412,14 +3734,14 @@ function buildPQFields(item, form) {
     const voiceOpts   = shuffle([...PQ_VOICE_OPTS]);
     const moodWrong   = PQ_MOOD_OPTS.filter(o => o !== d.mood);
     const moodOpts    = shuffle([...shuffle(moodWrong).slice(0, 3), d.mood]);
-    return [
+    return withoutVoice(d, [
       { key:'pq_tense',  label:'시제', correct: d.tense,              opts: tenseOpts },
       { key:'pq_voice',  label:'태',   correct: d.voice,              opts: voiceOpts },
       { key:'pq_mood',   label:'법',   correct: d.mood,               opts: moodOpts },
       { key:'pq_person', label:'인칭', correct: form.person + '인칭', opts: shuffle(['1인칭','2인칭','3인칭']) },
       { key:'pq_number', label:'수',   correct: form.number,          opts: ['단수','복수'] },
       { key:'pq_tr',     label:'직역', correct: form.tr,              opts: trOpts }
-    ];
+    ]);
   } else {
     const rds     = getFormReadings(d, form);
     const keys    = { case:'pq_case', number:'pq_number', tr:'pq_tr' };
@@ -3514,6 +3836,8 @@ function gncItems(par) {
 }
 const gncArticle = () => adjParadigms.filter(p => p.kind === 'article');
 const gncAdjs    = () => adjParadigms.filter(p => p.kind === 'adj');
+const gncProns   = () => adjParadigms.filter(p => p.kind === 'pronoun');
+document.getElementById('gncPronCnt').textContent = '(' + gncProns().flatMap(gncItems).length + '문항)';
 document.getElementById('gncArtCnt').textContent = '(' + gncArticle().flatMap(gncItems).length + '문항)';
 document.getElementById('gncAdjCnt').textContent = '(' + gncAdjs().map(p => p.dict).join('·') + ' 중 '
   + Math.min(GNC_ADJ_MAX, gncAdjs().flatMap(gncItems).length) + '문항)';
@@ -3534,7 +3858,8 @@ function gncStart(pool) {
 document.getElementById('gncStartBtn').addEventListener('click', () => {
   const doArt = document.getElementById('chkGncArt').checked;
   const doAdj = document.getElementById('chkGncAdj').checked;
-  if (!doArt && !doAdj) { gncErr.textContent = '퀴즈를 하나 이상 선택해주세요.'; gncErr.style.display = 'block'; return; }
+  const doPron = document.getElementById('chkGncPron').checked;
+  if (!doArt && !doAdj && !doPron) { gncErr.textContent = '퀴즈를 하나 이상 선택해주세요.'; gncErr.style.display = 'block'; return; }
   gncErr.style.display = 'none';
   gncStart(gncBuildPool());
 });
@@ -3543,6 +3868,7 @@ function gncBuildPool() {
   const pool = [];
   if (document.getElementById('chkGncArt').checked) pool.push(...gncArticle().flatMap(gncItems));
   if (document.getElementById('chkGncAdj').checked) pool.push(...shuffle(gncAdjs().flatMap(gncItems)).slice(0, GNC_ADJ_MAX));
+  if (document.getElementById('chkGncPron').checked) pool.push(...gncProns().flatMap(gncItems));
   return shuffle(pool);
 }
 document.getElementById('gncBackBtn').addEventListener('click', () => {
@@ -3558,7 +3884,7 @@ function gncRender() {
   gncContent.innerHTML = '<div class="pq-progress"><span>' + (gncIdx + 1) + ' / ' + gncPool.length + ' 문항</span>'
     + '<span>맞은 개수 ' + gncScore + '</span></div>'
     + '<div style="text-align:center;background:#fff;border-radius:16px;padding:18px 0 22px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.07)">'
-    + '<span class="gnc-badge">' + (q.par.kind === 'article' ? '관사' : '형용사 어미') + '</span>'
+    + '<span class="gnc-badge">' + (q.par.kind === 'article' ? '관사' : q.par.kind === 'pronoun' ? '대명사' : '형용사 어미') + '</span>'
     + '<div style="font-size:40px;font-weight:700;letter-spacing:1px;margin-top:10px">' + formWithHi(q.form.form, q.form.end) + '</div>'
     + '<div style="font-size:13px;color:#999;margin-top:6px">' + gncDictLabel(q.par) + '</div>'
     + '</div>'
@@ -3686,6 +4012,130 @@ gncContent.addEventListener('click', e => {
   else if (id === 'gncNextBtn') { gncIdx++; gncRender(); window.scrollTo(0, 0); }
   else if (id === 'gncRetryWrongBtn') gncStart(shuffle(gncWrong.map(w => w.q)));
   else if (id === 'gncRestartBtn') gncStart(gncBuildPool());
+});
+
+// ── 전치사 도표 연습 (교재 7과 §83, Metzger, Lexical Aids 1960, 103) ──────
+// 도표의 각 칸(x, y는 360×330 도표 좌표)에 맞는 전치사를 아래 목록에서 골라 넣는다.
+const PREPS = [
+  { gr:'περί',  cs:'+대', mean:'둘레에, 주위에',  x:180, y:28  },
+  { gr:'ὑπέρ',  cs:'+대', mean:'위에',            x:180, y:74  },
+  { gr:'ἐπί',   cs:'+여', mean:'위에',            x:183, y:104 },
+  { gr:'εἰς',   cs:'+대', mean:'…안으로',         x:100, y:140 },
+  { gr:'ἐν',    cs:'+여', mean:'안에',            x:183, y:163 },
+  { gr:'ἐκ',    cs:'+속', mean:'…에서 밖으로',    x:262, y:140 },
+  { gr:'διά',   cs:'+속', mean:'통하여',          x:98,  y:228 },
+  { gr:'ὑπό',   cs:'+대', mean:'밑에',            x:183, y:216 },
+  { gr:'παρά',  cs:'+여, 대', mean:'옆에',        x:262, y:212 },
+  { gr:'ἀμφί',  cs:'',    mean:'양편에',          x:180, y:268 },
+  { gr:'πρός',  cs:'+대', mean:'…에게, 향하여',   x:36,  y:192 },
+  { gr:'ἀπό',   cs:'+속', mean:'…으로부터',       x:324, y:192 },
+  { gr:'ἀνά',   cs:'+대', mean:'위로',            x:36,  y:296 },
+  { gr:'κατά',  cs:'+속', mean:'아래로',          x:324, y:296 }
+];
+const PREP_SVG = '<svg viewBox="0 0 360 330" aria-hidden="true">'
+  + '<defs><marker id="pa" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#555"/></marker></defs>'
+  + '<g fill="none" stroke="#555" stroke-width="1.4">'
+  + '<circle cx="180" cy="168" r="114"/>'
+  // 상자(입체): 앞면 + 윗면 + 옆면(점선)
+  + '<rect x="150" y="122" width="66" height="74"/>'
+  + '<path d="M150,122 L140,112 L206,112 L216,122"/>'
+  + '<path d="M140,112 L140,186 L150,196" stroke-dasharray="3 3"/>'
+  // εἰς / ἐκ 화살표
+  + '<line x1="80" y1="154" x2="146" y2="154" marker-end="url(#pa)"/>'
+  + '<line x1="220" y1="154" x2="282" y2="154" marker-end="url(#pa)"/>'
+  // διά: 상자를 꿰뚫는 점선
+  + '<line x1="78" y1="214" x2="262" y2="96" stroke-dasharray="4 3" marker-end="url(#pa)"/>'
+  // ἀμφί: 양편을 감싸는 선
+  + '<path d="M128,206 L128,252 L238,252 L238,206"/>'
+  // πρός / ἀπό (원 밖 화살표)
+  + '<line x1="6" y1="172" x2="60" y2="172" marker-end="url(#pa)"/>'
+  + '<line x1="300" y1="172" x2="354" y2="172" marker-end="url(#pa)"/>'
+  // ἀνά(위로) / κατά(아래로)
+  + '<line x1="36" y1="276" x2="36" y2="218" marker-end="url(#pa)"/>'
+  + '<line x1="324" y1="214" x2="324" y2="274" marker-end="url(#pa)"/>'
+  + '</g></svg>';
+
+const prepScreen  = document.getElementById('prepScreen');
+const prepContent = document.getElementById('prepContent');
+let prepPlaced = new Set(), prepSelChip = null, prepSelSlot = null, prepMistakes = 0, prepHint = true, prepLock = false;
+
+function prepLabel(p) { return '<b>' + p.gr + '</b>' + (p.cs ? p.cs : ''); }
+function prepRender() {
+  const remain = PREPS.map((p, i) => i).filter(i => !prepPlaced.has(i));
+  let html = '<div class="prep-bar"><span>넣은 칸 <b>' + prepPlaced.size + ' / ' + PREPS.length + '</b> · 실수 <b>' + prepMistakes + '</b></span>'
+    + '<label style="display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" id="prepHintCb"' + (prepHint ? ' checked' : '') + '> 뜻 힌트</label></div>'
+    + '<div class="prep-board">' + PREP_SVG;
+  PREPS.forEach((p, i) => {
+    const left = (p.x / 360 * 100).toFixed(2) + '%', top = (p.y / 330 * 100).toFixed(2) + '%';
+    const filled = prepPlaced.has(i);
+    html += '<div title="' + p.gr + ' ' + p.cs + ' ' + p.mean + '" class="prep-slot' + (filled ? ' filled' : '') + (prepSelSlot === i ? ' target' : '') + '" data-slot="' + i + '" style="left:' + left + ';top:' + top + '">'
+      + (filled ? '<span>' + prepLabel(p) + '</span>' : (prepHint ? p.mean : '?'))
+      + '</div>';
+  });
+  html += '</div>';
+  if (remain.length) {
+    html += '<p style="text-align:center;font-size:12px;color:#999;margin:0 0 8px">전치사를 누르고, 들어갈 칸을 누르세요.</p>'
+      + '<div class="prep-chips">'
+      + prepOrder.filter(i => !prepPlaced.has(i)).map(i => '<button class="prep-chip' + (prepSelChip === i ? ' sel' : '') + '" data-chip="' + i + '">'
+          + PREPS[i].gr + (PREPS[i].cs ? '<small>' + PREPS[i].cs + '</small>' : '') + '</button>').join('')
+      + '</div>';
+  } else {
+    html += '<div class="lesson-done-card" style="margin-top:4px"><div class="lesson-done-icon">🎉</div>'
+      + '<div class="lesson-done-title">도표 완성!</div>'
+      + '<p class="lesson-done-sub">실수 ' + prepMistakes + '회</p></div>'
+      + '<div class="lesson-card" style="margin-top:12px"><div class="lesson-card-title">전치사 정리</div><table class="prep-table">'
+      + PREPS.map(p => '<tr><td>' + p.gr + '</td><td>' + (p.cs || '—') + '</td><td>' + p.mean + '</td></tr>').join('')
+      + '</table><p style="font-size:11px;color:#aaa;margin:10px 0 0;line-height:1.5">도표 출처: 교재 7과 §83 (Bruce M. Metzger, <i>Lexical Aids for Students of New Testament Greek</i>, 증보판 1960, 103). 모든 전치사를 담은 것은 아니에요.</p></div>'
+      + '<button class="lesson-btn primary" id="prepRetryBtn" style="margin-top:12px">다시 하기</button>';
+  }
+  prepContent.innerHTML = html;
+}
+let prepOrder = [];
+function prepStart() {
+  prepPlaced = new Set(); prepSelChip = null; prepSelSlot = null; prepMistakes = 0; prepLock = false;
+  prepOrder = shuffle(PREPS.map((p, i) => i));
+  prepRender();
+}
+// 칩과 칸이 모두 골라지면 판정
+function prepTry() {
+  if (prepSelChip === null || prepSelSlot === null) { prepRender(); return; }
+  const chip = prepSelChip, slot = prepSelSlot;
+  prepSelChip = null; prepSelSlot = null;
+  if (chip === slot) { prepPlaced.add(slot); prepRender(); return; }
+  prepMistakes++;
+  prepRender();
+  const el = prepContent.querySelector('[data-slot="' + slot + '"]');
+  el.classList.add('bad'); prepLock = true;
+  setTimeout(() => { el.classList.remove('bad'); prepLock = false; }, 450);
+}
+document.getElementById('prepMenuBtn').addEventListener('click', () => {
+  menuScreen.style.display = 'none';
+  prepScreen.style.display = 'block';
+  window.scrollTo(0, 0);
+  prepStart();
+});
+document.getElementById('prepBackBtn').addEventListener('click', () => {
+  prepScreen.style.display = 'none';
+  menuScreen.style.display = 'block';
+  window.scrollTo(0, 0);
+});
+prepContent.addEventListener('click', e => {
+  if (prepLock) return;
+  const chip = e.target.closest('[data-chip]');
+  const slot = e.target.closest('[data-slot]');
+  if (chip) {
+    const i = parseInt(chip.dataset.chip);
+    prepSelChip = prepSelChip === i ? null : i;
+    prepTry();
+  } else if (slot) {
+    const i = parseInt(slot.dataset.slot);
+    if (prepPlaced.has(i)) return;
+    prepSelSlot = prepSelSlot === i ? null : i;
+    prepTry();
+  } else if (e.target.id === 'prepRetryBtn') prepStart();
+});
+prepContent.addEventListener('change', e => {
+  if (e.target.id === 'prepHintCb') { prepHint = e.target.checked; prepRender(); }
 });
 
 // ── 단어 짝맞추기 게임 (사천성식) ─────────────────────────────
