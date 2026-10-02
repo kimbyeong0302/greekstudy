@@ -402,6 +402,13 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   background: #fff8e6; border: 1.5px dashed #f0d38a; border-radius: 10px; padding: 10px 12px;
 }
 .fc-none { font-size: 13px; color: #aaa; }
+.fc-case { margin: 0 0 16px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; line-height: 1.5; color: #333; }
+.fc-case-row { display: flex; gap: 8px; align-items: flex-start; }
+.fc-case-chip { flex-shrink: 0; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 10px; color: #fff; }
+.fc-case-chip.gen { background: #2e6ed6; }
+.fc-case-chip.dat { background: #2e9e4f; }
+.fc-case-chip.acc { background: #d9822b; }
+.fc-case-note { margin: 2px 0 0; font-size: 12px; color: #888; }
 .fc-controls { display: flex; gap: 8px; margin-top: 14px; }
 .fc-nav, .fc-mark {
   flex: 1; padding: 13px 4px; font-size: 14px; font-weight: 600;
@@ -677,7 +684,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-01-3";
+const APP_VERSION = "2026-10-02-1";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -693,6 +700,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-02", text: "암기 카드: 1·4주차 44단어에 어원·소리 연상 추가, 전치사 카드에 '격 외우기'(속격=어디서·여격=어디에·대격=어디로) 표시" },
   { date: "2026-10-01", text: "4주차 추가: 7과 단어·제1변화 남성 명사·동사, 8과 인칭대명사(ἐγώ·σύ·αὐτός)·εἰμί, 전치사 도표 연습(§83), 어미 퀴즈·성수격 퀴즈 확장" },
   { date: "2026-10-01", text: "짝맞추기 게임: 한 판 16쌍 추가(8쌍/16쌍 선택), 단어 반복 없이 무작위로, 직전 게임 첫 판 단어는 뒤로" },
   { date: "2026-10-01", text: "단어 짝맞추기 게임 추가: 헬라어와 뜻 타일을 짝지어 지우고, 모든 단어를 지우면 클리어 (시간·실수·최고 기록)" },
@@ -843,45 +851,87 @@ const letters = [
 
 // ── 단어 데이터 ──────────────────────────────────────────────
 const words = [
-  {gr:"ἀγάπη",       kr:"아가페",          en:"love",               ko:"사랑",            week:1},
+  {gr:"ἀγάπη",       kr:"아가페",          en:"love",               ko:"사랑",            week:1,
+   etymology:"동사 ἀγαπάω(사랑하다)의 명사. 어원은 불확실. 영어로는 그대로 agape(아가페)로 쓰임",
+   pun:"아가(아기)를 품는 엄마의 사랑, 아가페"},
   {gr:"ἀδελφός",     kr:"아델포스",        en:"brother",            ko:"형제",            week:1,
    etymology:"ἀ(함께) + δελφύς(자궁), 곧 같은 모태에서 난 자. Philadelphia는 형제 사랑의 도시",
    pun:"필라델피아는 형제를 사랑하는 도시, 델피는 아델포스"},
-  {gr:"ἅγιος",       kr:"하기오스",        en:"holy",               ko:"거룩한",          week:1},
-  {gr:"αἷμα",        kr:"하이마",          en:"blood",              ko:"피",              week:1},
-  {gr:"ἁμαρτία",     kr:"하마르티아",      en:"sin",                ko:"죄",              week:1},
-  {gr:"γλῶσσα",      kr:"글로사",          en:"tongue, language",   ko:"혀, 언어",        week:1},
+  {gr:"ἅγιος",       kr:"하기오스",        en:"holy",               ko:"거룩한",          week:1,
+   etymology:"hagiography(성인전), Hagia Sophia(거룩한 지혜) 성당 이름의 hagi-",
+   pun:"하기오스: '하기' 싫어도 거룩하게 해야 하는 일"},
+  {gr:"αἷμα",        kr:"하이마",          en:"blood",              ko:"피",              week:1,
+   etymology:"hemo-/hema-의 뿌리: hemoglobin(혈색소), hemorrhage(출혈), anemia(빈혈, ἀν+αἷμα)",
+   pun:"하이마(high-마): 피가 머리 끝까지 high로 솟는다"},
+  {gr:"ἁμαρτία",     kr:"하마르티아",      en:"sin",                ko:"죄",              week:1,
+   etymology:"동사 ἁμαρτάνω(죄짓다)는 호메로스에서 '과녁을 빗나가다'의 뜻으로 쓰임. 신학 용어 hamartiology(죄론)",
+   pun:"하마가 과녁을 빗나가 쏜 화살, 하마르티아"},
+  {gr:"γλῶσσα",      kr:"글로사",          en:"tongue, language",   ko:"혀, 언어",        week:1,
+   etymology:"glossary(용어집), glossolalia(방언), 접두어 gloss-·-glot(polyglot 여러 언어를 하는 사람)",
+   pun:"글로 써도 소리 내도 다 혀(γλῶσσα)로 하는 언어"},
   {gr:"ἐκκλησία",    kr:"에클레시아",      en:"church, assembly",   ko:"교회, 모임",      week:1,
    etymology:"ἐκ(밖으로) + καλέω(부르다), 곧 불러낸 무리. ecclesiastical의 뿌리",
    pun:"ex + call = 에클, 밖으로 콜(call)해서 불러낸 무리"},
-  {gr:"ἔργον",       kr:"에르곤",          en:"work",               ko:"일, 행위",        week:1},
-  {gr:"εὐαγγέλιον",  kr:"유앙겔리온",      en:"good news, Gospel",  ko:"좋은 소식, 복음", week:1},
-  {gr:"Ἰησοῦς",      kr:"이에수스",        en:"Jesus",              ko:"예수",            week:1},
-  {gr:"Ἰσραήλ",      kr:"이스라엘",        en:"Israel",             ko:"이스라엘",        week:1},
-  {gr:"λίθος",       kr:"리도스",          en:"stone",              ko:"돌",              week:1},
-  {gr:"μέγας",       kr:"메가스",          en:"large, great",       ko:"크다, 위대한",    week:1},
-  {gr:"μήτηρ",       kr:"메테르",          en:"mother",             ko:"어머니",          week:1},
-  {gr:"Μωϋσῆς",      kr:"모위세스",        en:"Moses",              ko:"모세",            week:1},
+  {gr:"ἔργον",       kr:"에르곤",          en:"work",               ko:"일, 행위",        week:1,
+   etymology:"영어 work와 같은 뿌리. energy(ἐν+ἔργον, 안에서 일함), ergonomics(인간공학), synergy(함께 일함)",
+   pun:"에르곤, 에너지(energy)를 써서 하는 일"},
+  {gr:"εὐαγγέλιον",  kr:"유앙겔리온",      en:"good news, Gospel",  ko:"좋은 소식, 복음", week:1,
+   etymology:"εὖ(좋은) + ἄγγελος(소식 전하는 자) 계열, 곧 좋은 소식. evangelism, evangelist의 뿌리",
+   pun:"유(you)! 앙겔(angel)이 전하는 좋은 소식"},
+  {gr:"Ἰησοῦς",      kr:"이에수스",        en:"Jesus",              ko:"예수",            week:1,
+   etymology:"히브리어 이름 예호슈아(여호수아, '여호와는 구원이시다')의 그리스어 형태",
+   pun:"이에~ 수(數)많은 사람을 구원하신 예수"},
+  {gr:"Ἰσραήλ",      kr:"이스라엘",        en:"Israel",             ko:"이스라엘",        week:1,
+   etymology:"히브리어 이름을 그대로 옮긴 말(창 32:28). 그리스어 어미 변화를 하지 않는 단어",
+   pun:"이스라엘은 소리 그대로 이스라엘"},
+  {gr:"λίθος",       kr:"리도스",          en:"stone",              ko:"돌",              week:1,
+   etymology:"lithography(석판 인쇄), monolith(한 덩어리 돌), Neolithic(신석기)",
+   pun:"리도스: 돌 리(里)마다 서 있는 이정표 돌"},
+  {gr:"μέγας",       kr:"메가스",          en:"large, great",       ko:"크다, 위대한",    week:1,
+   etymology:"접두어 mega-: megaphone(큰 소리), megalopolis(거대 도시)",
+   pun:"메가(mega) 사이즈, 큰"},
+  {gr:"μήτηρ",       kr:"메테르",          en:"mother",             ko:"어머니",          week:1,
+   etymology:"영어 mother, 라틴어 mater와 같은 뿌리. metropolis(어머니 도시, 수도)",
+   pun:"메테르: 마더(mother)와 소리가 닮은 어머니"},
+  {gr:"Μωϋσῆς",      kr:"모위세스",        en:"Moses",              ko:"모세",            week:1,
+   etymology:"히브리어 이름 모세의 그리스어 형태",
+   pun:"모위세스: 모세 위(上)에 내린 율법"},
   {gr:"νόμος",       kr:"노모스",          en:"law",                ko:"율법",            week:1,
    etymology:"νέμω(나누어 주다, 배분하다)에서 나옴. economy, astronomy, autonomy의 -nomy",
    pun:"노(No)! 모스(more), 더는 어기면 안 되는 율법"},
   {gr:"παραβολή",    kr:"파라볼레",        en:"parable",            ko:"비유",            week:1,
    etymology:"παρά(옆에) + βάλλω(던지다), 곧 나란히 던져 놓다. parable(비유), parabola(포물선)의 뿌리",
    pun:"파라(옆에) 볼(ball)을 던지면 그리는 포물선, 곁에 던져 놓은 비유"},
-  {gr:"πατήρ",       kr:"파테르",          en:"father",             ko:"아버지",          week:1},
-  {gr:"πρεσβύτερος", kr:"프레스뷔테로스",  en:"elder",              ko:"장로",            week:1},
-  {gr:"πῦρ",         kr:"퓌르",            en:"fire",               ko:"불",              week:1},
-  {gr:"ὕδωρ",        kr:"휘도르",          en:"water",              ko:"물",              week:1},
-  {gr:"Φαρισαῖος",   kr:"파리사이오스",    en:"Pharisee",           ko:"바리새인",        week:1},
+  {gr:"πατήρ",       kr:"파테르",          en:"father",             ko:"아버지",          week:1,
+   etymology:"영어 father, 라틴어 pater와 같은 뿌리. patriarch(족장), patriot(애국자)",
+   pun:"파테르: 파더(father)와 소리가 닮은 아버지"},
+  {gr:"πρεσβύτερος", kr:"프레스뷔테로스",  en:"elder",              ko:"장로",            week:1,
+   etymology:"πρέσβυς(노인)의 비교급, 곧 '더 나이 든 자'. Presbyterian(장로교)의 뿌리이고, 영어 priest도 라틴어 presbyter를 거쳐 여기서 나옴",
+   pun:"프레스(press)를 받아도 흔들리지 않는 어른, 장로"},
+  {gr:"πῦρ",         kr:"퓌르",            en:"fire",               ko:"불",              week:1,
+   etymology:"영어 fire와 같은 뿌리. pyre(화장 장작), pyromania(방화광), pyrotechnics(불꽃놀이)",
+   pun:"퓌르: 불이 퓌르르 타오른다"},
+  {gr:"ὕδωρ",        kr:"휘도르",          en:"water",              ko:"물",              week:1,
+   etymology:"영어 water와 같은 뿌리. hydro-: hydrogen(물을 만드는 원소), hydrant(소화전), dehydration(탈수)",
+   pun:"휘도르: 휘~ 도는 물레방아 물"},
+  {gr:"Φαρισαῖος",   kr:"파리사이오스",    en:"Pharisee",           ko:"바리새인",        week:1,
+   etymology:"흔히 아람어 '분리된 자들'에서 온 말로 설명하지만 확정적이지 않음. 영어 Pharisee",
+   pun:"파리(fly)도 근처에 못 오게 자기를 구별한 바리새인"},
   {gr:"ψυχή",        kr:"프쉬케",          en:"soul, life, self",   ko:"영혼, 생명",      week:1,
    etymology:"ψύχω(숨 쉬다, 불다)에서 나옴. psychology의 뿌리",
    pun:"푸쉬~ 하고 내쉬는 숨이 곧 혼"},
-  {gr:"Χριστός",     kr:"크리스토스",      en:"Christ, Messiah, Anointed One", ko:"그리스도, 메시아", week:1},
-  {gr:"Θεός",        kr:"데오스",          en:"God",                ko:"하나님",          week:1},
+  {gr:"Χριστός",     kr:"크리스토스",      en:"Christ, Messiah, Anointed One", ko:"그리스도, 메시아", week:1,
+   etymology:"χρίω(기름 붓다)에서 나옴, 곧 기름 부음 받은 자(히브리어 메시아의 번역). Christ, chrism(성유)",
+   pun:"크리스(cream)처럼 기름을 바른, 기름 부음 받은 자"},
+  {gr:"Θεός",        kr:"데오스",          en:"God",                ko:"하나님",          week:1,
+   etymology:"theology(신학), atheist(ἀ+θεός, 신이 없다는 사람), enthusiasm(ἐν+θεός, 신이 안에 있음)",
+   pun:"데오스: 데(the) 오직 한 분 하나님"},
   {gr:"Υἱός",        kr:"휘오스",          en:"Son",                ko:"아들",            week:1,
    etymology:"영어 son과 같은 뿌리로 보는 견해가 있음. 파생어는 거의 없음",
    pun:"휘~ 오스카 상 받은 아들"},
-  {gr:"Σωτήρ",       kr:"소테르",          en:"Savior",             ko:"구원자",          week:1},
+  {gr:"Σωτήρ",       kr:"소테르",          en:"Savior",             ko:"구원자",          week:1,
+   etymology:"σῴζω(구원하다)에서 나옴. soteriology(구원론)",
+   pun:"소테르: 소(牛)도 건져 내시는 구원자"},
   {gr:"ἄνθρωπος",   kr:"안트로포스",      en:"man, person",        ko:"사람, 인간",      week:2,
    etymology:"anthropology(인류학), philanthropy(사람 사랑)의 뿌리. 어원 자체는 불확실",
    pun:"안 튀어도 포스 있는 사람, 안트로포스"},
@@ -1014,30 +1064,76 @@ const words = [
    etymology:"prototype(처음 만든 원형), protagonist(첫 배우, 주인공), protocol, proton의 뿌리",
    pun:"프로토타입은 처음 만든 모델"},
   // 4주차: 7과 낱말 모음 §72 (θεός·λίθος는 1주차에 이미 있어 제외)
-  {gr:"ἄγγελος", kr:"앙겔로스", en:"angel, messenger", ko:"천사, 사자", week:4},
-  {gr:"ἄγω", kr:"아고", en:"I lead", ko:"나는 인도한다", week:4},
-  {gr:"ἀπό", kr:"아포", en:"from (+gen.)", ko:"(+속격) ~에서, ~로부터", week:4},
-  {gr:"βάλλω", kr:"발로", en:"I throw, put", ko:"나는 던진다, 놓는다", week:4},
-  {gr:"διά", kr:"디아", en:"through (+gen.), because of (+acc.)", ko:"(+속격) 통하여, (+대격) 때문에", week:4},
-  {gr:"εἰς", kr:"에이스", en:"into (+acc.)", ko:"(+대격) ~안으로", week:4},
-  {gr:"ἐκ", kr:"에크", en:"out of (+gen.)", ko:"(+속격) ~에서 밖으로", week:4},
-  {gr:"ἐν", kr:"엔", en:"in (+dat.)", ko:"(+여격) ~안에", week:4},
-  {gr:"κόσμος", kr:"코스모스", en:"world", ko:"세상, 세계", week:4},
-  {gr:"μαθητής", kr:"마데테스", en:"disciple", ko:"제자", week:4},
-  {gr:"μένω", kr:"메노", en:"I remain", ko:"나는 머문다", week:4},
-  {gr:"μετά", kr:"메타", en:"with (+gen.), after (+acc.)", ko:"(+속격) 함께, (+대격) 후에", week:4},
-  {gr:"οὐρανός", kr:"우라노스", en:"heaven", ko:"하늘", week:4},
-  {gr:"πέμπω", kr:"펨포", en:"I send", ko:"나는 보낸다", week:4},
-  {gr:"πρός", kr:"프로스", en:"to, toward (+acc.)", ko:"(+대격) ~에게로", week:4},
-  {gr:"προφήτης", kr:"프로페테스", en:"prophet", ko:"예언자", week:4},
-  {gr:"τέκνον", kr:"테크논", en:"child", ko:"아이", week:4},
-  {gr:"τόπος", kr:"토포스", en:"place", ko:"장소, 곳", week:4},
-  {gr:"φέρω", kr:"페로", en:"I bear, bring", ko:"나는 가져온다, 진다", week:4},
+  {gr:"ἄγγελος", kr:"앙겔로스", en:"angel, messenger", ko:"천사, 사자", week:4,
+   etymology:"원래 뜻은 소식을 전하는 자(사자). angel의 뿌리이고 εὐαγγέλιον(좋은 소식)도 같은 계열",
+   pun:"앙겔로스, 엔젤(angel)은 소식을 전하러 온 사자"},
+  {gr:"ἄγω", kr:"아고", en:"I lead", ko:"나는 인도한다", week:4,
+   etymology:"라틴어 ago(행하다, 이끌다)와 같은 뿌리. synagogue(συν+ἄγω, 함께 모임), pedagogue(아이를 이끄는 자)",
+   pun:"아고, 앞장서서 '아 고!' 하며 이끈다"},
+  {gr:"ἀπό", kr:"아포", en:"from (+gen.)", ko:"(+속격) ~에서, ~로부터", week:4,
+   etymology:"접두어 apo-: apostle(ἀπό+στέλλω, 보냄 받은 자), apostasy(떨어져 나감), apology(ἀπολογία, 변론)",
+   pun:"아포(아파서) 그 자리에서 떠나온다 → 출발점은 속격(속에서 나옴)"},
+  {gr:"βάλλω", kr:"발로", en:"I throw, put", ko:"나는 던진다, 놓는다", week:4,
+   etymology:"ballistic(탄도의), parable(παρα+βάλλω, 곁에 던짐), symbol(συμ+βάλλω, 함께 던짐), devil(διάβολος, 사이에 던지는 자)",
+   pun:"발로 공(ball)을 차서 던진다, 발로"},
+  {gr:"διά", kr:"디아", en:"through (+gen.), because of (+acc.)", ko:"(+속격) 통하여, (+대격) 때문에", week:4,
+   etymology:"접두어 dia-: diameter(관통하는 재기), dialogue(사이로 오가는 말), diagnosis(꿰뚫어 앎)",
+   pun:"속격이면 통하여, 대격이면 때문에 — '디아(dia)미터는 원을 통과(속)하는 선, 대(對)가를 치르는 건 그 때문(대)'"},
+  {gr:"εἰς", kr:"에이스", en:"into (+acc.)", ko:"(+대격) ~안으로", week:4,
+   etymology:"eisegesis(본문 안으로 자기 생각을 넣어 읽기)의 eis-. ἐν과 같은 계열의 말",
+   pun:"에이스(ace)가 대(對)상 안으로 뛰어든다 → 방향·도착은 대격"},
+  {gr:"ἐκ", kr:"에크", en:"out of (+gen.)", ko:"(+속격) ~에서 밖으로", week:4,
+   etymology:"모음 앞에서는 ἐξ. ex-, exodus(ἐξ+ὁδός, 밖으로 나가는 길), eclipse(ἐκ+λείπω), ecstasy(밖에 섬)",
+   pun:"엑(ex)! 속에서 밖으로 튀어나온다 → 출발은 속격"},
+  {gr:"ἐν", kr:"엔", en:"in (+dat.)", ko:"(+여격) ~안에", week:4,
+   etymology:"en-/em-: energy(ἐν+ἔργον, 안에서 일함), enthusiasm(ἐν+θεός), 영어 in과 같은 뿌리",
+   pun:"엔(in) 여기 안에 머문다 → 머무름은 여격(여기)"},
+  {gr:"κόσμος", kr:"코스모스", en:"world", ko:"세상, 세계", week:4,
+   etymology:"원래 뜻은 질서, 장식. cosmos(질서 있는 우주), cosmetic(꾸밈, 화장품)",
+   pun:"코스모스 꽃이 질서 있게 핀 세상"},
+  {gr:"μαθητής", kr:"마데테스", en:"disciple", ko:"제자", week:4,
+   etymology:"μανθάνω(배우다)에서 나옴. mathematics는 '배운 것, 학문'을 뜻하던 μάθημα에서 나옴",
+   pun:"마데테스, 매스(math)를 배우는 사람, 제자"},
+  {gr:"μένω", kr:"메노", en:"I remain", ko:"나는 머문다", week:4,
+   etymology:"라틴어 maneo(머물다)와 같은 뿌리로 보며, remain·permanent가 라틴어 쪽 파생어",
+   pun:"메노, 메뉴판 앞에 머물러 고민한다"},
+  {gr:"μετά", kr:"메타", en:"with (+gen.), after (+acc.)", ko:"(+속격) 함께, (+대격) 후에", week:4,
+   etymology:"접두어 meta-: metamorphosis(형태가 바뀜), metaphor(μετα+φέρω, 옮겨 나름)",
+   pun:"속격이면 함께, 대격이면 후에 — '메타(meta)버스에서 친구와 함께(속), 로그아웃 후에(대)'"},
+  {gr:"οὐρανός", kr:"우라노스", en:"heaven", ko:"하늘", week:4,
+   etymology:"행성 Uranus(천왕성)의 이름. 신약에서는 복수 οὐρανοί(하늘들)로도 자주 쓰임",
+   pun:"우라노스, 우러러보는 하늘"},
+  {gr:"πέμπω", kr:"펨포", en:"I send", ko:"나는 보낸다", week:4,
+   etymology:"명사 πομπή(호송, 행렬)가 여기서 나왔고, 영어 pomp(화려한 행렬)는 라틴어 pompa를 거쳐 πομπή에서 옴",
+   pun:"펨포, 펌프(pump)로 쏘아 보낸다"},
+  {gr:"πρός", kr:"프로스", en:"to, toward (+acc.)", ko:"(+대격) ~에게로", week:4,
+   etymology:"προσήλυτος(가까이 온 자)에서 proselyte(개종자)가 나옴",
+   pun:"프로(pro)는 대(對)상을 향해 다가간다 → 방향은 대격"},
+  {gr:"προφήτης", kr:"프로페테스", en:"prophet", ko:"예언자", week:4,
+   etymology:"πρό(앞에서, 대신) + φημί(말하다), 곧 하나님을 대신해 말하는 자. prophet의 뿌리",
+   pun:"프로(pro)가 앞에 서서 페(입)를 열어 말한다, 예언자"},
+  {gr:"τέκνον", kr:"테크논", en:"child", ko:"아이", week:4,
+   etymology:"τίκτω(낳다)에서 나옴, 곧 낳은 자식. 영어 파생어는 거의 없음",
+   pun:"테크논, 태(胎)에서 나온 아이"},
+  {gr:"τόπος", kr:"토포스", en:"place", ko:"장소, 곳", week:4,
+   etymology:"topic(논제, 원래 '자리'), topography(지형학), utopia(οὐ+τόπος, 어디에도 없는 곳)",
+   pun:"토포스, 토(土)지 위의 장소 — 지도(topo)"},
+  {gr:"φέρω", kr:"페로", en:"I bear, bring", ko:"나는 가져온다, 진다", week:4,
+   etymology:"영어 bear(지다, 낳다)와 같은 뿌리. metaphor(옮겨 나름), phosphorus(빛을 나르는 것), Christopher(그리스도를 지닌 자)",
+   pun:"페로, 페리(ferry)선이 짐을 지고 나른다"},
   // 4주차: 8과 인칭대명사·εἰμί (§88·89·92)
-  {gr:"ἐγώ", kr:"에고", en:"I", ko:"나", week:4},
-  {gr:"σύ", kr:"쉬", en:"you (sg.)", ko:"너", week:4},
-  {gr:"αὐτός", kr:"아우토스", en:"he, she, it", ko:"그, 그녀, 그것", week:4},
-  {gr:"εἰμί", kr:"에이미", en:"I am", ko:"나는 ~이다, 있다", week:4}
+  {gr:"ἐγώ", kr:"에고", en:"I", ko:"나", week:4,
+   etymology:"라틴어 ego와 같은 말이고 영어 I와도 같은 뿌리. egoism, egocentric",
+   pun:"에고(ego), 나"},
+  {gr:"σύ", kr:"쉬", en:"you (sg.)", ko:"너", week:4,
+   etymology:"라틴어 tu, 영어 thou와 같은 뿌리",
+   pun:"쉬~, 너 조용히 해"},
+  {gr:"αὐτός", kr:"아우토스", en:"he, she, it", ko:"그, 그녀, 그것", week:4,
+   etymology:"auto-: automatic(스스로 움직이는), autonomy(스스로 정한 법), autograph(자기 손으로 씀). 원래 '자신'의 뜻도 있음",
+   pun:"아우토(auto)는 그 자신, 그·그녀·그것"},
+  {gr:"εἰμί", kr:"에이미", en:"I am", ko:"나는 ~이다, 있다", week:4,
+   etymology:"영어 am·is, 라틴어 sum·est와 같은 뿌리. 분사 ὤν에서 ontology(존재론)가 나옴",
+   pun:"에이, 미(me)가 여기 있다 — 나는 ~이다, 있다"}
 ];
 
 // ── 동사 변화 데이터 (현재 능동 직설법) ─────────────────────
@@ -4316,6 +4412,13 @@ const fcEmpty       = document.getElementById('fcEmpty');
 const fcReviewChip  = document.getElementById('fcReviewChip');
 const fcControls    = document.querySelector('.fc-controls');
 const REVIEW_KEY    = 'reviewWords';
+// 전치사 격의 공간 의미 (문법서의 원리: 속격 출발 / 여격 위치 / 대격 방향, 예외 있음)
+// 한국어 연결(속에서·여기·대상)은 암기용 말장난
+const PREP_CASE_TIP = {
+  '속격': { cls:'gen', idea:'출발·분리 (어디서)', hook:'속에서 나온다 → ~에서, ~로부터' },
+  '여격': { cls:'dat', idea:'위치·머무름 (어디에)', hook:'여기에 있다 → ~안에, ~에' },
+  '대격': { cls:'acc', idea:'방향·도착 (어디로)', hook:'대상으로 간다 → ~안으로, ~에게로' }
+};
 
 let cardWeeks = [];   // 카드 화면을 열 때 선택된 주차
 let cardDeck  = [];   // 현재 보여주는 단어 목록
@@ -4400,6 +4503,25 @@ function renderCard() {
 
   let back = '<div class="fc-back-greek">' + w.gr + ' [' + w.kr + ']</div>'
     + '<div class="fc-meaning">' + w.ko + '</div>';
+  // 전치사: 뒤에 오는 격 외우기 (속격=어디서, 여격=어디에, 대격=어디로)
+  // 뜻 문자열 "(+속격) 통하여, (+대격) 때문에" → [{c:'속격', m:'통하여'}, ...]
+  const cases = (w.ko || '').split('(+').slice(1).map(part => {
+    const k = part.indexOf(')');
+    return { c: part.slice(0, k), m: part.slice(k + 1).replace(/,\s*$/, '').trim() };
+  }).filter(x => PREP_CASE_TIP[x.c]);
+  if (cases.length === 1) {
+    // 격 하나: 공간 원리로 연결
+    const t = PREP_CASE_TIP[cases[0].c];
+    back += '<div class="fc-sec-lbl">격 외우기</div><div class="fc-case">'
+      + '<div class="fc-case-row"><span class="fc-case-chip ' + t.cls + '">' + cases[0].c + '</span>'
+      + '<span><b>' + t.idea + '</b> · ' + t.hook + '</span></div></div>';
+  } else if (cases.length > 1) {
+    // 격이 둘: 공간 원리로 설명되지 않으므로 격별 뜻을 짝으로
+    back += '<div class="fc-sec-lbl">격 외우기</div><div class="fc-case">'
+      + cases.map(x => '<div class="fc-case-row"><span class="fc-case-chip ' + PREP_CASE_TIP[x.c].cls + '">' + x.c + '</span>'
+          + '<span>+' + x.c + ' → <b>' + x.m + '</b></span></div>').join('')
+      + '<p class="fc-case-note">격에 따라 뜻이 바뀌는 전치사예요. "' + w.gr + ' + 격 = 뜻"을 짝으로 외우세요.</p></div>';
+  }
   if (w.etymology) {
     back += '<div class="fc-sec-lbl">어원</div><p class="fc-ety">' + w.etymology + '</p>';
   }
