@@ -684,7 +684,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-02-1";
+const APP_VERSION = "2026-10-02-2";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -700,6 +700,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-02", text: "단어 퀴즈: 격이 둘인 전치사(διά, μετά)를 격별 문항으로 분리 (예: διά + 속격 = 통하여 / διά + 대격 = 때문에)" },
   { date: "2026-10-02", text: "암기 카드: 1·4주차 44단어에 어원·소리 연상 추가, 전치사 카드에 '격 외우기'(속격=어디서·여격=어디에·대격=어디로) 표시" },
   { date: "2026-10-01", text: "4주차 추가: 7과 단어·제1변화 남성 명사·동사, 8과 인칭대명사(ἐγώ·σύ·αὐτός)·εἰμί, 전치사 도표 연습(§83), 어미 퀴즈·성수격 퀴즈 확장" },
   { date: "2026-10-01", text: "짝맞추기 게임: 한 판 16쌍 추가(8쌍/16쌍 선택), 단어 반복 없이 무작위로, 직전 게임 첫 판 단어는 뒤로" },
@@ -1997,12 +1998,23 @@ function stopTimers() {
   timerEl.classList.remove('urgent');
 }
 
+// 단어 퀴즈 전용 목록: 격이 둘인 전치사(διά, μετά)는 격별 문항으로 나눈다
+// 예) διά "(+속격) 통하여, (+대격) 때문에" → "διά + 속격"=통하여, "διά + 대격"=때문에
+const quizWords = words.flatMap(w => {
+  const parts = (w.ko || '').split('(+').slice(1);
+  if (parts.length < 2) return [w];
+  return parts.map(part => {
+    const k = part.indexOf(')');
+    return Object.assign({}, w, { base: w.gr, gr: w.gr + ' + ' + part.slice(0, k), ko: part.slice(k + 1).replace(/,\s*$/, '').trim() });
+  });
+});
+
 function launchQuiz(cfg) {
   stopTimers();
   currentMode = cfg.mode;
   let qs = [];
   if (cfg.doAlpha) letters.forEach(lt => qs.push({ type: 'alpha', data: lt }));
-  if (cfg.doWord)  words.filter(w => cfg.selWeeks.includes(w.week))
+  if (cfg.doWord)  quizWords.filter(w => cfg.selWeeks.includes(w.week))
                         .forEach(w => qs.push({ type: 'word', data: w, level: cfg.level }));
   if (cfg.doEnding) {
     endings.filter(e => cfg.selCats.includes(e.category)).forEach(e => {
@@ -2103,7 +2115,9 @@ function renderWord(q) {
   }
   // 1·2단계 보기는 한국어 뜻, 3단계 보기는 헬라어
   const matchKey = lv === 3 ? 'gr' : 'ko';
-  const pool = shuffle(words.filter(x => x[matchKey] !== w[matchKey])).slice(0, 3);
+  // 격별로 나눈 전치사는 다른 격의 짝(διά + 대격 ↔ 통하여 등)을 반드시 보기에 넣어 헷갈림을 확인
+  const siblings = w.base ? quizWords.filter(x => x.base === w.base && x !== w) : [];
+  const pool = [...siblings, ...shuffle(quizWords.filter(x => x[matchKey] !== w[matchKey] && !siblings.includes(x)))].slice(0, 3);
   pool.push(w);
   buildChoices(shuffle(pool), opt => opt[matchKey], w[matchKey], q);
 }
