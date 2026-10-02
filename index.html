@@ -684,7 +684,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-02-3";
+const APP_VERSION = "2026-10-02-4";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -700,6 +700,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-02", text: "암기 카드·짝맞추기 게임도 전치사를 'εἰς + 대격'처럼 격과 함께 보여주고 뜻에서는 격 표시를 뺌 (διά·μετά는 격별로 나눔)" },
   { date: "2026-10-02", text: "단어 퀴즈: 모든 전치사는 문제에 격을 표시하고(예: εἰς + 대격), 뜻 보기에서는 격 표시를 뺌" },
   { date: "2026-10-02", text: "단어 퀴즈: 격이 둘인 전치사(διά, μετά)를 격별 문항으로 분리 (예: διά + 속격 = 통하여 / διά + 대격 = 때문에)" },
   { date: "2026-10-02", text: "암기 카드: 1·4주차 44단어에 어원·소리 연상 추가, 전치사 카드에 '격 외우기'(속격=어디서·여격=어디에·대격=어디로) 표시" },
@@ -1137,6 +1138,20 @@ const words = [
    etymology:"영어 am·is, 라틴어 sum·est와 같은 뿌리. 분사 ὤν에서 ontology(존재론)가 나옴",
    pun:"에이, 미(me)가 여기 있다 — 나는 ~이다, 있다"}
 ];
+
+// 퀴즈·암기 카드·짝맞추기 게임 공통 목록: 전치사는 격을 문제 쪽(헬라어)에 붙이고 뜻에서는 격 표시를 뺀다.
+// 격이 둘인 전치사(διά, μετά)는 격별 문항으로 나눈다.
+// 예) εἰς "(+대격) ~안으로" → "εἰς + 대격" = "~안으로"
+//     διά "(+속격) 통하여, (+대격) 때문에" → "διά + 속격"=통하여, "διά + 대격"=때문에
+const quizWords = words.flatMap(w => {
+  const parts = (w.ko || '').split('(+').slice(1);
+  if (parts.length === 0) return [w];
+  return parts.map(part => {
+    const k = part.indexOf(')');
+    return Object.assign({}, w, { base: w.gr, origKo: w.ko, pcase: part.slice(0, k), gr: w.gr + ' + ' + part.slice(0, k), ko: part.slice(k + 1).replace(/,\s*$/, '').trim() });
+  });
+});
+
 
 // ── 동사 변화 데이터 (현재 능동 직설법) ─────────────────────
 // end: 어미 문자열 (form 끝에서 이 길이만큼이 어미)
@@ -1921,7 +1936,7 @@ const countEl    = document.getElementById('countEl');
 function buildWeekChips() {
   const weeks = [...new Set(words.map(w => w.week))].sort((a,b) => a-b);
   weekChips.innerHTML = weeks.map(wk => {
-    const cnt = words.filter(w => w.week === wk).length;
+    const cnt = quizWords.filter(w => w.week === wk).length;
     return `<label class="week-chip on" id="chip${wk}">
       <input type="checkbox" class="wk-cb" value="${wk}" checked>
       ${wk}주차 <span style="opacity:.6;font-weight:400">(${cnt}개)</span>
@@ -1999,18 +2014,6 @@ function stopTimers() {
   timerEl.classList.remove('urgent');
 }
 
-// 단어 퀴즈 전용 목록: 전치사는 격을 문제 쪽(헬라어)에 붙이고 뜻에서는 격 표시를 뺀다.
-// 격이 둘인 전치사(διά, μετά)는 격별 문항으로 나눈다.
-// 예) εἰς "(+대격) ~안으로" → "εἰς + 대격" = "~안으로"
-//     διά "(+속격) 통하여, (+대격) 때문에" → "διά + 속격"=통하여, "διά + 대격"=때문에
-const quizWords = words.flatMap(w => {
-  const parts = (w.ko || '').split('(+').slice(1);
-  if (parts.length === 0) return [w];
-  return parts.map(part => {
-    const k = part.indexOf(')');
-    return Object.assign({}, w, { base: w.gr, gr: w.gr + ' + ' + part.slice(0, k), ko: part.slice(k + 1).replace(/,\s*$/, '').trim() });
-  });
-});
 
 function launchQuiz(cfg) {
   stopTimers();
@@ -4287,7 +4290,7 @@ function gameStart() {
   // 매번 같은 단어로 시작하지 않게 한다.
   let recent = [];
   try { recent = JSON.parse(localStorage.getItem(GAME_RECENT_KEY) || '[]'); } catch {}
-  const all  = words.filter(w => weeks.includes(w.week));
+  const all  = quizWords.filter(w => weeks.includes(w.week));
   const pool = [...shuffle(all.filter(w => !recent.includes(w.gr))), ...shuffle(all.filter(w => recent.includes(w.gr)))];
   // 한 판에 GAME_PAIRS쌍씩, 마지막에 1~2쌍만 남으면 앞 판에 붙인다
   gameBoards = [];
@@ -4462,7 +4465,7 @@ function selectedWeeks() {
 function renderCardWeekChips() {
   const html = [...weekChips.querySelectorAll('.wk-cb')].map(cb => {
     const wk = parseInt(cb.value);
-    const cnt = words.filter(w => w.week === wk).length;
+    const cnt = quizWords.filter(w => w.week === wk).length;
     return '<label class="week-chip' + (cb.checked ? ' on' : '') + '">'
       + '<input type="checkbox" class="card-wk-cb" value="' + wk + '"' + (cb.checked ? ' checked' : '') + '>'
       + wk + '주차 <span style="opacity:.6;font-weight:400">(' + cnt + '개)</span></label>';
@@ -4479,13 +4482,13 @@ weekChips.addEventListener('change', () => { renderCardWeekChips(); cardErr.styl
 renderCardWeekChips();
 
 function buildDeck() {
-  const pool = words.filter(w => cardWeeks.includes(w.week));
+  const pool = quizWords.filter(w => cardWeeks.includes(w.week));
   cardDeck = fcReviewOnly.checked ? pool.filter(w => reviewSet.has(w.gr)) : pool;
   cardIdx = Math.min(cardIdx, Math.max(cardDeck.length - 1, 0));
 }
 
 function updateReviewCount() {
-  const n = words.filter(w => cardWeeks.includes(w.week) && reviewSet.has(w.gr)).length;
+  const n = quizWords.filter(w => cardWeeks.includes(w.week) && reviewSet.has(w.gr)).length;
   fcReviewCnt.textContent = '(' + n + ')';
   fcReviewChip.classList.toggle('on', fcReviewOnly.checked);
 }
@@ -4525,7 +4528,7 @@ function renderCard() {
     + '<div class="fc-meaning">' + w.ko + '</div>';
   // 전치사: 뒤에 오는 격 외우기 (속격=어디서, 여격=어디에, 대격=어디로)
   // 뜻 문자열 "(+속격) 통하여, (+대격) 때문에" → [{c:'속격', m:'통하여'}, ...]
-  const cases = (w.ko || '').split('(+').slice(1).map(part => {
+  const cases = (w.origKo || w.ko || '').split('(+').slice(1).map(part => {
     const k = part.indexOf(')');
     return { c: part.slice(0, k), m: part.slice(k + 1).replace(/,\s*$/, '').trim() };
   }).filter(x => PREP_CASE_TIP[x.c]);
@@ -4538,9 +4541,10 @@ function renderCard() {
   } else if (cases.length > 1) {
     // 격이 둘: 공간 원리로 설명되지 않으므로 격별 뜻을 짝으로
     back += '<div class="fc-sec-lbl">격 외우기</div><div class="fc-case">'
-      + cases.map(x => '<div class="fc-case-row"><span class="fc-case-chip ' + PREP_CASE_TIP[x.c].cls + '">' + x.c + '</span>'
+      + cases.map(x => '<div class="fc-case-row"' + (w.pcase && w.pcase !== x.c ? ' style="opacity:.5"' : '') + '>'
+          + '<span class="fc-case-chip ' + PREP_CASE_TIP[x.c].cls + '">' + x.c + '</span>'
           + '<span>+' + x.c + ' → <b>' + x.m + '</b></span></div>').join('')
-      + '<p class="fc-case-note">격에 따라 뜻이 바뀌는 전치사예요. "' + w.gr + ' + 격 = 뜻"을 짝으로 외우세요.</p></div>';
+      + '<p class="fc-case-note">격에 따라 뜻이 바뀌는 전치사예요. "' + (w.base || w.gr) + ' + 격 = 뜻"을 짝으로 외우세요.</p></div>';
   }
   if (w.etymology) {
     back += '<div class="fc-sec-lbl">어원</div><p class="fc-ety">' + w.etymology + '</p>';
