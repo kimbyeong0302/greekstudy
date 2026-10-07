@@ -180,6 +180,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 .wi-badge.alpha { color: #7c3aed; }
 .wi-badge.word   { color: #2e6ed6; }
 .wi-badge.ending { color: #9c3dd6; }
+.wi-badge.prep   { color: #3a7d44; }
 .wi-q   { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
 .wi-row { display: flex; gap: 8px; font-size: 13px; margin-top: 4px; align-items: baseline; }
 .wi-lbl { color: #aaa; flex-shrink: 0; }
@@ -521,6 +522,12 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
       어미 퀴즈
     </label>
     <div id="endingChips" class="week-chips" style="display:none"></div>
+    <div style="height:14px"></div>
+    <label class="check-row">
+      <input type="checkbox" id="chkPrep">
+      전치사 퀴즈
+    </label>
+    <div id="prepChips" class="week-chips" style="display:none"></div>
   </div>
 
   <div id="levelCard" class="menu-card" style="display:none">
@@ -684,7 +691,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-07-3";
+const APP_VERSION = "2026-10-07-4";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -700,6 +707,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-07", text: "전치사 퀴즈 추가: 뜻 고르기·전치사 고르기·격 고르기 (7과 낱말 / §83 도표 범위 선택)" },
   { date: "2026-10-07", text: "4주차 단어에 εἰμί 인칭별 변화형 6개 추가 (εἰμί·εἶ·ἐστί(ν)·ἐσμέν·ἐστέ·εἰσί(ν))" },
   { date: "2026-10-07", text: "4주차 단어에 인칭대명사 격 변화형 33개 추가 (ἐγώ·σύ 각 8, αὐτός 17) → 단어 퀴즈·암기 카드·짝맞추기 게임" },
   { date: "2026-10-07", text: "4주차 단어에 7과 낱말 θεός(하나님)·λίθος(돌) 추가 (1주차와 함께 속하며 중복 출제되지 않음)" },
@@ -2035,8 +2043,8 @@ lvRow.addEventListener('click', e => {
 });
 
 startBtn.addEventListener('click', () => {
-  const doAlpha = chkAlpha.checked, doWord = chkWord.checked, doEnding = chkEnding.checked;
-  if (!doAlpha && !doWord && !doEnding) { showErr('퀴즈 유형을 하나 이상 선택해주세요.'); return; }
+  const doAlpha = chkAlpha.checked, doWord = chkWord.checked, doEnding = chkEnding.checked, doPrep = chkPrep.checked;
+  if (!doAlpha && !doWord && !doEnding && !doPrep) { showErr('퀴즈 유형을 하나 이상 선택해주세요.'); return; }
   const selWeeks = doWord
     ? [...weekChips.querySelectorAll('.wk-cb:checked')].map(c => parseInt(c.value))
     : [];
@@ -2046,7 +2054,9 @@ startBtn.addEventListener('click', () => {
     : [];
   if (doEnding && selCats.length === 0) { showErr('어미 퀴즈의 카테고리를 하나 이상 선택해주세요.'); return; }
   menuErr.style.display = 'none';
-  savedConfig = { doAlpha, doWord, doEnding, selWeeks, selCats, level: selectedLevel, mode: selectedMode };
+  const selPrepSets = doPrep ? [...prepChips.querySelectorAll('.prep-set-cb:checked')].map(c => c.value) : [];
+  if (doPrep && selPrepSets.length === 0) { showErr('전치사 퀴즈의 범위를 하나 이상 선택해주세요.'); return; }
+  savedConfig = { doAlpha, doWord, doEnding, doPrep, selWeeks, selCats, selPrepSets, level: selectedLevel, mode: selectedMode };
   launchQuiz(savedConfig);
 });
 
@@ -2060,6 +2070,85 @@ function stopTimers() {
 }
 
 
+// ── 전치사 퀴즈 ─────────────────────────────────────────────
+// 항목 = 전치사 + 격 + 뜻. 세 가지 문제: 뜻 고르기(g2k) / 전치사 고르기(k2g) / 격 고르기(case)
+// lesson7: 7과 §72 낱말 모음의 뜻, diagram: 7과 §83 도표(Metzger)의 뜻.
+// 도표 전치사의 격은 '도표에 적힌 뜻으로 쓸 때'의 격이에요(ἐπί·παρά·κατά 등은 다른 격으로도 쓰임).
+const PREP_QUIZ = [
+  { gr:'ἀπό',  cs:['속격'],        ko:'~에서, ~로부터',  set:'lesson7' },
+  { gr:'διά',  cs:['속격'],        ko:'통하여',          set:'lesson7' },
+  { gr:'διά',  cs:['대격'],        ko:'때문에',          set:'lesson7' },
+  { gr:'εἰς',  cs:['대격'],        ko:'~안으로',         set:'lesson7' },
+  { gr:'ἐκ',   cs:['속격'],        ko:'~에서 밖으로',    set:'lesson7' },
+  { gr:'ἐν',   cs:['여격'],        ko:'~안에',           set:'lesson7' },
+  { gr:'μετά', cs:['속격'],        ko:'함께',            set:'lesson7' },
+  { gr:'μετά', cs:['대격'],        ko:'후에',            set:'lesson7' },
+  { gr:'πρός', cs:['대격'],        ko:'~에게로',         set:'lesson7' },
+  { gr:'περί', cs:['대격'],        ko:'둘레에, 주위에',  set:'diagram' },
+  { gr:'ὑπέρ', cs:['대격'],        ko:'위에',            set:'diagram' },
+  { gr:'ἐπί',  cs:['여격'],        ko:'위에',            set:'diagram' },
+  { gr:'ὑπό',  cs:['대격'],        ko:'밑에',            set:'diagram' },
+  { gr:'παρά', cs:['여격','대격'], ko:'옆에',            set:'diagram' },
+  { gr:'ἀμφί', cs:[],              ko:'양편에',          set:'diagram' },
+  { gr:'ἀνά',  cs:['대격'],        ko:'위로',            set:'diagram' },
+  { gr:'κατά', cs:['속격'],        ko:'아래로',          set:'diagram' }
+];
+// 도표에 있으면서 7과에도 있는 전치사(εἰς·ἐκ·ἐν·διά+속·πρός·ἀπό)는 7과 항목을 함께 씀
+const PREP_SETS = {
+  lesson7: { label:'7과 낱말', items: PREP_QUIZ.filter(p => p.set === 'lesson7') },
+  diagram: { label:'§83 도표', items: PREP_QUIZ.filter(p => p.set === 'diagram' || ['ἀπό','εἰς','ἐκ','ἐν','πρός'].includes(p.gr) || (p.gr === 'διά' && p.cs[0] === '속격')) }
+};
+const pqzCases = p => p.cs.join('·');
+const pqzLabel = p => p.gr + (p.cs.length ? ' + ' + p.cs.join('/') : '');
+const PREP_CASE_OPTS = ['속격','여격','대격','속격·대격','여격·대격'];
+const chkPrep   = document.getElementById('chkPrep');
+const prepChips = document.getElementById('prepChips');
+prepChips.innerHTML = Object.entries(PREP_SETS).map(([k, v]) =>
+  '<label class="week-chip on"><input type="checkbox" class="prep-set-cb" value="' + k + '" checked>'
+  + v.label + ' <span style="opacity:.6;font-weight:400">(' + new Set(v.items.map(p => p.gr)).size + '개)</span></label>').join('');
+prepChips.querySelectorAll('.prep-set-cb').forEach(cb =>
+  cb.addEventListener('change', () => cb.closest('.week-chip').classList.toggle('on', cb.checked)));
+chkPrep.addEventListener('change', function () { prepChips.style.display = this.checked ? 'flex' : 'none'; });
+
+function prepQuestions(sets) {
+  const items = [...new Set(sets.flatMap(k => PREP_SETS[k].items))];
+  const qs = [];
+  items.forEach(p => {
+    qs.push({ type:'prep', dir:'g2k', data:p, pool:items });
+    qs.push({ type:'prep', dir:'k2g', data:p, pool:items });
+    if (p.cs.length) qs.push({ type:'prep', dir:'case', data:p, pool:items });
+  });
+  return qs;
+}
+function renderPrep(q) {
+  const p = q.data;
+  qBadge.textContent = '전치사 퀴즈'; qBadge.className = 'q-badge'; qBadge.style.color = '#3a7d44';
+  let opts, correct;
+  if (q.dir === 'g2k') {
+    wordDisplay.style.fontSize = '30px'; wordDisplay.textContent = pqzLabel(p);
+    subDisplay.textContent = ''; hintText.textContent = '이 전치사의 뜻은?';
+    correct = p.ko;
+    // 다른 전치사 뜻 중 정답과 글자가 다른 것만 (ὑπέρ·ἐπί는 둘 다 '위에')
+    const pool = [...new Set(q.pool.map(x => x.ko).filter(k => k !== correct))];
+    opts = shuffle([correct, ...shuffle(pool).slice(0, 3)]);
+  } else if (q.dir === 'k2g') {
+    wordDisplay.style.fontSize = '24px'; wordDisplay.textContent = p.ko;
+    subDisplay.textContent = ''; hintText.textContent = '이 뜻의 전치사는? (격까지)';
+    correct = pqzLabel(p);
+    // 같은 뜻을 가진 다른 전치사는 보기에서 제외 / 같은 전치사의 다른 격을 우선
+    const others = q.pool.filter(x => x !== p && x.ko !== p.ko);
+    const sib = others.filter(x => x.gr === p.gr);
+    const pool = [...new Set([...sib, ...shuffle(others.filter(x => x.gr !== p.gr))].map(pqzLabel))].filter(l => l !== correct);
+    opts = shuffle([correct, ...pool.slice(0, 3)]);
+  } else {
+    wordDisplay.style.fontSize = '30px'; wordDisplay.textContent = p.gr;
+    subDisplay.textContent = '— ' + p.ko; hintText.textContent = '이 뜻으로 쓸 때 함께 오는 격은?';
+    correct = pqzCases(p);
+    opts = shuffle([correct, ...shuffle(PREP_CASE_OPTS.filter(o => o !== correct)).slice(0, 3)]);
+  }
+  buildChoices(opts, o => o, correct, q);
+}
+
 function launchQuiz(cfg) {
   stopTimers();
   currentMode = cfg.mode;
@@ -2067,6 +2156,7 @@ function launchQuiz(cfg) {
   if (cfg.doAlpha) letters.forEach(lt => qs.push({ type: 'alpha', data: lt }));
   if (cfg.doWord)  quizWords.filter(w => inWeeks(w, cfg.selWeeks))
                         .forEach(w => qs.push({ type: 'word', data: w, level: cfg.level }));
+  if (cfg.doPrep) qs.push(...prepQuestions(cfg.selPrepSets));
   if (cfg.doEnding) {
     endings.filter(e => cfg.selCats.includes(e.category)).forEach(e => {
       qs.push({ type: 'ending', data: e, dir: 'label->ending' });
@@ -2135,6 +2225,7 @@ function renderQuestion() {
   countEl.textContent    = '총 ' + quizOrder.length + '문제';
   if (q.type === 'alpha') renderAlpha(q);
   else if (q.type === 'ending') renderEnding(q);
+  else if (q.type === 'prep') renderPrep(q);
   else renderWord(q);
 }
 
@@ -2282,6 +2373,11 @@ function showWrongList(modeLabel) {
       qText = q.dir === 'label->ending'
         ? endLbl + ' 어미는?'
         : '어미 ' + q.data.ending + (q.data.type === 'noun' ? ' (' + q.data.gender + ')' : '') + ' 은(는)?';
+    } else if (q.type === 'prep') {
+      badge = '<div class="wi-badge prep">전치사 퀴즈</div>';
+      qText = q.dir === 'g2k' ? pqzLabel(q.data) + ' 의 뜻은?'
+            : q.dir === 'k2g' ? '"' + q.data.ko + '" 의 전치사는?'
+            : q.data.gr + ' (' + q.data.ko + ') 와 함께 오는 격은?';
     } else {
       const w = q.data, lv = q.level;
       badge = '<div class="wi-badge word">' + weekLabel(w) + '주차 단어</div>';
