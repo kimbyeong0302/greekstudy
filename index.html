@@ -684,7 +684,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-02-4";
+const APP_VERSION = "2026-10-07-1";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -700,6 +700,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-07", text: "4주차 단어에 7과 낱말 θεός(하나님)·λίθος(돌) 추가 (1주차와 함께 속하며 중복 출제되지 않음)" },
   { date: "2026-10-02", text: "암기 카드·짝맞추기 게임도 전치사를 'εἰς + 대격'처럼 격과 함께 보여주고 뜻에서는 격 표시를 뺌 (διά·μετά는 격별로 나눔)" },
   { date: "2026-10-02", text: "단어 퀴즈: 모든 전치사는 문제에 격을 표시하고(예: εἰς + 대격), 뜻 보기에서는 격 표시를 뺌" },
   { date: "2026-10-02", text: "단어 퀴즈: 격이 둘인 전치사(διά, μετά)를 격별 문항으로 분리 (예: διά + 속격 = 통하여 / διά + 대격 = 때문에)" },
@@ -887,7 +888,7 @@ const words = [
   {gr:"Ἰσραήλ",      kr:"이스라엘",        en:"Israel",             ko:"이스라엘",        week:1,
    etymology:"히브리어 이름을 그대로 옮긴 말(창 32:28). 그리스어 어미 변화를 하지 않는 단어",
    pun:"이스라엘은 소리 그대로 이스라엘"},
-  {gr:"λίθος",       kr:"리도스",          en:"stone",              ko:"돌",              week:1,
+  {gr:"λίθος",       kr:"리도스",          en:"stone",              ko:"돌",              week:1, also:[4],
    etymology:"lithography(석판 인쇄), monolith(한 덩어리 돌), Neolithic(신석기)",
    pun:"리도스: 돌 리(里)마다 서 있는 이정표 돌"},
   {gr:"μέγας",       kr:"메가스",          en:"large, great",       ko:"크다, 위대한",    week:1,
@@ -926,7 +927,7 @@ const words = [
   {gr:"Χριστός",     kr:"크리스토스",      en:"Christ, Messiah, Anointed One", ko:"그리스도, 메시아", week:1,
    etymology:"χρίω(기름 붓다)에서 나옴, 곧 기름 부음 받은 자(히브리어 메시아의 번역). Christ, chrism(성유)",
    pun:"크리스(cream)처럼 기름을 바른, 기름 부음 받은 자"},
-  {gr:"Θεός",        kr:"데오스",          en:"God",                ko:"하나님",          week:1,
+  {gr:"Θεός",        kr:"데오스",          en:"God",                ko:"하나님",          week:1, also:[4],
    etymology:"theology(신학), atheist(ἀ+θεός, 신이 없다는 사람), enthusiasm(ἐν+θεός, 신이 안에 있음)",
    pun:"데오스: 데(the) 오직 한 분 하나님"},
   {gr:"Υἱός",        kr:"휘오스",          en:"Son",                ko:"아들",            week:1,
@@ -1151,6 +1152,11 @@ const quizWords = words.flatMap(w => {
     return Object.assign({}, w, { base: w.gr, origKo: w.ko, pcase: part.slice(0, k), gr: w.gr + ' + ' + part.slice(0, k), ko: part.slice(k + 1).replace(/,\s*$/, '').trim() });
   });
 });
+
+// 단어가 속한 주차: 기본 week + also(다른 과 낱말 모음에도 나오는 경우, 예: θεός·λίθος는 1주차와 7과=4주차)
+// 한 단어로 두어 여러 주차를 함께 골라도 중복 출제되지 않게 한다
+function weekLabel(w) { return [w.week, ...(w.also || [])].join('·'); }
+function inWeeks(w, weeks) { return weeks.includes(w.week) || (w.also || []).some(k => weeks.includes(k)); }
 
 
 // ── 동사 변화 데이터 (현재 능동 직설법) ─────────────────────
@@ -1936,7 +1942,7 @@ const countEl    = document.getElementById('countEl');
 function buildWeekChips() {
   const weeks = [...new Set(words.map(w => w.week))].sort((a,b) => a-b);
   weekChips.innerHTML = weeks.map(wk => {
-    const cnt = quizWords.filter(w => w.week === wk).length;
+    const cnt = quizWords.filter(w => inWeeks(w, [wk])).length;
     return `<label class="week-chip on" id="chip${wk}">
       <input type="checkbox" class="wk-cb" value="${wk}" checked>
       ${wk}주차 <span style="opacity:.6;font-weight:400">(${cnt}개)</span>
@@ -2020,7 +2026,7 @@ function launchQuiz(cfg) {
   currentMode = cfg.mode;
   let qs = [];
   if (cfg.doAlpha) letters.forEach(lt => qs.push({ type: 'alpha', data: lt }));
-  if (cfg.doWord)  quizWords.filter(w => cfg.selWeeks.includes(w.week))
+  if (cfg.doWord)  quizWords.filter(w => inWeeks(w, cfg.selWeeks))
                         .forEach(w => qs.push({ type: 'word', data: w, level: cfg.level }));
   if (cfg.doEnding) {
     endings.filter(e => cfg.selCats.includes(e.category)).forEach(e => {
@@ -2107,7 +2113,7 @@ function renderAlpha(q) {
 
 function renderWord(q) {
   const w = q.data, lv = q.level;
-  qBadge.textContent = w.week + '주차 단어'; qBadge.className = 'q-badge word'; qBadge.style.color = '';
+  qBadge.textContent = weekLabel(w) + '주차 단어'; qBadge.className = 'q-badge word'; qBadge.style.color = '';
   if (lv === 3) {
     wordDisplay.style.fontSize = '22px';
     wordDisplay.textContent = w.ko || w.en;
@@ -2234,7 +2240,7 @@ function showWrongList(modeLabel) {
         : '어미 ' + q.data.ending + (q.data.type === 'noun' ? ' (' + q.data.gender + ')' : '') + ' 은(는)?';
     } else {
       const w = q.data, lv = q.level;
-      badge = '<div class="wi-badge word">' + w.week + '주차 단어</div>';
+      badge = '<div class="wi-badge word">' + weekLabel(w) + '주차 단어</div>';
       qText = lv === 3
         ? (w.ko || w.en)
         : w.gr + (w.kr ? ' <span style="font-size:13px;font-weight:400;color:#888">[' + w.kr + ']</span>' : '');
@@ -4290,7 +4296,7 @@ function gameStart() {
   // 매번 같은 단어로 시작하지 않게 한다.
   let recent = [];
   try { recent = JSON.parse(localStorage.getItem(GAME_RECENT_KEY) || '[]'); } catch {}
-  const all  = quizWords.filter(w => weeks.includes(w.week));
+  const all  = quizWords.filter(w => inWeeks(w, weeks));
   const pool = [...shuffle(all.filter(w => !recent.includes(w.gr))), ...shuffle(all.filter(w => recent.includes(w.gr)))];
   // 한 판에 GAME_PAIRS쌍씩, 마지막에 1~2쌍만 남으면 앞 판에 붙인다
   gameBoards = [];
@@ -4465,7 +4471,7 @@ function selectedWeeks() {
 function renderCardWeekChips() {
   const html = [...weekChips.querySelectorAll('.wk-cb')].map(cb => {
     const wk = parseInt(cb.value);
-    const cnt = quizWords.filter(w => w.week === wk).length;
+    const cnt = quizWords.filter(w => inWeeks(w, [wk])).length;
     return '<label class="week-chip' + (cb.checked ? ' on' : '') + '">'
       + '<input type="checkbox" class="card-wk-cb" value="' + wk + '"' + (cb.checked ? ' checked' : '') + '>'
       + wk + '주차 <span style="opacity:.6;font-weight:400">(' + cnt + '개)</span></label>';
@@ -4482,13 +4488,13 @@ weekChips.addEventListener('change', () => { renderCardWeekChips(); cardErr.styl
 renderCardWeekChips();
 
 function buildDeck() {
-  const pool = quizWords.filter(w => cardWeeks.includes(w.week));
+  const pool = quizWords.filter(w => inWeeks(w, cardWeeks));
   cardDeck = fcReviewOnly.checked ? pool.filter(w => reviewSet.has(w.gr)) : pool;
   cardIdx = Math.min(cardIdx, Math.max(cardDeck.length - 1, 0));
 }
 
 function updateReviewCount() {
-  const n = quizWords.filter(w => cardWeeks.includes(w.week) && reviewSet.has(w.gr)).length;
+  const n = quizWords.filter(w => inWeeks(w, cardWeeks) && reviewSet.has(w.gr)).length;
   fcReviewCnt.textContent = '(' + n + ')';
   fcReviewChip.classList.toggle('on', fcReviewOnly.checked);
 }
@@ -4518,7 +4524,7 @@ function renderCard() {
   const marked = reviewSet.has(w.gr);
   fcProgress.textContent = (cardIdx + 1) + ' / ' + cardDeck.length;
 
-  fcFront.innerHTML = '<span class="fc-week">' + w.week + '주차</span>'
+  fcFront.innerHTML = '<span class="fc-week">' + weekLabel(w) + '주차</span>'
     + (marked ? '<span class="fc-star">★</span>' : '')
     + '<div class="fc-greek">' + w.gr + '</div>'
     + '<div class="fc-pron">[' + w.kr + ']</div>'
