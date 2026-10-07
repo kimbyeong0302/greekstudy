@@ -684,7 +684,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-07-1";
+const APP_VERSION = "2026-10-07-2";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -700,6 +700,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-07", text: "4주차 단어에 인칭대명사 격 변화형 33개 추가 (ἐγώ·σύ 각 8, αὐτός 17) → 단어 퀴즈·암기 카드·짝맞추기 게임" },
   { date: "2026-10-07", text: "4주차 단어에 7과 낱말 θεός(하나님)·λίθος(돌) 추가 (1주차와 함께 속하며 중복 출제되지 않음)" },
   { date: "2026-10-02", text: "암기 카드·짝맞추기 게임도 전치사를 'εἰς + 대격'처럼 격과 함께 보여주고 뜻에서는 격 표시를 뺌 (διά·μετά는 격별로 나눔)" },
   { date: "2026-10-02", text: "단어 퀴즈: 모든 전치사는 문제에 격을 표시하고(예: εἰς + 대격), 뜻 보기에서는 격 표시를 뺌" },
@@ -1126,15 +1127,46 @@ const words = [
    etymology:"영어 bear(지다, 낳다)와 같은 뿌리. metaphor(옮겨 나름), phosphorus(빛을 나르는 것), Christopher(그리스도를 지닌 자)",
    pun:"페로, 페리(ferry)선이 짐을 지고 나른다"},
   // 4주차: 8과 인칭대명사·εἰμί (§88·89·92)
-  {gr:"ἐγώ", kr:"에고", en:"I", ko:"나", week:4,
+  // 4주차: 8과 인칭대명사 격 변화형 (§88·89, αὐτός 표의 뜻). 강조형/전접어형은 한 항목으로
+  {gr:"ἐγώ", kr:"에고", en:"I", ko:"나는, 내가", week:4, form:"ἐγώ 주격 단수",
    etymology:"라틴어 ego와 같은 말이고 영어 I와도 같은 뿌리. egoism, egocentric",
    pun:"에고(ego), 나"},
-  {gr:"σύ", kr:"쉬", en:"you (sg.)", ko:"너", week:4,
+  {gr:"ἐμοῦ / μου", kr:"에무 / 무", en:"of me", ko:"나의", week:4, form:"ἐγώ 속격 단수 (ἐμοῦ 강조형, μου 전접어형)"},
+  {gr:"ἐμοί / μοι", kr:"에모이 / 모이", en:"to me", ko:"나에게, 나를 위하여", week:4, form:"ἐγώ 여격 단수 (ἐμοί 강조형, μοι 전접어형)"},
+  {gr:"ἐμέ / με", kr:"에메 / 메", en:"me", ko:"나를", week:4, form:"ἐγώ 대격 단수 (ἐμέ 강조형, με 전접어형)"},
+  {gr:"ἡμεῖς", kr:"헤메이스", en:"we", ko:"우리가, 우리는", week:4, form:"ἐγώ 주격 복수"},
+  {gr:"ἡμῶν", kr:"헤몬", en:"of us", ko:"우리의", week:4, form:"ἐγώ 속격 복수"},
+  {gr:"ἡμῖν", kr:"헤민", en:"to us", ko:"우리에게, 우리를 위하여", week:4, form:"ἐγώ 여격 복수"},
+  {gr:"ἡμᾶς", kr:"헤마스", en:"us", ko:"우리를", week:4, form:"ἐγώ 대격 복수"},
+  {gr:"σύ", kr:"쉬", en:"you (sg.)", ko:"네가, 너는", week:4, form:"σύ 주격 단수",
    etymology:"라틴어 tu, 영어 thou와 같은 뿌리",
    pun:"쉬~, 너 조용히 해"},
-  {gr:"αὐτός", kr:"아우토스", en:"he, she, it", ko:"그, 그녀, 그것", week:4,
+  {gr:"σοῦ / σου", kr:"수 / 수", en:"of you (sg.)", ko:"너의", week:4, form:"σύ 속격 단수 (σοῦ 강조형, σου 전접어형)"},
+  {gr:"σοί / σοι", kr:"소이 / 소이", en:"to you (sg.)", ko:"너에게, 너를 위하여", week:4, form:"σύ 여격 단수 (σοί 강조형, σοι 전접어형)"},
+  {gr:"σέ / σε", kr:"세 / 세", en:"you (sg. acc.)", ko:"너를", week:4, form:"σύ 대격 단수 (σέ 강조형, σε 전접어형)"},
+  {gr:"ὑμεῖς", kr:"휘메이스", en:"you (pl.)", ko:"너희가, 너희는", week:4, form:"σύ 주격 복수"},
+  {gr:"ὑμῶν", kr:"휘몬", en:"of you (pl.)", ko:"너희의", week:4, form:"σύ 속격 복수"},
+  {gr:"ὑμῖν", kr:"휘민", en:"to you (pl.)", ko:"너희에게, 너희를 위하여", week:4, form:"σύ 여격 복수"},
+  {gr:"ὑμᾶς", kr:"휘마스", en:"you (pl. acc.)", ko:"너희를", week:4, form:"σύ 대격 복수"},
+  {gr:"αὐτός", kr:"아우토스", en:"he", ko:"그(남자)가, 는", week:4, form:"αὐτός 남성 주격 단수",
    etymology:"auto-: automatic(스스로 움직이는), autonomy(스스로 정한 법), autograph(자기 손으로 씀). 원래 '자신'의 뜻도 있음",
    pun:"아우토(auto)는 그 자신, 그·그녀·그것"},
+  {gr:"αὐτοῦ", kr:"아우투", en:"of him, of it", ko:"그(남자)의, 그것의", week:4, form:"αὐτός 남성·중성 속격 단수"},
+  {gr:"αὐτῷ", kr:"아우토", en:"to him, to it", ko:"그(남자)에게, 그것에게", week:4, form:"αὐτός 남성·중성 여격 단수"},
+  {gr:"αὐτόν", kr:"아우톤", en:"him", ko:"그(남자)를", week:4, form:"αὐτός 남성 대격 단수"},
+  {gr:"αὐτή", kr:"아우테", en:"she", ko:"그(여자)가, 는", week:4, form:"αὐτός 여성 주격 단수"},
+  {gr:"αὐτῆς", kr:"아우테스", en:"of her", ko:"그(여자)의", week:4, form:"αὐτός 여성 속격 단수"},
+  {gr:"αὐτῇ", kr:"아우테", en:"to her", ko:"그(여자)에게", week:4, form:"αὐτός 여성 여격 단수"},
+  {gr:"αὐτήν", kr:"아우텐", en:"her", ko:"그(여자)를", week:4, form:"αὐτός 여성 대격 단수"},
+  {gr:"αὐτό", kr:"아우토", en:"it", ko:"그것이, 그것을", week:4, form:"αὐτός 중성 주격·대격 단수"},
+  {gr:"αὐτοί", kr:"아우토이", en:"they (m.)", ko:"그(남자)들이, 은", week:4, form:"αὐτός 남성 주격 복수"},
+  {gr:"αὐτῶν", kr:"아우톤", en:"of them", ko:"그(남자)들의, 그(여자)들의, 그것들의", week:4, form:"αὐτός 남성·여성·중성 속격 복수"},
+  {gr:"αὐτοῖς", kr:"아우토이스", en:"to them (m./n.)", ko:"그(남자)들에게, 그것들에게", week:4, form:"αὐτός 남성·중성 여격 복수"},
+  {gr:"αὐτούς", kr:"아우투스", en:"them (m.)", ko:"그(남자)들을", week:4, form:"αὐτός 남성 대격 복수"},
+  {gr:"αὐταί", kr:"아우타이", en:"they (f.)", ko:"그(여자)들이, 은", week:4, form:"αὐτός 여성 주격 복수"},
+  {gr:"αὐταῖς", kr:"아우타이스", en:"to them (f.)", ko:"그(여자)들에게", week:4, form:"αὐτός 여성 여격 복수"},
+  {gr:"αὐτάς", kr:"아우타스", en:"them (f.)", ko:"그(여자)들을", week:4, form:"αὐτός 여성 대격 복수"},
+  {gr:"αὐτά", kr:"아우타", en:"they, them (n.)", ko:"그것들이, 그것들을", week:4, form:"αὐτός 중성 주격·대격 복수"},
   {gr:"εἰμί", kr:"에이미", en:"I am", ko:"나는 ~이다, 있다", week:4,
    etymology:"영어 am·is, 라틴어 sum·est와 같은 뿌리. 분사 ὤν에서 ontology(존재론)가 나옴",
    pun:"에이, 미(me)가 여기 있다 — 나는 ~이다, 있다"}
@@ -2131,7 +2163,12 @@ function renderWord(q) {
   const siblings = w.base ? quizWords.filter(x => x.base === w.base && x !== w) : [];
   // 전치사 문제는 다른 전치사의 뜻(또는 형태)을 보기로 써서 뜻만 보고 고를 수 없게 한다
   const others  = quizWords.filter(x => x[matchKey] !== w[matchKey] && !siblings.includes(x) && x !== w);
-  const preps   = w.base ? shuffle(others.filter(x => x.base)) : [];
+  // 대명사 격 변화형도 다른 대명사 형태를 보기로 (같은 대명사의 다른 격 우선)
+  const lemma   = w.form ? w.form.split(' ')[0] : null;
+  const preps   = w.base ? shuffle(others.filter(x => x.base))
+                : w.form ? [...shuffle(others.filter(x => x.form && x.form.split(' ')[0] === lemma)),
+                            ...shuffle(others.filter(x => x.form && x.form.split(' ')[0] !== lemma))]
+                : [];
   const pool = [...siblings, ...preps, ...shuffle(others.filter(x => !preps.includes(x)))].slice(0, 3);
   pool.push(w);
   buildChoices(shuffle(pool), opt => opt[matchKey], w[matchKey], q);
@@ -4532,6 +4569,8 @@ function renderCard() {
 
   let back = '<div class="fc-back-greek">' + w.gr + ' [' + w.kr + ']</div>'
     + '<div class="fc-meaning">' + w.ko + '</div>';
+  // 대명사 격 변화형: 어느 대명사의 어떤 격인지
+  if (w.form) back += '<div class="fc-sec-lbl">형태</div><p class="fc-ety">' + w.form + '</p>';
   // 전치사: 뒤에 오는 격 외우기 (속격=어디서, 여격=어디에, 대격=어디로)
   // 뜻 문자열 "(+속격) 통하여, (+대격) 때문에" → [{c:'속격', m:'통하여'}, ...]
   const cases = (w.origKo || w.ko || '').split('(+').slice(1).map(part => {
@@ -4559,7 +4598,7 @@ function renderCard() {
     back += '<div class="fc-sec-lbl">소리 연상 <span style="font-weight:400;letter-spacing:0">(암기용 말장난, 학술 출처 없음)</span></div>'
       + '<p class="fc-pun">' + w.pun + '</p>';
   }
-  if (!w.etymology && !w.pun) back += '<p class="fc-none">이 단어는 아직 연상 자료가 없어요.</p>';
+  if (!w.etymology && !w.pun && !w.form) back += '<p class="fc-none">이 단어는 아직 연상 자료가 없어요.</p>';
   fcBack.innerHTML = back;
   fcBack.scrollTop = 0;
 
