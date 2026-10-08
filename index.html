@@ -736,7 +736,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-08-4";
+const APP_VERSION = "2026-10-08-5";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -752,6 +752,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-08", text: "문장 파싱: 단어마다 격·인칭에 맞는 뜻(해석)도 골라서 파싱" },
   { date: "2026-10-08", text: "문장 파싱: 동사 찾기 이후에는 원하는 단어를 골라 품사부터 직접 파싱, 모든 단어를 마치면 한꺼번에 채점 후 번역" },
   { date: "2026-10-08", text: "중간고사 대비 문장 파싱 추가: 7·8·9과 익힘 10–14번 15문장, 끝 부호→καί·쉼표→동사→동사 파싱→품사부터 단어 파싱→번역" },
   { date: "2026-10-08", text: "5주차: §96 지시대명사 οὗτος 변화 추가 (격 변화형 단어 17개, 레슨, 성·수·격 퀴즈)" },
@@ -4527,6 +4528,63 @@ const EXAM_SETS = [
   ]}
 ];
 
+// ── 단어 뜻(해석) — 격·인칭에 맞는 뜻 고르기 ──
+// 격의 기본 뜻: 주격 "~이/가", 속격 "~의", 여격 "~에게(사물은 ~에)", 대격 "~을/를"
+const EX_CASES = ['주격','속격','여격','대격'];
+function exJosa(stem, c, thing) {
+  const ch = stem.charCodeAt(stem.length - 1), bat = ch >= 0xAC00 && ch <= 0xD7A3 && (ch - 0xAC00) % 28 !== 0;
+  if (c === '주격') return ({ '나':'내가', '너':'네가' })[stem] || stem + (bat ? '이' : '가');
+  if (c === '속격') return stem + '의';
+  if (c === '여격') return stem + (thing ? '에' : '에게');
+  return stem + (bat ? '을' : '를');
+}
+const EX_NOUN_KO = { 'ὁδός':['길',1], 'ἔρημος':['광야',1], 'δοῦλος':['종'], 'δῶρον':['선물',1], 'τόπος':['장소',1], 'γραφή':['글',1],
+  'προφήτης':['예언자'], 'κύριος':['주'], 'δόξα':['영광',1], 'θεός':['하나님'], 'ἐκκλησία':['교회',1], 'μαθητής':['제자'], 'τέκνον':['아이'],
+  'ἀπόστολος':['사도'], 'παραβολή':['비유',1], 'ἀδελφός':['형제'], 'διδάσκαλος':['선생'], 'ἐπαγγελία':['약속',1], 'πρόσωπον':['얼굴',1], 'ἀλήθεια':['진리',1] };
+const EX_VERB_KO = { 'φέρω':'나른다', 'γινώσκω':'안다', 'ἐγείρω':'일으킨다', 'διδάσκω':'가르친다', 'εἰμί':'~이다', 'βλέπω':'본다',
+  'λέγω':'말한다', 'βαπτίζω':'세례를 준다', 'ἄγω':'인도한다', 'ἔχω':'가지고 있다' };
+const EX_SUBJ = { '1단수':'내가', '2단수':'네가', '3단수':'그(녀)가', '1복수':'우리가', '2복수':'너희가', '3복수':'그들이' };
+// 전치사는 함께 오는 격에 따라 뜻이 달라짐 (διά+속격 "통하여", διά+대격 "때문에")
+const EX_PREP_KO = ['~을 통하여', '~ 때문에', '~ 안으로', '~ 안에(서)'];
+const EX_PREP_ANS = { 'διά속격':'~을 통하여', 'διά대격':'~ 때문에', 'εἰς대격':'~ 안으로', 'ἐν여격':'~ 안에(서)' };
+// 형용사·대명사는 문장마다 쓰임이 달라 따로 지정: s=명사처럼 쓸 때 줄기, a=꾸밀 때, p=서술할 때, use=이 문장에서의 쓰임
+const EX_KO_SPEC = {
+  'l7-10-11':{ a:'다른', s:'다른 것', use:'a' }, 'l7-12-9':{ a:'죽은', s:'죽은 자들' }, 'l7-13-2':{ a:'죽은', s:'죽은 자들' },
+  'l7-14-4':{ a:'선한', s:'선한 것들', use:'a' },
+  'l8-10-2':{ a:'신실한 (꾸밈)', p:'신실하다 (서술)', s:'신실한 자', use:'p' }, 'l8-10-8':{ s:'그' },
+  'l8-10-9':{ a:'악한 (꾸밈)', p:'악하다 (서술)', s:'악한 자들', use:'p' },
+  'l8-11-2':{ a:'신실한 (꾸밈)', p:'신실하다 (서술)', s:'신실한 자', use:'p' }, 'l8-11-5':{ s:'우리' }, 'l8-11-8':{ s:'그것', thing:1 },
+  'l8-12-1':{ s:'너' }, 'l8-12-4':{ s:'너' },
+  'l8-14-2':{ s:'우리' }, 'l8-14-4':{ s:'우리' }, 'l8-14-6':{ s:'우리' }, 'l8-14-9':{ s:'그들' },
+  'l9-10-0':{ s:'너 자신' }, 'l9-10-2':{ s:'저 사람' }, 'l9-10-6':{ s:'그' },
+  'l9-11-2':{ a:'같은', s:'그녀', use:'a' }, 'l9-11-5':{ a:'이', s:'이 사람들', use:'a' }, 'l9-11-8':{ s:'우리' },
+  'l9-11-10':{ a:'선한', s:'선한 자들', use:'a' },
+  'l9-12-0':{ s:'나 자신' }, 'l9-12-1':{ s:'나' }, 'l9-12-3':{ a:'이', s:'이 여자', use:'a' }, 'l9-12-8':{ s:'나' },
+  'l9-13-0':{ s:'이 여자' }, 'l9-13-6':{ s:'그녀' },
+  'l9-14-0':{ s:'그녀' }, 'l9-14-2':{ s:'자체', thing:1 }
+};
+// 각 단어에 정답 뜻(ko)과 보기(koOpts)를 붙임
+EXAM_SETS.forEach(set => set.items.forEach(it => it.toks.forEach((t, i) => {
+  if (t.punct) return;
+  let ans = null, opts = [];
+  if (t.pos === '동사') {
+    const v = EX_VERB_KO[t.lemma];
+    opts = Object.keys(EX_SUBJ).map(k => EX_SUBJ[k] + ' ' + v);
+    ans = EX_SUBJ[t.person + t.number] + ' ' + v;
+  } else if (t.pos === '전치사') {
+    opts = EX_PREP_KO; ans = EX_PREP_ANS[t.lemma + t.gov];
+  } else if (t.pos === '명사') {
+    const [stem, thing] = EX_NOUN_KO[t.lemma], s = t.n === '복수' ? stem + '들' : stem;
+    opts = EX_CASES.map(c => exJosa(s, c, thing)); ans = exJosa(s, t.c, thing);
+  } else if (t.pos === '형용사' || t.pos === '대명사') {
+    const sp = EX_KO_SPEC[set.id + '-' + it.no + '-' + i];
+    opts = EX_CASES.map(c => exJosa(sp.s, c, sp.thing));
+    if (sp.a) opts = [sp.a].concat(sp.p ? [sp.p] : [], opts);
+    ans = sp.use === 'a' ? sp.a : sp.use === 'p' ? sp.p : exJosa(sp.s, t.c, sp.thing);
+  }
+  if (ans) { t.ko = ans; t.koOpts = opts; }
+})));
+
 // ── 중간고사 대비 퀴즈 진행 ──────────────────────────────────
 // ①끝 부호 ②καί·δέ·쉼표(절 나누기) ③동사 찾기는 순서대로 하나씩 채점.
 // ④ 단어 파싱: 원하는 단어를 골라 품사부터 직접 파싱(바로 채점하지 않음), 파싱한 단어는 음영.
@@ -4555,23 +4613,34 @@ function exFieldsFor(pos, t, i) {
     }
     return ex.lemmaCache[ck];
   };
+  const koOpts = () => {
+    const ck = i + '|ko';
+    if (!ex.lemmaCache[ck]) ex.lemmaCache[ck] = t.koOpts ? shuffle([t.ko, ...shuffle(t.koOpts.filter(o => o !== t.ko)).slice(0, 4)]) : [];
+    return ex.lemmaCache[ck];
+  };
+  const KO = () => koOpts().length ? [F('ko','뜻(해석)',koOpts())] : [];
   const GNC = [F('g','성',['남성','여성','중성']), F('n','수',['단수','복수']), F('c','격',['주격','속격','여격','대격'])];
   if (pos === '동사') return [
     F('tense','시제',['현재','미완료','미래','부정과거']), F('voice','태',['능동','중간','수동','없음']),
     F('mood','법',['직설법','가정법','명령법','부정사']), F('person','인칭',['1인칭','2인칭','3인칭']),
-    F('number','수',['단수','복수']), F('lemma','기본형',lemmaOpts())
+    F('number','수',['단수','복수']), F('lemma','기본형',lemmaOpts()), ...KO()
   ];
-  if (pos === '명사' || pos === '형용사') return [...GNC, F('lemma','기본형',lemmaOpts())];
+  if (pos === '명사' || pos === '형용사') return [...GNC, F('lemma','기본형',lemmaOpts()), ...KO()];
   if (pos === '관사') return GNC;
   if (pos === '대명사') return [
     F('person','인칭',['1인칭','2인칭','3인칭']), F('g','성',['남성','여성','중성','없음']),
-    F('n','수',['단수','복수']), F('c','격',['주격','속격','여격','대격']), F('lemma','기본형',lemmaOpts())
+    F('n','수',['단수','복수']), F('c','격',['주격','속격','여격','대격']), F('lemma','기본형',lemmaOpts()), ...KO()
   ];
-  if (pos === '전치사') return [F('gov','함께 오는 격',['속격','여격','대격'])];
+  if (pos === '전치사') return [F('gov','함께 오는 격',['속격','여격','대격']), ...KO()];
   return [];   // 접속사·부사: 품사만
 }
 // 정답 값 (단어의 실제 품사 기준)
 function exCorrectVals(t) {
+  const v = exCorrectVals0(t);
+  if (t.ko && ['동사','명사','형용사','대명사','전치사'].includes(t.pos)) v.ko = t.ko;
+  return v;
+}
+function exCorrectVals0(t) {
   if (t.pos === '동사') return { tense:t.tense, voice:t.voice || '없음', mood:t.mood, person:t.person + '인칭', number:t.number, lemma:t.lemma };
   if (t.pos === '명사' || t.pos === '형용사') return { g:t.g, n:t.n, c:t.c, lemma:t.lemma };
   if (t.pos === '관사') return { g:t.g, n:t.n, c:t.c };
@@ -4580,6 +4649,9 @@ function exCorrectVals(t) {
   return {};
 }
 function exParseText(t) {
+  return exParseText0(t) + (t.ko ? ' · "' + t.ko + '"' : '');
+}
+function exParseText0(t) {
   if (t.pos === '동사') return [t.tense, t.voice, t.mood, t.person + '인칭', t.number].filter(Boolean).join(' ') + ' · ' + t.lemma;
   if (t.pos === '명사' || t.pos === '형용사') return t.g + ' ' + t.n + ' ' + t.c + ' · ' + t.lemma;
   if (t.pos === '관사') return t.g + ' ' + t.n + ' ' + t.c;
