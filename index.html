@@ -337,6 +337,11 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 .ex-tok.verb { text-decoration: underline 3px #d9822b; text-underline-offset: 5px; }
 .ex-tok.parsed { background: #dfe6f3; color: #2c4a7a; }
 .ex-tok.target { background: #fff3c4; border-color: #e0a100; }
+.ex-set-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; }
+.ex-set-row .week-chip { padding: 5px 9px; }
+.ex-set-chip.part { background: #f3f7fe; color: #2e6ed6; }
+.ex-sent-gr { font-size: 11px; color: #999; font-weight: 400; margin-left: 4px; }
+.ex-sel-count { font-size: 12px; color: #888; margin-top: 2px; }
 .ex-detail { background: #faf8f4; border-radius: 10px; padding: 10px 12px; margin-top: 6px; }
 .ex-q { font-size: 14px; font-weight: 600; margin: 0 0 10px; line-height: 1.5; }
 .ex-word { text-align: center; font-size: 30px; font-weight: 700; margin: 0 0 10px; }
@@ -736,7 +741,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-08-5";
+const APP_VERSION = "2026-10-10-1";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -752,6 +757,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-10", text: "중간고사 대비: 과 전체 또는 문장(10–14번)을 하나씩 골라 풀 수 있음" },
   { date: "2026-10-08", text: "문장 파싱: 단어마다 격·인칭에 맞는 뜻(해석)도 골라서 파싱" },
   { date: "2026-10-08", text: "문장 파싱: 동사 찾기 이후에는 원하는 단어를 골라 품사부터 직접 파싱, 모든 단어를 마치면 한꺼번에 채점 후 번역" },
   { date: "2026-10-08", text: "중간고사 대비 문장 파싱 추가: 7·8·9과 익힘 10–14번 15문장, 끝 부호→καί·쉼표→동사→동사 파싱→품사부터 단어 파싱→번역" },
@@ -4905,18 +4911,39 @@ function exRenderFinal() {
 
 // 메뉴
 const examChips = document.getElementById('examChips');
-examChips.innerHTML = EXAM_SETS.map(s => '<label class="week-chip on"><input type="checkbox" class="exam-set-cb" value="' + s.id + '" checked>'
-  + s.label + '</label>').join('');
-examChips.querySelectorAll('.exam-set-cb').forEach(cb => cb.addEventListener('change', () => cb.closest('.week-chip').classList.toggle('on', cb.checked)));
+// 과별로 한 줄: [과 전체] 칩 + 문장 번호 칩(10–14). 문장을 하나씩 골라 풀 수 있음
+examChips.innerHTML = EXAM_SETS.map(s => '<div class="ex-set-row"><label class="week-chip on ex-set-chip"><input type="checkbox" class="exam-set-cb" value="' + s.id + '" checked>'
+  + s.label.replace(' 익힘 10–14', '') + ' 전체</label>'
+  + s.items.map(it => '<label class="week-chip on ex-sent-chip"><input type="checkbox" class="exam-sent-cb" data-set="' + s.id + '" value="' + it.no + '" checked>'
+    + it.no + '<span class="ex-sent-gr">' + it.toks.filter(t => !t.punct).slice(0, 2).map(t => t.t).join(' ') + '…</span></label>').join('')
+  + '</div>').join('')
+  + '<div class="ex-sel-count" id="examSelCount"></div>';
+function exSyncChips() {
+  examChips.querySelectorAll('.exam-sent-cb').forEach(cb => cb.closest('.week-chip').classList.toggle('on', cb.checked));
+  EXAM_SETS.forEach(s => {
+    const cbs = [...examChips.querySelectorAll('.exam-sent-cb[data-set="' + s.id + '"]')], n = cbs.filter(c => c.checked).length;
+    const sc = examChips.querySelector('.exam-set-cb[value="' + s.id + '"]');
+    sc.checked = n === cbs.length; sc.indeterminate = n > 0 && n < cbs.length;
+    sc.closest('.week-chip').classList.toggle('on', n === cbs.length);
+    sc.closest('.week-chip').classList.toggle('part', n > 0 && n < cbs.length);
+  });
+  document.getElementById('examSelCount').textContent = '선택한 문장 ' + examChips.querySelectorAll('.exam-sent-cb:checked').length + '개';
+}
+examChips.addEventListener('change', e => {
+  if (e.target.classList.contains('exam-set-cb'))
+    examChips.querySelectorAll('.exam-sent-cb[data-set="' + e.target.value + '"]').forEach(c => { c.checked = e.target.checked; });
+  exSyncChips();
+});
+exSyncChips();
 function exBuildQueue() {
-  const sel = [...examChips.querySelectorAll('.exam-set-cb:checked')].map(c => c.value);
-  let q = EXAM_SETS.filter(s => sel.includes(s.id)).flatMap(s => s.items.map(item => ({ set: s, item })));
+  const sel = new Set([...examChips.querySelectorAll('.exam-sent-cb:checked')].map(c => c.dataset.set + '-' + c.value));
+  let q = EXAM_SETS.flatMap(s => s.items.filter(item => sel.has(s.id + '-' + item.no)).map(item => ({ set: s, item })));
   if (document.getElementById('examShuffle').checked) q = shuffle(q);
   return q;
 }
 document.getElementById('examMenuBtn').addEventListener('click', () => {
   const q = exBuildQueue();
-  if (!q.length) { examErr.textContent = '범위를 하나 이상 선택해주세요.'; examErr.style.display = 'block'; return; }
+  if (!q.length) { examErr.textContent = '문장을 하나 이상 선택해주세요.'; examErr.style.display = 'block'; return; }
   examErr.style.display = 'none';
   exStart(q);
 });
