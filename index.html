@@ -356,6 +356,22 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 .nt-memo { color: #999; font-size: 12px; }
 .nt-a.nt-hide { background: #e4ddd0; color: transparent; border-radius: 4px; cursor: pointer; user-select: none; }
 .nt-a.nt-hide * { color: transparent !important; background: transparent !important; }
+.nt-dl { display: block; text-align: center; text-decoration: none; margin-top: 8px; box-sizing: border-box; }
+@media print {
+  body.nt-print { background: #fff !important; }
+  body.nt-print .screen { display: none !important; }
+  body.nt-print #examScreen { display: block !important; max-width: none; padding: 0; }
+  body.nt-print #examScreen .header-row, body.nt-print .nt-noprint { display: none !important; }
+  body.nt-print .lesson-card { box-shadow: none; border: 1px solid #ddd; margin: 0 0 8px; padding: 10px 12px; }
+  body.nt-print .nt-sent { break-before: auto; }
+  body.nt-print .nt-head, body.nt-print .nt-gr, body.nt-print .nt-tr, body.nt-print .nt-steps { break-after: avoid; }
+  body.nt-print .nt-words { grid-template-columns: 1fr 1fr; gap: 6px; }
+  body.nt-print .nt-w { break-inside: avoid; padding: 6px 8px; }
+  body.nt-print .nt-a.nt-hide { background: none !important; color: inherit !important; }
+  body.nt-print .nt-a.nt-hide * { color: inherit !important; }
+  body.nt-print * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @page { size: A4; margin: 12mm; }
+}
 .ex-detail { background: #faf8f4; border-radius: 10px; padding: 10px 12px; margin-top: 6px; }
 .ex-q { font-size: 14px; font-weight: 600; margin: 0 0 10px; line-height: 1.5; }
 .ex-word { text-align: center; font-size: 30px; font-weight: 700; margin: 0 0 10px; }
@@ -756,7 +772,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-14-1";
+const APP_VERSION = "2026-10-14-2";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -772,6 +788,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-14", text: "정답 노트를 PDF로 저장 (인쇄 → PDF로 저장, 15문장 전체 PDF 바로 받기)" },
   { date: "2026-10-14", text: "중간고사 대비: 정답 노트 — 15문장의 끝 부호·절·동사, 단어별 품사·문법·기본형·뜻, 전체 번역 (가리고 외우기)" },
   { date: "2026-10-10", text: "중간고사 대비: 과 전체 또는 문장(10–14번)을 하나씩 골라 풀 수 있음" },
   { date: "2026-10-08", text: "문장 파싱: 단어마다 격·인칭에 맞는 뜻(해석)도 골라서 파싱" },
@@ -4716,7 +4733,10 @@ function exRenderNote(queue) {
   const H = s => '<span class="nt-a' + (exNoteHide ? ' nt-hide' : '') + '">' + s + '</span>';
   let html = '<div class="lesson-card"><div class="lesson-card-title">📒 중간고사 정답 노트</div>'
     + '<p class="ex-note">문장마다 ① 끝 부호 ② 절 나누기 ③ 동사 → 단어 파싱 → 전체 번역 순서로 정리했어요.</p>'
-    + '<label class="check-row" style="font-size:14px;margin-top:8px"><input type="checkbox" id="ntHide"' + (exNoteHide ? ' checked' : '') + '> 정답 가리고 외우기 (가린 칸을 누르면 보여요)</label></div>';
+    + '<div class="nt-noprint"><label class="check-row" style="font-size:14px;margin-top:8px"><input type="checkbox" id="ntHide"' + (exNoteHide ? ' checked' : '') + '> 정답 가리고 외우기 (가린 칸을 누르면 보여요)</label>'
+    + '<button class="lesson-btn primary" id="ntPrint" style="margin-top:10px">🖨️ PDF로 저장 (지금 보이는 문장)</button>'
+    + '<a class="lesson-btn nt-dl" href="midterm-answer-note.pdf" download="중간고사_정답노트.pdf">📄 15문장 전체 PDF 바로 받기</a>'
+    + '<p class="ex-note" style="margin-top:6px">PDF로 저장: 인쇄 창이 뜨면 프린터를 <b>"PDF로 저장"</b>으로 고르세요. 가린 칸도 PDF에는 정답이 모두 보여요.</p></div></div>';
   queue.forEach(({ set, item }) => {
     const toks = item.toks, last = toks[toks.length - 1].t;
     const splits = toks.filter(t => t.split).map(t => t.t), verbs = toks.filter(t => t.pos === '동사').map(t => t.t);
@@ -4733,7 +4753,7 @@ function exRenderNote(queue) {
         + '<div class="nt-row"><span class="nt-lbl">문장 속 뜻</span>' + H('<b>' + exSentKo(t) + '</b>') + '</div>'
         + (t.note ? '<div class="nt-row nt-memo">' + H(t.note) + '</div>' : '') + '</div>').join('') + '</div></div>';
   });
-  html += '<button class="lesson-btn primary" id="ntToQuiz" style="margin-top:12px">이 문장들 파싱 퀴즈로 풀기 →</button>';
+  html += '<button class="lesson-btn primary nt-noprint" id="ntToQuiz" style="margin-top:12px">이 문장들 파싱 퀴즈로 풀기 →</button>';
   examContent.innerHTML = html;
   ex = { noteQueue: queue };
 }
@@ -5031,6 +5051,12 @@ examContent.addEventListener('click', e => {
     if (e.target.id === 'ntHide') { exNoteHide = e.target.checked; examContent.querySelectorAll('.nt-a').forEach(a => a.classList.toggle('nt-hide', exNoteHide)); return; }
     const a = e.target.closest('.nt-a.nt-hide'); if (a) { a.classList.remove('nt-hide'); return; }
     if (e.target.id === 'ntToQuiz') { const q = ex.noteQueue; exStart(q); }
+    if (e.target.id === 'ntPrint') {
+      document.body.classList.add('nt-print');
+      const t = document.title; document.title = '중간고사 정답노트';
+      window.addEventListener('afterprint', () => { document.body.classList.remove('nt-print'); document.title = t; }, { once: true });
+      window.print();
+    }
     return;
   }
   const tok = e.target.closest('[data-ex-tok]');
