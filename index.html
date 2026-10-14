@@ -342,6 +342,20 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 .ex-set-chip.part { background: #f3f7fe; color: #2e6ed6; }
 .ex-sent-gr { font-size: 11px; color: #999; font-weight: 400; margin-left: 4px; }
 .ex-sel-count { font-size: 12px; color: #888; margin-top: 2px; }
+.nt-head { font-size: 13px; font-weight: 700; color: #b5651d; }
+.nt-gr { font-size: 20px; line-height: 1.6; margin: 6px 0 4px; }
+.nt-tr { font-size: 15px; font-weight: 600; color: #2c4a7a; margin-bottom: 8px; }
+.nt-steps { font-size: 13px; color: #555; background: #faf8f4; border-radius: 8px; padding: 8px 10px; line-height: 1.7; }
+.nt-words { margin-top: 10px; display: grid; gap: 8px; }
+.nt-w { border: 1px solid #eee; border-radius: 10px; padding: 8px 10px; }
+.nt-w-top { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.nt-w-gr { font-size: 20px; }
+.nt-pos { font-size: 12px; background: #eaf1fd; color: #2e6ed6; border-radius: 6px; padding: 2px 7px; font-weight: 600; }
+.nt-row { font-size: 13px; line-height: 1.6; }
+.nt-lbl { display: inline-block; width: 64px; color: #999; font-size: 12px; }
+.nt-memo { color: #999; font-size: 12px; }
+.nt-a.nt-hide { background: #e4ddd0; color: transparent; border-radius: 4px; cursor: pointer; user-select: none; }
+.nt-a.nt-hide * { color: transparent !important; background: transparent !important; }
 .ex-detail { background: #faf8f4; border-radius: 10px; padding: 10px 12px; margin-top: 6px; }
 .ex-q { font-size: 14px; font-weight: 600; margin: 0 0 10px; line-height: 1.5; }
 .ex-word { text-align: center; font-size: 30px; font-weight: 700; margin: 0 0 10px; }
@@ -581,6 +595,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
     <label class="check-row" style="margin-top:10px;font-size:13px;font-weight:400"><input type="checkbox" id="examShuffle"> 문장 순서 섞기</label>
     <div id="examErr" class="menu-err"></div>
     <button id="examMenuBtn" class="grammar-btn" style="background:#b5651d;margin-top:12px">문장 파싱 시작</button>
+    <button id="examNoteBtn" class="grammar-btn" style="background:#fff;color:#b5651d;border:2px solid #b5651d;margin-top:8px">📒 정답 노트 보기 (선택한 문장)</button>
   </div>
 
   <!-- 성·수·격 퀴즈 (관사 / 형용사 어미) -->
@@ -741,7 +756,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-10-1";
+const APP_VERSION = "2026-10-14-1";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -757,6 +772,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-14", text: "중간고사 대비: 정답 노트 — 15문장의 끝 부호·절·동사, 단어별 품사·문법·기본형·뜻, 전체 번역 (가리고 외우기)" },
   { date: "2026-10-10", text: "중간고사 대비: 과 전체 또는 문장(10–14번)을 하나씩 골라 풀 수 있음" },
   { date: "2026-10-08", text: "문장 파싱: 단어마다 격·인칭에 맞는 뜻(해석)도 골라서 파싱" },
   { date: "2026-10-08", text: "문장 파싱: 동사 찾기 이후에는 원하는 단어를 골라 품사부터 직접 파싱, 모든 단어를 마치면 한꺼번에 채점 후 번역" },
@@ -4671,6 +4687,57 @@ function exMyText(i) {
   return p.pos + (exFieldsFor(p.pos, t, i).length ? ' ' + exFieldsFor(p.pos, t, i).map(f => p.vals[f.key]).join(' ') : '');
 }
 
+// ── 정답 노트: 문장마다 끝 부호·절·동사, 단어별 품사·문법·기본형·사전 뜻·문장 속 뜻, 전체 번역 ──
+const EX_DICT_OVR = { 'ὁ':'그 (관사)', 'αὐτός':'그·그녀·그것 / 자신 / 같은', 'οὗτος':'이, 이것, 이 사람', 'ἐκεῖνος':'저, 저것, 저 사람',
+  'ἐγώ':'나', 'σύ':'너', 'δέ':'그러나, 그리고', 'θεός':'하나님, 신', 'εἰμί':'~이다, 있다' };
+function exDictKo(lemma) {
+  if (EX_DICT_OVR[lemma]) return EX_DICT_OVR[lemma];
+  const w = words.find(x => x.gr === lemma);
+  return w ? w.ko : '';
+}
+function exGram(t) {
+  if (t.pos === '동사') return [t.tense, t.voice, t.mood, t.person + '인칭', t.number].filter(Boolean).join(' ');
+  if (t.pos === '전치사') return '+' + t.gov;
+  if (t.pos === '대명사' && t.person) return t.person + '인칭 ' + t.n + ' ' + t.c;
+  if (t.g) return t.g + ' ' + t.n + ' ' + t.c;
+  return '';
+}
+function exSentKo(t) {
+  if (t.ko) return t.ko;
+  if (t.pos === '관사') return '(따로 옮기지 않음)';
+  return exDictKo(t.lemma);
+}
+let exNoteHide = false;
+function exRenderNote(queue) {
+  ex = null;
+  menuScreen.style.display = 'none';
+  examScreen.style.display = 'block';
+  window.scrollTo(0, 0);
+  const H = s => '<span class="nt-a' + (exNoteHide ? ' nt-hide' : '') + '">' + s + '</span>';
+  let html = '<div class="lesson-card"><div class="lesson-card-title">📒 중간고사 정답 노트</div>'
+    + '<p class="ex-note">문장마다 ① 끝 부호 ② 절 나누기 ③ 동사 → 단어 파싱 → 전체 번역 순서로 정리했어요.</p>'
+    + '<label class="check-row" style="font-size:14px;margin-top:8px"><input type="checkbox" id="ntHide"' + (exNoteHide ? ' checked' : '') + '> 정답 가리고 외우기 (가린 칸을 누르면 보여요)</label></div>';
+  queue.forEach(({ set, item }) => {
+    const toks = item.toks, last = toks[toks.length - 1].t;
+    const splits = toks.filter(t => t.split).map(t => t.t), verbs = toks.filter(t => t.pos === '동사').map(t => t.t);
+    html += '<div class="lesson-card nt-sent"><div class="nt-head">' + set.label.replace(' 익힘 10–14', '') + ' ' + item.no + '번</div>'
+      + '<div class="nt-gr">' + toks.map(t => (t.punct ? '' : ' ') + t.t).join('').trim() + '</div>'
+      + '<div class="nt-tr">' + H(item.ko) + '</div>'
+      + '<div class="nt-steps"><div><b>① 끝 부호</b> ' + last + ' → ' + (last === ';' ? '의문문' : '평서문') + '</div>'
+      + '<div><b>② 절 나누기</b> ' + H(splits.length ? splits.join(', ') + ' → 절 ' + (splits.length + 1) + '개' : '없음 → 절 1개') + '</div>'
+      + '<div><b>③ 동사</b> ' + H(verbs.join(', ')) + '</div></div>'
+      + '<div class="nt-words">' + toks.filter(t => !t.punct).map(t =>
+        '<div class="nt-w"><div class="nt-w-top"><span class="nt-w-gr">' + t.t + '</span>' + H('<span class="nt-pos">' + t.pos + '</span>') + '</div>'
+        + (exGram(t) ? '<div class="nt-row"><span class="nt-lbl">문법</span>' + H(exGram(t)) + '</div>' : '')
+        + '<div class="nt-row"><span class="nt-lbl">기본형</span>' + H(t.lemma + (exDictKo(t.lemma) ? ' — ' + exDictKo(t.lemma) : '')) + '</div>'
+        + '<div class="nt-row"><span class="nt-lbl">문장 속 뜻</span>' + H('<b>' + exSentKo(t) + '</b>') + '</div>'
+        + (t.note ? '<div class="nt-row nt-memo">' + H(t.note) + '</div>' : '') + '</div>').join('') + '</div></div>';
+  });
+  html += '<button class="lesson-btn primary" id="ntToQuiz" style="margin-top:12px">이 문장들 파싱 퀴즈로 풀기 →</button>';
+  examContent.innerHTML = html;
+  ex = { noteQueue: queue };
+}
+
 function exStart(queue) {
   ex = { queue, si: 0, results: [] };
   menuScreen.style.display = 'none';
@@ -4947,12 +5014,25 @@ document.getElementById('examMenuBtn').addEventListener('click', () => {
   examErr.style.display = 'none';
   exStart(q);
 });
+document.getElementById('examNoteBtn').addEventListener('click', () => {
+  const sh = document.getElementById('examShuffle'), was = sh.checked;
+  sh.checked = false; const q = exBuildQueue(); sh.checked = was;   // 노트는 교재 순서대로
+  if (!q.length) { examErr.textContent = '문장을 하나 이상 선택해주세요.'; examErr.style.display = 'block'; return; }
+  examErr.style.display = 'none';
+  exRenderNote(q);
+});
 document.getElementById('examBackBtn').addEventListener('click', () => {
   examScreen.style.display = 'none';
   menuScreen.style.display = 'block';
   window.scrollTo(0, 0);
 });
 examContent.addEventListener('click', e => {
+  if (ex && ex.noteQueue) {          // 정답 노트 화면
+    if (e.target.id === 'ntHide') { exNoteHide = e.target.checked; examContent.querySelectorAll('.nt-a').forEach(a => a.classList.toggle('nt-hide', exNoteHide)); return; }
+    const a = e.target.closest('.nt-a.nt-hide'); if (a) { a.classList.remove('nt-hide'); return; }
+    if (e.target.id === 'ntToQuiz') { const q = ex.noteQueue; exStart(q); }
+    return;
+  }
   const tok = e.target.closest('[data-ex-tok]');
   if (tok) {
     const i = parseInt(tok.dataset.exTok);
