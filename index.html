@@ -353,6 +353,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 .nt-pos { font-size: 12px; background: #eaf1fd; color: #2e6ed6; border-radius: 6px; padding: 2px 7px; font-weight: 600; }
 .nt-row { font-size: 13px; line-height: 1.6; }
 .nt-lbl { display: inline-block; width: 64px; color: #999; font-size: 12px; }
+.nt-alt { color: #b5651d; }
 .nt-memo { color: #999; font-size: 12px; }
 .nt-a.nt-hide { background: #e4ddd0; color: transparent; border-radius: 4px; cursor: pointer; user-select: none; }
 .nt-a.nt-hide * { color: transparent !important; background: transparent !important; }
@@ -772,7 +773,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-14-2";
+const APP_VERSION = "2026-10-15-1";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -788,6 +789,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-15", text: "정답 노트·파싱 퀴즈: 형태가 같은 파싱(예: τῶν 남·여·중 복수 속격, τὰ 중성 복수 주격/대격)을 모두 표시하고 정답으로 인정" },
   { date: "2026-10-14", text: "정답 노트를 PDF로 저장 (인쇄 → PDF로 저장, 15문장 전체 PDF 바로 받기)" },
   { date: "2026-10-14", text: "중간고사 대비: 정답 노트 — 15문장의 끝 부호·절·동사, 단어별 품사·문법·기본형·뜻, 전체 번역 (가리고 외우기)" },
   { date: "2026-10-10", text: "중간고사 대비: 과 전체 또는 문장(10–14번)을 하나씩 골라 풀 수 있음" },
@@ -4688,7 +4690,7 @@ function exCorrectVals0(t) {
   return {};
 }
 function exParseText(t) {
-  return exParseText0(t) + (t.ko ? ' · "' + t.ko + '"' : '');
+  return exParseText0(t) + (t.ko ? ' · "' + t.ko + '"' : '') + (exAltText(t) ? ' (같은 형태: ' + exAltText(t) + ')' : '');
 }
 function exParseText0(t) {
   if (t.pos === '동사') return [t.tense, t.voice, t.mood, t.person + '인칭', t.number].filter(Boolean).join(' ') + ' · ' + t.lemma;
@@ -4711,6 +4713,24 @@ function exDictKo(lemma) {
   if (EX_DICT_OVR[lemma]) return EX_DICT_OVR[lemma];
   const w = words.find(x => x.gr === lemma);
   return w ? w.ko : '';
+}
+// 형태가 같은 다른 파싱(성·수·격)까지 모두: 
+//  · 중성은 주격 = 대격
+//  · 3성 변화(관사·형용사·αὐτός·οὗτος·ἐκεῖνος)는 속격·여격에서 남성 = 중성, 복수 속격은 세 성 모두 같음
+function exAlts(t) {
+  if (!t.c || t.person) return t.c ? [{ g: t.g, n: t.n, c: t.c }] : [];
+  const three = t.pos === '관사' || t.pos === '형용사' || t.pos === '대명사';
+  let gs = [t.g];
+  if (three && t.c === '속격' && t.n === '복수') gs = ['남성', '여성', '중성'];
+  else if (three && (t.c === '속격' || t.c === '여격') && t.g !== '여성') gs = ['남성', '중성'];
+  const cs = t.g === '중성' && (t.c === '주격' || t.c === '대격') ? ['주격', '대격'] : [t.c];
+  const out = [];
+  gs.forEach(g => cs.forEach(c => out.push({ g, n: t.n, c })));
+  return out;
+}
+function exAltText(t) {
+  const a = exAlts(t);
+  return a.length > 1 ? a.map(x => x.g + ' ' + x.n + ' ' + x.c).join(' / ') : '';
 }
 function exGram(t) {
   if (t.pos === '동사') return [t.tense, t.voice, t.mood, t.person + '인칭', t.number].filter(Boolean).join(' ');
@@ -4748,7 +4768,8 @@ function exRenderNote(queue) {
       + '<div><b>③ 동사</b> ' + H(verbs.join(', ')) + '</div></div>'
       + '<div class="nt-words">' + toks.filter(t => !t.punct).map(t =>
         '<div class="nt-w"><div class="nt-w-top"><span class="nt-w-gr">' + t.t + '</span>' + H('<span class="nt-pos">' + t.pos + '</span>') + '</div>'
-        + (exGram(t) ? '<div class="nt-row"><span class="nt-lbl">문법</span>' + H(exGram(t)) + '</div>' : '')
+        + (exGram(t) ? '<div class="nt-row"><span class="nt-lbl">' + (exAltText(t) ? '이 문장' : '문법') + '</span>' + H(exGram(t)) + '</div>' : '')
+        + (exAltText(t) ? '<div class="nt-row nt-alt"><span class="nt-lbl">같은 형태</span>' + H(exAltText(t)) + '</div>' : '')
         + '<div class="nt-row"><span class="nt-lbl">기본형</span>' + H(t.lemma + (exDictKo(t.lemma) ? ' — ' + exDictKo(t.lemma) : '')) + '</div>'
         + '<div class="nt-row"><span class="nt-lbl">문장 속 뜻</span>' + H('<b>' + exSentKo(t) + '</b>') + '</div>'
         + (t.note ? '<div class="nt-row nt-memo">' + H(t.note) + '</div>' : '') + '</div>').join('') + '</div></div>';
@@ -4892,6 +4913,9 @@ function exCheckAll() {
     const wrongs = [];
     exRecord(t.t, '품사', p.pos, t.pos);
     if (p.pos !== t.pos) wrongs.push('품사');
+    if (p.pos === t.pos && exAlts(t).some(a => a.g === p.vals.g && a.n === p.vals.n && a.c === p.vals.c)) {
+      cv.g = p.vals.g; cv.n = p.vals.n; cv.c = p.vals.c;   // 형태가 같은 다른 파싱도 맞음
+    }
     Object.keys(cv).forEach(k => {
       const mine = p.pos === t.pos ? p.vals[k] : '—';
       exRecord(t.t, labels[k], mine, cv[k]);
