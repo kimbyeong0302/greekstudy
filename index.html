@@ -607,7 +607,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   <!-- 중간고사 대비: 문장 파싱 -->
   <div class="menu-card" style="margin-top:18px;border:2px solid #f0c674">
     <div class="menu-card-title" style="color:#b5651d">중간고사 대비 · 문장 파싱</div>
-    <p style="font-size:13px;color:#888;margin:0 0 4px;line-height:1.5">익힘 문제 10–14번: 끝 부호 → 절 나누기 → 동사 찾기 순서로 확인한 뒤, 단어를 골라 품사부터 직접 파싱하고 모두 끝나면 채점 → 전체 번역</p>
+    <p style="font-size:13px;color:#888;margin:0 0 4px;line-height:1.5">시험 범위 10문장 (7과 12–14 · 8과 10, 12–14 · 9과 10, 12, 13): 끝 부호 → 절 나누기 → 동사 찾기 순서로 확인한 뒤, 단어를 골라 품사부터 직접 파싱하고 모두 끝나면 채점 → 전체 번역</p>
     <div id="examChips" class="week-chips" style="margin-left:0"></div>
     <label class="check-row" style="margin-top:10px;font-size:13px;font-weight:400"><input type="checkbox" id="examShuffle"> 문장 순서 섞기</label>
     <div id="examErr" class="menu-err"></div>
@@ -773,7 +773,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-15-1";
+const APP_VERSION = "2026-10-15-2";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -789,6 +789,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-15", text: "중간고사 범위를 10문장으로: 7과 12–14, 8과 10·12–14, 9과 10·12·13 (7과 10·11, 8과 11, 9과 11·14 제외)" },
   { date: "2026-10-15", text: "정답 노트·파싱 퀴즈: 형태가 같은 파싱(예: τῶν 남·여·중 복수 속격, τὰ 중성 복수 주격/대격)을 모두 표시하고 정답으로 인정" },
   { date: "2026-10-14", text: "정답 노트를 PDF로 저장 (인쇄 → PDF로 저장, 15문장 전체 PDF 바로 받기)" },
   { date: "2026-10-14", text: "중간고사 대비: 정답 노트 — 15문장의 끝 부호·절·동사, 단어별 품사·문법·기본형·뜻, 전체 번역 (가리고 외우기)" },
@@ -4457,21 +4458,7 @@ const EX_PP = (t, lemma, person, n, c, note) => ({ t, pos:'대명사', lemma, pe
 const EX_X  = (t, split) => ({ t, punct:true, split });
 
 const EXAM_SETS = [
-  { id:'l7', label:'7과 익힘 10–14', items:[
-    { no:10, ko:'종들이 광야의 길들을 통하여 선물들을 다른 장소로 가져간다.', toks:[
-      EX_P('διὰ','διά','속격','+속격이면 "통하여"'), EX_R('τῶν','여성','복수','속격'), EX_N('ὁδῶν','ὁδός','여성','복수','속격','ὁδός는 -ος로 끝나지만 여성 명사'),
-      EX_R('τῆς','여성','단수','속격'), EX_N('ἐρήμου','ἔρημος','여성','단수','속격','ἔρημος도 여성 명사'),
-      EX_V('φέρουσιν','φέρω','현재','능동','직설법',3,'복수','-ουσι(ν): 3인칭 복수, 모음 앞·문장 끝에서 ν'),
-      EX_R('οἱ','남성','복수','주격'), EX_N('δοῦλοι','δοῦλος','남성','복수','주격','주어'),
-      EX_R('τὰ','중성','복수','대격'), EX_N('δῶρα','δῶρον','중성','복수','대격','목적어 (중성은 주격=대격, 문맥상 대격)'),
-      EX_P('εἰς','εἰς','대격'), EX_A('ἄλλον','ἄλλος','남성','단수','대격','τόπον을 꾸밈'), EX_N('τόπον','τόπος','남성','단수','대격'),
-      EX_X('.') ]},
-    { no:11, ko:'우리는 예언자들의 글(성경)들을 통하여 주를 안다.', toks:[
-      EX_P('διὰ','διά','속격','+속격이면 "통하여"'), EX_R('τῶν','여성','복수','속격'), EX_N('γραφῶν','γραφή','여성','복수','속격'),
-      EX_R('τῶν','남성','복수','속격'), EX_N('προφητῶν','προφήτης','남성','복수','속격','제1변화 남성 명사'),
-      EX_V('γινώσκομεν','γινώσκω','현재','능동','직설법',1,'복수','-ομεν: 1인칭 복수 → 주어 "우리"가 동사 안에'),
-      EX_R('τὸν','남성','단수','대격'), EX_N('κύριον','κύριος','남성','단수','대격','목적어'),
-      EX_X('.') ]},
+  { id:'l7', label:'7과 익힘', items:[
     { no:12, ko:'하나님의 영광 때문에 주께서 죽은 자들을 일으키신다.', toks:[
       EX_P('διὰ','διά','대격','+대격이면 "때문에"'), EX_R('τὴν','여성','단수','대격'), EX_N('δόξαν','δόξα','여성','단수','대격'),
       EX_R('τοῦ','남성','단수','속격'), EX_N('θεοῦ','θεός','남성','단수','속격'),
@@ -4491,7 +4478,7 @@ const EXAM_SETS = [
       EX_P('ἐν','ἐν','여격'), EX_R('τῇ','여성','단수','여격'), EX_N('ἐκκλησίᾳ','ἐκκλησία','여성','단수','여격'),
       EX_X('.') ]}
   ]},
-  { id:'l8', label:'8과 익힘 10–14', items:[
+  { id:'l8', label:'8과 익힘', items:[
     { no:10, ko:'그 사도는 신실하지만, 그의 종들은 악하다.', toks:[
       EX_R('ὁ','남성','단수','주격'), EX_N('ἀπόστολος','ἀπόστολος','남성','단수','주격','주어'),
       EX_A('πιστός','πιστός','남성','단수','주격','관사 없이 따로 → 서술적 용법'),
@@ -4499,14 +4486,6 @@ const EXAM_SETS = [
       EX_X(',', true), EX_R('οἱ','남성','복수','주격'), EX_C('δὲ','δέ',true,'두 번째 자리에 오는 접속사 "그러나, 그리고"'),
       EX_N('δοῦλοι','δοῦλος','남성','복수','주격'), EX_PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"'),
       EX_A('κακοί','κακός','남성','복수','주격','서술적 용법, 뒤 절에서는 εἰσίν이 생략됨'),
-      EX_X('.') ]},
-    { no:11, ko:'그 교회는 신실하고, 우리는 그것(교회)을 본다.', toks:[
-      EX_R('ἡ','여성','단수','주격'), EX_N('ἐκκλησία','ἐκκλησία','여성','단수','주격'),
-      EX_A('πιστή','πιστός','여성','단수','주격','서술적 용법'),
-      EX_V('ἐστιν','εἰμί','현재',null,'직설법',3,'단수'),
-      EX_X(',', true), EX_PP('ἡμεῖς','ἐγώ',1,'복수','주격','동사에 이미 주어가 있지만 강조하려고 씀'),
-      EX_C('δὲ','δέ',true), EX_V('βλέπομεν','βλέπω','현재','능동','직설법',1,'복수'),
-      EX_PR('αὐτήν','αὐτός','여성','단수','대격','여성 ἐκκλησία를 가리킴'),
       EX_X('.') ]},
     { no:12, ko:'우리는 너를 보고 너에게 비유를 말한다.', toks:[
       EX_V('βλέπομέν','βλέπω','현재','능동','직설법',1,'복수','뒤의 전접어 σε 때문에 악센트가 하나 더 붙음'),
@@ -4527,7 +4506,7 @@ const EXAM_SETS = [
       EX_V('διδάσκομεν','διδάσκω','현재','능동','직설법',1,'복수'), EX_PR('αὐτούς','αὐτός','남성','복수','대격','"그들을"'),
       EX_X('.') ]}
   ]},
-  { id:'l9', label:'9과 익힘 10–14', items:[
+  { id:'l9', label:'9과 익힘', items:[
     { no:10, ko:'너 자신이 저 사람에게 세례를 주고, (너는) 그의 형제이다.', toks:[
       EX_PR('αὐτὸς','αὐτός','남성','단수','주격','주격 αὐτός가 동사와 함께 → 강조 "너 자신이"'),
       EX_V('βαπτίζεις','βαπτίζω','현재','능동','직설법',2,'단수'),
@@ -4536,15 +4515,6 @@ const EXAM_SETS = [
       EX_V('εἶ','εἰμί','현재',null,'직설법',2,'단수'),
       EX_N('ἀδελφὸς','ἀδελφός','남성','단수','주격','εἰμί의 보어 → 주격'),
       EX_PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"'),
-      EX_X('.') ]},
-    { no:11, ko:'우리는 우리의 이 선한 선생들을 같은 교회로 인도한다.', toks:[
-      EX_P('εἰς','εἰς','대격'), EX_R('τὴν','여성','단수','대격'),
-      EX_PR('αὐτὴν','αὐτός','여성','단수','대격','관사 바로 뒤(한정적 위치) → "같은"'),
-      EX_N('ἐκκλησίαν','ἐκκλησία','여성','단수','대격'),
-      EX_V('ἄγομεν','ἄγω','현재','능동','직설법',1,'복수'),
-      EX_PR('τούτους','οὗτος','남성','복수','대격','지시대명사 "이"'), EX_R('τοὺς','남성','복수','대격'),
-      EX_N('διδασκάλους','διδάσκαλος','남성','복수','대격','목적어'), EX_PP('ἡμῶν','ἐγώ',1,'복수','속격','"우리의"'),
-      EX_R('τοὺς','남성','복수','대격'), EX_A('ἀγαθούς','ἀγαθός','남성','복수','대격','관사를 다시 붙인 한정적 용법'),
       EX_X('.') ]},
     { no:12, ko:'나 자신이 나의 주의 이 약속을 가지고 있다.', toks:[
       EX_PR('αὐτὸς','αὐτός','남성','단수','주격','강조 "나 자신이"'), EX_PP('ἐγὼ','ἐγώ',1,'단수','주격'),
@@ -4559,12 +4529,6 @@ const EXAM_SETS = [
       EX_R('τὸ','중성','단수','대격'), EX_N('πρόσωπον','πρόσωπον','중성','단수','대격','목적어'),
       EX_R('τοῦ','남성','단수','속격'), EX_N('κυρίου','κύριος','남성','단수','속격'),
       EX_PR('αὐτῆς','αὐτός','여성','단수','속격','"그녀의"'),
-      EX_X('.') ]},
-    { no:14, ko:'그녀는 진리 자체를 안다.', toks:[
-      EX_PR('αὐτὴ','αὐτός','여성','단수','주격','부드러운 숨표 αὐτή = "그녀가"'),
-      EX_V('γινώσκει','γινώσκω','현재','능동','직설법',3,'단수'),
-      EX_PR('αὐτὴν','αὐτός','여성','단수','대격','관사 앞(서술적 위치) → 강조 "진리 자체를"'),
-      EX_R('τὴν','여성','단수','대격'), EX_N('ἀλήθειαν','ἀλήθεια','여성','단수','대격'),
       EX_X('.') ]}
   ]}
 ];
@@ -4755,12 +4719,12 @@ function exRenderNote(queue) {
     + '<p class="ex-note">문장마다 ① 끝 부호 ② 절 나누기 ③ 동사 → 단어 파싱 → 전체 번역 순서로 정리했어요.</p>'
     + '<div class="nt-noprint"><label class="check-row" style="font-size:14px;margin-top:8px"><input type="checkbox" id="ntHide"' + (exNoteHide ? ' checked' : '') + '> 정답 가리고 외우기 (가린 칸을 누르면 보여요)</label>'
     + '<button class="lesson-btn primary" id="ntPrint" style="margin-top:10px">🖨️ PDF로 저장 (지금 보이는 문장)</button>'
-    + '<a class="lesson-btn nt-dl" href="midterm-answer-note.pdf" download="중간고사_정답노트.pdf">📄 15문장 전체 PDF 바로 받기</a>'
+    + '<a class="lesson-btn nt-dl" href="midterm-answer-note.pdf" download="중간고사_정답노트.pdf">📄 10문장 전체 PDF 바로 받기</a>'
     + '<p class="ex-note" style="margin-top:6px">PDF로 저장: 인쇄 창이 뜨면 프린터를 <b>"PDF로 저장"</b>으로 고르세요. 가린 칸도 PDF에는 정답이 모두 보여요.</p></div></div>';
   queue.forEach(({ set, item }) => {
     const toks = item.toks, last = toks[toks.length - 1].t;
     const splits = toks.filter(t => t.split).map(t => t.t), verbs = toks.filter(t => t.pos === '동사').map(t => t.t);
-    html += '<div class="lesson-card nt-sent"><div class="nt-head">' + set.label.replace(' 익힘 10–14', '') + ' ' + item.no + '번</div>'
+    html += '<div class="lesson-card nt-sent"><div class="nt-head">' + set.label.replace(' 익힘', '') + ' ' + item.no + '번</div>'
       + '<div class="nt-gr">' + toks.map(t => (t.punct ? '' : ' ') + t.t).join('').trim() + '</div>'
       + '<div class="nt-tr">' + H(item.ko) + '</div>'
       + '<div class="nt-steps"><div><b>① 끝 부호</b> ' + last + ' → ' + (last === ';' ? '의문문' : '평서문') + '</div>'
@@ -4816,7 +4780,7 @@ function exSentenceHtml() {
 }
 function exHeader() {
   const s = ex.queue[ex.si];
-  return '<div class="pq-progress"><span>' + s.set.label.replace(' 10–14', '') + ' ' + s.item.no + '번 · 문장 ' + (ex.si + 1) + ' / ' + ex.queue.length + '</span>'
+  return '<div class="pq-progress"><span>' + s.set.label + ' ' + s.item.no + '번 · 문장 ' + (ex.si + 1) + ' / ' + ex.queue.length + '</span>'
     + '<span>이 문장 ' + ex.cur.right + ' / ' + ex.cur.total + '</span></div>'
     + '<div class="ex-steps">' + EX_STAGES.map((n, i) => '<span class="' + (i + 1 < ex.stage ? 'done' : i + 1 === ex.stage ? 'on' : '') + '">' + (i + 1) + ' ' + n + '</span>').join('') + '</div>';
 }
@@ -4988,7 +4952,7 @@ function exRenderSummary() {
   const it = exItem(), c = ex.cur;
   let html = exHeader()
     + '<div class="lesson-card">' + exSentenceHtml() + '<div class="ex-model" style="margin-top:10px">' + it.ko + '</div></div>'
-    + '<div class="lesson-done-card"><div class="lesson-done-title">' + ex.queue[ex.si].set.label.replace(' 10–14', '') + ' ' + it.no + '번 완료</div>'
+    + '<div class="lesson-done-card"><div class="lesson-done-title">' + ex.queue[ex.si].set.label + ' ' + it.no + '번 완료</div>'
     + '<p style="font-size:26px;font-weight:700;color:#2e6ed6;margin:8px 0 0">' + c.right + ' / ' + c.total + '</p></div>';
   if (c.wrongs.length) html += exWrongList(c.wrongs);
   html += '<div class="lesson-card"><div class="lesson-card-title">전체 파싱 (정답)</div>' + exFullParse(it) + '</div>';
@@ -5012,7 +4976,7 @@ function exRenderFinal() {
     + '<p style="font-size:30px;font-weight:700;color:#2e6ed6;margin:10px 0 4px">' + tot.right + ' / ' + tot.total + '</p>'
     + '<p style="font-size:14px;color:#888;margin:0">정답률 ' + Math.round(tot.right / Math.max(tot.total, 1) * 100) + '%</p></div>'
     + '<div class="lesson-card" style="margin-top:12px"><div class="lesson-card-title">문장별 결과</div><table class="prep-table">'
-    + ex.queue.map((q, i) => '<tr><td>' + q.set.label.replace(' 익힘 10–14', '') + ' ' + q.item.no + '번</td><td>' + ex.results[i].right + ' / ' + ex.results[i].total + '</td><td>'
+    + ex.queue.map((q, i) => '<tr><td>' + q.set.label.replace(' 익힘', '') + ' ' + q.item.no + '번</td><td>' + ex.results[i].right + ' / ' + ex.results[i].total + '</td><td>'
       + (ex.results[i].wrongs.length ? '틀림 ' + ex.results[i].wrongs.length : '✓') + '</td></tr>').join('') + '</table></div>';
   const wrongIdx = ex.results.map((r, i) => r.wrongs.length ? i : -1).filter(i => i >= 0);
   if (wrongIdx.length) html += '<button class="lesson-btn primary" id="exRetryWrong" style="margin-top:12px">틀린 문장만 다시 (' + wrongIdx.length + ')</button>';
@@ -5022,9 +4986,9 @@ function exRenderFinal() {
 
 // 메뉴
 const examChips = document.getElementById('examChips');
-// 과별로 한 줄: [과 전체] 칩 + 문장 번호 칩(10–14). 문장을 하나씩 골라 풀 수 있음
+// 과별로 한 줄: [과 전체] 칩 + 문장 번호 칩. 문장을 하나씩 골라 풀 수 있음
 examChips.innerHTML = EXAM_SETS.map(s => '<div class="ex-set-row"><label class="week-chip on ex-set-chip"><input type="checkbox" class="exam-set-cb" value="' + s.id + '" checked>'
-  + s.label.replace(' 익힘 10–14', '') + ' 전체</label>'
+  + s.label.replace(' 익힘', '') + ' 전체</label>'
   + s.items.map(it => '<label class="week-chip on ex-sent-chip"><input type="checkbox" class="exam-sent-cb" data-set="' + s.id + '" value="' + it.no + '" checked>'
     + it.no + '<span class="ex-sent-gr">' + it.toks.filter(t => !t.punct).slice(0, 2).map(t => t.t).join(' ') + '…</span></label>').join('')
   + '</div>').join('')
