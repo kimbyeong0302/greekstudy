@@ -373,6 +373,19 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   body.nt-print * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   @page { size: A4; margin: 12mm; }
 }
+.vv-table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 8px; }
+.vv-table th { font-size: 11px; color: #999; font-weight: 600; padding: 4px; text-align: left; }
+.vv-table td { padding: 5px 4px; border-bottom: 1px solid #f0ede6; }
+.vv-table td.vv-hi { background: #fff3c4; font-weight: 700; border-radius: 4px; }
+.vv-table td.vv-na { color: #ccc; }
+.vv-big td { font-size: 16px; }
+.vv-end { color: #d6336c; font-weight: 700; }
+.vv-aug { color: #2e9e4f; font-weight: 700; }
+.vv-endrow { font-size: 12px; color: #666; background: #faf8f4; border-radius: 8px; padding: 8px 10px; margin-top: 8px; line-height: 1.6; }
+.vv-prompt { font-size: 32px; text-align: center; margin: 4px 0; }
+.vv-prompt-sm { font-size: 13px; color: #888; text-align: center; }
+.vv-sent { font-size: 21px; text-align: center; line-height: 1.5; margin: 6px 0; }
+.s34-opt.vv-gr { font-size: 17px; }
 .ex-detail { background: #faf8f4; border-radius: 10px; padding: 10px 12px; margin-top: 6px; }
 .ex-q { font-size: 14px; font-weight: 600; margin: 0 0 10px; line-height: 1.5; }
 .ex-word { text-align: center; font-size: 30px; font-weight: 700; margin: 0 0 10px; }
@@ -615,6 +628,24 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
     <button id="examNoteBtn" class="grammar-btn" style="background:#fff;color:#b5651d;border:2px solid #b5651d;margin-top:8px">📒 정답 노트 보기 (선택한 문장)</button>
   </div>
 
+  <!-- 6주차 동사 태 연습 -->
+  <div class="menu-card" style="margin-top:18px;border:2px solid #a7c4ef">
+    <div class="menu-card-title" style="color:#2e6ed6">6주차 · 동사 태 연습 (능동·중간·수동)</div>
+    <p style="font-size:13px;color:#888;margin:0 0 4px;line-height:1.5">10·11과: 현재 중간·수동태, 디포넌트, 미완료 능동태, εἰμί 미완료. 레슨으로 표를 익히고 → 어미 구별 → 형태 만들기 → 파싱 → 능동을 수동으로 바꾸기 순서로 연습해요. 문제는 여러 태가 섞여서 나와요.</p>
+    <div class="week-chips" style="margin-left:0">
+      <label class="week-chip on"><input type="checkbox" class="vv-grp-cb" value="pa" checked>현재 능동</label>
+      <label class="week-chip on"><input type="checkbox" class="vv-grp-cb" value="pm" checked>현재 중간·수동</label>
+      <label class="week-chip on"><input type="checkbox" class="vv-grp-cb" value="dep" checked>디포넌트</label>
+      <label class="week-chip on"><input type="checkbox" class="vv-grp-cb" value="ia" checked>미완료 능동</label>
+      <label class="week-chip on"><input type="checkbox" class="vv-grp-cb" value="eimi" checked>εἰμί 미완료</label>
+    </div>
+    <button class="grammar-btn" data-vv-start="lesson" style="background:#2e6ed6;margin-top:12px">📖 레슨: 세 가지 태와 변화표</button>
+    <button class="grammar-btn" data-vv-start="ending" style="background:#fff;color:#2e6ed6;border:2px solid #2e6ed6;margin-top:8px">① 어미 구별 퀴즈</button>
+    <button class="grammar-btn" data-vv-start="make" style="background:#fff;color:#2e6ed6;border:2px solid #2e6ed6;margin-top:8px">② 형태 만들기</button>
+    <button class="grammar-btn" data-vv-start="parse" style="background:#fff;color:#2e6ed6;border:2px solid #2e6ed6;margin-top:8px">③ 파싱 연습 (시제·태·인칭·수·기본형·뜻)</button>
+    <button class="grammar-btn" data-vv-start="trans" style="background:#fff;color:#2e6ed6;border:2px solid #2e6ed6;margin-top:8px">④ 능동 → 수동 바꾸기 (ὑπό + 속격)</button>
+  </div>
+
   <!-- 성·수·격 퀴즈 (관사 / 형용사 어미) -->
   <div class="menu-card" style="margin-top:18px">
     <div class="menu-card-title">성·수·격 퀴즈</div>
@@ -727,6 +758,14 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 </div>
 
 <!-- ── 전치사 도표 연습 화면 ─────────────────────────────── -->
+<div id="vvScreen" class="screen" style="display:none">
+  <div class="header-row">
+    <h1 id="vvTitle">동사 태 연습</h1>
+    <button class="lesson-back-btn" id="vvBackBtn">← 메뉴</button>
+  </div>
+  <div id="vvContent"></div>
+</div>
+
 <div id="prepScreen" class="screen" style="display:none">
   <div class="header-row">
     <h1>전치사 도표</h1>
@@ -773,7 +812,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-16-1";
+const APP_VERSION = "2026-10-16-2";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -789,6 +828,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-16", text: "6주차 동사 태 연습 추가: 레슨(세 가지 태·변화표·미완료 만들기·파싱 순서), 어미 구별, 형태 만들기, 파싱 연습, 능동→수동 바꾸기 / 어미 퀴즈에 중간·수동·미완료·εἰμί 미완료 / 단어 퀴즈에 λύω·εἰμί 변화형 17개" },
   { date: "2026-10-16", text: "6주차 단어 추가: 10과 §101 17개·11과 §113 17개 (디포넌트 동사·합성동사·ὑπό·κατά·παρά·σύν 등) → 단어 퀴즈·암기 카드·짝맞추기" },
   { date: "2026-10-15", text: "중간고사 범위를 10문장으로: 7과 12–14, 8과 10·12–14, 9과 10·12·13 (7과 10·11, 8과 11, 9과 11·14 제외)" },
   { date: "2026-10-15", text: "정답 노트·파싱 퀴즈: 형태가 같은 파싱(예: τῶν 남·여·중 복수 속격, τὰ 중성 복수 주격/대격)을 모두 표시하고 정답으로 인정" },
@@ -938,7 +978,26 @@ const endings = [
   {type:"verb", category:"εἰμί 현재", ending:"ἐστί(ν)", person:3, number:"단수", label:"3인칭 단수"},
   {type:"verb", category:"εἰμί 현재", ending:"ἐσμέν", person:1, number:"복수", label:"1인칭 복수"},
   {type:"verb", category:"εἰμί 현재", ending:"ἐστέ",  person:2, number:"복수", label:"2인칭 복수"},
-  {type:"verb", category:"εἰμί 현재", ending:"εἰσί(ν)", person:3, number:"복수", label:"3인칭 복수"}
+  {type:"verb", category:"εἰμί 현재", ending:"εἰσί(ν)", person:3, number:"복수", label:"3인칭 복수"},
+
+  // --- 6주차: 10과 §104 현재 중간·수동태, 11과 §115·119 미완료 능동태, §124 εἰμί 미완료 ---
+  {type:"verb", category:"현재 중간·수동태 어미", ending:"-ομαι", person:1, number:"단수", label:"1인칭 단수"},
+  {type:"verb", category:"현재 중간·수동태 어미", ending:"-ῃ",    person:2, number:"단수", label:"2인칭 단수"},
+  {type:"verb", category:"현재 중간·수동태 어미", ending:"-εται", person:3, number:"단수", label:"3인칭 단수"},
+  {type:"verb", category:"현재 중간·수동태 어미", ending:"-ομεθα",person:1, number:"복수", label:"1인칭 복수"},
+  {type:"verb", category:"현재 중간·수동태 어미", ending:"-εσθε", person:2, number:"복수", label:"2인칭 복수"},
+  {type:"verb", category:"현재 중간·수동태 어미", ending:"-ονται",person:3, number:"복수", label:"3인칭 복수"},
+  {type:"verb", category:"미완료 능동태 어미", ending:"ἐ-…-ον", person:1, number:"단수", label:"1인칭 단수"},
+  {type:"verb", category:"미완료 능동태 어미", ending:"ἐ-…-ες", person:2, number:"단수", label:"2인칭 단수"},
+  {type:"verb", category:"미완료 능동태 어미", ending:"ἐ-…-ε(ν)", person:3, number:"단수", label:"3인칭 단수"},
+  {type:"verb", category:"미완료 능동태 어미", ending:"ἐ-…-ομεν", person:1, number:"복수", label:"1인칭 복수"},
+  {type:"verb", category:"미완료 능동태 어미", ending:"ἐ-…-ετε", person:2, number:"복수", label:"2인칭 복수"},
+  {type:"verb", category:"εἰμί 미완료", ending:"ἤμην", person:1, number:"단수", label:"1인칭 단수"},
+  {type:"verb", category:"εἰμί 미완료", ending:"ἦς",   person:2, number:"단수", label:"2인칭 단수"},
+  {type:"verb", category:"εἰμί 미완료", ending:"ἦν",   person:3, number:"단수", label:"3인칭 단수"},
+  {type:"verb", category:"εἰμί 미완료", ending:"ἦμεν", person:1, number:"복수", label:"1인칭 복수"},
+  {type:"verb", category:"εἰμί 미완료", ending:"ἦτε",  person:2, number:"복수", label:"2인칭 복수"},
+  {type:"verb", category:"εἰμί 미완료", ending:"ἦσαν", person:3, number:"복수", label:"3인칭 복수"}
 ];
 
 const letters = [
@@ -1432,7 +1491,25 @@ const words = [
    pun:"쉬나고그(synagogue)에 함께 모은다"},
   {gr:"τότε", kr:"토테", en:"then", ko:"그때에 (부사)", week:6,
    etymology:"영어 파생어는 없음",
-   pun:"토테(토대) 그때에 놓았다"}
+   pun:"토테(토대) 그때에 놓았다"},
+  // 6주차: λύω 현재 중간·수동(§103·105), 미완료 능동(§115), εἰμί 미완료(§124) 변화형
+  {gr:"λύομαι", kr:"뤼오마이", en:"I am loosed / I loose for myself", ko:"내가 풀린다, 나를 위하여 푼다", week:6, form:"λύω 현재 중간·수동 1인칭 단수"},
+  {gr:"λύῃ", kr:"뤼에", en:"you are loosed", ko:"네가 풀린다, 너를 위하여 푼다", week:6, form:"λύω 현재 중간·수동 2인칭 단수 (λύεσαι → λύῃ)"},
+  {gr:"λύεται", kr:"뤼에타이", en:"he is loosed", ko:"그가 풀린다, 그를 위하여 푼다", week:6, form:"λύω 현재 중간·수동 3인칭 단수"},
+  {gr:"λυόμεθα", kr:"뤼오메타", en:"we are loosed", ko:"우리가 풀린다, 우리를 위하여 푼다", week:6, form:"λύω 현재 중간·수동 1인칭 복수"},
+  {gr:"λύεσθε", kr:"뤼에스테", en:"you (pl.) are loosed", ko:"너희가 풀린다, 너희를 위하여 푼다", week:6, form:"λύω 현재 중간·수동 2인칭 복수"},
+  {gr:"λύονται", kr:"뤼온타이", en:"they are loosed", ko:"그들이 풀린다, 그들을 위하여 푼다", week:6, form:"λύω 현재 중간·수동 3인칭 복수"},
+  {gr:"ἔλυον", kr:"엘뤼온", en:"I was loosing / they were loosing", ko:"내가 풀고 있었다, 그들이 풀고 있었다", week:6, form:"λύω 미완료 능동 1인칭 단수 = 3인칭 복수 (§121)"},
+  {gr:"ἔλυες", kr:"엘뤼에스", en:"you were loosing", ko:"네가 풀고 있었다", week:6, form:"λύω 미완료 능동 2인칭 단수"},
+  {gr:"ἔλυε(ν)", kr:"엘뤼에(ㄴ)", en:"he was loosing", ko:"그가 풀고 있었다", week:6, form:"λύω 미완료 능동 3인칭 단수"},
+  {gr:"ἐλύομεν", kr:"엘뤼오멘", en:"we were loosing", ko:"우리가 풀고 있었다", week:6, form:"λύω 미완료 능동 1인칭 복수"},
+  {gr:"ἐλύετε", kr:"엘뤼에테", en:"you (pl.) were loosing", ko:"너희가 풀고 있었다", week:6, form:"λύω 미완료 능동 2인칭 복수"},
+  {gr:"ἤμην", kr:"에멘", en:"I was", ko:"내가 ~이었다, 있었다", week:6, form:"εἰμί 미완료 1인칭 단수"},
+  {gr:"ἦς", kr:"에스", en:"you were", ko:"네가 ~이었다, 있었다", week:6, form:"εἰμί 미완료 2인칭 단수"},
+  {gr:"ἦν", kr:"엔", en:"he was", ko:"그가 ~이었다, 있었다", week:6, form:"εἰμί 미완료 3인칭 단수"},
+  {gr:"ἦμεν", kr:"에멘", en:"we were", ko:"우리가 ~이었다, 있었다", week:6, form:"εἰμί 미완료 1인칭 복수"},
+  {gr:"ἦτε", kr:"에테", en:"you (pl.) were", ko:"너희가 ~이었다, 있었다", week:6, form:"εἰμί 미완료 2인칭 복수"},
+  {gr:"ἦσαν", kr:"에산", en:"they were", ko:"그들이 ~이었다, 있었다", week:6, form:"εἰμί 미완료 3인칭 복수"}
 ];
 
 // 퀴즈·암기 카드·짝맞추기 게임 공통 목록: 전치사는 격을 문제 쪽(헬라어)에 붙이고 뜻에서는 격 표시를 뺀다.
@@ -5209,6 +5286,417 @@ examContent.addEventListener('click', e => {
   else if (id === 'exFinish') exRenderFinal();
   else if (id === 'exRetryWrong') exStart(ex.results.map((r, i) => r.wrongs.length ? ex.queue[i] : null).filter(Boolean));
   else if (id === 'exRestart') exStart(exBuildQueue());
+});
+
+// ── 6주차 동사 태 연습: 능동·중간·수동·디포넌트·미완료 (교재 10과 §102–109, 11과 §114–124) ──
+// 형태는 어간 + 어미로 만들고, 동사 악센트 규칙(뒤로 물러나는 악센트, 접두모음 앞으로는 못 감 §123)으로 악센트를 붙인다.
+const VV_PN = [[1,'단수'],[2,'단수'],[3,'단수'],[1,'복수'],[2,'복수'],[3,'복수']];
+const VV_SUBJ = ['내가','네가','그가','우리가','너희가','그들이'];
+const VV_END = {
+  pa:  ['ω','εις','ει','ομεν','ετε','ουσι(ν)'],       // 현재 능동 (제1시제 능동)
+  pm:  ['ομαι','ῃ','εται','ομεθα','εσθε','ονται'],     // 현재 중간·수동 (제1시제 중간·수동 §104)
+  ia:  ['ον','ες','ε(ν)','ομεν','ετε','ον']            // 미완료 능동 (제2시제 능동 §119)
+};
+// pres: 현재 어간, impf: 접두모음을 붙인 미완료 어간, aug: 합성동사에서 접두모음이 몇 번째 음절인지(악센트가 그 앞으로 못 감)
+// act·pas·mid·ipf: 3인칭 단수 서술어 뜻 (주어는 인칭에 따라 붙임). pas가 없으면 수동형을 만들지 않음(자동사)
+const VV_VERBS = [
+  { lemma:'λύω', pres:'λυ', impf:'ἐλυ', act:'푼다', pas:'풀린다', mid:'자기를 위하여 푼다', ipf:'풀고 있었다' },
+  { lemma:'βλέπω', pres:'βλεπ', impf:'ἐβλεπ', act:'본다', pas:'보인다', ipf:'보고 있었다' },
+  { lemma:'γινώσκω', pres:'γινωσκ', impf:'ἐγινωσκ', act:'안다', pas:'알려진다', ipf:'알고 있었다' },
+  { lemma:'γράφω', pres:'γραφ', impf:'ἐγραφ', act:'쓴다', pas:'기록된다', ipf:'쓰고 있었다' },
+  { lemma:'διδάσκω', pres:'διδασκ', impf:'ἐδιδασκ', act:'가르친다', pas:'가르침을 받는다', ipf:'가르치고 있었다' },
+  { lemma:'λαμβάνω', pres:'λαμβαν', impf:'ἐλαμβαν', act:'취한다', pas:'취해진다', ipf:'취하고 있었다' },
+  { lemma:'λέγω', pres:'λεγ', impf:'ἐλεγ', act:'말한다', pas:'말해진다', ipf:'말하고 있었다' },
+  { lemma:'ἔχω', pres:'ἐχ', impf:'εἰχ', act:'가진다', ipf:'가지고 있었다', note:'미완료 εἶχον은 접두모음이 불규칙(ε → ει)' },
+  { lemma:'ἐγείρω', pres:'ἐγειρ', impf:'ἠγειρ', act:'일으킨다', pas:'일으킴을 받는다', ipf:'일으키고 있었다', note:'모음으로 시작 → ε가 η로 길어짐 (§118)' },
+  { lemma:'ἄγω', pres:'ἀγ', impf:'ἠγ', act:'인도한다', pas:'인도된다', ipf:'인도하고 있었다', note:'모음으로 시작 → α가 η로 길어짐 (§118)' },
+  { lemma:'βάλλω', pres:'βαλλ', impf:'ἐβαλλ', act:'던진다', pas:'던져진다', ipf:'던지고 있었다' },
+  { lemma:'μένω', pres:'μεν', impf:'ἐμεν', act:'머문다', ipf:'머물고 있었다' },
+  { lemma:'πέμπω', pres:'πεμπ', impf:'ἐπεμπ', act:'보낸다', pas:'보내진다', ipf:'보내고 있었다' },
+  { lemma:'βαπτίζω', pres:'βαπτιζ', impf:'ἐβαπτιζ', act:'세례를 준다', pas:'세례를 받는다', ipf:'세례를 주고 있었다' },
+  { lemma:'κρίνω', pres:'κριν', impf:'ἐκριν', act:'심판한다', pas:'심판을 받는다', ipf:'심판하고 있었다' },
+  { lemma:'ἀκούω', pres:'ἀκου', impf:'ἠκου', act:'듣는다', pas:'들린다', ipf:'듣고 있었다', note:'모음으로 시작 → α가 η로 길어짐 (§118)' },
+  { lemma:'πιστεύω', pres:'πιστευ', impf:'ἐπιστευ', act:'믿는다', pas:'믿어진다', ipf:'믿고 있었다' },
+  { lemma:'σῴζω', pres:'σῳζ', impf:'ἐσῳζ', act:'구원한다', pas:'구원받는다', ipf:'구원하고 있었다' },
+  { lemma:'αἴρω', pres:'αἰρ', impf:'ᾐρ', act:'들어 올린다', pas:'들려 올려진다', ipf:'들어 올리고 있었다', note:'αι → η, ι는 η 밑에 붙음: ᾖρον (§118)' },
+  { lemma:'ἐσθίω', pres:'ἐσθι', impf:'ἠσθι', act:'먹는다', pas:'먹힌다', ipf:'먹고 있었다' },
+  { lemma:'ἀναβαίνω', pres:'ἀναβαιν', impf:'ἀνεβαιν', aug:1, act:'올라간다', ipf:'올라가고 있었다', note:'합성동사: 접두모음은 ἀνά와 βαίνω 사이, 전치사 끝 모음 탈락 (§122)' },
+  { lemma:'καταβαίνω', pres:'καταβαιν', impf:'κατεβαιν', aug:1, act:'내려간다', ipf:'내려가고 있었다', note:'합성동사: κατα + ε → κατε (§122)' },
+  { lemma:'ἀποθνῄσκω', pres:'ἀποθνῃσκ', impf:'ἀπεθνῃσκ', aug:1, act:'죽는다', ipf:'죽어 가고 있었다', note:'합성동사: ἀπο + ε → ἀπε (§122)' },
+  { lemma:'ἀποκτείνω', pres:'ἀποκτειν', impf:'ἀπεκτειν', aug:1, act:'죽인다', pas:'죽임을 당한다', ipf:'죽이고 있었다', note:'합성동사: ἀπο + ε → ἀπε (§122)' },
+  { lemma:'ἀποστέλλω', pres:'ἀποστελλ', impf:'ἀπεστελλ', aug:1, act:'보낸다', pas:'보내진다', ipf:'보내고 있었다', note:'합성동사: ἀπο + ε → ἀπε (§122)' },
+  { lemma:'παραλαμβάνω', pres:'παραλαμβαν', impf:'παρελαμβαν', aug:1, act:'받는다', pas:'받아들여진다', ipf:'받고 있었다', note:'합성동사: παρα + ε → παρε (§122)' },
+  { lemma:'συνάγω', pres:'συναγ', impf:'συνηγ', aug:1, act:'모은다', pas:'모인다', ipf:'모으고 있었다', note:'합성동사: σύν과 ἄγω 사이에서 α → η, 악센트는 접두모음 앞으로 못 감 (§122–123)' },
+  { lemma:'ἄρχω', pres:'ἀρχ', impf:'ἠρχ', act:'지배한다', ipf:'지배하고 있었다', note:'중간태 ἄρχομαι는 "시작한다" (§102)' }
+];
+// 디포넌트(§108): 중간·수동 형태, 능동 뜻 / ἄρχομαι: 중간태 "시작한다" + ἄρχω의 수동 "지배를 받는다"
+const VV_DEP = [
+  { lemma:'ἔρχομαι', pres:'ἐρχ', act:'간다' }, { lemma:'γίνομαι', pres:'γιν', act:'된다' },
+  { lemma:'πορεύομαι', pres:'πορευ', act:'간다' }, { lemma:'ἀποκρίνομαι', pres:'ἀποκριν', act:'대답한다' },
+  { lemma:'διέρχομαι', pres:'διερχ', act:'지나서 간다' }, { lemma:'εἰσέρχομαι', pres:'εἰσερχ', act:'들어간다' },
+  { lemma:'ἐξέρχομαι', pres:'ἐξερχ', act:'나간다' }
+];
+const VV_EIMI_IMPF = ['ἤμην','ἦς','ἦν','ἦμεν','ἦτε','ἦσαν'];
+
+// 음절(모음 핵) 나누기와 악센트
+const VV_DIPH = ['αι','ει','οι','υι','αυ','ευ','ηυ','ου'];
+const vvBase = ch => ch.normalize('NFD')[0];
+function vvNuclei(w) {
+  const chs = [...w.normalize('NFC')], out = [];
+  for (let i = 0; i < chs.length; i++) {
+    const b = vvBase(chs[i]);
+    if (!'αεηιουω'.includes(b)) continue;
+    const nx = chs[i + 1], sub = chs[i].normalize('NFD').includes('ͅ');
+    if (nx && !sub && VV_DIPH.includes(b + vvBase(nx)) && !nx.normalize('NFD').includes('̈')) { out.push({ i: i + 1, long: true, d: true }); i++; }
+    else out.push({ i, long: b === 'η' || b === 'ω' || sub });
+  }
+  // 낱말 끝의 -αι, -οι는 악센트에서 짧게 침
+  const last = out[out.length - 1];
+  if (last && last.d && last.i === chs.length - 1 && vvBase(chs[last.i]) === 'ι' && 'αο'.includes(vvBase(chs[last.i - 1]))) last.long = false;
+  return { chs, out };
+}
+function vvAccent(w, aug) {
+  const { chs, out } = vvNuclei(w), n = out.length;
+  if (n < 2) return w;
+  const ult = out[n - 1];
+  let pos = ult.long ? n - 2 : Math.max(n - 3, 0);
+  if (aug !== undefined && pos < aug) pos = aug;          // §123 악센트는 접두모음을 넘지 못함
+  const circ = pos === n - 2 && out[pos].long && !ult.long;
+  const k = out[pos].i;
+  chs[k] = (chs[k].normalize('NFD') + (circ ? '͂' : '́')).normalize('NFC');
+  return chs.join('');
+}
+function vvMake(stem, end, aug) {
+  const nu = end.endsWith('(ν)');
+  const f = vvAccent(stem + end.replace('(ν)', ''), aug);
+  return nu ? f + '(ν)' : f;
+}
+
+// 모든 형태 + 가능한 파싱(readings). 같은 형태가 여러 파싱이면 모두 담는다
+let VV_FORMS = null;
+function vvBuildForms() {
+  const forms = [];
+  const add = (form, group, verb, rs, extra) => forms.push(Object.assign({ form, group, verb, readings: rs }, extra || {}));
+  VV_VERBS.forEach(v => {
+    VV_PN.forEach(([p, n], k) => add(vvMake(v.pres, VV_END.pa[k]), 'pa', v,
+      [{ tense:'현재', voice:'능동', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.act }], { k }));
+    if (v.pas) VV_PN.forEach(([p, n], k) => {
+      const rs = [{ tense:'현재', voice:'수동', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.pas }];
+      rs.push({ tense:'현재', voice:'중간', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + (v.mid || v.pas), midSame: !v.mid });
+      add(vvMake(v.pres, VV_END.pm[k]), 'pm', v, rs, { k });
+    });
+    VV_PN.forEach(([p, n], k) => {
+      if (k === 5) return;   // 3인칭 복수는 1인칭 단수와 같은 형태(§121) → 한 형태에 두 파싱
+      const rs = [{ tense:'미완료', voice:'능동', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.ipf }];
+      if (k === 0) rs.push({ tense:'미완료', voice:'능동', p:3, n:'복수', lemma:v.lemma, ko: VV_SUBJ[5] + ' ' + v.ipf });
+      add(vvMake(v.impf, VV_END.ia[k], v.aug), 'ia', v, rs, { k });
+    });
+  });
+  VV_DEP.forEach(v => VV_PN.forEach(([p, n], k) => add(vvMake(v.pres, VV_END.pm[k]), 'dep', v,
+    [{ tense:'현재', voice:'디포넌트', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.act }], { k })));
+  VV_PN.forEach(([p, n], k) => add(vvMake('ἀρχ', VV_END.pm[k]), 'pm', { lemma:'ἄρχομαι' },
+    [{ tense:'현재', voice:'중간', p, n, lemma:'ἄρχομαι', ko: VV_SUBJ[k] + ' 시작한다' },
+     { tense:'현재', voice:'수동', p, n, lemma:'ἄρχω', ko: VV_SUBJ[k] + ' 지배를 받는다' }], { k }));
+  VV_PN.forEach(([p, n], k) => add(VV_EIMI_IMPF[k], 'eimi', { lemma:'εἰμί' },
+    [{ tense:'미완료', voice:'없음', p, n, lemma:'εἰμί', ko: VV_SUBJ[k] + ' ~이었다, 있었다' }], { k }));
+  VV_FORMS = forms;
+  return forms;
+}
+const VV_GROUPS = { pa:'현재 능동', pm:'현재 중간·수동', dep:'디포넌트', ia:'미완료 능동', eimi:'εἰμί 미완료' };
+function vvParseText(r) {
+  return r.tense + ' ' + (r.voice === '없음' ? '' : r.voice + '태 ') + '직설법 ' + r.p + '인칭 ' + r.n + ' · ' + r.lemma + ' · "' + r.ko + '"';
+}
+function vvVerbOf(lemma) { return VV_VERBS.find(v => v.lemma === lemma) || VV_DEP.find(v => v.lemma === lemma); }
+// 한 동사의 비교표 (현재 능동 | 현재 중간·수동 | 미완료 능동)
+function vvMiniTable(lemma, hiForm) {
+  const v = VV_VERBS.find(x => x.lemma === lemma);
+  const fs = VV_FORMS.filter(f => (f.verb.lemma === lemma));
+  const cell = (g, k) => { const f = fs.find(x => x.group === g && x.k === (g === 'ia' && k === 5 ? 0 : k)); return f ? '<td class="' + (f.form === hiForm ? 'vv-hi' : '') + '">' + f.form + '</td>' : '<td class="vv-na">—</td>'; };
+  if (!v) {
+    const g = fs[0].group;
+    return '<table class="vv-table"><tr><th></th><th>' + VV_GROUPS[g] + '</th></tr>' + VV_PN.map(([p, n], k) => '<tr><th>' + p + n[0] + '</th>' + cell(g, k) + '</tr>').join('') + '</table>';
+  }
+  return '<table class="vv-table"><tr><th></th><th>현재 능동</th><th>현재 중간·수동</th><th>미완료 능동</th></tr>'
+    + VV_PN.map(([p, n], k) => '<tr><th>' + p + n[0] + '</th>' + cell('pa', k) + cell('pm', k) + cell('ia', k) + '</tr>').join('') + '</table>';
+}
+
+// ── 화면 ──
+const vvScreen = document.getElementById('vvScreen'), vvContent = document.getElementById('vvContent'), vvTitle = document.getElementById('vvTitle');
+let vv = null;
+function vvShow(title) {
+  menuScreen.style.display = 'none'; vvScreen.style.display = 'block'; vvTitle.textContent = title; window.scrollTo(0, 0);
+}
+function vvSelGroups() { return [...document.querySelectorAll('.vv-grp-cb:checked')].map(c => c.value); }
+function vvPool() {
+  if (!VV_FORMS) vvBuildForms();
+  const gs = vvSelGroups();
+  return VV_FORMS.filter(f => gs.includes(f.group));
+}
+const VV_N = 15;
+// 섞어서 뽑기(교차 연습): 같은 묶음이 몰리지 않게 묶음별로 번갈아 뽑음
+function vvPick(pool, n) {
+  const by = {};
+  shuffle(pool).forEach(f => (by[f.group] = by[f.group] || []).push(f));
+  const keys = shuffle(Object.keys(by)), out = [];
+  for (let r = 0; out.length < n && keys.some(k => by[k].length); r++) keys.forEach(k => { if (out.length < n && by[k].length) out.push(by[k].shift()); });
+  return out;
+}
+
+// ── 레슨 ──
+function vvRenderLesson() {
+  if (!VV_FORMS) vvBuildForms();
+  vv = { mode:'lesson' };
+  vvShow('동사 태 레슨');
+  const L = VV_FORMS.filter(f => f.verb.lemma === 'λύω');
+  const seg = (form, g) => {           // 어간 | 연결모음 + 어미 색 구분
+    const m = form.match(g === 'ia' ? /^([ἐἔ])(λ[υύ])(.*)$/ : /^(λ[υύ])(.*)$/);
+    if (!m) return form;
+    return g === 'ia' ? '<span class="vv-aug">' + m[1] + '</span>' + m[2] + '<span class="vv-end">' + m[3] + '</span>' : m[1] + '<span class="vv-end">' + m[2] + '</span>';
+  };
+  const row = (g, k) => { const f = L.find(x => x.group === g && x.k === (g === 'ia' && k === 5 ? 0 : k)); return f ? seg(f.form, g) : ''; };
+  const H = s => '<span class="nt-a vv-mem">' + s + '</span>';
+  let h = '<div class="lesson-card"><div class="lesson-card-title">① 세 가지 태 (§102)</div>'
+    + '<table class="prep-table">'
+    + '<tr><td>능동태</td><td>주어가 동작을 한다<br><b>λύω</b> 내가 푼다</td></tr>'
+    + '<tr><td>중간태</td><td>주어가 동작의 결과에 참여한다<br><b>λύομαι</b> 내가 나를 위하여 푼다<br><span class="ex-note">ἄρχω 지배하다 → ἄρχομαι 시작하다처럼 뜻이 아주 달라지기도 함</span></td></tr>'
+    + '<tr><td>수동태</td><td>주어가 동작을 받는다<br><b>λύομαι</b> 내가 풀린다<br><span class="ex-note">행위자는 ὑπό + 속격 "~로 말미암아" (§106), 수단은 전치사 없는 여격 (§107)</span></td></tr>'
+    + '<tr><td>디포넌트</td><td>형태는 중간·수동, 뜻은 능동 (§108)<br><b>ἔρχομαι</b> 내가 간다</td></tr></table>'
+    + '<p class="ex-note" style="margin-top:8px">현재 시제에서는 중간태와 수동태 형태가 똑같아요. 교재 익힘 문제에서는 둘 다 가능해도 <b>수동태로 해석</b>해요 (§102).</p></div>';
+  h += '<div class="lesson-card"><div class="lesson-card-title">② <span style="text-transform:none">λύω</span> 변화표 비교</div>'
+    + '<label class="check-row" style="font-size:13px;margin-bottom:8px"><input type="checkbox" id="vvHide"> 형태 가리고 외우기 (누르면 보여요)</label>'
+    + '<table class="vv-table vv-big"><tr><th></th><th>현재 능동</th><th>현재 중간·수동</th><th>미완료 능동</th><th>εἰμί 미완료</th></tr>'
+    + VV_PN.map(([p, n], k) => '<tr><th>' + p + n[0] + '</th><td>' + H(row('pa', k)) + '</td><td>' + H(row('pm', k)) + '</td><td>' + H(row('ia', k)) + '</td><td>' + H(VV_EIMI_IMPF[k]) + '</td></tr>').join('')
+    + '</table>'
+    + '<div class="vv-endrow"><b>어미만</b> 제1시제 능동 -ω -εις -ει -ομεν -ετε -ουσι(ν) · 제1시제 중간·수동 -ομαι -ῃ -εται -ομεθα -εσθε -ονται (§104) · 제2시제 능동 -ον -ες -ε(ν) -ομεν -ετε -ον (§119)</div>'
+    + '<p class="ex-note">2인칭 단수 λύεσαι가 줄어서 λύῃ (§104). 미완료 1인칭 단수와 3인칭 복수는 ἔλυον으로 같아서 문맥으로 가려요 (§121).</p></div>';
+  h += '<div class="lesson-card"><div class="lesson-card-title">③ 뜻 비교 (3인칭 단수)</div><table class="prep-table">'
+    + '<tr><td>λύει</td><td>그가 푼다 (현재 능동)</td></tr><tr><td>λύεται</td><td>그가 풀린다 (현재 수동) / 그가 자기를 위하여 푼다 (현재 중간)</td></tr>'
+    + '<tr><td>ἔλυε(ν)</td><td>그가 풀고 있었다, 풀곤 하였다 (미완료: 과거에 계속·반복된 동작 §114)</td></tr><tr><td>ἦν</td><td>그가 ~이었다, 있었다 (εἰμί 미완료)</td></tr></table></div>';
+  h += '<div class="lesson-card"><div class="lesson-card-title">④ 미완료 만드는 법 (§115–123)</div><table class="prep-table">'
+    + '<tr><td>1</td><td>현재 어간을 찾는다: λύω → λυ-</td></tr>'
+    + '<tr><td>2</td><td>접두모음: 자음 앞은 ἐ- (ἔλυον, ἐγίνωσκον), 모음은 길게 α·ε → η, αι → ῃ (ἦγον, ἤγειρον, ἤκουον, ᾖρον)</td></tr>'
+    + '<tr><td>3</td><td>연결모음 ο/ε + 제2시제 능동 어미 (μ·ν 앞은 ο, 나머지는 ε)</td></tr>'
+    + '<tr><td>합성동사</td><td>접두모음은 전치사와 동사 사이, 전치사 끝 모음은 떨어짐: ἀποκτείνω → ἀπέκτεινον, καταβαίνω → κατέβαινον, συνάγω → συνῆγον</td></tr>'
+    + '<tr><td>악센트</td><td>접두모음 앞으로는 못 감: συνῆγον (§123)</td></tr></table></div>';
+  h += '<div class="lesson-card"><div class="lesson-card-title">⑤ 동사 파싱 순서</div><table class="prep-table">'
+    + '<tr><td>1</td><td><b>앞</b>을 본다: 접두모음(ἐ- 또는 길어진 모음)이 있으면 과거 → 미완료</td></tr>'
+    + '<tr><td>2</td><td><b>끝</b>을 본다: -ω·-εις·-ει… 능동 / -μαι·-ῃ·-ται·-μεθα·-σθε·-νται 중간·수동</td></tr>'
+    + '<tr><td>3</td><td><b>기본형</b>을 떠올린다: 사전형이 -ομαι로 끝나면 디포넌트 → 뜻은 능동</td></tr>'
+    + '<tr><td>4</td><td><b>문맥</b>: ὑπό + 속격이 있으면 수동 (행위자), 겹치는 형태(ἔλυον 1단·3복)는 주어로 가린다</td></tr></table></div>';
+  h += '<div class="lesson-card"><div class="lesson-card-title">연습으로 넘어가기</div>'
+    + '<button class="lesson-btn primary" data-vv-go="ending">어미 구별 퀴즈 →</button>'
+    + '<button class="lesson-btn primary" data-vv-go="make" style="margin-top:8px">형태 만들기 →</button>'
+    + '<button class="lesson-btn primary" data-vv-go="parse" style="margin-top:8px">파싱 연습 →</button>'
+    + '<button class="lesson-btn primary" data-vv-go="trans" style="margin-top:8px">능동 → 수동 바꾸기 →</button></div>';
+  vvContent.innerHTML = h;
+}
+
+// ── 퀴즈 공통: 문항 = { prompt, fields:[{key,label,opts}], check(ans) → {ok, marks, show} } ──
+function vvStart(mode) {
+  if (!VV_FORMS) vvBuildForms();
+  let qs = [];
+  const pool = vvPool();
+  if (mode !== 'trans' && !pool.length) { vvContent.innerHTML = '<p class="ex-note">문제 범위를 하나 이상 고르세요.</p>'; vvShow('동사 태 연습'); return; }
+  if (mode === 'ending') qs = vvEndingQs();
+  if (mode === 'make') qs = vvPick(pool.filter(f => f.group !== 'eimi'), VV_N).map(vvMakeQ);
+  if (mode === 'parse') qs = vvPick(pool, VV_N).map(vvParseQ);
+  if (mode === 'trans') qs = Array.from({ length: 8 }, vvTransQ);
+  if (!qs.length) { vvShow('동사 태 연습'); vvContent.innerHTML = '<p class="ex-note">이 연습에 맞는 문제 범위를 고르세요 (어미 구별은 현재 능동·현재 중간·수동·미완료 능동).</p>'; return; }
+  vv = { mode, qs, i: 0, right: 0, wrongs: [] };
+  vvShow({ ending:'어미 구별 퀴즈', make:'형태 만들기', parse:'파싱 연습', trans:'능동 → 수동 바꾸기' }[mode]);
+  vvRenderQ();
+}
+function vvRenderQ() {
+  const q = vv.qs[vv.i];
+  q.ans = {};
+  vvContent.innerHTML = '<div class="pq-progress"><span>' + (vv.i + 1) + ' / ' + vv.qs.length + '</span><span>맞음 ' + vv.right + '</span></div>'
+    + '<div class="lesson-card">' + q.prompt + '</div>'
+    + '<div class="lesson-card"><div class="s34-fields">' + q.fields.map(f => '<div class="s34-field"><div class="s34-field-lbl">' + f.label + '</div><div class="s34-opts">'
+      + f.opts.map(o => '<button class="s34-opt' + (f.big ? ' vv-gr' : '') + '" data-vv-key="' + f.key + '" data-val="' + o + '">' + o + '</button>').join('') + '</div></div>').join('') + '</div>'
+    + '<button class="lesson-btn primary" id="vvSubmit" style="margin-top:12px;display:none">확인</button>'
+    + '<div id="vvFb" style="margin-top:10px"></div><div id="vvNext" style="display:none;margin-top:8px"></div></div>';
+}
+function vvSubmit() {
+  const q = vv.qs[vv.i], r = q.check(q.ans);
+  vvContent.querySelectorAll('[data-vv-key]').forEach(b => {
+    b.disabled = true;
+    const k = b.dataset.vvKey;
+    if (r.right[k] === b.dataset.val) b.classList.add('s34-correct');
+    else if (q.ans[k] === b.dataset.val) b.classList.add('s34-wrong');
+  });
+  if (r.ok) vv.right++; else vv.wrongs.push({ q, mine: q.fields.map(f => q.ans[f.key]).join(' · '), right: r.answerText });
+  document.getElementById('vvSubmit').style.display = 'none';
+  document.getElementById('vvFb').innerHTML = '<p style="font-weight:700;margin:0 0 6px;color:' + (r.ok ? '#2e9e4f' : '#d64545') + '">' + (r.ok ? '정답!' : '틀렸어요') + '</p>' + r.show;
+  const nx = document.getElementById('vvNext'); nx.style.display = 'block';
+  nx.innerHTML = '<button class="lesson-btn success" id="vvNextBtn">' + (vv.i < vv.qs.length - 1 ? '다음 →' : '결과 보기 →') + '</button>';
+}
+function vvRenderResult() {
+  let h = '<div class="lesson-done-card"><div class="lesson-done-title">' + vvTitle.textContent + ' 완료</div>'
+    + '<p style="font-size:28px;font-weight:700;color:#2e6ed6;margin:8px 0 0">' + vv.right + ' / ' + vv.qs.length + '</p></div>';
+  if (vv.wrongs.length) h += '<div class="menu-card-title" style="margin:16px 0 8px">틀린 문제 (' + vv.wrongs.length + ')</div><div class="s4-errors">'
+    + vv.wrongs.map(w => '<div class="s4-err-item"><span class="s4-err-label">' + w.q.title + '</span> 내 답: <span class="s4-wrong-txt">' + (w.mine || '—') + '</span><br>정답: <span class="s4-right-txt">' + w.right + '</span></div>').join('') + '</div>'
+    + '<button class="lesson-btn primary" id="vvRetry" style="margin-top:12px">틀린 문제만 다시</button>';
+  h += '<button class="lesson-btn" id="vvAgain" style="margin-top:8px">새 문제로 다시</button><button class="lesson-btn secondary" id="vvToLesson" style="margin-top:8px">레슨 보기</button>';
+  vvContent.innerHTML = h;
+}
+// 정답 판정: 여러 파싱 중 내 답과 가장 많이 맞는 것을 기준으로
+function vvBest(readings, ans, keys, val) {
+  let best = readings[0], bs = -1;
+  readings.forEach(r => { const s = keys.filter(k => ans[k] === val(r, k)).length; if (s > bs) { bs = s; best = r; } });
+  return { best, ok: bs === keys.length };
+}
+
+// ① 어미 구별: 어미만 보고 시제·태 + 인칭 + 수
+function vvEndingQs() {
+  const gs = vvSelGroups().filter(g => g !== 'eimi' && g !== 'dep');
+  const items = [];
+  const TV = { pa:'현재 능동', pm:'현재 중간·수동', ia:'미완료 능동' };
+  ['pa','pm','ia'].filter(g => gs.includes(g) || (g === 'pm' && vvSelGroups().includes('dep'))).forEach(g => VV_END[g].forEach((e, k) => {
+    if (g === 'ia' && k === 5) return;
+    const rs = [{ tv: TV[g], p: VV_PN[k][0] + '인칭', n: VV_PN[k][1] }];
+    if (g === 'ia' && k === 0) rs.push({ tv: TV[g], p:'3인칭', n:'복수' });
+    items.push({ show: (g === 'ia' ? 'ἐ- … -' : '-') + e, rs, g });
+  }));
+  if (!items.length) return [];
+  const pick = [];
+  while (pick.length < VV_N) pick.push(...shuffle(items));
+  return pick.slice(0, VV_N).map(it => ({
+    title: it.show,
+    prompt: '<div class="vv-prompt-sm">이 어미가 붙은 동사는?</div><div class="vv-prompt">' + it.show + '</div>'
+      + (it.g === 'ia' ? '<div class="ex-note" style="text-align:center">ἐ- = 접두모음</div>' : ''),
+    fields: [{ key:'tv', label:'시제·태', opts:['현재 능동','현재 중간·수동','미완료 능동'] }, { key:'p', label:'인칭', opts:['1인칭','2인칭','3인칭'] }, { key:'n', label:'수', opts:['단수','복수'] }],
+    check(ans) {
+      const { best, ok } = vvBest(it.rs, ans, ['tv','p','n'], (r, k) => r[k]);
+      return { ok, right: best, answerText: it.rs.map(r => r.tv + ' ' + r.p + ' ' + r.n).join(' / '),
+        show: '<p class="ex-note">' + it.rs.map(r => r.tv + ' ' + r.p + ' ' + r.n).join(' <b>또는</b> ') + '</p>'
+          + (it.g === 'pm' ? '<p class="ex-note">중간·수동 어미: -μαι, -σαι(→ῃ), -ται, -μεθα, -σθε, -νται 앞에 연결모음 ο/ε (§104)</p>' : '')
+          + (it.g === 'ia' ? '<p class="ex-note">제2시제 능동 어미 -ν, -ς, 없음, -μεν, -τε, -ν + 접두모음 (§115, §119)</p>' : '') };
+    }
+  }));
+}
+// ② 형태 만들기: 기본형·시제·태·인칭·수 → 형태 고르기
+function vvMakeQ(f) {
+  const r = f.readings[0], v = f.verb;
+  const same = VV_FORMS.filter(x => x.verb.lemma === v.lemma && x.form !== f.form);
+  const opts = [f.form];
+  const prefer = shuffle(same.filter(x => x.k === f.k || (x.group === f.group))).map(x => x.form);
+  for (const o of prefer) { if (!opts.includes(o)) opts.push(o); if (opts.length === 4) break; }
+  const voiceLbl = f.group === 'pm' ? '현재 ' + (r.lemma === 'ἄρχομαι' ? '중간' : '수동') : f.group === 'dep' ? '현재 (디포넌트)' : VV_GROUPS[f.group];
+  return {
+    title: v.lemma + ' ' + voiceLbl + ' ' + r.p + '인칭 ' + r.n,
+    prompt: '<div class="vv-prompt-sm">' + v.lemma + '</div><div class="vv-prompt" style="font-size:20px">' + voiceLbl + ' ' + r.p + '인칭 ' + r.n + '</div><div class="ex-note" style="text-align:center">"' + r.ko + '"</div>',
+    fields: [{ key:'form', label:'형태', opts: shuffle(opts), big:true }],
+    check(ans) {
+      return { ok: ans.form === f.form, right: { form: f.form }, answerText: f.form,
+        show: (v.note ? '<p class="ex-note">' + v.note + '</p>' : '') + vvMiniTable(f.verb.lemma, f.form) };
+    }
+  };
+}
+// ③ 파싱: 형태 → 시제·태·인칭·수·기본형·뜻
+function vvParseQ(f) {
+  const rs = f.readings;
+  const lemmas = [...new Set(rs.map(r => r.lemma))];
+  const lemmaPool = shuffle([...VV_VERBS, ...VV_DEP].map(v => v.lemma).filter(l => !lemmas.includes(l))).slice(0, 4 - lemmas.length);
+  const kos = new Set(rs.map(r => r.ko));
+  const others = shuffle(VV_FORMS.filter(x => x.verb.lemma === f.verb.lemma && x.form !== f.form).flatMap(x => x.readings.map(r => r.ko)).filter(k => !kos.has(k)));
+  const koOpts = [...kos]; for (const k of others) { if (!koOpts.includes(k)) koOpts.push(k); if (koOpts.length >= 5) break; }
+  const keys = ['tense','voice','p','n','lemma','ko'];
+  const val = (r, k) => k === 'p' ? r.p + '인칭' : r[k];
+  return {
+    title: f.form,
+    prompt: '<div class="vv-prompt-sm">이 동사를 파싱하세요</div><div class="vv-prompt">' + f.form + '</div>',
+    fields: [
+      { key:'tense', label:'시제', opts:['현재','미완료'] }, { key:'voice', label:'태', opts:['능동','중간','수동','디포넌트','없음'] },
+      { key:'p', label:'인칭', opts:['1인칭','2인칭','3인칭'] }, { key:'n', label:'수', opts:['단수','복수'] },
+      { key:'lemma', label:'기본형', opts: shuffle([...lemmas, ...lemmaPool]) }, { key:'ko', label:'뜻', opts: shuffle(koOpts) }
+    ],
+    check(ans) {
+      const { best, ok } = vvBest(rs, ans, keys, val);
+      const right = {}; keys.forEach(k => { right[k] = val(best, k); });
+      const v = vvVerbOf(f.verb.lemma);
+      let show = '<p class="ex-note"><b>가능한 파싱 모두</b></p>' + rs.map(r => '<div class="ex-note">· ' + vvParseText(r) + (r.midSame ? ' <span style="color:#999">(형태가 같은 중간태 — 교재 익힘에서는 수동으로 해석 §102)</span>' : '') + '</div>').join('');
+      if (f.group === 'dep') show += '<p class="ex-note">기본형이 -ομαι → 디포넌트: 형태는 중간·수동, 뜻은 능동 (§108)</p>';
+      if (v && v.note && f.group === 'ia') show += '<p class="ex-note">' + v.note + '</p>';
+      if (f.group !== 'eimi' && f.group !== 'dep' && VV_VERBS.some(x => x.lemma === f.verb.lemma)) show += vvMiniTable(f.verb.lemma, f.form);
+      return { ok, right, answerText: rs.map(vvParseText).join(' / '), show };
+    }
+  };
+}
+// ④ 능동 → 수동 바꾸기 (§106)
+const VV_NOUNS = [
+  { ko:'사도', nom:'ὁ ἀπόστολος', gen:'τοῦ ἀποστόλου', acc:'τὸν ἀπόστολον', dat:'τῷ ἀποστόλῳ', n:'단수' },
+  { ko:'사도들', nom:'οἱ ἀπόστολοι', gen:'τῶν ἀποστόλων', acc:'τοὺς ἀποστόλους', dat:'τοῖς ἀποστόλοις', n:'복수' },
+  { ko:'종', nom:'ὁ δοῦλος', gen:'τοῦ δούλου', acc:'τὸν δοῦλον', dat:'τῷ δούλῳ', n:'단수' },
+  { ko:'종들', nom:'οἱ δοῦλοι', gen:'τῶν δούλων', acc:'τοὺς δούλους', dat:'τοῖς δούλοις', n:'복수' },
+  { ko:'주', nom:'ὁ κύριος', gen:'τοῦ κυρίου', acc:'τὸν κύριον', dat:'τῷ κυρίῳ', n:'단수' },
+  { ko:'하나님', nom:'ὁ θεός', gen:'τοῦ θεοῦ', acc:'τὸν θεόν', dat:'τῷ θεῷ', n:'단수' },
+  { ko:'예언자', nom:'ὁ προφήτης', gen:'τοῦ προφήτου', acc:'τὸν προφήτην', dat:'τῷ προφήτῃ', n:'단수' },
+  { ko:'제자', nom:'ὁ μαθητής', gen:'τοῦ μαθητοῦ', acc:'τὸν μαθητήν', dat:'τῷ μαθητῇ', n:'단수' },
+  { ko:'제자들', nom:'οἱ μαθηταί', gen:'τῶν μαθητῶν', acc:'τοὺς μαθητάς', dat:'τοῖς μαθηταῖς', n:'복수' },
+  { ko:'죄인', nom:'ὁ ἁμαρτωλός', gen:'τοῦ ἁμαρτωλοῦ', acc:'τὸν ἁμαρτωλόν', dat:'τῷ ἁμαρτωλῷ', n:'단수' },
+  { ko:'죄인들', nom:'οἱ ἁμαρτωλοί', gen:'τῶν ἁμαρτωλῶν', acc:'τοὺς ἁμαρτωλούς', dat:'τοῖς ἁμαρτωλοῖς', n:'복수' },
+  { ko:'선생', nom:'ὁ διδάσκαλος', gen:'τοῦ διδασκάλου', acc:'τὸν διδάσκαλον', dat:'τῷ διδασκάλῳ', n:'단수' }
+];
+const VV_TRANS_VERBS = ['λύω','σῴζω','διδάσκω','πέμπω','ἀποστέλλω','ἄγω','κρίνω','βαπτίζω','ἐγείρω','βλέπω','γινώσκω','ἀποκτείνω'];
+const vvRo = s => { const c = s.charCodeAt(s.length - 1), j = (c - 0xAC00) % 28; return s + (c >= 0xAC00 && c <= 0xD7A3 && j !== 0 && j !== 8 ? '으로' : '로'); };
+// 문장 안에서는 끝 음절 예음(´)이 저음(`)으로, 문장 마지막 낱말만 그대로
+const vvSent = parts => { const ws = parts.join(' ').split(' '); return ws.map((w, i) => i < ws.length - 1 ? toGrave(w) : w).join(' '); };
+function vvTransQ() {
+  const lem = shuffle(VV_TRANS_VERBS)[0], v = VV_VERBS.find(x => x.lemma === lem);
+  const ns = shuffle(VV_NOUNS), subj = ns[0], obj = ns.find(n => n.ko.replace('들', '') !== subj.ko.replace('들', ''));
+  const form = (g, p, n) => VV_FORMS.find(f => f.verb.lemma === v.lemma && f.group === g && f.k === (p - 1) + (n === '복수' ? 3 : 0)).form.replace('(ν)', 'ν');
+  const act = form('pa', 3, subj.n), pasR = form('pm', 3, obj.n), pasW = form('pm', 3, obj.n === '단수' ? '복수' : '단수'), ipf = form('ia', 3, '단수');
+  const activeGr = vvSent([subj.nom, act, obj.acc]);
+  const activeKo = exJosa(subj.ko, '주격') + ' ' + exJosa(obj.ko, '대격') + ' ' + v.act + '.';
+  const passiveGr = vvSent([obj.nom, pasR, 'ὑπὸ ' + subj.gen]);
+  const passiveKo = exJosa(obj.ko, '주격') + ' ' + vvRo(subj.ko) + ' 말미암아 ' + v.pas + '.';
+  const wrongKo1 = exJosa(subj.ko, '주격') + ' ' + vvRo(obj.ko) + ' 말미암아 ' + v.pas + '.';
+  const wrongKo2 = exJosa(obj.ko, '주격') + ' ' + exJosa(subj.ko, '대격') + ' ' + v.act + '.';
+  const fields = [
+    { key:'s', label:'① 새 주어 (능동의 목적어 → 주격)', opts: shuffle([obj.nom, obj.acc, subj.nom]), big:true },
+    { key:'v', label:'② 동사 (수동태, 새 주어와 수 일치)', opts: shuffle([pasR, pasW, act, ipf].filter((x, i, a) => a.indexOf(x) === i)), big:true },
+    { key:'a', label:'③ 행위자 (§106)', opts: shuffle(['ὑπὸ ' + subj.gen, 'ὑπὸ ' + subj.acc, subj.dat, subj.nom]), big:true },
+    { key:'k', label:'④ 해석', opts: shuffle([passiveKo, wrongKo1, wrongKo2]) }
+  ];
+  const right = { s: obj.nom, v: pasR, a: 'ὑπὸ ' + subj.gen, k: passiveKo };
+  return {
+    title: activeGr,
+    prompt: '<div class="vv-prompt-sm">이 능동태 문장을 수동태로 바꾸세요</div><div class="vv-sent">' + activeGr + '</div><div class="ex-note" style="text-align:center">' + activeKo + '</div>',
+    fields,
+    check(ans) {
+      const ok = Object.keys(right).every(k => ans[k] === right[k]);
+      return { ok, right, answerText: passiveGr + ' — ' + passiveKo,
+        show: '<div class="vv-sent" style="font-size:19px">' + passiveGr + '</div><p class="ex-note">' + passiveKo + '</p>'
+          + '<p class="ex-note">능동의 목적어(대격) → 수동의 주어(주격), 능동의 주어 → ὑπό + 속격(행위자). 전치사 없는 여격은 행위자가 아니라 수단 (§107). ' + (subj.n !== obj.n ? '동사 수는 <b>새 주어</b>에 맞춰요.' : '') + '</p>' };
+    }
+  };
+}
+
+// 메뉴·이벤트
+document.querySelectorAll('[data-vv-start]').forEach(b => b.addEventListener('click', () => {
+  const m = b.dataset.vvStart;
+  if (m === 'lesson') vvRenderLesson(); else vvStart(m);
+}));
+document.querySelectorAll('.vv-grp-cb').forEach(cb => cb.addEventListener('change', () => cb.closest('.week-chip').classList.toggle('on', cb.checked)));
+document.getElementById('vvBackBtn').addEventListener('click', () => { vvScreen.style.display = 'none'; menuScreen.style.display = 'block'; window.scrollTo(0, 0); });
+vvContent.addEventListener('click', e => {
+  if (e.target.id === 'vvHide') { vvContent.querySelectorAll('.vv-mem').forEach(a => a.classList.toggle('nt-hide', e.target.checked)); return; }
+  const mem = e.target.closest('.vv-mem.nt-hide'); if (mem) { mem.classList.remove('nt-hide'); return; }
+  const go = e.target.closest('[data-vv-go]'); if (go) { vvStart(go.dataset.vvGo); return; }
+  const opt = e.target.closest('[data-vv-key]');
+  if (opt && !opt.disabled) {
+    const q = vv.qs[vv.i], k = opt.dataset.vvKey;
+    vvContent.querySelectorAll('[data-vv-key="' + k + '"]').forEach(b => b.classList.remove('s34-selected'));
+    opt.classList.add('s34-selected'); q.ans[k] = opt.dataset.val;
+    document.getElementById('vvSubmit').style.display = q.fields.every(f => q.ans[f.key]) ? 'block' : 'none';
+    return;
+  }
+  const id = e.target.id;
+  if (id === 'vvSubmit') vvSubmit();
+  else if (id === 'vvNextBtn') { if (vv.i < vv.qs.length - 1) { vv.i++; vvRenderQ(); window.scrollTo(0, 0); } else vvRenderResult(); }
+  else if (id === 'vvRetry') { vv = { mode: vv.mode, qs: vv.wrongs.map(w => w.q), i: 0, right: 0, wrongs: [] }; vvRenderQ(); }
+  else if (id === 'vvAgain') vvStart(vv.mode);
+  else if (id === 'vvToLesson') vvRenderLesson();
 });
 
 // ── 전치사 도표 연습 (교재 7과 §83, Metzger, Lexical Aids 1960, 103) ──────
