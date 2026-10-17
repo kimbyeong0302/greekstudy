@@ -357,7 +357,8 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 .nt-memo { color: #999; font-size: 12px; }
 .nt-a.nt-hide { background: #e4ddd0; color: transparent; border-radius: 4px; cursor: pointer; user-select: none; }
 .nt-a.nt-hide * { color: transparent !important; background: transparent !important; }
-.nt-dl { display: block; text-align: center; text-decoration: none; margin-top: 8px; box-sizing: border-box; }
+.pdf-page { display: block; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,.12); margin-top: 10px; background: #fff; }
+.nt-dl { display: block; text-align: center; text-decoration: none; margin-top: 8px; box-sizing: border-box; background: #eaf1fd; color: #2e6ed6; }
 @media print {
   body.nt-print { background: #fff !important; }
   body.nt-print .screen { display: none !important; }
@@ -766,6 +767,20 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   <div id="vvContent"></div>
 </div>
 
+<div id="pdfScreen" class="screen" style="display:none">
+  <div class="header-row">
+    <h1>정답 노트 PDF</h1>
+    <button class="lesson-back-btn" id="pdfHomeBtn">← 처음 메뉴</button>
+  </div>
+  <div class="lesson-card" style="padding:12px">
+    <button class="lesson-btn secondary" id="pdfBackNote">← 정답 노트로 돌아가기</button>
+    <a class="lesson-btn nt-dl" href="midterm-answer-note.pdf" target="_blank" rel="noopener" download="중간고사_정답노트.pdf">⬇️ PDF 파일 저장 (새 창에서 열림)</a>
+    <p class="ex-note" style="margin-top:6px">PDF 파일은 새 창으로 열려서, 다 본 뒤 그 창만 닫으면 이 화면으로 돌아와요.</p>
+  </div>
+  <div id="pdfPages"></div>
+  <button class="lesson-btn primary" id="pdfHomeBtn2" style="margin-top:12px">← 처음 메뉴로</button>
+</div>
+
 <div id="prepScreen" class="screen" style="display:none">
   <div class="header-row">
     <h1>전치사 도표</h1>
@@ -812,7 +827,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-16-2";
+const APP_VERSION = "2026-10-17-1";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -828,6 +843,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-17", text: "정답 노트 PDF를 앱 안에서 보기 + '처음 메뉴로' 버튼 (PDF 파일 저장은 새 창으로 열려 앱 화면이 유지됨)" },
   { date: "2026-10-16", text: "6주차 동사 태 연습 추가: 레슨(세 가지 태·변화표·미완료 만들기·파싱 순서), 어미 구별, 형태 만들기, 파싱 연습, 능동→수동 바꾸기 / 어미 퀴즈에 중간·수동·미완료·εἰμί 미완료 / 단어 퀴즈에 λύω·εἰμί 변화형 17개" },
   { date: "2026-10-16", text: "6주차 단어 추가: 10과 §101 17개·11과 §113 17개 (디포넌트 동사·합성동사·ὑπό·κατά·παρά·σύν 등) → 단어 퀴즈·암기 카드·짝맞추기" },
   { date: "2026-10-15", text: "중간고사 범위를 10문장으로: 7과 12–14, 8과 10·12–14, 9과 10·12·13 (7과 10·11, 8과 11, 9과 11·14 제외)" },
@@ -4901,7 +4917,7 @@ function exRenderNote(queue) {
     + '<p class="ex-note">문장마다 ① 끝 부호 ② 절 나누기 ③ 동사 → 단어 파싱 → 전체 번역 순서로 정리했어요.</p>'
     + '<div class="nt-noprint"><label class="check-row" style="font-size:14px;margin-top:8px"><input type="checkbox" id="ntHide"' + (exNoteHide ? ' checked' : '') + '> 정답 가리고 외우기 (가린 칸을 누르면 보여요)</label>'
     + '<button class="lesson-btn primary" id="ntPrint" style="margin-top:10px">🖨️ PDF로 저장 (지금 보이는 문장)</button>'
-    + '<a class="lesson-btn nt-dl" href="midterm-answer-note.pdf" download="중간고사_정답노트.pdf">📄 10문장 전체 PDF 바로 받기</a>'
+    + '<button class="lesson-btn nt-dl" id="ntPdfView">📄 10문장 전체 PDF 보기</button>'
     + '<p class="ex-note" style="margin-top:6px">PDF로 저장: 인쇄 창이 뜨면 프린터를 <b>"PDF로 저장"</b>으로 고르세요. 가린 칸도 PDF에는 정답이 모두 보여요.</p></div></div>';
   queue.forEach(({ set, item }) => {
     const toks = item.toks, last = toks[toks.length - 1].t;
@@ -4920,7 +4936,8 @@ function exRenderNote(queue) {
         + '<div class="nt-row"><span class="nt-lbl">문장 속 뜻</span>' + H('<b>' + exSentKo(t) + '</b>') + '</div>'
         + (t.note ? '<div class="nt-row nt-memo">' + H(t.note) + '</div>' : '') + '</div>').join('') + '</div></div>';
   });
-  html += '<button class="lesson-btn primary nt-noprint" id="ntToQuiz" style="margin-top:12px">이 문장들 파싱 퀴즈로 풀기 →</button>';
+  html += '<button class="lesson-btn primary nt-noprint" id="ntToQuiz" style="margin-top:12px">이 문장들 파싱 퀴즈로 풀기 →</button>'
+    + '<button class="lesson-btn secondary nt-noprint" id="ntHome" style="margin-top:8px">← 처음 메뉴로</button>';
   examContent.innerHTML = html;
   ex = { noteQueue: queue };
 }
@@ -5204,6 +5221,27 @@ document.getElementById('examMenuBtn').addEventListener('click', () => {
   examErr.style.display = 'none';
   exStart(q);
 });
+// 정답 노트 PDF: 앱 안에서 페이지 이미지로 보여 주고, 처음 메뉴로 돌아갈 수 있게
+const NOTE_PDF_PAGES = 8;
+function goHomeMenu() {
+  document.querySelectorAll('.screen').forEach(sc => { sc.style.display = 'none'; });
+  menuScreen.style.display = 'block';
+  window.scrollTo(0, 0);
+}
+function openNotePdf() {
+  const box = document.getElementById('pdfPages');
+  if (!box.children.length) box.innerHTML = Array.from({ length: NOTE_PDF_PAGES }, (_, i) =>
+    '<img class="pdf-page" loading="lazy" src="note-pages/p' + (i + 1) + '.png?v=' + APP_VERSION + '" alt="정답 노트 ' + (i + 1) + '쪽">').join('');
+  document.querySelectorAll('.screen').forEach(sc => { sc.style.display = 'none'; });
+  document.getElementById('pdfScreen').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+['pdfHomeBtn', 'pdfHomeBtn2'].forEach(id => document.getElementById(id).addEventListener('click', goHomeMenu));
+document.getElementById('pdfBackNote').addEventListener('click', () => {
+  document.getElementById('pdfScreen').style.display = 'none';
+  examScreen.style.display = 'block';
+  window.scrollTo(0, 0);
+});
 document.getElementById('examNoteBtn').addEventListener('click', () => {
   const sh = document.getElementById('examShuffle'), was = sh.checked;
   sh.checked = false; const q = exBuildQueue(); sh.checked = was;   // 노트는 교재 순서대로
@@ -5221,6 +5259,8 @@ examContent.addEventListener('click', e => {
     if (e.target.id === 'ntHide') { exNoteHide = e.target.checked; examContent.querySelectorAll('.nt-a').forEach(a => a.classList.toggle('nt-hide', exNoteHide)); return; }
     const a = e.target.closest('.nt-a.nt-hide'); if (a) { a.classList.remove('nt-hide'); return; }
     if (e.target.id === 'ntToQuiz') { const q = ex.noteQueue; exStart(q); }
+    if (e.target.id === 'ntHome') goHomeMenu();
+    if (e.target.id === 'ntPdfView') openNotePdf();
     if (e.target.id === 'ntPrint') {
       document.body.classList.add('nt-print');
       const t = document.title; document.title = '중간고사 정답노트';
