@@ -358,32 +358,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 .prep-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .prep-table td { padding: 7px 6px; border-bottom: 1px solid #f0ede6; }
 .prep-table td:first-child { font-weight: 700; color: #1d3f7a; white-space: nowrap; }
-/* ── 단어 짝맞추기 게임 ────────────────────────────────── */
-.game-start-btn { background: #d9822b; margin-top: 14px; }
-.game-status { display: flex; justify-content: space-between; font-size: 13px; color: #666; margin-bottom: 12px; }
-.game-status b { color: #222; }
-.game-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.game-grid.big { gap: 6px; }
-.game-grid.big .game-tile { min-height: 58px; font-size: 12px; }
-.game-grid.big .game-tile.gr { font-size: 15px; }
-.game-size-row { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 13px; color: #888; }
-.game-size-btn { padding: 6px 14px; border-radius: 20px; border: 1.5px solid #ddd; background: #fff; color: #666; font-size: 13px; cursor: pointer; }
-.game-size-btn.on { border-color: #d9822b; background: #fff3e6; color: #b5651d; font-weight: 700; }
-.game-tile {
-  min-height: 72px; padding: 6px 4px; border-radius: 12px; border: 2px solid #e2ddd2;
-  font-size: 13px; line-height: 1.3; color: #333; cursor: pointer; word-break: keep-all; overflow-wrap: anywhere;
-  -webkit-tap-highlight-color: transparent; transition: transform .12s, opacity .25s, border-color .12s;
-}
-.game-tile.gr { background: #f3f7ff; font-size: 17px; font-weight: 700; color: #1d3f7a; }
-.game-tile.ko { background: #fff8ec; }
-.game-tile.sel { border-color: #2e6ed6; box-shadow: 0 0 0 3px rgba(46,110,214,.18); transform: scale(1.04); }
-.game-tile.good { border-color: #2e9e4f; background: #e6f6ea; }
-.game-tile.bad { border-color: #d64545; background: #fdecec; animation: game-shake .3s; }
-.game-tile.gone { opacity: 0; pointer-events: none; }
 @keyframes game-shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
-.game-clear { text-align: center; }
-.game-missed { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 10px 0 0; }
-.game-missed span { background: #fff; border-radius: 10px; padding: 6px 10px; font-size: 13px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
 /* ── 암기 카드 ─────────────────────────────────────────── */
 .card-start-btn { background: #2e7d6b; margin-top: 14px; }
 .fc-top {
@@ -612,20 +587,6 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
     <button id="lessonMenuBtn" class="grammar-btn">레슨 시작</button>
   </div>
 
-  <!-- 단어 짝맞추기 게임 -->
-  <div class="menu-card">
-    <div class="menu-card-title">단어 짝맞추기 게임</div>
-    <p style="font-size:13px;color:#888;margin:0 0 4px;line-height:1.5">헬라어와 뜻을 짝지어 지워요. 모든 단어를 지우면 클리어! 주차 선택은 단어 퀴즈와 같이 바뀌어요.</p>
-    <div id="gameWeekChips" class="week-chips week-mirror" style="margin-left:0"></div>
-    <div class="game-size-row" id="gameSizeRow">
-      <span>한 판</span>
-      <button class="game-size-btn" data-size="8">8쌍</button>
-      <button class="game-size-btn on" data-size="16">16쌍</button>
-    </div>
-    <div id="gameErr" class="menu-err"></div>
-    <button id="gameMenuBtn" class="grammar-btn game-start-btn">게임 시작</button>
-  </div>
-
   <!-- 암기 카드 -->
   <div class="menu-card">
     <div class="menu-card-title">암기 카드</div>
@@ -695,14 +656,6 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   <div id="prepContent"></div>
 </div>
 
-<!-- ── 단어 짝맞추기 게임 화면 ───────────────────────────── -->
-<div id="gameScreen" class="screen" style="display:none">
-  <div class="header-row">
-    <h1>짝맞추기</h1>
-    <button class="lesson-back-btn" id="gameBackBtn">← 메뉴</button>
-  </div>
-  <div class="game-status" id="gameStatus"></div>
-  <div id="gameContent"></div>
 </div>
 
 <!-- ── 암기 카드 화면 ───────────────────────────────────── -->
@@ -733,7 +686,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-29-2";
+const APP_VERSION = "2026-10-29-3";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -749,6 +702,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-29", text: "단어 짝맞추기 게임을 메뉴에서 뺐어요" },
   { date: "2026-10-29", text: "중간고사가 끝나서 중간고사 대비(문장 파싱·정답 노트·PDF)를 메뉴에서 뺐어요" },
   { date: "2026-10-29", text: "αὐτός 해석 정리: 관사+명사 사이 = '바로 그(the same)', 그 밖의 강조 = '자신이, 스스로' (중간고사 9과 10·12번 '너 자신이/나 자신이', 레슨 설명·정답 노트·PDF 갱신)" },
   { date: "2026-10-17", text: "중간고사 9과 10·12번: 강조 용법 αὐτός를 '바로 네가', '바로 내가'로 번역 (정답 노트·PDF 갱신)" },
@@ -1437,7 +1391,7 @@ const words = [
   {gr:"ἦσαν", kr:"에산", en:"they were", ko:"그들이 ~이었다, 있었다", week:6, form:"εἰμί 미완료 3인칭 복수"}
 ];
 
-// 퀴즈·암기 카드·짝맞추기 게임 공통 목록: 전치사는 격을 문제 쪽(헬라어)에 붙이고 뜻에서는 격 표시를 뺀다.
+// 퀴즈·암기 카드 공통 목록: 전치사는 격을 문제 쪽(헬라어)에 붙이고 뜻에서는 격 표시를 뺀다.
 // 격이 둘인 전치사(διά, μετά)는 격별 문항으로 나눈다.
 // 예) εἰς "(+대격) ~안으로" → "εἰς + 대격" = "~안으로"
 //     διά "(+속격) 통하여, (+대격) 때문에" → "διά + 속격"=통하여, "διά + 대격"=때문에
@@ -5102,165 +5056,6 @@ prepContent.addEventListener('change', e => {
   if (e.target.id === 'prepHintCb') { prepHint = e.target.checked; prepRender(); }
 });
 
-// ── 단어 짝맞추기 게임 (사천성식) ─────────────────────────────
-// 선택한 주차의 단어를 한 판에 최대 8쌍씩 나눠, 헬라어 타일과 뜻 타일을 짝지어 지운다.
-// 모든 판을 지우면 클리어. 주차 선택은 단어 퀴즈 주차 체크박스(.wk-cb)와 같다.
-let   GAME_PAIRS  = 16;                 // 한 판의 짝 수 (메뉴에서 8 / 16 선택)
-const GAME_RECENT_KEY = 'gameRecentFirst';   // 직전 게임 첫 판에 나온 단어
-const GAME_BEST_KEY = 'gameBest';
-const gameScreen  = document.getElementById('gameScreen');
-const gameContent = document.getElementById('gameContent');
-const gameStatus  = document.getElementById('gameStatus');
-const gameErr     = document.getElementById('gameErr');
-let gameBoards = [], gameBoardIdx = 0, gameTiles = [], gameSel = null, gameLeft = 0;
-let gameMistakes = 0, gameMissed = new Set(), gameStartAt = 0, gameTimer = null, gameLock = false, gameWeeksKey = '';
-
-function fmtTime(sec) { return Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0'); }
-function gameElapsed() { return Math.floor((Date.now() - gameStartAt) / 1000); }
-function loadGameBest() { try { return JSON.parse(localStorage.getItem(GAME_BEST_KEY) || '{}'); } catch { return {}; } }
-
-function gameRenderStatus() {
-  gameStatus.innerHTML = '<span>스테이지 <b>' + (gameBoardIdx + 1) + ' / ' + gameBoards.length + '</b></span>'
-    + '<span>남은 짝 <b>' + gameLeft + '</b></span>'
-    + '<span>실수 <b>' + gameMistakes + '</b></span>'
-    + '<span>⏱ <b>' + fmtTime(gameElapsed()) + '</b></span>';
-}
-
-function gameStart() {
-  const weeks = selectedWeeks();
-  if (weeks.length === 0) { gameErr.textContent = '주차를 하나 이상 선택해주세요.'; gameErr.style.display = 'block'; return; }
-  gameErr.style.display = 'none';
-  gameWeeksKey = weeks.slice().sort((a, b) => a - b).join(',');
-  // 단어마다 한 번씩만 (반복 없음). 직전 게임 첫 판에 나온 단어는 뒤쪽으로 보내
-  // 매번 같은 단어로 시작하지 않게 한다.
-  let recent = [];
-  try { recent = JSON.parse(localStorage.getItem(GAME_RECENT_KEY) || '[]'); } catch {}
-  const all  = quizWords.filter(w => inWeeks(w, weeks));
-  const pool = [...shuffle(all.filter(w => !recent.includes(w.gr))), ...shuffle(all.filter(w => recent.includes(w.gr)))];
-  // 한 판에 GAME_PAIRS쌍씩, 마지막에 1~2쌍만 남으면 앞 판에 붙인다
-  gameBoards = [];
-  for (let i = 0; i < pool.length; i += GAME_PAIRS) gameBoards.push(pool.slice(i, i + GAME_PAIRS));
-  if (gameBoards.length > 1 && gameBoards[gameBoards.length - 1].length <= 2) {
-    const tail = gameBoards.pop();
-    gameBoards[gameBoards.length - 1].push(...tail);
-  }
-  try { localStorage.setItem(GAME_RECENT_KEY, JSON.stringify(gameBoards[0].map(w => w.gr))); } catch {}
-  gameBoardIdx = 0; gameMistakes = 0; gameMissed = new Set(); gameStartAt = Date.now();
-  clearInterval(gameTimer);
-  gameTimer = setInterval(gameRenderStatus, 1000);
-  menuScreen.style.display = 'none';
-  gameScreen.style.display = 'block';
-  window.scrollTo(0, 0);
-  gameRenderBoard();
-}
-
-function gameRenderBoard() {
-  const pairs = gameBoards[gameBoardIdx];
-  gameTiles = shuffle(pairs.flatMap((w, i) => [
-    { pair: i, kind: 'gr', text: w.gr, word: w },
-    { pair: i, kind: 'ko', text: w.ko, word: w }
-  ]));
-  gameSel = null; gameLeft = pairs.length; gameLock = false;
-  gameContent.innerHTML = '<div class="game-grid' + (pairs.length > 8 ? ' big' : '') + '">'
-    + gameTiles.map((t, i) => '<button class="game-tile ' + t.kind + '" data-tile="' + i + '">' + t.text + '</button>').join('')
-    + '</div>'
-    + '<p style="text-align:center;font-size:12px;color:#aaa;margin:14px 0 0">파란 칸은 헬라어, 노란 칸은 뜻이에요. 짝을 차례로 누르세요.</p>';
-  gameRenderStatus();
-}
-
-function gameTileEl(i) { return gameContent.querySelector('[data-tile="' + i + '"]'); }
-
-function gamePick(i) {
-  if (gameLock) return;
-  const t = gameTiles[i];
-  if (gameSel === null) { gameSel = i; gameTileEl(i).classList.add('sel'); return; }
-  if (gameSel === i) { gameTileEl(i).classList.remove('sel'); gameSel = null; return; }
-  const s = gameTiles[gameSel];
-  if (s.kind === t.kind) {                 // 같은 종류끼리는 선택만 옮김
-    gameTileEl(gameSel).classList.remove('sel');
-    gameSel = i; gameTileEl(i).classList.add('sel');
-    return;
-  }
-  const a = gameTileEl(gameSel), b = gameTileEl(i);
-  a.classList.remove('sel');
-  gameSel = null;
-  if (s.pair === t.pair) {
-    [a, b].forEach(el => el.classList.add('good'));
-    setTimeout(() => [a, b].forEach(el => el.classList.add('gone')), 180);
-    gameLeft--;
-    gameRenderStatus();
-    if (gameLeft === 0) {
-      gameLock = true;
-      setTimeout(() => {
-        if (gameBoardIdx < gameBoards.length - 1) { gameBoardIdx++; gameRenderBoard(); }
-        else gameClear();
-      }, 500);
-    }
-  } else {
-    gameMistakes++;
-    gameMissed.add(s.word); gameMissed.add(t.word);
-    [a, b].forEach(el => el.classList.add('bad'));
-    gameLock = true;
-    gameRenderStatus();
-    setTimeout(() => { [a, b].forEach(el => el.classList.remove('bad')); gameLock = false; }, 450);
-  }
-}
-
-function gameClear() {
-  clearInterval(gameTimer); gameTimer = null;
-  const sec = gameElapsed();
-  const best = loadGameBest();
-  const recKey = gameWeeksKey + '|' + GAME_PAIRS;   // 주차·판 크기별 기록
-  const prev = best[recKey];
-  const isBest = !prev || sec < prev.time || (sec === prev.time && gameMistakes < prev.mistakes);
-  if (isBest) {
-    best[recKey] = { time: sec, mistakes: gameMistakes };
-    try { localStorage.setItem(GAME_BEST_KEY, JSON.stringify(best)); } catch {}
-  }
-  const total = gameBoards.reduce((n, b) => n + b.length, 0);
-  gameStatus.innerHTML = '';
-  let html = '<div class="lesson-done-card game-clear">'
-    + '<div class="lesson-done-icon">🏆</div>'
-    + '<div class="lesson-done-title">클리어!</div>'
-    + '<p class="lesson-done-sub">' + gameWeeksKey.split(',').join('·') + '주차 ' + total + '단어를 모두 지웠어요.</p>'
-    + '<p style="font-size:28px;font-weight:700;color:#d9822b;margin:12px 0 4px">⏱ ' + fmtTime(sec) + '</p>'
-    + '<p style="font-size:14px;color:#888;margin:0">실수 ' + gameMistakes + '회'
-      + (isBest ? ' · <b style="color:#2e9e4f">최고 기록!</b>'
-                : ' · 최고 기록 ' + fmtTime(prev.time) + ' (실수 ' + prev.mistakes + '회)') + '</p>'
-    + '</div>';
-  if (gameMissed.size) {
-    html += '<div class="menu-card-title" style="margin:18px 0 4px;text-align:center">헷갈렸던 단어</div>'
-      + '<div class="game-missed">'
-      + [...gameMissed].map(w => '<span><b>' + w.gr + '</b> ' + w.ko + '</span>').join('')
-      + '</div>';
-  }
-  html += '<button class="lesson-btn primary" id="gameRetryBtn" style="margin-top:16px">다시 하기</button>'
-    + '<button class="lesson-btn" id="gameMenuBack" style="margin-top:8px">메뉴로</button>';
-  gameContent.innerHTML = html;
-}
-
-function gameExit() {
-  clearInterval(gameTimer); gameTimer = null;
-  gameScreen.style.display = 'none';
-  menuScreen.style.display = 'block';
-  window.scrollTo(0, 0);
-}
-document.getElementById('gameMenuBtn').addEventListener('click', gameStart);
-document.getElementById('gameSizeRow').addEventListener('click', e => {
-  const btn = e.target.closest('.game-size-btn');
-  if (!btn) return;
-  GAME_PAIRS = parseInt(btn.dataset.size);
-  document.querySelectorAll('.game-size-btn').forEach(b => b.classList.toggle('on', b === btn));
-});
-document.getElementById('gameBackBtn').addEventListener('click', gameExit);
-weekChips.addEventListener('change', () => { gameErr.style.display = 'none'; });
-gameContent.addEventListener('click', e => {
-  const tile = e.target.closest('[data-tile]');
-  if (tile) { gamePick(parseInt(tile.dataset.tile)); return; }
-  if (e.target.id === 'gameRetryBtn') gameStart();
-  else if (e.target.id === 'gameMenuBack') gameExit();
-});
-
 // ── 암기 카드 ─────────────────────────────────────────────────
 // 주차 선택은 단어 퀴즈의 주차 체크박스(.wk-cb)를 그대로 사용한다
 const cardScreen    = document.getElementById('cardScreen');
@@ -5306,7 +5101,7 @@ function selectedWeeks() {
 }
 
 // 메뉴의 암기 카드 주차 칩 = 단어 퀴즈 주차 체크박스의 거울
-// 암기 카드·짝맞추기 게임 카드(.week-mirror)에 같은 칩을 그린다
+// 암기 카드(.week-mirror)에 단어 퀴즈와 같은 주차 칩을 그린다
 function renderCardWeekChips() {
   const html = [...weekChips.querySelectorAll('.wk-cb')].map(cb => {
     const wk = parseInt(cb.value);
