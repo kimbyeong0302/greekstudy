@@ -322,6 +322,61 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 .gnc-wrong-form { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
 .gnc-wrong-dict { font-size: 12px; color: #999; font-weight: 400; margin-left: 6px; }
 .gnc-wrong-row { font-size: 13px; line-height: 1.6; }
+/* ── 중간고사 대비 문장 파싱 ───────────────────────────── */
+.ex-steps { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 10px; }
+.ex-steps span { font-size: 11px; padding: 3px 7px; border-radius: 10px; background: #ece8df; color: #999; }
+.ex-steps span.done { background: #e6f6ea; color: #2e9e4f; }
+.ex-steps span.on { background: #2e6ed6; color: #fff; font-weight: 700; }
+.ex-sent { display: flex; flex-wrap: wrap; gap: 6px 4px; line-height: 1.4; }
+.ex-tok { font-size: 20px; padding: 3px 6px; border-radius: 8px; border: 2px solid transparent; }
+.ex-tok[data-ex-tok] { cursor: pointer; background: #f6f3ec; }
+.ex-tok.punct { padding: 3px 2px; }
+.ex-tok.sel { border-color: #2e6ed6; background: #eaf1fd; }
+.ex-tok.ok { border-color: #2e9e4f; background: #e6f6ea; }
+.ex-tok.bad { border-color: #d64545; background: #fdecec; }
+.ex-tok.miss { border-color: #2e9e4f; border-style: dashed; }
+.ex-tok.split { color: #9c3dd6; font-weight: 700; }
+.ex-tok.verb { text-decoration: underline 3px #d9822b; text-underline-offset: 5px; }
+.ex-tok.parsed { background: #dfe6f3; color: #2c4a7a; }
+.ex-tok.target { background: #fff3c4; border-color: #e0a100; }
+.ex-set-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; }
+.ex-set-row .week-chip { padding: 5px 9px; }
+.ex-set-chip.part { background: #f3f7fe; color: #2e6ed6; }
+.ex-sent-gr { font-size: 11px; color: #999; font-weight: 400; margin-left: 4px; }
+.ex-sel-count { font-size: 12px; color: #888; margin-top: 2px; }
+.nt-head { font-size: 13px; font-weight: 700; color: #b5651d; }
+.nt-gr { font-size: 20px; line-height: 1.6; margin: 6px 0 4px; }
+.nt-tr { font-size: 15px; font-weight: 600; color: #2c4a7a; margin-bottom: 8px; }
+.nt-steps { font-size: 13px; color: #555; background: #faf8f4; border-radius: 8px; padding: 8px 10px; line-height: 1.7; }
+.nt-words { margin-top: 10px; display: grid; gap: 8px; }
+.nt-w { border: 1px solid #eee; border-radius: 10px; padding: 8px 10px; }
+.nt-w-top { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.nt-w-gr { font-size: 20px; }
+.nt-pos { font-size: 12px; background: #eaf1fd; color: #2e6ed6; border-radius: 6px; padding: 2px 7px; font-weight: 600; }
+.nt-row { font-size: 13px; line-height: 1.6; }
+.nt-lbl { display: inline-block; width: 64px; color: #999; font-size: 12px; }
+.nt-alt { color: #b5651d; }
+.nt-memo { color: #999; font-size: 12px; }
+.ex-detail { background: #faf8f4; border-radius: 10px; padding: 10px 12px; margin-top: 6px; }
+.ex-q { font-size: 14px; font-weight: 600; margin: 0 0 10px; line-height: 1.5; }
+.ex-word { text-align: center; font-size: 30px; font-weight: 700; margin: 0 0 10px; }
+.ex-pos-done { font-size: 13px; color: #666; margin: 0 0 8px; }
+.ex-none { padding: 6px 14px; border-radius: 16px; border: 1.5px solid #ccc; background: #fff; font-size: 13px; cursor: pointer; }
+.ex-none.on { border-color: #2e6ed6; background: #eaf1fd; color: #2e6ed6; font-weight: 700; }
+.ex-tr { width: 100%; font-size: 15px; padding: 10px; border-radius: 10px; border: 1.5px solid #ddd; font-family: inherit; }
+.ex-model { background: #f0f8f0; border-radius: 10px; padding: 10px 12px; font-size: 15px; color: #1a6e35; font-weight: 600; line-height: 1.5; margin-bottom: 6px; }
+.ls-card { display: block; width: 100%; text-align: left; background: #fff; border: 2px solid #a7c4ef; border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,.05); font-family: inherit; }
+.ls-card:active { background: #f3f7fe; }
+.ls-card-title { font-size: 17px; font-weight: 700; color: #1d3f7a; }
+.ls-card-sub { font-size: 13px; color: #666; margin-top: 4px; line-height: 1.5; }
+.ls-card-meta { font-size: 12px; color: #2e6ed6; margin-top: 6px; }
+.ls-topic { background: #fff; border-radius: 12px; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.06); overflow: hidden; }
+.ls-topic-head { padding: 12px 14px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.ls-topic.open .ls-topic-head { color: #2e6ed6; }
+.ls-arrow { color: #bbb; transition: transform .2s; }
+.ls-topic.open .ls-arrow { transform: rotate(90deg); }
+.ls-topic-body { padding: 0 14px 14px; font-size: 14px; line-height: 1.6; }
+.ls-drill { background: #fff !important; color: #2e6ed6 !important; border: 2px solid #2e6ed6 !important; margin-top: 8px; }
 .nt-a.nt-hide { background: #e4ddd0; color: transparent; border-radius: 4px; cursor: pointer; user-select: none; }
 .nt-a.nt-hide * { color: transparent !important; background: transparent !important; }
 .vv-table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 8px; }
@@ -535,22 +590,11 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   <button id="startBtn" class="start-btn">퀴즈 시작</button>
   <div id="menuErr" class="menu-err"></div>
 
-  <!-- 6주차 동사 태 연습 -->
+  <!-- 학습 카드: 과별 학습 -->
   <div class="menu-card" style="margin-top:18px;border:2px solid #a7c4ef">
-    <div class="menu-card-title" style="color:#2e6ed6">6주차 · 동사 태 연습 (능동·중간·수동)</div>
-    <p style="font-size:13px;color:#888;margin:0 0 4px;line-height:1.5">10·11과: 현재 중간·수동태, 디포넌트, 미완료 능동태, εἰμί 미완료. 레슨으로 표를 익히고 → 어미 구별 → 형태 만들기 → 파싱 → 능동을 수동으로 바꾸기 순서로 연습해요. 문제는 여러 태가 섞여서 나와요.</p>
-    <div class="week-chips" style="margin-left:0">
-      <label class="week-chip on"><input type="checkbox" class="vv-grp-cb" value="pa" checked>현재 능동</label>
-      <label class="week-chip on"><input type="checkbox" class="vv-grp-cb" value="pm" checked>현재 중간·수동</label>
-      <label class="week-chip on"><input type="checkbox" class="vv-grp-cb" value="dep" checked>디포넌트</label>
-      <label class="week-chip on"><input type="checkbox" class="vv-grp-cb" value="ia" checked>미완료 능동</label>
-      <label class="week-chip on"><input type="checkbox" class="vv-grp-cb" value="eimi" checked>εἰμί 미완료</label>
-    </div>
-    <button class="grammar-btn" data-vv-start="lesson" style="background:#2e6ed6;margin-top:12px">📖 레슨: 세 가지 태와 변화표</button>
-    <button class="grammar-btn" data-vv-start="ending" style="background:#fff;color:#2e6ed6;border:2px solid #2e6ed6;margin-top:8px">① 어미 구별 퀴즈</button>
-    <button class="grammar-btn" data-vv-start="make" style="background:#fff;color:#2e6ed6;border:2px solid #2e6ed6;margin-top:8px">② 형태 만들기</button>
-    <button class="grammar-btn" data-vv-start="parse" style="background:#fff;color:#2e6ed6;border:2px solid #2e6ed6;margin-top:8px">③ 파싱 연습 (시제·태·인칭·수·기본형·뜻)</button>
-    <button class="grammar-btn" data-vv-start="trans" style="background:#fff;color:#2e6ed6;border:2px solid #2e6ed6;margin-top:8px">④ 능동 → 수동 바꾸기 (ὑπό + 속격)</button>
+    <div class="menu-card-title" style="color:#2e6ed6">📚 학습 카드</div>
+    <p style="font-size:13px;color:#888;margin:0 0 4px;line-height:1.5">과별로 문법 레슨 → 변화 연습 → 익힘 문제(문장 파싱)를 공부해요. 지금은 10과 · 11과 · 12과가 있어요.</p>
+    <button id="lcMenuBtn" class="grammar-btn" style="background:#2e6ed6;margin-top:12px">학습 카드 열기</button>
   </div>
 
   <!-- 성·수·격 퀴즈 (관사 / 형용사 어미) -->
@@ -641,11 +685,27 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   <div id="gncContent"></div>
 </div>
 
+<div id="lcScreen" class="screen" style="display:none">
+  <div class="header-row">
+    <h1 id="lcTitle">학습 카드</h1>
+    <button class="lesson-back-btn" id="lcBackBtn">← 뒤로</button>
+  </div>
+  <div id="lcContent"></div>
+</div>
+
+<div id="examScreen" class="screen" style="display:none">
+  <div class="header-row">
+    <h1>익힘 문제</h1>
+    <button class="lesson-back-btn" id="examBackBtn">← 과 학습</button>
+  </div>
+  <div id="examContent"></div>
+</div>
+
 <!-- ── 전치사 도표 연습 화면 ─────────────────────────────── -->
 <div id="vvScreen" class="screen" style="display:none">
   <div class="header-row">
     <h1 id="vvTitle">동사 태 연습</h1>
-    <button class="lesson-back-btn" id="vvBackBtn">← 메뉴</button>
+    <button class="lesson-back-btn" id="vvBackBtn">← 과 학습</button>
   </div>
   <div id="vvContent"></div>
 </div>
@@ -688,7 +748,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-10-29-4";
+const APP_VERSION = "2026-10-29-5";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -704,6 +764,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-10-29", text: "📚 학습 카드 추가: 10과·11과·12과 학습(문법 레슨, 변화 연습, 익힘 문제 54문장 파싱·정답 노트), 미완료 중간·수동 / 접두모음 붙이기 / 여격·ὑπό 구별 / καί·οὐδέ 판별 연습. 11과 단어는 7주차로 이동" },
   { date: "2026-10-29", text: "7주차 단어 추가: 12과 §127 (βιβλίον·δέχομαι·περί·ὑπέρ 등), 주차 칩에 '디포넌트 모음'(6·7주차 디포 12개만 따로 퀴즈·암기 카드)" },
   { date: "2026-10-29", text: "단어 짝맞추기 게임을 메뉴에서 뺐어요" },
   { date: "2026-10-29", text: "중간고사가 끝나서 중간고사 대비(문장 파싱·정답 노트·PDF)를 메뉴에서 뺐어요" },
@@ -1322,76 +1383,76 @@ const words = [
   {gr:"ὑπό", kr:"휘포", en:"by (+gen.), under (+acc.)", ko:"(+속격) ~로 말미암아, (+대격) ~밑에", week:6,
    etymology:"접두어 hypo-: hypodermic(피부 밑), hypothesis(밑에 놓은 것). +속격은 수동태의 행위자(§106)",
    pun:"속격이면 말미암아(행위자), 대격이면 밑에 — '휘포(hypo)는 밑(대)'"},
-  // 6주차: 11과 낱말 모음 §113
-  {gr:"αἴρω", kr:"아이로", en:"I take up, take away", ko:"나는 들어 올린다, 치운다", week:6,
+  // 7주차: 11과 낱말 모음 §113
+  {gr:"αἴρω", kr:"아이로", en:"I take up, take away", ko:"나는 들어 올린다, 치운다", week:7,
    etymology:"미완료 ἦρον(§118: αι가 η로 길어지고 ι는 밑에 붙음). 영어 파생어는 거의 없음",
    pun:"아이(I) 로(raise) — 들어 올려 치운다"},
-  {gr:"ἀναβαίνω", kr:"아나바이노", en:"I go up", ko:"나는 올라간다", week:6,
+  {gr:"ἀναβαίνω", kr:"아나바이노", en:"I go up", ko:"나는 올라간다", week:7,
    etymology:"ἀνά(위로) + βαίνω(가다). 크세노폰의 책 Anabasis('올라감')",
    pun:"아나(위로) 바이(by) — 올라간다"},
-  {gr:"ἀποθνῄσκω", kr:"아포트네스코", en:"I die", ko:"나는 죽는다", week:6,
+  {gr:"ἀποθνῄσκω", kr:"아포트네스코", en:"I die", ko:"나는 죽는다", week:7,
    etymology:"ἀπό + θνῄσκω(죽다). θάνατος(죽음)와 같은 계열, thanatology(죽음학)",
    pun:"아뽀(아파) 트네(떠나) — 죽는다"},
-  {gr:"ἀποκτείνω", kr:"아포크테이노", en:"I kill", ko:"나는 죽인다", week:6,
+  {gr:"ἀποκτείνω", kr:"아포크테이노", en:"I kill", ko:"나는 죽인다", week:7,
    etymology:"ἀπό + κτείνω(죽이다). 미완료 ἀπέκτεινον(§122: 전치사 끝 모음이 떨어짐)",
    pun:"아포(죽는다 ἀποθνῄσκω)와 짝 — 크테이노는 남을 죽인다"},
-  {gr:"ἀποστέλλω", kr:"아포스텔로", en:"I send", ko:"나는 보낸다 (사명을 주어)", week:6,
+  {gr:"ἀποστέλλω", kr:"아포스텔로", en:"I send", ko:"나는 보낸다 (사명을 주어)", week:7,
    etymology:"ἀπό + στέλλω. ἀπόστολος(사도, 보냄 받은 자) → apostle. πέμπω는 일반적으로 보냄",
    pun:"아포스텔로 보낸 사람이 아포스톨로스(사도)"},
-  {gr:"ἄρτος", kr:"아르토스", en:"bread", ko:"떡, 빵", week:6,
+  {gr:"ἄρτος", kr:"아르토스", en:"bread", ko:"떡, 빵", week:7,
    etymology:"남성 명사(ὁ). 영어 파생어는 거의 없음",
    pun:"아르(art)처럼 구운 빵, 아르토스"},
-  {gr:"βαίνω", kr:"바이노", en:"I go", ko:"나는 간다", week:6,
+  {gr:"βαίνω", kr:"바이노", en:"I go", ko:"나는 간다", week:7,
    etymology:"신약에서는 이대로 쓰이지 않고 전치사와 합쳐 씀(ἀνα-, κατα-). basis(디딤)와 같은 뿌리",
    pun:"바이(bye) 하고 간다, 바이노"},
-  {gr:"ἐσθίω", kr:"에스티오", en:"I eat", ko:"나는 먹는다", week:6,
+  {gr:"ἐσθίω", kr:"에스티오", en:"I eat", ko:"나는 먹는다", week:7,
    etymology:"영어 파생어는 거의 없음",
    pun:"에스티(이스트) 넣은 빵을 먹는다, 에스티오"},
-  {gr:"κατά", kr:"카타", en:"against (+gen.), according to (+acc.)", ko:"(+속격) ~에 대항하여, 맞서서, (+대격) ~에 의하여, ~에 따라서", week:6,
+  {gr:"κατά", kr:"카타", en:"against (+gen.), according to (+acc.)", ko:"(+속격) ~에 대항하여, 맞서서, (+대격) ~에 의하여, ~에 따라서", week:7,
    etymology:"본래 뜻은 '아래'. 접두어 cata-: catastrophe(아래로 뒤집힘), catalogue(차례에 따라 적음)",
    pun:"속격이면 대항하여, 대격이면 따라서 — '카타(cata)로그는 순서에 따라(대)'"},
-  {gr:"καταβαίνω", kr:"카타바이노", en:"I go down", ko:"나는 내려간다", week:6,
+  {gr:"καταβαίνω", kr:"카타바이노", en:"I go down", ko:"나는 내려간다", week:7,
    etymology:"κατά(아래로) + βαίνω(가다). ἀναβαίνω(올라간다)와 짝",
    pun:"카타(아래로) 바이(by) — 내려간다"},
-  {gr:"μέν … δέ", kr:"멘 … 데", en:"on the one hand … on the other", ko:"한편으로는 … 다른 한편으로는", week:6,
+  {gr:"μέν … δέ", kr:"멘 … 데", en:"on the one hand … on the other", ko:"한편으로는 … 다른 한편으로는", week:7,
    etymology:"대조를 나타냄. 흔히 μέν은 옮기지 않고 δέ만 '그러나'로 옮김",
    pun:"멘(men)은 이쪽, 데(the)는 저쪽"},
-  {gr:"οὐκέτι", kr:"우케티", en:"no longer", ko:"더 이상 … 않다 (부사)", week:6,
+  {gr:"οὐκέτι", kr:"우케티", en:"no longer", ko:"더 이상 … 않다 (부사)", week:7,
    etymology:"οὐκ(아니) + ἔτι(아직, 더)",
    pun:"우크(아니) 에티(아직) — 더 이상 아니다"},
-  {gr:"παρά", kr:"파라", en:"from (+gen.), beside (+dat.), alongside (+acc.)", ko:"(+속격) ~으로부터, (+여격) ~곁에, 앞에, 함께, (+대격) ~과 곁따라, 곁에서", week:6,
+  {gr:"παρά", kr:"파라", en:"from (+gen.), beside (+dat.), alongside (+acc.)", ko:"(+속격) ~으로부터, (+여격) ~곁에, 앞에, 함께, (+대격) ~과 곁따라, 곁에서", week:7,
    etymology:"접두어 para-: parallel(서로 곁에), parable(παραβολή, 곁에 던져 비교함)",
    pun:"파라솔(parasol) 곁에 — 속격 ~으로부터, 여격 곁에, 대격 곁따라"},
-  {gr:"παραλαμβάνω", kr:"파라람바노", en:"I receive, take along", ko:"나는 받는다, 데리고 간다", week:6,
+  {gr:"παραλαμβάνω", kr:"파라람바노", en:"I receive, take along", ko:"나는 받는다, 데리고 간다", week:7,
    etymology:"παρά(곁에) + λαμβάνω(취하다, 받다)",
    pun:"파라(곁에) 람바노(받는다) — 곁에 받아 데리고 간다"},
-  {gr:"σύν", kr:"쉰", en:"with (+dat.)", ko:"(+여격) ~와 함께", week:6,
+  {gr:"σύν", kr:"쉰", en:"with (+dat.)", ko:"(+여격) ~와 함께", week:7,
    etymology:"μετά+속격과 뜻이 거의 같음. 접두어 syn-/sym-: synagogue, symphony, synthesis",
    pun:"쉰(syn)포니, 함께(여격) 연주한다"},
-  {gr:"συνάγω", kr:"쉬나고", en:"I gather", ko:"나는 모은다, 함께 모이다", week:6,
+  {gr:"συνάγω", kr:"쉬나고", en:"I gather", ko:"나는 모은다, 함께 모이다", week:7,
    etymology:"σύν(함께) + ἄγω(인도하다). συναγωγή(회당) → synagogue",
    pun:"쉬나고그(synagogue)에 함께 모은다"},
-  {gr:"τότε", kr:"토테", en:"then", ko:"그때에 (부사)", week:6,
+  {gr:"τότε", kr:"토테", en:"then", ko:"그때에 (부사)", week:7,
    etymology:"영어 파생어는 없음",
    pun:"토테(토대) 그때에 놓았다"},
-  // 6주차: λύω 현재 중간·수동(§103·105), 미완료 능동(§115), εἰμί 미완료(§124) 변화형
+  // λύω 변화형: 현재 중간·수동(§103·105)은 6주차, 미완료 능동(§115)·εἰμί 미완료(§124)는 7주차
   {gr:"λύομαι", kr:"뤼오마이", en:"I am loosed / I loose for myself", ko:"내가 풀린다, 나를 위하여 푼다", week:6, form:"λύω 현재 중간·수동 1인칭 단수"},
   {gr:"λύῃ", kr:"뤼에", en:"you are loosed", ko:"네가 풀린다, 너를 위하여 푼다", week:6, form:"λύω 현재 중간·수동 2인칭 단수 (λύεσαι → λύῃ)"},
   {gr:"λύεται", kr:"뤼에타이", en:"he is loosed", ko:"그가 풀린다, 그를 위하여 푼다", week:6, form:"λύω 현재 중간·수동 3인칭 단수"},
   {gr:"λυόμεθα", kr:"뤼오메타", en:"we are loosed", ko:"우리가 풀린다, 우리를 위하여 푼다", week:6, form:"λύω 현재 중간·수동 1인칭 복수"},
   {gr:"λύεσθε", kr:"뤼에스테", en:"you (pl.) are loosed", ko:"너희가 풀린다, 너희를 위하여 푼다", week:6, form:"λύω 현재 중간·수동 2인칭 복수"},
   {gr:"λύονται", kr:"뤼온타이", en:"they are loosed", ko:"그들이 풀린다, 그들을 위하여 푼다", week:6, form:"λύω 현재 중간·수동 3인칭 복수"},
-  {gr:"ἔλυον", kr:"엘뤼온", en:"I was loosing / they were loosing", ko:"내가 풀고 있었다, 그들이 풀고 있었다", week:6, form:"λύω 미완료 능동 1인칭 단수 = 3인칭 복수 (§121)"},
-  {gr:"ἔλυες", kr:"엘뤼에스", en:"you were loosing", ko:"네가 풀고 있었다", week:6, form:"λύω 미완료 능동 2인칭 단수"},
-  {gr:"ἔλυε(ν)", kr:"엘뤼에(ㄴ)", en:"he was loosing", ko:"그가 풀고 있었다", week:6, form:"λύω 미완료 능동 3인칭 단수"},
-  {gr:"ἐλύομεν", kr:"엘뤼오멘", en:"we were loosing", ko:"우리가 풀고 있었다", week:6, form:"λύω 미완료 능동 1인칭 복수"},
-  {gr:"ἐλύετε", kr:"엘뤼에테", en:"you (pl.) were loosing", ko:"너희가 풀고 있었다", week:6, form:"λύω 미완료 능동 2인칭 복수"},
-  {gr:"ἤμην", kr:"에멘", en:"I was", ko:"내가 ~이었다, 있었다", week:6, form:"εἰμί 미완료 1인칭 단수"},
-  {gr:"ἦς", kr:"에스", en:"you were", ko:"네가 ~이었다, 있었다", week:6, form:"εἰμί 미완료 2인칭 단수"},
-  {gr:"ἦν", kr:"엔", en:"he was", ko:"그가 ~이었다, 있었다", week:6, form:"εἰμί 미완료 3인칭 단수"},
-  {gr:"ἦμεν", kr:"에멘", en:"we were", ko:"우리가 ~이었다, 있었다", week:6, form:"εἰμί 미완료 1인칭 복수"},
-  {gr:"ἦτε", kr:"에테", en:"you (pl.) were", ko:"너희가 ~이었다, 있었다", week:6, form:"εἰμί 미완료 2인칭 복수"},
-  {gr:"ἦσαν", kr:"에산", en:"they were", ko:"그들이 ~이었다, 있었다", week:6, form:"εἰμί 미완료 3인칭 복수"},
+  {gr:"ἔλυον", kr:"엘뤼온", en:"I was loosing / they were loosing", ko:"내가 풀고 있었다, 그들이 풀고 있었다", week:7, form:"λύω 미완료 능동 1인칭 단수 = 3인칭 복수 (§121)"},
+  {gr:"ἔλυες", kr:"엘뤼에스", en:"you were loosing", ko:"네가 풀고 있었다", week:7, form:"λύω 미완료 능동 2인칭 단수"},
+  {gr:"ἔλυε(ν)", kr:"엘뤼에(ㄴ)", en:"he was loosing", ko:"그가 풀고 있었다", week:7, form:"λύω 미완료 능동 3인칭 단수"},
+  {gr:"ἐλύομεν", kr:"엘뤼오멘", en:"we were loosing", ko:"우리가 풀고 있었다", week:7, form:"λύω 미완료 능동 1인칭 복수"},
+  {gr:"ἐλύετε", kr:"엘뤼에테", en:"you (pl.) were loosing", ko:"너희가 풀고 있었다", week:7, form:"λύω 미완료 능동 2인칭 복수"},
+  {gr:"ἤμην", kr:"에멘", en:"I was", ko:"내가 ~이었다, 있었다", week:7, form:"εἰμί 미완료 1인칭 단수"},
+  {gr:"ἦς", kr:"에스", en:"you were", ko:"네가 ~이었다, 있었다", week:7, form:"εἰμί 미완료 2인칭 단수"},
+  {gr:"ἦν", kr:"엔", en:"he was", ko:"그가 ~이었다, 있었다", week:7, form:"εἰμί 미완료 3인칭 단수"},
+  {gr:"ἦμεν", kr:"에멘", en:"we were", ko:"우리가 ~이었다, 있었다", week:7, form:"εἰμί 미완료 1인칭 복수"},
+  {gr:"ἦτε", kr:"에테", en:"you (pl.) were", ko:"너희가 ~이었다, 있었다", week:7, form:"εἰμί 미완료 2인칭 복수"},
+  {gr:"ἦσαν", kr:"에산", en:"they were", ko:"그들이 ~이었다, 있었다", week:7, form:"εἰμί 미완료 3인칭 복수"},
   // 7주차: 12과 낱말 모음 §127 (ἔργον은 1주차, καί는 2주차 항목에 also:[7])
   {gr:"ἀπέρχομαι", kr:"아페르코마이", en:"I go away", ko:"나는 가 버린다", week:7, dep:true,
    etymology:"디포넌트. ἀπό(~에서 떠나) + ἔρχομαι(가다)",
@@ -1409,7 +1470,7 @@ const words = [
    etymology:"디포넌트. ἐκ(밖으로) + πορεύομαι(가다, 6주차). ἐξέρχομαι와 뜻이 같음",
    pun:"엑스(밖으로) + 포류오마이(가다) = 나간다"},
   {gr:"ἔτι", kr:"에티", en:"still, yet", ko:"아직 (부사)", week:7,
-   etymology:"οὐκέτι(더 이상 … 않다, 6주차) = οὐκ + ἔτι",
+   etymology:"οὐκέτι(더 이상 … 않다, 11과) = οὐκ + ἔτι",
    pun:"에티(etc.)처럼 아직 남았다"},
   {gr:"θάλασσα", kr:"탈랏사", en:"sea, lake", ko:"호수, 바다", week:7,
    etymology:"여성 명사(ἡ). σσ 뒤라서 속격·여격 단수는 θαλάσσης, θαλάσσῃ (η). thalassic(바다의)",
@@ -1418,7 +1479,7 @@ const words = [
    etymology:"καί를 두 번 써서 '…과 …이 모두'(both … and)",
    pun:"카이(and)를 두 번 — 둘 다"},
   {gr:"κατέρχομαι", kr:"카테르코마이", en:"I go down", ko:"나는 내려간다", week:7, dep:true,
-   etymology:"디포넌트. κατά(아래로) + ἔρχομαι(가다). καταβαίνω(6주차)와 뜻이 같음",
+   etymology:"디포넌트. κατά(아래로) + ἔρχομαι(가다). καταβαίνω(11과)와 뜻이 같음",
    pun:"카타(아래로) + 에르코마이(가다) = 내려간다"},
   {gr:"οὐδέ", kr:"우데", en:"and not, nor, not even", ko:"그리고 … 아니, …도 아니, …까지도 아니 (접속사)", week:7,
    etymology:"οὐ(아니) + δέ(그리고)",
@@ -4586,14 +4647,15 @@ function exJosa(stem, c, thing) {
   return stem + (bat ? '을' : '를');
 }
 
-// ── 6주차 동사 태 연습: 능동·중간·수동·디포넌트·미완료 (교재 10과 §102–109, 11과 §114–124) ──
+// ── 동사 변화 연습: 능동·중간·수동·디포넌트·미완료 (교재 10과 §102–109, 11과 §114–124, 12과 §128–133) ──
 // 형태는 어간 + 어미로 만들고, 동사 악센트 규칙(뒤로 물러나는 악센트, 접두모음 앞으로는 못 감 §123)으로 악센트를 붙인다.
 const VV_PN = [[1,'단수'],[2,'단수'],[3,'단수'],[1,'복수'],[2,'복수'],[3,'복수']];
 const VV_SUBJ = ['내가','네가','그가','우리가','너희가','그들이'];
 const VV_END = {
   pa:  ['ω','εις','ει','ομεν','ετε','ουσι(ν)'],       // 현재 능동 (제1시제 능동)
   pm:  ['ομαι','ῃ','εται','ομεθα','εσθε','ονται'],     // 현재 중간·수동 (제1시제 중간·수동 §104)
-  ia:  ['ον','ες','ε(ν)','ομεν','ετε','ον']            // 미완료 능동 (제2시제 능동 §119)
+  ia:  ['ον','ες','ε(ν)','ομεν','ετε','ον'],           // 미완료 능동 (제2시제 능동 §119)
+  im:  ['ομην','ου','ετο','ομεθα','εσθε','οντο']       // 미완료 중간·수동 (제2시제 중간 §129, ἐλύεσο → ἐλύου §130)
 };
 // pres: 현재 어간, impf: 접두모음을 붙인 미완료 어간, aug: 합성동사에서 접두모음이 몇 번째 음절인지(악센트가 그 앞으로 못 감)
 // act·pas·mid·ipf: 3인칭 단수 서술어 뜻 (주어는 인칭에 따라 붙임). pas가 없으면 수동형을 만들지 않음(자동사)
@@ -4625,18 +4687,20 @@ const VV_VERBS = [
   { lemma:'ἀποστέλλω', pres:'ἀποστελλ', impf:'ἀπεστελλ', aug:1, act:'보낸다', pas:'보내진다', ipf:'보내고 있었다', note:'합성동사: ἀπο + ε → ἀπε (§122)' },
   { lemma:'παραλαμβάνω', pres:'παραλαμβαν', impf:'παρελαμβαν', aug:1, act:'받는다', pas:'받아들여진다', ipf:'받고 있었다', note:'합성동사: παρα + ε → παρε (§122)' },
   { lemma:'συνάγω', pres:'συναγ', impf:'συνηγ', aug:1, act:'모은다', pas:'모인다', ipf:'모으고 있었다', note:'합성동사: σύν과 ἄγω 사이에서 α → η, 악센트는 접두모음 앞으로 못 감 (§122–123)' },
-  { lemma:'ἄρχω', pres:'ἀρχ', impf:'ἠρχ', act:'지배한다', ipf:'지배하고 있었다', note:'중간태 ἄρχομαι는 "시작한다" (§102)' }
+  { lemma:'ἄρχω', pres:'ἀρχ', impf:'ἠρχ', act:'지배한다', ipf:'지배하고 있었다', note:'중간태 ἄρχομαι는 "시작한다" (§102)' },
+  { lemma:'φέρω', pres:'φερ', impf:'ἐφερ', act:'가져온다', pas:'옮겨진다', ipf:'가져오고 있었다' },
+  { lemma:'ἐκβάλλω', pres:'ἐκβαλλ', impf:'ἐξεβαλλ', aug:1, act:'쫓아낸다', pas:'쫓겨난다', ipf:'쫓아내고 있었다', note:'합성동사: ἐκ + ε → ἐξε (§122)' }
 ];
 // 디포넌트(§108): 중간·수동 형태, 능동 뜻 / ἄρχομαι: 중간태 "시작한다" + ἄρχω의 수동 "지배를 받는다"
 const VV_DEP = [
-  { lemma:'ἔρχομαι', pres:'ἐρχ', act:'간다' }, { lemma:'γίνομαι', pres:'γιν', act:'된다' },
-  { lemma:'πορεύομαι', pres:'πορευ', act:'간다' }, { lemma:'ἀποκρίνομαι', pres:'ἀποκριν', act:'대답한다' },
-  { lemma:'διέρχομαι', pres:'διερχ', act:'지나서 간다' }, { lemma:'εἰσέρχομαι', pres:'εἰσερχ', act:'들어간다' },
-  { lemma:'ἐξέρχομαι', pres:'ἐξερχ', act:'나간다' },
+  { lemma:'ἔρχομαι', pres:'ἐρχ', impf:'ἠρχ', act:'간다' }, { lemma:'γίνομαι', pres:'γιν', impf:'ἐγιν', act:'된다' },
+  { lemma:'πορεύομαι', pres:'πορευ', impf:'ἐπορευ', act:'간다' }, { lemma:'ἀποκρίνομαι', pres:'ἀποκριν', impf:'ἀπεκριν', aug:1, act:'대답한다' },
+  { lemma:'διέρχομαι', pres:'διερχ', impf:'διηρχ', aug:1, act:'지나서 간다' }, { lemma:'εἰσέρχομαι', pres:'εἰσερχ', impf:'εἰσηρχ', aug:1, act:'들어간다' },
+  { lemma:'ἐξέρχομαι', pres:'ἐξερχ', impf:'ἐξηρχ', aug:1, act:'나간다' },
   // 12과 §127
-  { lemma:'ἀπέρχομαι', pres:'ἀπερχ', act:'가 버린다' }, { lemma:'δέχομαι', pres:'δεχ', act:'받는다' },
-  { lemma:'ἐκπορεύομαι', pres:'ἐκπορευ', act:'나간다' }, { lemma:'κατέρχομαι', pres:'κατερχ', act:'내려간다' },
-  { lemma:'συνέρχομαι', pres:'συνερχ', act:'같이 간다' }
+  { lemma:'ἀπέρχομαι', pres:'ἀπερχ', impf:'ἀπηρχ', aug:1, act:'가 버린다' }, { lemma:'δέχομαι', pres:'δεχ', impf:'ἐδεχ', act:'받는다' },
+  { lemma:'ἐκπορεύομαι', pres:'ἐκπορευ', impf:'ἐξεπορευ', aug:1, act:'나간다' }, { lemma:'κατέρχομαι', pres:'κατερχ', impf:'κατηρχ', aug:1, act:'내려간다' },
+  { lemma:'συνέρχομαι', pres:'συνερχ', impf:'συνηρχ', aug:1, act:'같이 간다' }
 ];
 const VV_EIMI_IMPF = ['ἤμην','ἦς','ἦν','ἦμεν','ἦτε','ἦσαν'];
 
@@ -4683,9 +4747,13 @@ function vvBuildForms() {
     VV_PN.forEach(([p, n], k) => add(vvMake(v.pres, VV_END.pa[k]), 'pa', v,
       [{ tense:'현재', voice:'능동', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.act }], { k }));
     if (v.pas) VV_PN.forEach(([p, n], k) => {
-      const rs = [{ tense:'현재', voice:'수동', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.pas }];
-      rs.push({ tense:'현재', voice:'중간', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + (v.mid || v.pas), midSame: !v.mid });
+      // 형태만으로는 중간·수동을 가를 수 없음 → 태는 "중간·수동" 하나, 뜻은 교재 익힘대로 수동 (λύω는 중간 뜻도)
+      const rs = [{ tense:'현재', voice:'중간·수동', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.pas }];
+      if (v.mid) rs.push({ tense:'현재', voice:'중간·수동', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.mid });
       add(vvMake(v.pres, VV_END.pm[k]), 'pm', v, rs, { k });
+      const ri = [{ tense:'미완료', voice:'중간·수동', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + koProg(v.pas) }];
+      if (v.mid) ri.push({ tense:'미완료', voice:'중간·수동', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' 자기를 위하여 풀고 있었다' });
+      add(vvMake(v.impf, VV_END.im[k], v.aug), 'im', v, ri, { k });
     });
     VV_PN.forEach(([p, n], k) => {
       if (k === 5) return;   // 3인칭 복수는 1인칭 단수와 같은 형태(§121) → 한 형태에 두 파싱
@@ -4694,17 +4762,19 @@ function vvBuildForms() {
       add(vvMake(v.impf, VV_END.ia[k], v.aug), 'ia', v, rs, { k });
     });
   });
-  VV_DEP.forEach(v => VV_PN.forEach(([p, n], k) => add(vvMake(v.pres, VV_END.pm[k]), 'dep', v,
-    [{ tense:'현재', voice:'디포넌트', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.act }], { k })));
+  VV_DEP.forEach(v => VV_PN.forEach(([p, n], k) => {
+    add(vvMake(v.pres, VV_END.pm[k]), 'dep', v, [{ tense:'현재', voice:'디포넌트', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.act }], { k });
+    add(vvMake(v.impf, VV_END.im[k], v.aug), 'dep', v, [{ tense:'미완료', voice:'디포넌트', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + koProg(v.act) }], { k, impf: true });
+  }));
   VV_PN.forEach(([p, n], k) => add(vvMake('ἀρχ', VV_END.pm[k]), 'pm', { lemma:'ἄρχομαι' },
-    [{ tense:'현재', voice:'중간', p, n, lemma:'ἄρχομαι', ko: VV_SUBJ[k] + ' 시작한다' },
-     { tense:'현재', voice:'수동', p, n, lemma:'ἄρχω', ko: VV_SUBJ[k] + ' 지배를 받는다' }], { k }));
+    [{ tense:'현재', voice:'중간·수동', p, n, lemma:'ἄρχομαι', ko: VV_SUBJ[k] + ' 시작한다' },
+     { tense:'현재', voice:'중간·수동', p, n, lemma:'ἄρχω', ko: VV_SUBJ[k] + ' 지배를 받는다' }], { k }));
   VV_PN.forEach(([p, n], k) => add(VV_EIMI_IMPF[k], 'eimi', { lemma:'εἰμί' },
     [{ tense:'미완료', voice:'없음', p, n, lemma:'εἰμί', ko: VV_SUBJ[k] + ' ~이었다, 있었다' }], { k }));
   VV_FORMS = forms;
   return forms;
 }
-const VV_GROUPS = { pa:'현재 능동', pm:'현재 중간·수동', dep:'디포넌트', ia:'미완료 능동', eimi:'εἰμί 미완료' };
+const VV_GROUPS = { pa:'현재 능동', pm:'현재 중간·수동', dep:'디포넌트', ia:'미완료 능동', im:'미완료 중간·수동', eimi:'εἰμί 미완료' };
 function vvParseText(r) {
   return r.tense + ' ' + (r.voice === '없음' ? '' : r.voice + '태 ') + '직설법 ' + r.p + '인칭 ' + r.n + ' · ' + r.lemma + ' · "' + r.ko + '"';
 }
@@ -4713,22 +4783,22 @@ function vvVerbOf(lemma) { return VV_VERBS.find(v => v.lemma === lemma) || VV_DE
 function vvMiniTable(lemma, hiForm) {
   const v = VV_VERBS.find(x => x.lemma === lemma);
   const fs = VV_FORMS.filter(f => (f.verb.lemma === lemma));
-  const cell = (g, k) => { const f = fs.find(x => x.group === g && x.k === (g === 'ia' && k === 5 ? 0 : k)); return f ? '<td class="' + (f.form === hiForm ? 'vv-hi' : '') + '">' + f.form + '</td>' : '<td class="vv-na">—</td>'; };
+  const cell = (g, k, imp) => { const f = fs.find(x => x.group === g && !!x.impf === !!imp && x.k === (g === 'ia' && k === 5 ? 0 : k)); return f ? '<td class="' + (f.form === hiForm ? 'vv-hi' : '') + '">' + f.form + '</td>' : '<td class="vv-na">—</td>'; };
   if (!v) {
     const g = fs[0].group;
+    if (g === 'dep') return '<table class="vv-table"><tr><th></th><th>현재 (디포넌트)</th><th>미완료 (디포넌트)</th></tr>' + VV_PN.map(([p, n], k) => '<tr><th>' + p + n[0] + '</th>' + cell(g, k) + cell(g, k, true) + '</tr>').join('') + '</table>';
     return '<table class="vv-table"><tr><th></th><th>' + VV_GROUPS[g] + '</th></tr>' + VV_PN.map(([p, n], k) => '<tr><th>' + p + n[0] + '</th>' + cell(g, k) + '</tr>').join('') + '</table>';
   }
-  return '<table class="vv-table"><tr><th></th><th>현재 능동</th><th>현재 중간·수동</th><th>미완료 능동</th></tr>'
-    + VV_PN.map(([p, n], k) => '<tr><th>' + p + n[0] + '</th>' + cell('pa', k) + cell('pm', k) + cell('ia', k) + '</tr>').join('') + '</table>';
+  return '<table class="vv-table"><tr><th></th><th>현재 능동</th><th>현재 중간·수동</th><th>미완료 능동</th><th>미완료 중간·수동</th></tr>'
+    + VV_PN.map(([p, n], k) => '<tr><th>' + p + n[0] + '</th>' + cell('pa', k) + cell('pm', k) + cell('ia', k) + cell('im', k) + '</tr>').join('') + '</table>';
 }
 
 // ── 화면 ──
 const vvScreen = document.getElementById('vvScreen'), vvContent = document.getElementById('vvContent'), vvTitle = document.getElementById('vvTitle');
 let vv = null;
-function vvShow(title) {
-  menuScreen.style.display = 'none'; vvScreen.style.display = 'block'; vvTitle.textContent = title; window.scrollTo(0, 0);
-}
-function vvSelGroups() { return [...document.querySelectorAll('.vv-grp-cb:checked')].map(c => c.value); }
+function vvShow(title) { lsShowScreen(vvScreen); vvTitle.textContent = title; }
+let VV_CUR_GROUPS = ['pa','pm','dep','ia','im','eimi'];   // 과 학습 카드에서 정해 줌
+function vvSelGroups() { return VV_CUR_GROUPS; }
 function vvPool() {
   if (!VV_FORMS) vvBuildForms();
   const gs = vvSelGroups();
@@ -4744,68 +4814,23 @@ function vvPick(pool, n) {
   return out;
 }
 
-// ── 레슨 ──
-function vvRenderLesson() {
-  if (!VV_FORMS) vvBuildForms();
-  vv = { mode:'lesson' };
-  vvShow('동사 태 레슨');
-  const L = VV_FORMS.filter(f => f.verb.lemma === 'λύω');
-  const seg = (form, g) => {           // 어간 | 연결모음 + 어미 색 구분
-    const m = form.match(g === 'ia' ? /^([ἐἔ])(λ[υύ])(.*)$/ : /^(λ[υύ])(.*)$/);
-    if (!m) return form;
-    return g === 'ia' ? '<span class="vv-aug">' + m[1] + '</span>' + m[2] + '<span class="vv-end">' + m[3] + '</span>' : m[1] + '<span class="vv-end">' + m[2] + '</span>';
-  };
-  const row = (g, k) => { const f = L.find(x => x.group === g && x.k === (g === 'ia' && k === 5 ? 0 : k)); return f ? seg(f.form, g) : ''; };
-  const H = s => '<span class="nt-a vv-mem">' + s + '</span>';
-  let h = '<div class="lesson-card"><div class="lesson-card-title">① 세 가지 태 (§102)</div>'
-    + '<table class="prep-table">'
-    + '<tr><td>능동태</td><td>주어가 동작을 한다<br><b>λύω</b> 내가 푼다</td></tr>'
-    + '<tr><td>중간태</td><td>주어가 동작의 결과에 참여한다<br><b>λύομαι</b> 내가 나를 위하여 푼다<br><span class="ex-note">ἄρχω 지배하다 → ἄρχομαι 시작하다처럼 뜻이 아주 달라지기도 함</span></td></tr>'
-    + '<tr><td>수동태</td><td>주어가 동작을 받는다<br><b>λύομαι</b> 내가 풀린다<br><span class="ex-note">행위자는 ὑπό + 속격 "~로 말미암아" (§106), 수단은 전치사 없는 여격 (§107)</span></td></tr>'
-    + '<tr><td>디포넌트</td><td>형태는 중간·수동, 뜻은 능동 (§108)<br><b>ἔρχομαι</b> 내가 간다</td></tr></table>'
-    + '<p class="ex-note" style="margin-top:8px">현재 시제에서는 중간태와 수동태 형태가 똑같아요. 교재 익힘 문제에서는 둘 다 가능해도 <b>수동태로 해석</b>해요 (§102).</p></div>';
-  h += '<div class="lesson-card"><div class="lesson-card-title">② <span style="text-transform:none">λύω</span> 변화표 비교</div>'
-    + '<label class="check-row" style="font-size:13px;margin-bottom:8px"><input type="checkbox" id="vvHide"> 형태 가리고 외우기 (누르면 보여요)</label>'
-    + '<table class="vv-table vv-big"><tr><th></th><th>현재 능동</th><th>현재 중간·수동</th><th>미완료 능동</th><th>εἰμί 미완료</th></tr>'
-    + VV_PN.map(([p, n], k) => '<tr><th>' + p + n[0] + '</th><td>' + H(row('pa', k)) + '</td><td>' + H(row('pm', k)) + '</td><td>' + H(row('ia', k)) + '</td><td>' + H(VV_EIMI_IMPF[k]) + '</td></tr>').join('')
-    + '</table>'
-    + '<div class="vv-endrow"><b>어미만</b> 제1시제 능동 -ω -εις -ει -ομεν -ετε -ουσι(ν) · 제1시제 중간·수동 -ομαι -ῃ -εται -ομεθα -εσθε -ονται (§104) · 제2시제 능동 -ον -ες -ε(ν) -ομεν -ετε -ον (§119)</div>'
-    + '<p class="ex-note">2인칭 단수 λύεσαι가 줄어서 λύῃ (§104). 미완료 1인칭 단수와 3인칭 복수는 ἔλυον으로 같아서 문맥으로 가려요 (§121).</p></div>';
-  h += '<div class="lesson-card"><div class="lesson-card-title">③ 뜻 비교 (3인칭 단수)</div><table class="prep-table">'
-    + '<tr><td>λύει</td><td>그가 푼다 (현재 능동)</td></tr><tr><td>λύεται</td><td>그가 풀린다 (현재 수동) / 그가 자기를 위하여 푼다 (현재 중간)</td></tr>'
-    + '<tr><td>ἔλυε(ν)</td><td>그가 풀고 있었다, 풀곤 하였다 (미완료: 과거에 계속·반복된 동작 §114)</td></tr><tr><td>ἦν</td><td>그가 ~이었다, 있었다 (εἰμί 미완료)</td></tr></table></div>';
-  h += '<div class="lesson-card"><div class="lesson-card-title">④ 미완료 만드는 법 (§115–123)</div><table class="prep-table">'
-    + '<tr><td>1</td><td>현재 어간을 찾는다: λύω → λυ-</td></tr>'
-    + '<tr><td>2</td><td>접두모음: 자음 앞은 ἐ- (ἔλυον, ἐγίνωσκον), 모음은 길게 α·ε → η, αι → ῃ (ἦγον, ἤγειρον, ἤκουον, ᾖρον)</td></tr>'
-    + '<tr><td>3</td><td>연결모음 ο/ε + 제2시제 능동 어미 (μ·ν 앞은 ο, 나머지는 ε)</td></tr>'
-    + '<tr><td>합성동사</td><td>접두모음은 전치사와 동사 사이, 전치사 끝 모음은 떨어짐: ἀποκτείνω → ἀπέκτεινον, καταβαίνω → κατέβαινον, συνάγω → συνῆγον</td></tr>'
-    + '<tr><td>악센트</td><td>접두모음 앞으로는 못 감: συνῆγον (§123)</td></tr></table></div>';
-  h += '<div class="lesson-card"><div class="lesson-card-title">⑤ 동사 파싱 순서</div><table class="prep-table">'
-    + '<tr><td>1</td><td><b>앞</b>을 본다: 접두모음(ἐ- 또는 길어진 모음)이 있으면 과거 → 미완료</td></tr>'
-    + '<tr><td>2</td><td><b>끝</b>을 본다: -ω·-εις·-ει… 능동 / -μαι·-ῃ·-ται·-μεθα·-σθε·-νται 중간·수동</td></tr>'
-    + '<tr><td>3</td><td><b>기본형</b>을 떠올린다: 사전형이 -ομαι로 끝나면 디포넌트 → 뜻은 능동</td></tr>'
-    + '<tr><td>4</td><td><b>문맥</b>: ὑπό + 속격이 있으면 수동 (행위자), 겹치는 형태(ἔλυον 1단·3복)는 주어로 가린다</td></tr></table></div>';
-  h += '<div class="lesson-card"><div class="lesson-card-title">연습으로 넘어가기</div>'
-    + '<button class="lesson-btn primary" data-vv-go="ending">어미 구별 퀴즈 →</button>'
-    + '<button class="lesson-btn primary" data-vv-go="make" style="margin-top:8px">형태 만들기 →</button>'
-    + '<button class="lesson-btn primary" data-vv-go="parse" style="margin-top:8px">파싱 연습 →</button>'
-    + '<button class="lesson-btn primary" data-vv-go="trans" style="margin-top:8px">능동 → 수동 바꾸기 →</button></div>';
-  vvContent.innerHTML = h;
-}
-
 // ── 퀴즈 공통: 문항 = { prompt, fields:[{key,label,opts}], check(ans) → {ok, marks, show} } ──
-function vvStart(mode) {
+function vvStart(mode, groups) {
   if (!VV_FORMS) vvBuildForms();
+  if (groups) VV_CUR_GROUPS = groups;
   let qs = [];
   const pool = vvPool();
-  if (mode !== 'trans' && !pool.length) { vvContent.innerHTML = '<p class="ex-note">문제 범위를 하나 이상 고르세요.</p>'; vvShow('동사 태 연습'); return; }
+  if (!['trans','aug','dat','kai'].includes(mode) && !pool.length) { vvContent.innerHTML = '<p class="ex-note">문제 범위를 하나 이상 고르세요.</p>'; vvShow('동사 태 연습'); return; }
   if (mode === 'ending') qs = vvEndingQs();
   if (mode === 'make') qs = vvPick(pool.filter(f => f.group !== 'eimi'), VV_N).map(vvMakeQ);
   if (mode === 'parse') qs = vvPick(pool, VV_N).map(vvParseQ);
   if (mode === 'trans') qs = Array.from({ length: 8 }, vvTransQ);
+  if (mode === 'aug') qs = vvAugQs();
+  if (mode === 'dat') qs = lsDatQs();
+  if (mode === 'kai') qs = lsKaiQs();
   if (!qs.length) { vvShow('동사 태 연습'); vvContent.innerHTML = '<p class="ex-note">이 연습에 맞는 문제 범위를 고르세요 (어미 구별은 현재 능동·현재 중간·수동·미완료 능동).</p>'; return; }
   vv = { mode, qs, i: 0, right: 0, wrongs: [] };
-  vvShow({ ending:'어미 구별 퀴즈', make:'형태 만들기', parse:'파싱 연습', trans:'능동 → 수동 바꾸기' }[mode]);
+  vvShow({ ending:'어미 구별 퀴즈', make:'형태 만들기', parse:'파싱 연습', trans:'능동 → 수동 바꾸기', aug:'접두모음 붙이기', dat:'여격·ὑπό 구별', kai:'καί·οὐδέ 판별' }[mode]);
   vvRenderQ();
 }
 function vvRenderQ() {
@@ -4814,7 +4839,7 @@ function vvRenderQ() {
   vvContent.innerHTML = '<div class="pq-progress"><span>' + (vv.i + 1) + ' / ' + vv.qs.length + '</span><span>맞음 ' + vv.right + '</span></div>'
     + '<div class="lesson-card">' + q.prompt + '</div>'
     + '<div class="lesson-card"><div class="s34-fields">' + q.fields.map(f => '<div class="s34-field"><div class="s34-field-lbl">' + f.label + '</div><div class="s34-opts">'
-      + f.opts.map(o => '<button class="s34-opt' + (f.big ? ' vv-gr' : '') + '" data-vv-key="' + f.key + '" data-val="' + o + '">' + o + '</button>').join('') + '</div></div>').join('') + '</div>'
+      + f.opts.map(o => '<button class="s34-opt' + (f.big ? ' vv-gr' : '') + '" data-vv-key="' + f.key + '" data-val="' + String(o).replace(/"/g, '&quot;') + '">' + o + '</button>').join('') + '</div></div>').join('') + '</div>'
     + '<button class="lesson-btn primary" id="vvSubmit" style="margin-top:12px;display:none">확인</button>'
     + '<div id="vvFb" style="margin-top:10px"></div><div id="vvNext" style="display:none;margin-top:8px"></div></div>';
 }
@@ -4838,7 +4863,7 @@ function vvRenderResult() {
   if (vv.wrongs.length) h += '<div class="menu-card-title" style="margin:16px 0 8px">틀린 문제 (' + vv.wrongs.length + ')</div><div class="s4-errors">'
     + vv.wrongs.map(w => '<div class="s4-err-item"><span class="s4-err-label">' + w.q.title + '</span> 내 답: <span class="s4-wrong-txt">' + (w.mine || '—') + '</span><br>정답: <span class="s4-right-txt">' + w.right + '</span></div>').join('') + '</div>'
     + '<button class="lesson-btn primary" id="vvRetry" style="margin-top:12px">틀린 문제만 다시</button>';
-  h += '<button class="lesson-btn" id="vvAgain" style="margin-top:8px">새 문제로 다시</button><button class="lesson-btn secondary" id="vvToLesson" style="margin-top:8px">레슨 보기</button>';
+  h += '<button class="lesson-btn" id="vvAgain" style="margin-top:8px">새 문제로 다시</button><button class="lesson-btn secondary" id="vvToLesson" style="margin-top:8px">← 과 학습으로</button>';
   vvContent.innerHTML = h;
 }
 // 정답 판정: 여러 파싱 중 내 답과 가장 많이 맞는 것을 기준으로
@@ -4852,12 +4877,13 @@ function vvBest(readings, ans, keys, val) {
 function vvEndingQs() {
   const gs = vvSelGroups().filter(g => g !== 'eimi' && g !== 'dep');
   const items = [];
-  const TV = { pa:'현재 능동', pm:'현재 중간·수동', ia:'미완료 능동' };
-  ['pa','pm','ia'].filter(g => gs.includes(g) || (g === 'pm' && vvSelGroups().includes('dep'))).forEach(g => VV_END[g].forEach((e, k) => {
+  const TV = { pa:'현재 능동', pm:'현재 중간·수동', ia:'미완료 능동', im:'미완료 중간·수동' };
+  const TVS = ['pa','pm','ia','im'].filter(g => gs.includes(g) || (g === 'pm' && vvSelGroups().includes('dep')));
+  TVS.forEach(g => VV_END[g].forEach((e, k) => {
     if (g === 'ia' && k === 5) return;
     const rs = [{ tv: TV[g], p: VV_PN[k][0] + '인칭', n: VV_PN[k][1] }];
     if (g === 'ia' && k === 0) rs.push({ tv: TV[g], p:'3인칭', n:'복수' });
-    items.push({ show: (g === 'ia' ? 'ἐ- … -' : '-') + e, rs, g });
+    items.push({ show: (g === 'ia' || g === 'im' ? 'ἐ- … -' : '-') + e, rs, g });
   }));
   if (!items.length) return [];
   const pick = [];
@@ -4865,14 +4891,15 @@ function vvEndingQs() {
   return pick.slice(0, VV_N).map(it => ({
     title: it.show,
     prompt: '<div class="vv-prompt-sm">이 어미가 붙은 동사는?</div><div class="vv-prompt">' + it.show + '</div>'
-      + (it.g === 'ia' ? '<div class="ex-note" style="text-align:center">ἐ- = 접두모음</div>' : ''),
-    fields: [{ key:'tv', label:'시제·태', opts:['현재 능동','현재 중간·수동','미완료 능동'] }, { key:'p', label:'인칭', opts:['1인칭','2인칭','3인칭'] }, { key:'n', label:'수', opts:['단수','복수'] }],
+      + (it.g === 'ia' || it.g === 'im' ? '<div class="ex-note" style="text-align:center">ἐ- = 접두모음</div>' : ''),
+    fields: [{ key:'tv', label:'시제·태', opts: TVS.map(g => TV[g]) }, { key:'p', label:'인칭', opts:['1인칭','2인칭','3인칭'] }, { key:'n', label:'수', opts:['단수','복수'] }],
     check(ans) {
       const { best, ok } = vvBest(it.rs, ans, ['tv','p','n'], (r, k) => r[k]);
       return { ok, right: best, answerText: it.rs.map(r => r.tv + ' ' + r.p + ' ' + r.n).join(' / '),
         show: '<p class="ex-note">' + it.rs.map(r => r.tv + ' ' + r.p + ' ' + r.n).join(' <b>또는</b> ') + '</p>'
           + (it.g === 'pm' ? '<p class="ex-note">중간·수동 어미: -μαι, -σαι(→ῃ), -ται, -μεθα, -σθε, -νται 앞에 연결모음 ο/ε (§104)</p>' : '')
-          + (it.g === 'ia' ? '<p class="ex-note">제2시제 능동 어미 -ν, -ς, 없음, -μεν, -τε, -ν + 접두모음 (§115, §119)</p>' : '') };
+          + (it.g === 'ia' ? '<p class="ex-note">제2시제 능동 어미 -ν, -ς, 없음, -μεν, -τε, -ν + 접두모음 (§115, §119)</p>' : '')
+          + (it.g === 'im' ? '<p class="ex-note">제2시제 중간·수동 어미 -μην, -σο(→ου), -το, -μεθα, -σθε, -ντο + 접두모음 (§129–130)</p>' : '') };
     }
   }));
 }
@@ -4883,7 +4910,7 @@ function vvMakeQ(f) {
   const opts = [f.form];
   const prefer = shuffle(same.filter(x => x.k === f.k || (x.group === f.group))).map(x => x.form);
   for (const o of prefer) { if (!opts.includes(o)) opts.push(o); if (opts.length === 4) break; }
-  const voiceLbl = f.group === 'pm' ? '현재 ' + (r.lemma === 'ἄρχομαι' ? '중간' : '수동') : f.group === 'dep' ? '현재 (디포넌트)' : VV_GROUPS[f.group];
+  const voiceLbl = f.group === 'dep' ? r.tense + ' (디포넌트)' : VV_GROUPS[f.group];
   return {
     title: v.lemma + ' ' + voiceLbl + ' ' + r.p + '인칭 ' + r.n,
     prompt: '<div class="vv-prompt-sm">' + v.lemma + '</div><div class="vv-prompt" style="font-size:20px">' + voiceLbl + ' ' + r.p + '인칭 ' + r.n + '</div><div class="ex-note" style="text-align:center">"' + r.ko + '"</div>',
@@ -4908,7 +4935,7 @@ function vvParseQ(f) {
     title: f.form,
     prompt: '<div class="vv-prompt-sm">이 동사를 파싱하세요</div><div class="vv-prompt">' + f.form + '</div>',
     fields: [
-      { key:'tense', label:'시제', opts:['현재','미완료'] }, { key:'voice', label:'태', opts:['능동','중간','수동','디포넌트','없음'] },
+      { key:'tense', label:'시제', opts:['현재','미완료'] }, { key:'voice', label:'태', opts:['능동','중간·수동','디포넌트','없음'] },
       { key:'p', label:'인칭', opts:['1인칭','2인칭','3인칭'] }, { key:'n', label:'수', opts:['단수','복수'] },
       { key:'lemma', label:'기본형', opts: shuffle([...lemmas, ...lemmaPool]) }, { key:'ko', label:'뜻', opts: shuffle(koOpts) }
     ],
@@ -4916,9 +4943,10 @@ function vvParseQ(f) {
       const { best, ok } = vvBest(rs, ans, keys, val);
       const right = {}; keys.forEach(k => { right[k] = val(best, k); });
       const v = vvVerbOf(f.verb.lemma);
-      let show = '<p class="ex-note"><b>가능한 파싱 모두</b></p>' + rs.map(r => '<div class="ex-note">· ' + vvParseText(r) + (r.midSame ? ' <span style="color:#999">(형태가 같은 중간태 — 교재 익힘에서는 수동으로 해석 §102)</span>' : '') + '</div>').join('');
-      if (f.group === 'dep') show += '<p class="ex-note">기본형이 -ομαι → 디포넌트: 형태는 중간·수동, 뜻은 능동 (§108)</p>';
-      if (v && v.note && f.group === 'ia') show += '<p class="ex-note">' + v.note + '</p>';
+      let show = '<p class="ex-note"><b>가능한 파싱 모두</b></p>' + rs.map(r => '<div class="ex-note">· ' + vvParseText(r)  + '</div>').join('');
+      if (f.group === 'dep') show += '<p class="ex-note">기본형이 -ομαι → 디포넌트: 형태는 중간·수동, 뜻은 능동 (§108, 미완료도 디포넌트 §133)</p>';
+      if (f.group === 'pm' || f.group === 'im') show += '<p class="ex-note">형태만 보고는 중간인지 수동인지 가를 수 없어 "중간·수동"이 정답이에요. 문장 속에서는 문맥으로 정하고, 교재 익힘 문제는 수동으로 해석해요 (§102, §128).</p>';
+      if (v && v.note && (f.group === 'ia' || f.group === 'im')) show += '<p class="ex-note">' + v.note + '</p>';
       if (f.group !== 'eimi' && f.group !== 'dep' && VV_VERBS.some(x => x.lemma === f.verb.lemma)) show += vvMiniTable(f.verb.lemma, f.form);
       return { ok, right, answerText: rs.map(vvParseText).join(' / '), show };
     }
@@ -4975,16 +5003,8 @@ function vvTransQ() {
 }
 
 // 메뉴·이벤트
-document.querySelectorAll('[data-vv-start]').forEach(b => b.addEventListener('click', () => {
-  const m = b.dataset.vvStart;
-  if (m === 'lesson') vvRenderLesson(); else vvStart(m);
-}));
-document.querySelectorAll('.vv-grp-cb').forEach(cb => cb.addEventListener('change', () => cb.closest('.week-chip').classList.toggle('on', cb.checked)));
-document.getElementById('vvBackBtn').addEventListener('click', () => { vvScreen.style.display = 'none'; menuScreen.style.display = 'block'; window.scrollTo(0, 0); });
+document.getElementById('vvBackBtn').addEventListener('click', () => lsOpenLesson(lsCur));
 vvContent.addEventListener('click', e => {
-  if (e.target.id === 'vvHide') { vvContent.querySelectorAll('.vv-mem').forEach(a => a.classList.toggle('nt-hide', e.target.checked)); return; }
-  const mem = e.target.closest('.vv-mem.nt-hide'); if (mem) { mem.classList.remove('nt-hide'); return; }
-  const go = e.target.closest('[data-vv-go]'); if (go) { vvStart(go.dataset.vvGo); return; }
   const opt = e.target.closest('[data-vv-key]');
   if (opt && !opt.disabled) {
     const q = vv.qs[vv.i], k = opt.dataset.vvKey;
@@ -4998,8 +5018,1139 @@ vvContent.addEventListener('click', e => {
   else if (id === 'vvNextBtn') { if (vv.i < vv.qs.length - 1) { vv.i++; vvRenderQ(); window.scrollTo(0, 0); } else vvRenderResult(); }
   else if (id === 'vvRetry') { vv = { mode: vv.mode, qs: vv.wrongs.map(w => w.q), i: 0, right: 0, wrongs: [] }; vvRenderQ(); }
   else if (id === 'vvAgain') vvStart(vv.mode);
-  else if (id === 'vvToLesson') vvRenderLesson();
+  else if (id === 'vvToLesson') lsOpenLesson(lsCur);
 });
+
+// ── 과별 학습: 익힘 문제 문장 데이터 (10과 §112, 11과 §126, 12과 §138) ──
+// 토큰: V 동사 / N 명사 / A 형용사 / R 관사 / P 전치사 / C 접속사 / D 부사 / PR 3인칭·지시대명사 / PP 1·2인칭 대명사 / X 문장부호
+// 마지막 인자 m: 문장 속 뜻 지정 (명사 {ko}, 형용사·대명사 {a 꾸밈, p 서술, s 명사처럼, use}, 접속사 {ko, alt})
+// 중간·수동 형태는 교재 §102대로 익힘 문제에서는 수동으로 해석 (디포넌트는 능동 뜻)
+const EX_V  = (t, lemma, tense, voice, person, number, note) => ({ t, pos:'동사', lemma, tense, voice, mood:'직설법', person, number, note });
+const EX_N  = (t, lemma, g, n, c, note, m) => ({ t, pos:'명사', lemma, g, n, c, note, m });
+const EX_A  = (t, lemma, g, n, c, note, m) => ({ t, pos:'형용사', lemma, g, n, c, note, m });
+const EX_R  = (t, g, n, c) => ({ t, pos:'관사', lemma:'ὁ', g, n, c });
+const EX_P  = (t, lemma, gov, note) => ({ t, pos:'전치사', lemma, gov, note });
+const EX_C  = (t, lemma, split, note, m) => ({ t, pos:'접속사', lemma, split, note, m });
+const EX_D  = (t, lemma, note) => ({ t, pos:'부사', lemma, note });
+const EX_PR = (t, lemma, g, n, c, note, m) => ({ t, pos:'대명사', lemma, g, n, c, note, m });
+const EX_PP = (t, lemma, person, n, c, note) => ({ t, pos:'대명사', lemma, person, n, c, note });
+const EX_X  = (t, split) => ({ t, punct:true, split });
+const V = EX_V, N = EX_N, A = EX_A, R = EX_R, P = EX_P, C = EX_C, D = EX_D, PR = EX_PR, PP = EX_PP, X = EX_X;
+const M_THIS = (s) => ({ a:'이', s, use:'a' }), M_THAT = (s) => ({ a:'저', s, use:'a' });
+const M_HE = { s:'그' }, M_HER = { s:'그녀' }, M_IT = { s:'그것', thing:1 }, M_THEY = { s:'그들' };
+const K_AND = { ko:'그리고' }, K_PAIR = { ko:'~과 ~이 모두 (καί…καί)' }, K_ALSO = { ko:'역시, ~도', alt:['~까지도'] }, K_EVEN = { ko:'~까지도', alt:['역시, ~도'] };
+const U_PAIR = { ko:'~과 ~이 모두 아니 (οὐδέ…οὐδέ)' }, U_NOR = { ko:'그리고 … 아니, 또 … 아니' };
+const T_THAT = { ko:'~는 것을 (내용)' }, T_BEC = { ko:'왜냐하면 (이유)' };
+const NOTE_KAI_LINK = '앞뒤로 같은 종류(절-절, 동사-동사)를 이음 → "그리고" (§135)';
+const NOTE_KAI_EMPH = '앞뒤가 같은 종류의 연결이 아님 → 바로 뒤의 말을 강조 "~도 역시, ~까지도" (§135)';
+
+const LS_EX = {
+  10: [
+    { no:1, ko:'이 종들이 주로 말미암아 풀린다.', toks:[
+      V('λύονται','λύω','현재','수동',3,'복수','현재 중간·수동 형태 → 익힘에서는 수동 "풀린다" (§102). ὑπό+속격이 행위자'),
+      PR('οὗτοι','οὗτος','남성','복수','주격','관사+명사 밖 지시대명사 → "이 종들"', M_THIS('이 사람들')), R('οἱ','남성','복수','주격'), N('δοῦλοι','δοῦλος','남성','복수','주격','주어'),
+      P('ὑπὸ','ὑπό','속격','+속격 = 행위자 "~로 말미암아" (§106)'), R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'), X('.') ]},
+    { no:2, ko:'우리는 주의 말씀으로 하나님의 교회 안으로 인도된다.', toks:[
+      R('τῷ','남성','단수','여격'), N('λόγῳ','λόγος','남성','단수','여격','전치사 없는 여격 = 수단 "말씀으로" (§107)', { ko:'말씀으로' }),
+      R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'),
+      V('ἀγόμεθα','ἄγω','현재','수동',1,'복수','중간·수동 형태 → 수동 "인도된다"'),
+      P('εἰς','εἰς','대격'), R('τὴν','여성','단수','대격'), N('ἐκκλησίαν','ἐκκλησία','여성','단수','대격'),
+      R('τοῦ','남성','단수','속격'), N('θεοῦ','θεός','남성','단수','속격'), X('.') ]},
+    { no:3, ko:'너희는 그 예언자의 음성을 듣지 않고, 그의 집에서 나간다.', toks:[
+      D('οὐκ','οὐ','모음 앞에서 οὐκ, 부정하는 동사 바로 앞 (§110)'), V('ἀκούετε','ἀκούω','현재','능동',2,'복수','ἀκούω는 속격 목적어를 취함 (§111)'),
+      R('τῆς','여성','단수','속격'), N('φωνῆς','φωνή','여성','단수','속격','속격이지만 ἀκούω의 목적어 → "음성을" (§111)', { ko:'음성을' }),
+      R('τοῦ','남성','단수','속격'), N('προφήτου','προφήτης','남성','단수','속격'),
+      X(',', true), C('ἀλλ’','ἀλλά',true,'모음 앞에서 끝 α가 떨어짐 (주1), δέ보다 강한 "그러나"', { ko:'그러나' }),
+      V('ἐξέρχεσθε','ἐξέρχομαι','현재','디포넌트',2,'복수','디포넌트: 형태는 중간·수동, 뜻은 능동 (§108)'),
+      P('ἐκ','ἐκ','속격'), R('τοῦ','남성','단수','속격'), N('οἴκου','οἶκος','남성','단수','속격'), PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"', M_HE), X('.') ]},
+    { no:4, ko:'주 자신의 말씀으로 너희는 그의 제자들이 된다.', toks:[
+      R('τῷ','남성','단수','여격'), N('λόγῳ','λόγος','남성','단수','여격','수단의 여격 "말씀으로" (§107)', { ko:'말씀으로' }),
+      PR('αὐτοῦ','αὐτός','남성','단수','속격','관사+명사(τοῦ κυρίου) 밖 → 강조 "주 자신의"', { a:'자신의 (강조)', s:'그', use:'a' }),
+      R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'),
+      V('γίνεσθε','γίνομαι','현재','디포넌트',2,'복수','디포넌트, 주격 보어를 취함'),
+      N('μαθηταὶ','μαθητής','남성','복수','주격','γίνομαι의 주격 보어'), PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"', M_HE), X('.') ]},
+    { no:5, ko:'저 선한 선생들은 죄인들의 집들 안으로 들어가지 않는다.', toks:[
+      PR('ἐκεῖνοι','ἐκεῖνος','남성','복수','주격','지시대명사 "저"', M_THAT('저 사람들')), R('οἱ','남성','복수','주격'),
+      A('ἀγαθοὶ','ἀγαθός','남성','복수','주격','관사 뒤 → 한정적 용법', { a:'선한', s:'선한 자들', use:'a' }), N('διδάσκαλοι','διδάσκαλος','남성','복수','주격','주어'),
+      D('οὐκ','οὐ'), V('εἰσέρχονται','εἰσέρχομαι','현재','디포넌트',3,'복수'),
+      P('εἰς','εἰς','대격'), R('τοὺς','남성','복수','대격'), N('οἴκους','οἶκος','남성','복수','대격'),
+      R('τῶν','남성','복수','속격'), N('ἁμαρτωλῶν','ἁμαρτωλός','남성','복수','속격'), X('.') ]},
+    { no:6, ko:'죄인들은 사도들로 말미암아 세례를 받지 않고, 이 집들에서 다른 선생들에게로 나간다.', toks:[
+      D('οὐ','οὐ'), V('βαπτίζονται','βαπτίζω','현재','수동',3,'복수','ὑπό+속격(행위자)과 함께 → 수동 "세례를 받는다"'),
+      R('οἱ','남성','복수','주격'), N('ἁμαρτωλοὶ','ἁμαρτωλός','남성','복수','주격','주어'),
+      P('ὑπὸ','ὑπό','속격','+속격 = 행위자 (§106)'), R('τῶν','남성','복수','속격'), N('ἀποστόλων','ἀπόστολος','남성','복수','속격'),
+      X(',', true), C('ἀλλ’','ἀλλά',true,'', { ko:'그러나' }), V('ἐξέρχονται','ἐξέρχομαι','현재','디포넌트',3,'복수'),
+      P('ἐκ','ἐκ','속격'), PR('τούτων','οὗτος','남성','복수','속격','지시대명사 "이"', M_THIS('이 사람들')), R('τῶν','남성','복수','속격'), N('οἴκων','οἶκος','남성','복수','속격'),
+      P('πρὸς','πρός','대격'), A('ἄλλους','ἄλλος','남성','복수','대격','διδασκάλους를 꾸밈', { a:'다른', s:'다른 자들', use:'a' }), N('διδασκάλους','διδάσκαλος','남성','복수','대격'), X('.') ]},
+    { no:7, ko:'너희는 저 죄인들에게 너희가 하나님으로 말미암아 너희의 죄들에서 구원받는다는 것을 말한다.', toks:[
+      V('λέγετε','λέγω','현재','능동',2,'복수'), PR('ἐκείνοις','ἐκεῖνος','남성','복수','여격','지시대명사 "저"', M_THAT('저 사람들')),
+      R('τοῖς','남성','복수','여격'), N('ἁμαρτωλοῖς','ἁμαρτωλός','남성','복수','여격','간접목적어 "~에게"'),
+      C('ὅτι','ὅτι',true,'말하는 내용을 이끔 → "~는 것을"', T_THAT), V('σῴζεσθε','σῴζω','현재','수동',2,'복수','교재 인쇄 σώζεσθε. 중간·수동 형태 → 수동 "구원받는다"'),
+      P('ὑπὸ','ὑπό','속격','행위자 (§106)'), R('τοῦ','남성','단수','속격'), N('θεοῦ','θεός','남성','단수','속격'),
+      P('ἀπὸ','ἀπό','속격'), R('τῶν','여성','복수','속격'), N('ἁμαρτιῶν','ἁμαρτία','여성','복수','속격'), PP('ὑμῶν','σύ',2,'복수','속격','"너희의"'), X('.') ]},
+    { no:8, ko:'하나님 자신이 그의 나라를 지배한다.', toks:[
+      V('ἄρχει','ἄρχω','현재','능동',3,'단수','ἄρχω는 속격 목적어를 취함 (§111)'),
+      PR('αὐτὸς','αὐτός','남성','단수','주격','관사+명사(ὁ θεός) 밖 → 강조 "하나님 자신이"', { a:'자신이 (강조)', s:'그', use:'a' }),
+      R('ὁ','남성','단수','주격'), N('θεὸς','θεός','남성','단수','주격','주어'),
+      R('τῆς','여성','단수','속격'), N('βασιλείας','βασιλεία','여성','단수','속격','속격이지만 ἄρχω의 목적어 → "나라를" (§111)', { ko:'나라를' }),
+      PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"', M_HE), X('.') ]},
+    { no:9, ko:'그 교회는 평화를 가지고 있다. 왜냐하면 그것의 주로 말미암아 구원받기 때문이다.', toks:[
+      N('εἰρήνην','εἰρήνη','여성','단수','대격','목적어'), V('ἔχει','ἔχω','현재','능동',3,'단수'),
+      R('ἡ','여성','단수','주격'), N('ἐκκλησία','ἐκκλησία','여성','단수','주격','주어'),
+      X(',', true), C('ὅτι','ὅτι',true,'이유를 이끔 → "왜냐하면"', T_BEC), V('σῴζεται','σῴζω','현재','수동',3,'단수','수동 "구원받는다"'),
+      P('ὑπὸ','ὑπό','속격','행위자'), R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'),
+      PR('αὐτῆς','αὐτός','여성','단수','속격','여성 ἐκκλησία를 가리킴 → "그것(교회)의"', { s:'그것', thing:1 }), X('.') ]},
+    { no:10, ko:'우리는 그 사도에게 대답하지 않는다. 왜냐하면 우리가 그를 알지 못하기 때문이다.', toks:[
+      D('οὐκ','οὐ'), V('ἀποκρινόμεθα','ἀποκρίνομαι','현재','디포넌트',1,'복수','디포넌트 "대답한다"'),
+      R('τῷ','남성','단수','여격'), N('ἀποστόλῳ','ἀπόστολος','남성','단수','여격','대답하는 상대 "~에게"'),
+      C('ὅτι','ὅτι',true,'이유 → "왜냐하면"', T_BEC), D('οὐ','οὐ'), V('γινώσκομεν','γινώσκω','현재','능동',1,'복수'),
+      PR('αὐτόν','αὐτός','남성','단수','대격','"그를"', M_HE), X('.') ]},
+    { no:11, ko:'너는 제자들로 말미암아 너의 죄들에서 구원받는 것이 아니라, 하나님 자신으로 말미암아 구원받는다.', cl:2, toks:[
+      D('οὐχ','οὐ','거친 숨표(ὑπό) 앞에서 οὐχ. 동사가 아니라 "제자들로 말미암아"를 부정 (§110)'),
+      P('ὑπὸ','ὑπό','속격','행위자'), R('τῶν','남성','복수','속격'), N('μαθητῶν','μαθητής','남성','복수','속격'),
+      V('σῴζῃ','σῴζω','현재','수동',2,'단수','교재 인쇄 σώζη. 2인칭 단수 -ῃ (λύεσαι → λύῃ §104), 수동'),
+      P('ἀπὸ','ἀπό','속격'), R('τῶν','여성','복수','속격'), N('ἁμαρτιῶν','ἁμαρτία','여성','복수','속격'), PP('σου','σύ',2,'단수','속격','"너의", 전접어형'),
+      X(',', true), C('ἀλλ’','ἀλλά',true,'뒤에 σῴζῃ가 생략됨', { ko:'그러나' }), P('ὑπ’','ὑπό','속격','모음 앞에서 ὑπ’'),
+      PR('αὐτοῦ','αὐτός','남성','단수','속격','관사+명사(τοῦ θεοῦ) 밖 → 강조 "하나님 자신"', { a:'자신 (강조)', s:'그', use:'a' }),
+      R('τοῦ','남성','단수','속격'), N('θεοῦ','θεός','남성','단수','속격'), X('.') ]},
+    { no:12, ko:'너는 악한 길로 가지 않고, 너의 죄들에서 구원받으며, 너의 형제들은 주의 음성을 듣는다.', toks:[
+      D('οὐ','οὐ'), V('πορεύῃ','πορεύομαι','현재','디포넌트',2,'단수','교재 인쇄 πορεύη'),
+      P('ἐν','ἐν','여격'), R('τῇ','여성','단수','여격'), N('ὁδῷ','ὁδός','여성','단수','여격','ὁδός는 여성 명사'),
+      R('τῇ','여성','단수','여격'), A('κακῇ','κακός','여성','단수','여격','관사를 다시 붙인 한정적 용법', { a:'악한', s:'악한 것', use:'a' }),
+      X(',', true), C('ἀλλὰ','ἀλλά',true,'', { ko:'그러나' }), V('σῴζῃ','σῴζω','현재','수동',2,'단수','수동 "구원받는다"'),
+      P('ἀπὸ','ἀπό','속격'), R('τῶν','여성','복수','속격'), N('ἁμαρτιῶν','ἁμαρτία','여성','복수','속격'), PP('σου','σύ',2,'단수','속격'),
+      C('καὶ','καί',true, NOTE_KAI_LINK, K_AND), R('οἱ','남성','복수','주격'), N('ἀδελφοί','ἀδελφός','남성','복수','주격','주어, 뒤 전접어 σου 때문에 끝 악센트 유지'),
+      PP('σου','σύ',2,'단수','속격'), V('ἀκούουσι','ἀκούω','현재','능동',3,'복수'),
+      R('τῆς','여성','단수','속격'), N('φωνῆς','φωνή','여성','단수','속격','ἀκούω의 속격 목적어 → "음성을"', { ko:'음성을' }),
+      R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'), X('.') ]},
+    { no:13, ko:'그는 그의 형제들과 함께 사도들의 음성으로 하나님의 나라 안으로 인도된다.', toks:[
+      P('μετὰ','μετά','속격','+속격 = 함께'), R('τῶν','남성','복수','속격'), N('ἀδελφῶν','ἀδελφός','남성','복수','속격'), PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"', M_HE),
+      V('ἄγεται','ἄγω','현재','수동',3,'단수','수동 "인도된다"'), P('εἰς','εἰς','대격'), R('τὴν','여성','단수','대격'), N('βασιλείαν','βασιλεία','여성','단수','대격'),
+      R('τοῦ','남성','단수','속격'), N('θεοῦ','θεός','남성','단수','속격'),
+      R('τῇ','여성','단수','여격'), N('φωνῇ','φωνή','여성','단수','여격','수단의 여격 "음성으로" (§107)', { ko:'음성으로' }),
+      R('τῶν','남성','복수','속격'), N('ἀποστόλων','ἀπόστολος','남성','복수','속격'), X('.') ]},
+    { no:14, ko:'너는 주의 제자가 되지 못한다. 왜냐하면 너는 그의 교회 안으로 들어가지 않기 때문이다.', toks:[
+      D('οὐ','οὐ'), V('γίνῃ','γίνομαι','현재','디포넌트',2,'단수','교재 인쇄 γίνη'), N('μαθητὴς','μαθητής','남성','단수','주격','주격 보어'),
+      R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'),
+      X(',', true), C('ὅτι','ὅτι',true,'이유 → "왜냐하면"', T_BEC), D('οὐκ','οὐ'), V('εἰσέρχῃ','εἰσέρχομαι','현재','디포넌트',2,'단수','교재 인쇄 εἰσέρχη'),
+      P('εἰς','εἰς','대격'), R('τὴν','여성','단수','대격'), N('ἐκκλησίαν','ἐκκλησία','여성','단수','대격'), PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"', M_HE), X('.') ]}
+  ],
+  11: [
+    { no:1, ko:'우리는 저 날들에 그의 음성을 듣고 있었으나, 지금은 더 이상 그것을 듣지 않는다.', toks:[
+      V('ἠκούομεν','ἀκούω','미완료','능동',1,'복수','모음 α → η 접두모음 (§118)'), R('τῆς','여성','단수','속격'),
+      N('φωνῆς','φωνή','여성','단수','속격','ἀκούω의 속격 목적어 → "음성을"', { ko:'음성을' }), PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"', M_HE),
+      P('ἐν','ἐν','여격'), PR('ἐκείναις','ἐκεῖνος','여성','복수','여격','지시대명사 "저"', M_THAT('저 여자들')), R('ταῖς','여성','복수','여격'), N('ἡμέραις','ἡμέρα','여성','복수','여격'),
+      X(',', true), D('νῦν','νῦν'), C('δὲ','δέ',true,'두 번째 자리 접속사', { ko:'그러나, 그리고' }), D('οὐκέτι','οὐκέτι'),
+      V('ἀκούομεν','ἀκούω','현재','능동',1,'복수'), PR('αὐτῆς','αὐτός','여성','단수','속격','여성 φωνή를 가리킴, ἀκούω의 목적어 → "그것을"', { s:'그것', thing:1, ko:'그것을' }), X('.') ]},
+    { no:2, ko:'그리고 주의 그 제자는 그의 형제들에게 비유를 말하고 있었다.', toks:[
+      R('ὁ','남성','단수','주격'), C('δὲ','δέ',false,'앞 문맥과 이어 주는 두 번째 자리 접속사', { ko:'그러나, 그리고' }), N('μαθητὴς','μαθητής','남성','단수','주격','주어'),
+      R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'), V('ἔλεγε','λέγω','미완료','능동',3,'단수','자음 앞 접두모음 ἐ- (§117)'),
+      N('παραβολὴν','παραβολή','여성','단수','대격','목적어'), R('τοῖς','남성','복수','여격'), N('ἀδελφοῖς','ἀδελφός','남성','복수','여격','간접목적어 "~에게"'),
+      PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"', M_HE), X('.') ]},
+    { no:3, ko:'종들이 제자들과 함께 아이들을 죽이고 있었다.', toks:[
+      V('ἀπέκτεινον','ἀποκτείνω','미완료','능동',3,'복수','1인칭 단수와 같은 형태(§121), 주어 οἱ δοῦλοι → 3인칭 복수. 합성동사 ἀπο + ε → ἀπε (§122)'),
+      R('οἱ','남성','복수','주격'), N('δοῦλοι','δοῦλος','남성','복수','주격','주어'), R('τὰ','중성','복수','대격'), N('τέκνα','τέκνον','중성','복수','대격','목적어'),
+      P('σὺν','σύν','여격','+여격 = 함께'), R('τοῖς','남성','복수','여격'), N('μαθηταῖς','μαθητής','남성','복수','여격'), X('.') ]},
+    { no:4, ko:'그때에는 내가 그 집으로 내려가고 있었으나, 지금은 더 이상 내려가지 않는다.', toks:[
+      D('τότε','τότε'), C('μὲν','μέν',false,'μέν … δέ 대조, μέν은 흔히 옮기지 않음', { ko:'한편으로는 (μέν…δέ)' }),
+      V('κατέβαινον','καταβαίνω','미완료','능동',1,'단수','1단 = 3복 형태, 뒤 καταβαίνω(1단)와 짝 → 1인칭 단수. κατα + ε → κατε (§122)'),
+      P('εἰς','εἰς','대격'), R('τὸν','남성','단수','대격'), N('οἶκον','οἶκος','남성','단수','대격'),
+      X(',', true), D('νῦν','νῦν'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }), D('οὐκέτι','οὐκέτι'), V('καταβαίνω','καταβαίνω','현재','능동',1,'단수'), X('.') ]},
+    { no:5, ko:'너희는 종들로부터 떡을 받고 있었고 그것을 먹고 있었다.', toks:[
+      V('παρελαμβάνετε','παραλαμβάνω','미완료','능동',2,'복수','παρα + ε → παρε (§122)'), R('τὸν','남성','단수','대격'), N('ἄρτον','ἄρτος','남성','단수','대격','목적어'),
+      P('παρὰ','παρά','속격','+속격 = ~으로부터'), R('τῶν','남성','복수','속격'), N('δούλων','δοῦλος','남성','복수','속격'),
+      C('καὶ','καί',true, NOTE_KAI_LINK, K_AND), V('ἠσθίετε','ἐσθίω','미완료','능동',2,'복수','모음 ε → η 접두모음 (§118)'),
+      PR('αὐτόν','αὐτός','남성','단수','대격','남성 ἄρτος를 가리킴 → "그것을"', M_IT), X('.') ]},
+    { no:6, ko:'그 진리 때문에 제자들이 저 날들에 죽어 가고 있었다.', toks:[
+      P('διὰ','διά','대격','+대격 = 때문에'), R('τὴν','여성','단수','대격'), N('ἀλήθειαν','ἀλήθεια','여성','단수','대격'),
+      V('ἀπέθνῃσκον','ἀποθνῄσκω','미완료','능동',3,'복수','주어 οἱ μαθηταί → 3인칭 복수. ἀπο + ε → ἀπε'),
+      R('οἱ','남성','복수','주격'), N('μαθηταὶ','μαθητής','남성','복수','주격','주어'),
+      P('ἐν','ἐν','여격'), R('ταῖς','여성','복수','여격'), N('ἡμέραις','ἡμέρα','여성','복수','여격'),
+      PR('ἐκείναις','ἐκεῖνος','여성','복수','여격','관사+명사 뒤(서술적 위치)의 지시대명사 "저"', M_THAT('저 여자들')), X('.') ]},
+    { no:7, ko:'이 사도는 우리 주의 제자들을 교회 안으로 모으고 있었다.', toks:[
+      V('συνῆγεν','συνάγω','미완료','능동',3,'단수','σύν과 ἄγω 사이에 접두모음, α → η, 악센트는 접두모음 앞으로 못 감 (§122–123)'),
+      PR('οὗτος','οὗτος','남성','단수','주격','지시대명사 "이"', M_THIS('이 사람')), R('ὁ','남성','단수','주격'), N('ἀπόστολος','ἀπόστολος','남성','단수','주격','주어'),
+      P('εἰς','εἰς','대격'), R('τὴν','여성','단수','대격'), N('ἐκκλησίαν','ἐκκλησία','여성','단수','대격'),
+      R('τοὺς','남성','복수','대격'), N('μαθητὰς','μαθητής','남성','복수','대격','목적어'),
+      R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'), PP('ἡμῶν','ἐγώ',1,'복수','속격','"우리의"'), X('.') ]},
+    { no:8, ko:'지금은 우리가 사도들로 말미암아 가르침을 받지만, 그때에는 우리가 교회를 가르치고 있었다.', toks:[
+      D('νῦν','νῦν'), C('μὲν','μέν',false,'μέν … δέ 대조', { ko:'한편으로는 (μέν…δέ)' }), V('διδασκόμεθα','διδάσκω','현재','수동',1,'복수','ὑπό+속격과 함께 → 수동 "가르침을 받는다"'),
+      P('ὑπὸ','ὑπό','속격','행위자'), R('τῶν','남성','복수','속격'), N('ἀποστόλων','ἀπόστολος','남성','복수','속격'),
+      X(',', true), D('τότε','τότε'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }), V('ἐδιδάσκομεν','διδάσκω','미완료','능동',1,'복수'),
+      PP('ἡμεῖς','ἐγώ',1,'복수','주격','동사에 주어가 있는데 다시 씀 → 강조'), R('τὴν','여성','단수','대격'), N('ἐκκλησίαν','ἐκκλησία','여성','단수','대격','목적어'), X('.') ]},
+    { no:9, ko:'우리의 주가 우리의 죄들을 치우고 있었다.', toks:[
+      R('ὁ','남성','단수','주격'), N('κύριος','κύριος','남성','단수','주격','주어'), PP('ἡμῶν','ἐγώ',1,'복수','속격'),
+      V('ᾖρε','αἴρω','미완료','능동',3,'단수','교재 인쇄 ἦρε. αι → η, ι는 η 밑에 붙음 (§118)'),
+      R('τὰς','여성','복수','대격'), N('ἁμαρτίας','ἁμαρτία','여성','복수','대격','목적어'), PP('ἡμῶν','ἐγώ',1,'복수','속격'), X('.') ]},
+    { no:10, ko:'그때에는 그들이 성전으로 올라가고 있었으나, 지금은 더 이상 올라가지 않는다.', toks:[
+      D('τότε','τότε'), C('μὲν','μέν',false,'', { ko:'한편으로는 (μέν…δέ)' }),
+      V('ἀνέβαινον','ἀναβαίνω','미완료','능동',3,'복수','1단 = 3복 형태, 뒤 ἀναβαίνουσιν(3복)과 짝 → 3인칭 복수'),
+      P('εἰς','εἰς','대격'), R('τὸ','중성','단수','대격'), N('ἱερόν','ἱερόν','중성','단수','대격'),
+      X(',', true), D('νῦν','νῦν'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }), D('οὐκέτι','οὐκέτι'), V('ἀναβαίνουσιν','ἀναβαίνω','현재','능동',3,'복수'), X('.') ]},
+    { no:11, ko:'너희는 악하였으나, (지금은) 선하다.', toks:[
+      A('πονηροὶ','πονηρός','남성','복수','주격','εἰμί의 보어 → 서술적', { a:'악한 (꾸밈)', p:'악하다 (서술)', s:'악한 자들', use:'p' }), V('ἦτε','εἰμί','미완료',null,2,'복수'),
+      X(',', true), A('ἀγαθοὶ','ἀγαθός','남성','복수','주격','서술적', { a:'선한 (꾸밈)', p:'선하다 (서술)', s:'선한 자들', use:'p' }),
+      C('δέ','δέ',true,'', { ko:'그러나, 그리고' }), V('ἐστέ','εἰμί','현재',null,2,'복수'), X('.') ]},
+    { no:12, ko:'너희는 선하지만, 우리는 악하다.', toks:[
+      PP('ὑμεῖς','σύ',2,'복수','주격','대조 강조'), C('μέν','μέν',false,'', { ko:'한편으로는 (μέν…δέ)' }), V('ἐστε','εἰμί','현재',null,2,'복수'),
+      A('ἀγαθοί','ἀγαθός','남성','복수','주격','서술적', { a:'선한 (꾸밈)', p:'선하다 (서술)', s:'선한 자들', use:'p' }),
+      X(',', true), PP('ἡμεῖς','ἐγώ',1,'복수','주격','대조 강조'), C('δέ','δέ',true,'', { ko:'그러나, 그리고' }), V('ἐσμεν','εἰμί','현재',null,1,'복수'),
+      A('πονηροί','πονηρός','남성','복수','주격','서술적', { a:'악한 (꾸밈)', p:'악하다 (서술)', s:'악한 자들', use:'p' }), X('.') ]},
+    { no:13, ko:'그때에 나는 성전에 있었고, 주가 나를 가르치고 있었다.', toks:[
+      D('τότε','τότε'), V('ἤμην','εἰμί','미완료',null,1,'단수','보어 없이 장소와 함께 → "있었다"'), P('ἐν','ἐν','여격'), R('τῷ','중성','단수','여격'), N('ἱερῷ','ἱερόν','중성','단수','여격'),
+      C('καὶ','καί',true, NOTE_KAI_LINK, K_AND), V('ἐδίδασκέ','διδάσκω','미완료','능동',3,'단수','뒤 전접어 με 때문에 악센트가 하나 더 붙음'),
+      PP('με','ἐγώ',1,'단수','대격','전접어형'), R('ὁ','남성','단수','주격'), N('κύριος','κύριος','남성','단수','주격','주어'), X('.') ]},
+    { no:14, ko:'우리는 너희에게 우리가 너희의 집에 있었다는 것을 말한다.', toks:[
+      V('λέγομεν','λέγω','현재','능동',1,'복수'), PP('ὑμῖν','σύ',2,'복수','여격','"너희에게"'), C('ὅτι','ὅτι',true,'말하는 내용 → "~는 것을"', T_THAT),
+      P('ἐν','ἐν','여격'), R('τῷ','남성','단수','여격'), N('οἴκῳ','οἶκος','남성','단수','여격'), PP('ὑμῶν','σύ',2,'복수','속격'),
+      V('ἦμεν','εἰμί','미완료',null,1,'복수','"있었다"'), X('.') ]},
+    { no:15, ko:'너는 그들을 성전에서 쫓아내고 있었다.', toks:[
+      V('ἐξέβαλλες','ἐκβάλλω','미완료','능동',2,'단수','합성동사 ἐκ + ε → ἐξε (§122)'), PR('αὐτοὺς','αὐτός','남성','복수','대격','"그들을"', M_THEY),
+      P('ἐκ','ἐκ','속격'), R('τοῦ','중성','단수','속격'), N('ἱεροῦ','ἱερόν','중성','단수','속격'), X('.') ]},
+    { no:16, ko:'그 사람들이 그들의 종들을 나에게로 보내고 있었다.', toks:[
+      V('ἀπέστελλον','ἀποστέλλω','미완료','능동',3,'복수','주어 οἱ ἄνθρωποι → 3인칭 복수 (1단과 같은 형태)'), R('οἱ','남성','복수','주격'), N('ἄνθρωποι','ἄνθρωπος','남성','복수','주격','주어'),
+      R('τοὺς','남성','복수','대격'), N('δούλους','δοῦλος','남성','복수','대격','목적어'), PR('αὐτῶν','αὐτός','남성','복수','속격','"그들의"', M_THEY),
+      P('πρός','πρός','대격','뒤 전접어 με 때문에 예음 유지'), PP('με','ἐγώ',1,'단수','대격'), X('.') ]},
+    { no:17, ko:'주가 천사들을 우리에게로 보내고 있었다.', toks:[
+      R('ὁ','남성','단수','주격'), N('κύριος','κύριος','남성','단수','주격','주어'), V('ἀπέστελλεν','ἀποστέλλω','미완료','능동',3,'단수'),
+      N('ἀγγέλους','ἄγγελος','남성','복수','대격','목적어'), P('πρὸς','πρός','대격'), PP('ἡμᾶς','ἐγώ',1,'복수','대격'), X('.') ]},
+    { no:18, ko:'그가 세상에 있었고, 세상은 그를 보지 못하고 있었다.', toks:[
+      P('ἐν','ἐν','여격'), R('τῷ','남성','단수','여격'), N('κόσμῳ','κόσμος','남성','단수','여격'), V('ἦν','εἰμί','미완료',null,3,'단수','"있었다"'),
+      C('καὶ','καί',true, NOTE_KAI_LINK, K_AND), R('ὁ','남성','단수','주격'), N('κόσμος','κόσμος','남성','단수','주격','주어'),
+      D('οὐκ','οὐ'), V('ἔβλεπεν','βλέπω','미완료','능동',3,'단수'), PR('αὐτόν','αὐτός','남성','단수','대격','"그를"', M_HE), X('.') ]},
+    { no:19, ko:'너는 악한 자의 종이었으나, 지금은 더 이상 종이 아니다.', toks:[
+      N('δοῦλος','δοῦλος','남성','단수','주격','εἰμί의 보어 → 주격'), V('ἦς','εἰμί','미완료',null,2,'단수'),
+      R('τοῦ','남성','단수','속격'), A('πονηροῦ','πονηρός','남성','단수','속격','관사 + 형용사 = 독립적 용법 "악한 자"', { a:'악한', s:'악한 자', use:'s' }),
+      X(',', true), C('ἀλλὰ','ἀλλά',true,'', { ko:'그러나' }), D('νῦν','νῦν'), D('οὐκέτι','οὐκέτι'), V('εἶ','εἰμί','현재',null,2,'단수'),
+      N('δοῦλος','δοῦλος','남성','단수','주격','보어'), X('.') ]},
+    { no:20, ko:'이것은 그 사람의 선물이지만, 좋은 것은 아니다.', toks:[
+      PR('τοῦτό','οὗτος','중성','단수','주격','뒤 전접어 ἐστι 때문에 악센트가 하나 더 붙음', { s:'이것', thing:1 }), V('ἐστι','εἰμί','현재',null,3,'단수'),
+      R('τὸ','중성','단수','주격'), N('δῶρον','δῶρον','중성','단수','주격','εἰμί의 보어'), R('τοῦ','남성','단수','속격'), N('ἀνθρώπου','ἄνθρωπος','남성','단수','속격'),
+      X(',', true), A('καλὸν','καλός','중성','단수','주격','서술적', { a:'좋은 (꾸밈)', p:'좋다 (서술)', s:'좋은 것', use:'p' }),
+      C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }), D('οὐκ','οὐ'), V('ἔστιν','εἰμί','현재',null,3,'단수','οὐκ 뒤에서 ἔστιν (§125)'), X('.') ]}
+  ],
+  12: [
+    { no:1, ko:'이 말씀들이 책에 기록되고 있었다.', toks:[
+      V('ἐγράφοντο','γράφω','미완료','수동',3,'복수','제2시제 중간·수동 어미 -ντο (§129) → 수동 "기록되고 있었다"'),
+      PR('οὗτοι','οὗτος','남성','복수','주격','지시대명사 "이"', M_THIS('이 사람들')), R('οἱ','남성','복수','주격'), N('λόγοι','λόγος','남성','복수','주격','주어'),
+      P('ἐν','ἐν','여격'), N('βιβλίῳ','βιβλίον','중성','단수','여격'), X('.') ]},
+    { no:2, ko:'나는 그로 말미암아 예언자들의 책들로부터 가르침을 받고 있었다.', toks:[
+      V('ἐδιδασκόμην','διδάσκω','미완료','수동',1,'단수','1인칭 단수 -όμην: 얼티마가 길어 악센트가 피널트 (§131)'), P('ὑπ’','ὑπό','속격','행위자'), PR('αὐτοῦ','αὐτός','남성','단수','속격','"그로 말미암아"', M_HE),
+      P('ἐκ','ἐκ','속격'), R('τῶν','중성','복수','속격'), N('βιβλίων','βιβλίον','중성','복수','속격'), R('τῶν','남성','복수','속격'), N('προφητῶν','προφήτης','남성','복수','속격'), X('.') ]},
+    { no:3, ko:'저 날들에 우리는 그로 말미암아 가르침을 받기도 하고 다른 사람들을 가르치기도 하였으나, 지금은 가르침을 받지도 않고 가르치지도 않는다.', toks:[
+      P('ἐν','ἐν','여격'), PR('ἐκείναις','ἐκεῖνος','여성','복수','여격','"저"', M_THAT('저 여자들')), R('ταῖς','여성','복수','여격'), N('ἡμέραις','ἡμέρα','여성','복수','여격'),
+      C('καὶ','καί',false,'καί … καί = "~하기도 하고 ~하기도" (§137)', K_PAIR), V('ἐδιδασκόμεθα','διδάσκω','미완료','수동',1,'복수'), P('ὑπ’','ὑπό','속격'), PR('αὐτοῦ','αὐτός','남성','단수','속격','', M_HE),
+      C('καὶ','καί',true,'두 번째 καί', K_PAIR), V('ἐδιδάσκομεν','διδάσκω','미완료','능동',1,'복수'),
+      R('τοὺς','남성','복수','대격'), A('ἄλλους','ἄλλος','남성','복수','대격','관사 + 형용사 = 독립적 "다른 사람들"', { a:'다른', s:'다른 사람들', use:'s' }),
+      X(',', true), C('ἀλλὰ','ἀλλά',true,'', { ko:'그러나' }), D('νῦν','νῦν'),
+      C('οὐδὲ','οὐδέ',false,'οὐδέ … οὐδέ = "~도 ~도 아니" (§137)', U_PAIR), V('διδασκόμεθα','διδάσκω','현재','수동',1,'복수'),
+      C('οὐδὲ','οὐδέ',true,'두 번째 οὐδέ', U_PAIR), V('διδάσκομεν','διδάσκω','현재','능동',1,'복수'), X('.') ]},
+    { no:4, ko:'죄인들이 바다로 가 버리고 있었다.', toks:[
+      V('ἀπήρχοντο','ἀπέρχομαι','미완료','디포넌트',3,'복수','디포넌트는 미완료에서도 디포넌트 (§133). ἀπο + ἠρχ- (ε → η)'),
+      R('οἱ','남성','복수','주격'), N('ἁμαρτωλοὶ','ἁμαρτωλός','남성','복수','주격','주어'), P('πρὸς','πρός','대격'), R('τὴν','여성','단수','대격'), N('θάλασσαν','θάλασσα','여성','단수','대격'), X('.') ]},
+    { no:5, ko:'교회가 그에게로 나가고 있었으나, 지금은 더 이상 나가지 않는다.', toks:[
+      V('ἐξεπορεύετο','ἐκπορεύομαι','미완료','디포넌트',3,'단수','ἐκ + ε → ἐξε (§122), 디포넌트'), P('πρὸς','πρός','대격'), PR('αὐτὸν','αὐτός','남성','단수','대격','"그에게로"', M_HE),
+      R('ἡ','여성','단수','주격'), N('ἐκκλησία','ἐκκλησία','여성','단수','주격','주어'),
+      X(',', true), C('ἀλλὰ','ἀλλά',true,'', { ko:'그러나' }), D('νῦν','νῦν'), D('οὐκέτι','οὐκέτι'), V('ἐκπορεύεται','ἐκπορεύομαι','현재','디포넌트',3,'단수'), X('.') ]},
+    { no:6, ko:'우리는 아직 그의 영광 가운데 계신 주를 보지 못하지만, 악한 날들에도 그로 말미암아 가르침을 받고 있었다.', toks:[
+      D('οὔπω','οὔπω'), V('βλέπομεν','βλέπω','현재','능동',1,'복수'), R('τὸν','남성','단수','대격'), N('κύριον','κύριος','남성','단수','대격','목적어'),
+      P('ἐν','ἐν','여격'), R('τῇ','여성','단수','여격'), N('δόξῃ','δόξα','여성','단수','여격'), PR('αὐτοῦ','αὐτός','남성','단수','속격','', M_HE),
+      X(',', true), C('ἀλλὰ','ἀλλά',true,'', { ko:'그러나' }), V('ἐδιδασκόμεθα','διδάσκω','미완료','수동',1,'복수'), P('ὑπ’','ὑπό','속격'), PR('αὐτοῦ','αὐτός','남성','단수','속격','', M_HE),
+      C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "악한 날들에도"', K_ALSO), P('ἐν','ἐν','여격'), R('ταῖς','여성','복수','여격'), N('ἡμέραις','ἡμέρα','여성','복수','여격'),
+      R('ταῖς','여성','복수','여격'), A('κακαῖς','κακός','여성','복수','여격','관사를 다시 붙인 한정적 용법', { a:'악한', s:'악한 것들', use:'a' }), X('.') ]},
+    { no:7, ko:'성전에서 이 사도에 대하여 좋은 말이 말해지고 있었다.', toks:[
+      V('ἐλέγετο','λέγω','미완료','수동',3,'단수','미완료 수동 "말해지고 있었다"'), P('ἐν','ἐν','여격'), R('τῷ','중성','단수','여격'), N('ἱερῷ','ἱερόν','중성','단수','여격'),
+      A('καλὸς','καλός','남성','단수','주격','관사 없는 명사 앞에서 꾸밈', { a:'좋은', s:'좋은 자', use:'a' }), N('λόγος','λόγος','남성','단수','주격','주어'),
+      P('περὶ','περί','속격','+속격 = ~에 대하여'), PR('τούτου','οὗτος','남성','단수','속격','"이"', M_THIS('이 사람')), R('τοῦ','남성','단수','속격'), N('ἀποστόλου','ἀπόστολος','남성','단수','속격'), X('.') ]},
+    { no:8, ko:'그의 영광이 그의 주위에 보이고 있었다.', toks:[
+      P('περὶ','περί','대격','+대격 = 주위에'), PR('αὐτὸν','αὐτός','남성','단수','대격','', M_HE), V('ἐβλέπετο','βλέπω','미완료','수동',3,'단수','미완료 수동 "보이고 있었다"'),
+      R('ἡ','여성','단수','주격'), N('δόξα','δόξα','여성','단수','주격','주어'), PR('αὐτοῦ','αὐτός','남성','단수','속격','', M_HE), X('.') ]},
+    { no:9, ko:'그 선물들이 악한 자들에게까지도 옮겨지고 있었다.', toks:[
+      V('ἐφέρετο','φέρω','미완료','수동',3,'단수','중성 복수 주어 τὰ δῶρα + 단수 동사 (§134)'), R('τὰ','중성','복수','주격'), N('δῶρα','δῶρον','중성','복수','주격','주어 (중성 복수)'),
+      C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "악한 자들에게까지도"', K_EVEN), P('πρὸς','πρός','대격'), R('τοὺς','남성','복수','대격'),
+      A('πονηρούς','πονηρός','남성','복수','대격','관사 + 형용사 = 독립적 "악한 자들"', { a:'악한', s:'악한 자들', use:'s' }), X('.') ]},
+    { no:10, ko:'너는 예언자들로부터 책들을 받고 있었다.', toks:[
+      V('ἐδέχου','δέχομαι','미완료','디포넌트',2,'단수','2인칭 단수 ἐδέχεσο → ἐδέχου (§130)'), R('τὰ','중성','복수','대격'), N('βιβλία','βιβλίον','중성','복수','대격','목적어'),
+      P('ἀπὸ','ἀπό','속격'), R('τῶν','남성','복수','속격'), N('προφητῶν','προφήτης','남성','복수','속격'), X('.') ]},
+    { no:11, ko:'제자들이 이 사람에게로 같이 가고 있었다.', toks:[
+      V('συνήρχοντο','συνέρχομαι','미완료','디포넌트',3,'복수','σύν + ἠρχ-, 디포넌트'), R('οἱ','남성','복수','주격'), N('μαθηταὶ','μαθητής','남성','복수','주격','주어'),
+      P('πρὸς','πρός','대격'), PR('τοῦτον','οὗτος','남성','단수','대격','"이 사람에게로"', { s:'이 사람' }), X('.') ]},
+    { no:12, ko:'악한 자의 일들은 악하다.', toks:[
+      R('τὰ','중성','복수','주격'), N('ἔργα','ἔργον','중성','복수','주격','주어 (중성 복수)'), R('τοῦ','남성','단수','속격'),
+      A('πονηροῦ','πονηρός','남성','단수','속격','관사 + 형용사 = "악한 자"', { a:'악한', s:'악한 자', use:'s' }),
+      A('πονηρά','πονηρός','중성','복수','주격','서술적 용법', { a:'악한 (꾸밈)', p:'악하다 (서술)', s:'악한 것들', use:'p' }),
+      V('ἐστιν','εἰμί','현재',null,3,'단수','중성 복수 주어 + 단수 동사 (§134)'), X('.') ]},
+    { no:13, ko:'그 자신도 악하지 않고, 그 일들도 악하지 않다.', cl:2, toks:[
+      C('οὐδὲ','οὐδέ',false,'οὐδέ … οὐδέ = "~도 ~도 아니" (§137). 동사 εἰμί가 생략됨', U_PAIR),
+      PR('αὐτὸς','αὐτός','남성','단수','주격','관사+명사 사이가 아님 → 강조 "그 자신"', { a:'그 자신 (강조)', s:'그', use:'a' }),
+      A('πονηρὸς','πονηρός','남성','단수','주격','서술적 (εἰμί 생략)', { a:'악한 (꾸밈)', p:'악하다 (서술)', s:'악한 자', use:'p' }),
+      C('οὐδὲ','οὐδέ',true,'두 번째 οὐδέ', U_PAIR), R('τὰ','중성','복수','주격'), N('ἔργα','ἔργον','중성','복수','주격','주어'),
+      A('πονηρά','πονηρός','중성','복수','주격','서술적', { a:'악한 (꾸밈)', p:'악하다 (서술)', s:'악한 것들', use:'p' }), X('.') ]},
+    { no:14, ko:'주가 그의 교회를 위하여 죽어 가고 있었다.', toks:[
+      P('ὑπὲρ','ὑπέρ','속격','+속격 = ~을 위하여'), R('τῆς','여성','단수','속격'), N('ἐκκλησίας','ἐκκλησία','여성','단수','속격'), PR('αὐτοῦ','αὐτός','남성','단수','속격','', M_HE),
+      V('ἀπέθνῃσκεν','ἀποθνῄσκω','미완료','능동',3,'단수'), R('ὁ','남성','단수','주격'), N('κύριος','κύριος','남성','단수','주격','주어'), X('.') ]},
+    { no:15, ko:'제자는 그의 선생 위에 있지 않고, 종도 그의 주인 위에 있지 않다.', cl:2, toks:[
+      D('οὐκ','οὐ'), V('ἔστιν','εἰμί','현재',null,3,'단수','οὐκ 뒤에서 ἔστιν (§125)'), N('μαθητὴς','μαθητής','남성','단수','주격','주어'),
+      P('ὑπὲρ','ὑπέρ','대격','+대격 = 위에'), R('τὸν','남성','단수','대격'), N('διδάσκαλον','διδάσκαλος','남성','단수','대격'), PR('αὐτοῦ','αὐτός','남성','단수','속격','', M_HE),
+      C('οὐδὲ','οὐδέ',true,'앞에 οὐκ이 있는 보통 용법 → "또 … 아니" (§136)', U_NOR), N('δοῦλος','δοῦλος','남성','단수','주격','주어'),
+      P('ὑπὲρ','ὑπέρ','대격'), R('τὸν','남성','단수','대격'), N('κύριον','κύριος','남성','단수','대격','"주인"'), PR('αὐτοῦ','αὐτός','남성','단수','속격','', M_HE), X('.') ]},
+    { no:16, ko:'너는 배를 타고 바다를 통하여 주에게로 인도되고 있었다.', toks:[
+      P('ἐν','ἐν','여격'), R('τῷ','중성','단수','여격'), N('πλοίῳ','πλοῖον','중성','단수','여격'),
+      V('ἤγου','ἄγω','미완료','수동',2,'단수','ἤγεσο → ἤγου (§130), α → η 접두모음'), P('πρὸς','πρός','대격'), R('τὸν','남성','단수','대격'), N('κύριον','κύριος','남성','단수','대격'),
+      P('διὰ','διά','속격','+속격 = 통하여'), R('τῆς','여성','단수','속격'), N('θαλάσσης','θάλασσα','여성','단수','속격','σσ 뒤라서 속격 단수 -ης'), X('.') ]},
+    { no:17, ko:'너희는 너희의 집들에서 나가고 있었다.', toks:[
+      V('ἐξήρχεσθε','ἐξέρχομαι','미완료','디포넌트',2,'복수','ἐξ + ἠρχ-, 디포넌트'), P('ἐκ','ἐκ','속격'), R('τῶν','남성','복수','속격'), N('οἴκων','οἶκος','남성','복수','속격'),
+      PP('ὑμῶν','σύ',2,'복수','속격'), X('.') ]},
+    { no:18, ko:'이 귀신들이 그의 말씀을 통하여 나가고 있었다.', toks:[
+      PR('ταῦτα','οὗτος','중성','복수','주격','지시대명사 "이"', { a:'이', s:'이것들', use:'a', thing:1 }), R('τὰ','중성','복수','주격'), N('δαιμόνια','δαιμόνιον','중성','복수','주격','주어 (중성 복수)'),
+      V('ἐξήρχετο','ἐξέρχομαι','미완료','디포넌트',3,'단수','중성 복수 주어 + 단수 동사 (§134)'), P('διὰ','διά','속격'), R('τοῦ','남성','단수','속격'), N('λόγου','λόγος','남성','단수','속격'),
+      PR('αὐτοῦ','αὐτός','남성','단수','속격','', M_HE), X('.') ]},
+    { no:19, ko:'그들은 들리고 있었고 듣고 있었다. (지금도) 그들은 들리고 또 듣는다.', toks:[
+      V('ἠκούοντο','ἀκούω','미완료','수동',3,'복수','미완료 수동'), C('καὶ','καί',true, NOTE_KAI_LINK + ' (동사-동사)', K_AND),
+      V('ἤκουον','ἀκούω','미완료','능동',3,'복수','앞 ἠκούοντο(3복)와 짝 → 3인칭 복수'), X('·', true),
+      V('ἀκούονται','ἀκούω','현재','수동',3,'복수'), C('καὶ','καί',true, NOTE_KAI_LINK, K_AND), V('ἀκούουσιν','ἀκούω','현재','능동',3,'복수'), X('.') ]},
+    { no:20, ko:'나는 주에게로 가고 있었고, 다른 사람들도 인도하고 있었다.', toks:[
+      V('ἠρχόμην','ἔρχομαι','미완료','디포넌트',1,'단수','디포넌트 미완료 (§133 보기)'), P('πρὸς','πρός','대격'), R('τὸν','남성','단수','대격'), N('κύριον','κύριος','남성','단수','대격'),
+      X(',', true), V('ἦγον','ἄγω','미완료','능동',1,'단수','앞 ἠρχόμην(1단)과 같은 주어 → 1인칭 단수'),
+      C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }), C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "다른 사람들도"', K_ALSO),
+      R('τοὺς','남성','복수','대격'), A('ἄλλους','ἄλλος','남성','복수','대격','관사 + 형용사 = "다른 사람들"', { a:'다른', s:'다른 사람들', use:'s' }), X('.') ]}
+  ]
+};
+
+// ── 익힘 문제 단어 뜻(해석): 격·인칭·시제·태에 맞는 뜻 고르기 ──
+const EX_CASES = ['주격','속격','여격','대격'];
+// [줄기, 사물이면 1(여격 "~에")]
+const LS_NOUN_KO = { 'ὁδός':['길',1], 'δοῦλος':['종'], 'δῶρον':['선물',1], 'προφήτης':['예언자'], 'κύριος':['주'], 'θεός':['하나님'],
+  'ἐκκλησία':['교회',1], 'μαθητής':['제자'], 'τέκνον':['아이'], 'ἀπόστολος':['사도'], 'παραβολή':['비유',1], 'ἀδελφός':['형제'],
+  'διδάσκαλος':['선생'], 'ἀλήθεια':['진리',1], 'λόγος':['말씀',1], 'φωνή':['음성',1], 'οἶκος':['집',1], 'ἁμαρτωλός':['죄인'],
+  'ἁμαρτία':['죄',1], 'βασιλεία':['나라',1], 'εἰρήνη':['평화',1], 'ἡμέρα':['날',1], 'ἄρτος':['떡',1], 'ἱερόν':['성전',1],
+  'ἄνθρωπος':['사람'], 'ἄγγελος':['천사'], 'κόσμος':['세상',1], 'βιβλίον':['책',1], 'θάλασσα':['바다',1], 'δόξα':['영광',1],
+  'ἔργον':['일',1], 'πλοῖον':['배',1], 'δαιμόνιον':['귀신'] };
+const LS_PREP_KO = { 'ὑπό속격':'~로 말미암아', 'ὑπό대격':'~ 밑에', 'ἐκ속격':'~에서 (밖으로)', 'ἀπό속격':'~에서, ~로부터', 'πρός대격':'~에게로, ~을 향하여',
+  'εἰς대격':'~ 안으로', 'ἐν여격':'~ 안에(서)', 'μετά속격':'~와 함께', 'μετά대격':'~ 후에', 'σύν여격':'~와 함께', 'παρά속격':'~으로부터',
+  'παρά여격':'~ 곁에', 'παρά대격':'~과 곁따라', 'διά속격':'~을 통하여', 'διά대격':'~ 때문에', 'περί속격':'~에 대하여', 'περί대격':'~ 주위에',
+  'ὑπέρ속격':'~을 위하여', 'ὑπέρ대격':'~ 위에' };
+const LS_CONJ_OPTS = {
+  'καί': ['그리고', '역시, ~도', '~까지도', '~과 ~이 모두 (καί…καί)'],
+  'οὐδέ': ['그리고 … 아니, 또 … 아니', '~도 아니', '~까지도 아니', '~과 ~이 모두 아니 (οὐδέ…οὐδέ)'],
+  'ὅτι': ['~는 것을 (내용)', '왜냐하면 (이유)', '그러나', '그리고'],
+  'δέ': ['그러나, 그리고', '왜냐하면', '아니', '그때에'], 'ἀλλά': ['그러나', '왜냐하면', '그리고', '~까지도'],
+  'μέν': ['한편으로는 (μέν…δέ)', '그러나', '왜냐하면', '아니']
+};
+const LS_ADV_KO = { 'οὐ':'아니', 'οὐκέτι':'더 이상 … 않다', 'νῦν':'지금', 'τότε':'그때에', 'οὔπω':'아직도 … 아니' };
+const LS_SUBJ = ['내가','네가','그가','우리가','너희가','그들이'];
+// "풀린다" → "풀리고 있었다", "받는다" → "받고 있었다" (미완료 뜻 만들기)
+function koProg(pred) {
+  if (/는다$/.test(pred)) return pred.replace(/는다$/, '고 있었다');
+  const s = pred.replace(/다$/, ''), ch = s.charCodeAt(s.length - 1);
+  if (ch >= 0xAC00 && ch <= 0xD7A3 && (ch - 0xAC00) % 28 === 4) return s.slice(0, -1) + String.fromCharCode(ch - 4) + '고 있었다';
+  return s + '고 있었다';
+}
+function lsVerbPreds(t) {             // 이 동사가 가질 수 있는 서술어들 (정답 + 헷갈리는 보기)
+  if (t.lemma === 'εἰμί') return { right: t.tense === '현재' ? '~이다' : '~이었다, 있었다', all: ['~이다', '~이었다, 있었다'] };
+  const v = VV_VERBS.find(x => x.lemma === t.lemma), d = VV_DEP.find(x => x.lemma === t.lemma);
+  if (d) return { right: t.tense === '현재' ? d.act : koProg(d.act), all: [d.act, koProg(d.act)] };
+  if (!v) return null;
+  const all = [v.act, v.ipf]; if (v.pas) all.push(v.pas, koProg(v.pas));
+  let right = t.voice === '능동' ? (t.tense === '현재' ? v.act : v.ipf) : (t.tense === '현재' ? v.pas : koProg(v.pas));
+  return { right, all };
+}
+function lsAttachKo(t) {
+  if (t.punct) return;
+  let ans = null, opts = [], alt = [];
+  const m = t.m || {};
+  if (t.pos === '동사') {
+    const k = (t.person - 1) + (t.number === '복수' ? 3 : 0), pr = lsVerbPreds(t);
+    if (pr) {
+      ans = LS_SUBJ[k] + ' ' + pr.right;
+      opts = pr.all.map(p => LS_SUBJ[k] + ' ' + p).concat(LS_SUBJ.filter((s, j) => j !== k).map(s => s + ' ' + pr.right));
+    }
+  } else if (t.pos === '전치사') {
+    ans = LS_PREP_KO[t.lemma + t.gov];
+    opts = Object.keys(LS_PREP_KO).filter(k => k.startsWith(t.lemma)).map(k => LS_PREP_KO[k]).concat(shuffle(Object.values(LS_PREP_KO)).slice(0, 3));
+  } else if (t.pos === '명사') {
+    const [stem, thing] = LS_NOUN_KO[t.lemma] || [t.lemma], s = t.n === '복수' ? stem + '들' : stem;
+    opts = EX_CASES.map(c => exJosa(s, c, thing));
+    ans = m.ko || exJosa(s, t.c, thing);
+    if (m.ko) opts.push(m.ko);
+  } else if (t.pos === '형용사' || (t.pos === '대명사' && !t.person)) {
+    opts = EX_CASES.map(c => exJosa(m.s || '그', c, m.thing));
+    if (m.a) opts.unshift(m.a);
+    if (m.p) opts.unshift(m.p);
+    ans = m.ko || (m.use === 'a' ? m.a : m.use === 'p' ? m.p : exJosa(m.s || '그', t.c, m.thing));
+    if (m.ko) opts.push(m.ko);
+  } else if (t.pos === '대명사') {
+    const s = t.lemma === 'ἐγώ' ? (t.n === '복수' ? '우리' : '나') : (t.n === '복수' ? '너희' : '너');
+    opts = EX_CASES.map(c => exJosa(s, c)); ans = exJosa(s, t.c);
+  } else if (t.pos === '접속사') {
+    opts = LS_CONJ_OPTS[t.lemma] || []; ans = m.ko; alt = m.alt || [];
+  } else if (t.pos === '부사') {
+    ans = LS_ADV_KO[t.lemma]; opts = Object.values(LS_ADV_KO);
+  }
+  if (ans) { t.ko = ans; t.koOpts = [...new Set(opts.filter(Boolean))]; t.koAlt = alt; }
+}
+Object.values(LS_EX).forEach(list => list.forEach(it => it.toks.forEach(lsAttachKo)));
+
+// ── 익힘 문제 문장 파싱 진행 (끝 부호 → 절 나누기 → 동사 찾기 → 단어 파싱 → 번역) ──
+// ①끝 부호 ②καί·δέ·쉼표(절 나누기) ③동사 찾기는 순서대로 하나씩 채점.
+// ④ 단어 파싱: 원하는 단어를 골라 품사부터 직접 파싱(바로 채점하지 않음), 파싱한 단어는 음영.
+//    모든 단어를 파싱하면 '정답 확인'으로 한꺼번에 채점 → ⑤ 전체 문장 번역.
+const EX_STAGES = ['끝 부호', '절 나누기', '동사 찾기', '단어 파싱', '번역'];
+const EX_POS = ['동사','명사','형용사','관사','대명사','전치사','접속사','부사'];
+const EX_SKIP_DOM = 1;
+const examScreen  = document.getElementById('examScreen');
+const examContent = document.getElementById('examContent');
+let ex = null;
+
+// 기본형 보기 풀 (품사별)
+const EX_LEMMAS = {};
+Object.values(LS_EX).forEach(list => list.forEach(it => it.toks.forEach(t => {
+  if (t.punct) return;
+  (EX_LEMMAS[t.pos] = EX_LEMMAS[t.pos] || new Set()).add(t.lemma);
+})));
+// 사용자가 고른 품사의 파싱 항목 (보기는 단어와 무관하게 품사로만 정해짐, 기본형 보기에는 그 단어의 기본형을 항상 포함)
+function exFieldsFor(pos, t, i) {
+  const F = (key, label, opts) => ({ key, label, opts });
+  const lemmaOpts = () => {
+    const ck = i + '|' + pos;
+    if (!ex.lemmaCache[ck]) {
+      const pool = [...(EX_LEMMAS[pos] || [])].filter(l => l !== t.lemma);
+      ex.lemmaCache[ck] = shuffle([t.lemma, ...shuffle(pool).slice(0, 3)]);
+    }
+    return ex.lemmaCache[ck];
+  };
+  const koOpts = () => {
+    const ck = i + '|ko';
+    if (!ex.lemmaCache[ck]) ex.lemmaCache[ck] = t.koOpts ? shuffle([t.ko, ...shuffle(t.koOpts.filter(o => o !== t.ko)).slice(0, 4)]) : [];
+    return ex.lemmaCache[ck];
+  };
+  const KO = () => koOpts().length ? [F('ko','뜻(해석)',koOpts())] : [];
+  const GNC = [F('g','성',['남성','여성','중성']), F('n','수',['단수','복수']), F('c','격',['주격','속격','여격','대격'])];
+  if (pos === '동사') return [
+    F('tense','시제',['현재','미완료','미래','부정과거']), F('voice','태',['능동','중간','수동','디포넌트','없음']),
+    F('mood','법',['직설법','가정법','명령법','부정사']), F('person','인칭',['1인칭','2인칭','3인칭']),
+    F('number','수',['단수','복수']), F('lemma','기본형',lemmaOpts()), ...KO()
+  ];
+  if (pos === '명사' || pos === '형용사') return [...GNC, F('lemma','기본형',lemmaOpts()), ...KO()];
+  if (pos === '관사') return GNC;
+  if (pos === '대명사') return [
+    F('person','인칭',['1인칭','2인칭','3인칭']), F('g','성',['남성','여성','중성','없음']),
+    F('n','수',['단수','복수']), F('c','격',['주격','속격','여격','대격']), F('lemma','기본형',lemmaOpts()), ...KO()
+  ];
+  if (pos === '전치사') return [F('gov','함께 오는 격',['속격','여격','대격']), ...KO()];
+  return KO();   // 접속사·부사: 뜻만
+}
+// 정답 값 (단어의 실제 품사 기준)
+function exCorrectVals(t) {
+  const v = exCorrectVals0(t);
+  if (t.ko) v.ko = t.ko;
+  return v;
+}
+function exCorrectVals0(t) {
+  if (t.pos === '동사') return { tense:t.tense, voice:t.voice || '없음', mood:t.mood, person:t.person + '인칭', number:t.number, lemma:t.lemma };
+  if (t.pos === '명사' || t.pos === '형용사') return { g:t.g, n:t.n, c:t.c, lemma:t.lemma };
+  if (t.pos === '관사') return { g:t.g, n:t.n, c:t.c };
+  if (t.pos === '대명사') return { person:(t.person || 3) + '인칭', g:t.person ? '없음' : t.g, n:t.n, c:t.c, lemma:t.lemma };
+  if (t.pos === '전치사') return { gov:t.gov };
+  return {};
+}
+function exParseText(t) {
+  return exParseText0(t) + (t.ko ? ' · "' + t.ko + '"' : '') + (exAltText(t) ? ' (같은 형태: ' + exAltText(t) + ')' : '');
+}
+function exParseText0(t) {
+  if (t.pos === '동사') return [t.tense, t.voice, t.mood, t.person + '인칭', t.number].filter(Boolean).join(' ') + ' · ' + t.lemma;
+  if (t.pos === '명사' || t.pos === '형용사') return t.g + ' ' + t.n + ' ' + t.c + ' · ' + t.lemma;
+  if (t.pos === '관사') return t.g + ' ' + t.n + ' ' + t.c;
+  if (t.pos === '대명사') return (t.person ? t.person + '인칭' : '3인칭 ' + t.g) + ' ' + t.n + ' ' + t.c + ' · ' + t.lemma;
+  if (t.pos === '전치사') return '+' + t.gov;
+  return t.lemma;
+}
+function exMyText(i) {
+  const p = ex.parses[i]; if (!p) return '—';
+  const t = exItem().toks[i];
+  return p.pos + (exFieldsFor(p.pos, t, i).length ? ' ' + exFieldsFor(p.pos, t, i).map(f => p.vals[f.key]).join(' ') : '');
+}
+
+// ── 정답 노트: 문장마다 끝 부호·절·동사, 단어별 품사·문법·기본형·사전 뜻·문장 속 뜻, 전체 번역 ──
+const EX_DICT_OVR = { 'ὁ':'그 (관사)', 'αὐτός':'그·그녀·그것 / 관사+명사 사이: 바로 그(the same) / 그 밖의 강조: 자신이, 스스로', 'οὗτος':'이, 이것, 이 사람', 'ἐκεῖνος':'저, 저것, 저 사람',
+  'ἐγώ':'나', 'σύ':'너', 'δέ':'그러나, 그리고', 'θεός':'하나님, 신', 'εἰμί':'~이다, 있다',
+  'οὐ':'아니 (οὐκ, οὐχ)', 'μέν':'한편으로는 (μέν … δέ)', 'ἐκβάλλω':'나는 쫓아낸다', 'καί':'그리고, 역시, 까지도', 'οὐδέ':'그리고 … 아니, …도 아니, …까지도 아니' };
+function exDictKo(lemma) {
+  if (EX_DICT_OVR[lemma]) return EX_DICT_OVR[lemma];
+  const w = words.find(x => x.gr === lemma);
+  return w ? w.ko : '';
+}
+// 형태가 같은 다른 파싱(성·수·격)까지 모두: 
+//  · 중성은 주격 = 대격
+//  · 3성 변화(관사·형용사·αὐτός·οὗτος·ἐκεῖνος)는 속격·여격에서 남성 = 중성, 복수 속격은 세 성 모두 같음
+function exAlts(t) {
+  if (!t.c || t.person) return t.c ? [{ g: t.g, n: t.n, c: t.c }] : [];
+  const three = t.pos === '관사' || t.pos === '형용사' || t.pos === '대명사';
+  let gs = [t.g];
+  if (three && t.c === '속격' && t.n === '복수') gs = ['남성', '여성', '중성'];
+  else if (three && (t.c === '속격' || t.c === '여격') && t.g !== '여성') gs = ['남성', '중성'];
+  const cs = t.g === '중성' && (t.c === '주격' || t.c === '대격') ? ['주격', '대격'] : [t.c];
+  const out = [];
+  gs.forEach(g => cs.forEach(c => out.push({ g, n: t.n, c })));
+  return out;
+}
+function exAltText(t) {
+  const a = exAlts(t);
+  return a.length > 1 ? a.map(x => x.g + ' ' + x.n + ' ' + x.c).join(' / ') : '';
+}
+function exGram(t) {
+  if (t.pos === '동사') return [t.tense, t.voice, t.mood, t.person + '인칭', t.number].filter(Boolean).join(' ');
+  if (t.pos === '전치사') return '+' + t.gov;
+  if (t.pos === '대명사' && t.person) return t.person + '인칭 ' + t.n + ' ' + t.c;
+  if (t.g) return t.g + ' ' + t.n + ' ' + t.c;
+  return '';
+}
+function exSentKo(t) {
+  if (t.ko) return t.ko;
+  if (t.pos === '관사') return '(따로 옮기지 않음)';
+  return exDictKo(t.lemma);
+}
+let exNoteHide = false;
+function exRenderNote(queue) {
+  ex = null;
+  lsShowScreen(examScreen);
+  window.scrollTo(0, 0);
+  const H = s => '<span class="nt-a' + (exNoteHide ? ' nt-hide' : '') + '">' + s + '</span>';
+  let html = '<div class="lesson-card"><div class="lesson-card-title">📒 ' + queue[0].set.label + ' 정답 노트</div>'
+    + '<p class="ex-note">문장마다 ① 끝 부호 ② 절 나누기 ③ 동사 → 단어 파싱 → 전체 번역 순서로 정리했어요.</p>'
+    + '<label class="check-row" style="font-size:14px;margin-top:8px"><input type="checkbox" id="ntHide"' + (exNoteHide ? ' checked' : '') + '> 정답 가리고 외우기 (가린 칸을 누르면 보여요)</label></div>';
+  queue.forEach(({ set, item }) => {
+    const toks = item.toks, last = toks[toks.length - 1].t;
+    const splits = toks.filter(t => t.split).map(t => t.t), verbs = toks.filter(t => t.pos === '동사').map(t => t.t);
+    html += '<div class="lesson-card nt-sent"><div class="nt-head">' + set.label.replace(' 익힘', '') + ' ' + item.no + '번</div>'
+      + '<div class="nt-gr">' + toks.map(t => (t.punct ? '' : ' ') + t.t).join('').trim() + '</div>'
+      + '<div class="nt-tr">' + H(item.ko) + '</div>'
+      + '<div class="nt-steps"><div><b>① 끝 부호</b> ' + last + ' → ' + (last === ';' ? '의문문' : '평서문') + '</div>'
+      + '<div><b>② 절 나누기</b> ' + H((splits.length ? splits.join(', ') : '없음') + ' → 절 ' + exClauses(item) + '개') + '</div>'
+      + '<div><b>③ 동사</b> ' + H(verbs.join(', ') || '없음 (εἰμί 생략)') + '</div></div>'
+      + '<div class="nt-words">' + toks.filter(t => !t.punct).map(t =>
+        '<div class="nt-w"><div class="nt-w-top"><span class="nt-w-gr">' + t.t + '</span>' + H('<span class="nt-pos">' + t.pos + '</span>') + '</div>'
+        + (exGram(t) ? '<div class="nt-row"><span class="nt-lbl">' + (exAltText(t) ? '이 문장' : '문법') + '</span>' + H(exGram(t)) + '</div>' : '')
+        + (exAltText(t) ? '<div class="nt-row nt-alt"><span class="nt-lbl">같은 형태</span>' + H(exAltText(t)) + '</div>' : '')
+        + '<div class="nt-row"><span class="nt-lbl">기본형</span>' + H(t.lemma + (exDictKo(t.lemma) ? ' — ' + exDictKo(t.lemma) : '')) + '</div>'
+        + '<div class="nt-row"><span class="nt-lbl">문장 속 뜻</span>' + H('<b>' + exSentKo(t) + '</b>') + '</div>'
+        + (t.note ? '<div class="nt-row nt-memo">' + H(t.note) + '</div>' : '') + '</div>').join('') + '</div></div>';
+  });
+  html += '<button class="lesson-btn primary" id="ntToQuiz" style="margin-top:12px">이 문장들 파싱 연습으로 풀기 →</button>'
+    + '<button class="lesson-btn secondary" id="ntBack" style="margin-top:8px">← 과 학습으로</button>';
+  examContent.innerHTML = html;
+  ex = { noteQueue: queue };
+}
+
+function exClauses(it) { return it.cl || Math.max(it.toks.filter(t => t.pos === '동사').length, 1); }
+function exStart(queue) {
+  ex = { queue, si: 0, results: [] };
+  lsShowScreen(examScreen);
+  exBeginSentence();
+}
+function exItem() { return ex.queue[ex.si].item; }
+function exWordIdx() { return exItem().toks.map((t, i) => i).filter(i => !exItem().toks[i].punct); }
+function exBeginSentence() {
+  ex.stage = 1; ex.cur = { right: 0, total: 0, wrongs: [] };
+  ex.parses = {}; ex.editing = null; ex.checked = false; ex.lemmaCache = {}; ex.selfDone = false;
+  exRender();
+}
+function exRecord(word, field, mine, correct) {
+  ex.cur.total++;
+  if (mine === correct) ex.cur.right++;
+  else ex.cur.wrongs.push({ word, field, mine, correct });
+}
+
+function exSentenceHtml() {
+  const it = exItem(), clickSel = ex.stage === 2 || ex.stage === 3, clickParse = ex.stage === 4 && !ex.checked;
+  return '<div class="ex-sent">' + it.toks.map((t, i) => {
+    let cls = 'ex-tok' + (t.punct ? ' punct' : '');
+    if (ex.stage > 2 && t.split) cls += ' split';
+    if (ex.stage > 3 && t.pos === '동사') cls += ' verb';
+    if (ex.stage === 4 && ex.parses[i]) cls += ' parsed';
+    if (ex.stage === 4 && ex.editing === i) cls += ' target';
+    if (clickSel && ex.sel && ex.sel.has(i)) cls += ' sel';
+    if (ex.marks && ex.marks[i]) cls += ' ' + ex.marks[i];
+    const last = t.punct && i === it.toks.length - 1;
+    const can = !ex.done && ((clickSel && !last) || (clickParse && !t.punct)) || (ex.stage === 4 && ex.checked && !t.punct);
+    return '<span class="' + cls + '"' + (can ? ' data-ex-tok="' + i + '"' : '') + '>' + t.t + '</span>';
+  }).join('') + '</div>';
+}
+function exHeader() {
+  const s = ex.queue[ex.si];
+  return '<div class="pq-progress"><span>' + s.set.label + ' ' + s.item.no + '번 · 문장 ' + (ex.si + 1) + ' / ' + ex.queue.length + '</span>'
+    + '<span>이 문장 ' + ex.cur.right + ' / ' + ex.cur.total + '</span></div>'
+    + '<div class="ex-steps">' + EX_STAGES.map((n, i) => '<span class="' + (i + 1 < ex.stage ? 'done' : i + 1 === ex.stage ? 'on' : '') + '">' + (i + 1) + ' ' + n + '</span>').join('') + '</div>';
+}
+function exOptsHtml(key, opts, chosen) {
+  return '<div class="s34-opts">' + opts.map(o => '<button class="s34-opt' + (chosen === o ? ' s34-selected' : '') + '" data-ex-key="' + key + '" data-val="' + String(o).replace(/"/g, '&quot;') + '">' + o + '</button>').join('') + '</div>';
+}
+const EX_END_OPTS = ['. 마침표 → 평서문', '; 물음표 → 의문문', '· 윗점 → 쌍점·쌍반점(문장 계속)', ', 쉼표 → 아직 안 끝남'];
+function exEndCorrect() {
+  const last = exItem().toks[exItem().toks.length - 1].t;
+  return last === ';' ? EX_END_OPTS[1] : last === '·' ? EX_END_OPTS[2] : EX_END_OPTS[0];
+}
+
+function exRender() {
+  ex.done = false; ex.ans = {};
+  if (ex.stage !== 4) ex.marks = null;
+  const it = exItem();
+  let body = '', submit = '';
+  if (ex.stage === 1) {
+    body = '<p class="ex-q">① 먼저 문장 끝 부호를 확인하세요. 이 문장은?</p>'
+      + '<div class="s34-fields"><div class="s34-field">' + exOptsHtml('end', EX_END_OPTS) + '</div></div>';
+    submit = 'none';
+  } else if (ex.stage === 2) {
+    ex.sel = new Set();
+    body = '<p class="ex-q">② 절을 나누는 말 — <b>καί · δέ · ἀλλά · ὅτι · οὐδέ</b> 같은 접속사와 <b>쉼표(,) · 윗점(·)</b> — 을 모두 누르세요. 없으면 "없음".</p>'
+      + '<p class="ex-note">καί…καί, οὐδέ…οὐδέ의 첫 번째 말과 강조하는 καί(~도, ~까지도)는 절을 나누지 않아요.</p>'
+      + '<button class="ex-none" id="exNone">없음</button>';
+    submit = 'block';
+  } else if (ex.stage === 3) {
+    ex.sel = new Set();
+    body = '<p class="ex-q">③ 이 문장의 <b>동사</b>를 모두 누르세요. 동사가 생략됐으면 "없음".</p>'
+      + '<button class="ex-none" id="exNone">없음</button>';
+    submit = 'block';
+  } else if (ex.stage === 4) {
+    return exRenderParse();
+  } else if (ex.stage === 5) {
+    body = '<p class="ex-q">⑤ 이제 전체 문장을 번역해 보세요.</p>'
+      + '<textarea id="exTr" class="ex-tr" rows="3" placeholder="여기에 번역을 써 보세요"></textarea>';
+    submit = 'block';
+  } else {
+    return exRenderSummary();
+  }
+  examContent.innerHTML = exHeader()
+    + '<div class="lesson-card">' + exSentenceHtml() + '</div>'
+    + '<div class="lesson-card">' + body
+    + '<div id="exFb" style="margin-top:10px"></div>'
+    + '<button class="lesson-btn primary" id="exSubmit" style="display:' + submit + ';margin-top:12px">' + (ex.stage === 5 ? '모범 번역 보기' : '확인') + '</button>'
+    + '<div id="exNext" style="display:none;margin-top:8px"></div></div>';
+}
+
+// ④ 단어 파싱 화면
+function exRenderParse() {
+  const it = exItem(), words = exWordIdx(), n = Object.keys(ex.parses).length;
+  let panel = '';
+  if (ex.checked) {
+    panel = '<p class="ex-q">채점 결과 — 초록은 맞음, 빨강은 틀림. 단어를 누르면 내 파싱과 정답을 볼 수 있어요.</p>'
+      + (ex.editing !== null ? exResultDetail(ex.editing) : '')
+      + '<button class="lesson-btn success" id="exToTr" style="margin-top:12px">전체 문장 번역하기 →</button>';
+  } else if (ex.editing === null) {
+    panel = '<p class="ex-q">④ 파싱할 단어를 문장에서 골라 누르세요. 순서는 자유예요 (동사부터 하면 좋아요).</p>'
+      + '<p class="ex-note">파싱한 단어 <b>' + n + ' / ' + words.length + '</b> · 파싱한 단어는 음영으로 표시되고, 다시 눌러 고칠 수 있어요.</p>'
+      + (n === words.length ? '<button class="lesson-btn primary" id="exCheckAll" style="margin-top:12px">모든 단어 파싱 완료 — 정답 확인</button>' : '');
+  } else {
+    const i = ex.editing, t = it.toks[i], saved = ex.parses[i] || { pos: null, vals: {} };
+    const pos = ex.ans.pos !== undefined ? ex.ans.pos : saved.pos;
+    const vals = Object.assign({}, saved.pos === pos ? saved.vals : {}, ex.ans.vals || {});
+    ex.ans = { pos, vals };
+    const fields = pos ? exFieldsFor(pos, t, i) : [];
+    const ready = pos && fields.every(f => vals[f.key]);
+    panel = '<div class="ex-word">' + t.t + '</div>'
+      + '<div class="s34-fields"><div class="s34-field"><div class="s34-field-lbl">품사</div>' + exOptsHtml('pos', EX_POS, pos) + '</div>'
+      + fields.map(f => '<div class="s34-field"><div class="s34-field-lbl">' + f.label + '</div>' + exOptsHtml(f.key, f.opts, vals[f.key]) + '</div>').join('')
+      + '</div>'
+      + (pos && !fields.length ? '<p class="ex-note">' + pos + '는 품사만 쓰면 돼요.</p>' : '')
+      + '<button class="lesson-btn primary" id="exSaveWord" style="margin-top:12px;display:' + (ready ? 'block' : 'none') + '">이 단어 파싱 저장</button>'
+      + '<button class="lesson-btn" id="exCancelWord" style="margin-top:8px">닫기</button>';
+  }
+  examContent.innerHTML = exHeader()
+    + '<div class="lesson-card">' + exSentenceHtml() + '</div>'
+    + '<div class="lesson-card">' + panel + '</div>';
+}
+function exResultDetail(i) {
+  const t = exItem().toks[i], r = ex.wordResult[i];
+  return '<div class="ex-detail"><div class="ex-word" style="font-size:24px">' + t.t + '</div>'
+    + '<div class="ex-note">내 파싱: <span class="' + (r.ok ? 's4-right-txt' : 's4-wrong-txt') + '">' + exMyText(i) + '</span></div>'
+    + '<div class="ex-note">정답: <span class="s4-right-txt">' + t.pos + ' ' + exParseText(t) + '</span></div>'
+    + (r.wrongs.length ? '<div class="ex-note">틀린 항목: ' + r.wrongs.join(', ') + '</div>' : '')
+    + (t.note ? '<div class="ex-note" style="color:#888">' + t.note + '</div>' : '') + '</div>';
+}
+// 모든 단어 한꺼번에 채점
+function exCheckAll() {
+  const it = exItem();
+  ex.wordResult = {}; ex.marks = {};
+  exWordIdx().forEach(i => {
+    const t = it.toks[i], p = ex.parses[i], cv = exCorrectVals(t), labels = {};
+    exFieldsFor(t.pos, t, i).forEach(f => { labels[f.key] = f.label; });
+    const wrongs = [];
+    exRecord(t.t, '품사', p.pos, t.pos);
+    if (p.pos !== t.pos) wrongs.push('품사');
+    if (p.pos === t.pos && exAlts(t).some(a => a.g === p.vals.g && a.n === p.vals.n && a.c === p.vals.c)) {
+      cv.g = p.vals.g; cv.n = p.vals.n; cv.c = p.vals.c;   // 형태가 같은 다른 파싱도 맞음
+    }
+    Object.keys(cv).forEach(k => {
+      let mine = p.pos === t.pos ? p.vals[k] : '—';
+      if (k === 'ko' && t.koAlt && t.koAlt.includes(mine)) mine = cv[k];   // 문맥상 함께 쓸 수 있는 뜻도 정답
+      exRecord(t.t, labels[k], mine, cv[k]);
+      if (mine !== cv[k]) wrongs.push(labels[k]);
+    });
+    ex.wordResult[i] = { ok: !wrongs.length, wrongs };
+    ex.marks[i] = wrongs.length ? 'bad' : 'ok';
+  });
+  ex.checked = true; ex.editing = null;
+  exRenderParse();
+}
+
+function exSubmit() {
+  if (ex.done) return;
+  const it = exItem(), fb = document.getElementById('exFb');
+  let fbHtml = '';
+  if (ex.stage === 1) {
+    const c = exEndCorrect();
+    exMarkButtons('end', c); exRecord('끝 부호', '문장 종류', ex.ans.end, c);
+    fbHtml = exOk(ex.ans.end === c) + '<p class="ex-note">문장 끝이 <b>' + it.toks[it.toks.length - 1].t + '</b> → ' + c.split('→ ')[1] + '. 이제 절을 나누는 말을 찾아요.</p>';
+  } else if (ex.stage === 2 || ex.stage === 3) {
+    const want = new Set(it.toks.map((t, i) => i).filter(i => ex.stage === 2 ? it.toks[i].split : it.toks[i].pos === '동사'));
+    ex.marks = {};
+    it.toks.forEach((t, i) => {
+      if (want.has(i) && ex.sel.has(i)) ex.marks[i] = 'ok';
+      else if (want.has(i)) ex.marks[i] = 'miss';
+      else if (ex.sel.has(i)) ex.marks[i] = 'bad';
+    });
+    const ok = want.size === ex.sel.size && [...want].every(i => ex.sel.has(i));
+    const list = [...want].map(i => it.toks[i].t).join(', ');
+    exRecord(ex.stage === 2 ? '절 나누기' : '동사 찾기', ex.stage === 2 ? '절을 나누는 말' : '동사',
+             [...ex.sel].sort((a, b) => a - b).map(i => it.toks[i].t).join(', ') || '없음', list || '없음');
+    ex.done = true;
+    examContent.querySelector('.ex-sent').outerHTML = exSentenceHtml();
+    if (ex.stage === 2) {
+      fbHtml = exOk(ok) + '<p class="ex-note">' + (want.size
+        ? '<b>' + list + '</b> 로 나뉘어 <b>' + exClauses(it) + '개의 절</b>이에요. 절마다 동사를 찾아요.'
+        : '나누는 말이 없어서 <b>절이 하나</b>예요.') + '</p>';
+      if (it.toks.some(t => t.lemma === 'δέ')) fbHtml += '<p class="ex-note">δέ는 절의 <b>두 번째 자리</b>에 오는 접속사예요. 그 앞 단어부터 새 절이 시작돼요.</p>';
+    } else {
+      fbHtml = exOk(ok) + '<p class="ex-note">동사: <b>' + (list || '없음 — εἰμί가 생략됨') + '</b>. 이제 단어를 파싱해요.</p>';
+    }
+    const none = document.getElementById('exNone'); if (none) none.disabled = true;
+  } else if (ex.stage === 5) {
+    fb.innerHTML = '<div class="ex-model"><div class="fc-sec-lbl">모범 번역</div>' + it.ko + '</div>'
+      + '<p class="ex-note">내 번역이 뜻을 맞게 옮겼나요?</p>'
+      + '<div class="s34-opts"><button class="s34-opt" data-ex-self="1">맞게 했어요</button><button class="s34-opt" data-ex-self="0">틀렸어요</button></div>';
+    document.getElementById('exSubmit').style.display = 'none';
+    ex.done = true;
+    return;
+  }
+  ex.done = true;
+  fb.innerHTML = fbHtml;
+  document.getElementById('exSubmit').style.display = 'none';
+  const nx = document.getElementById('exNext');
+  nx.style.display = 'block';
+  nx.innerHTML = '<button class="lesson-btn success" id="exNextBtn">다음 →</button>';
+}
+function exOk(ok) { return '<p style="font-weight:700;margin:0 0 4px;color:' + (ok ? '#2e9e4f' : '#d64545') + '">' + (ok ? '정답!' : '틀렸어요') + '</p>'; }
+function exMarkButtons(key, correct) {
+  examContent.querySelectorAll('[data-ex-key="' + key + '"]').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.val === correct) b.classList.add('s34-correct');
+    else if (b.dataset.val === ex.ans[key]) b.classList.add('s34-wrong');
+  });
+}
+function exNext() { ex.stage++; ex.editing = null; exRender(); window.scrollTo(0, 0); }
+function exRenderSummary() {
+  ex.results[ex.si] = ex.cur;
+  const it = exItem(), c = ex.cur;
+  let html = exHeader()
+    + '<div class="lesson-card">' + exSentenceHtml() + '<div class="ex-model" style="margin-top:10px">' + it.ko + '</div></div>'
+    + '<div class="lesson-done-card"><div class="lesson-done-title">' + ex.queue[ex.si].set.label + ' ' + it.no + '번 완료</div>'
+    + '<p style="font-size:26px;font-weight:700;color:#2e6ed6;margin:8px 0 0">' + c.right + ' / ' + c.total + '</p></div>';
+  if (c.wrongs.length) html += exWrongList(c.wrongs);
+  html += '<div class="lesson-card"><div class="lesson-card-title">전체 파싱 (정답)</div>' + exFullParse(it) + '</div>';
+  html += ex.si < ex.queue.length - 1
+    ? '<button class="lesson-btn primary" id="exNextSent" style="margin-top:12px">다음 문장 →</button>'
+    : '<button class="lesson-btn primary" id="exFinish" style="margin-top:12px">결과 보기 →</button>';
+  examContent.innerHTML = html;
+}
+function exWrongList(wrongs) {
+  return '<div class="menu-card-title" style="margin:16px 0 8px">틀린 항목 (' + wrongs.length + ')</div><div class="s4-errors">'
+    + wrongs.map(w => '<div class="s4-err-item"><span class="s4-err-label">[' + w.word + ' · ' + w.field + ']</span> 내 답: <span class="s4-wrong-txt">'
+      + (w.mine || '—') + '</span> → 정답: <span class="s4-right-txt">' + w.correct + '</span></div>').join('') + '</div>';
+}
+function exFullParse(it) {
+  return '<table class="prep-table">' + it.toks.filter(t => !t.punct).map(t =>
+    '<tr><td>' + t.t + '</td><td style="white-space:nowrap">' + t.pos + '</td><td>' + exParseText(t) + (t.note ? '<div style="font-size:12px;color:#999;font-weight:400">' + t.note + '</div>' : '') + '</td></tr>').join('') + '</table>';
+}
+function exRenderFinal() {
+  const tot = ex.results.reduce((a, r) => ({ right: a.right + r.right, total: a.total + r.total }), { right: 0, total: 0 });
+  let html = '<div class="lesson-done-card"><div class="lesson-done-icon">📝</div><div class="lesson-done-title">익힘 문제 완료</div>'
+    + '<p style="font-size:30px;font-weight:700;color:#2e6ed6;margin:10px 0 4px">' + tot.right + ' / ' + tot.total + '</p>'
+    + '<p style="font-size:14px;color:#888;margin:0">정답률 ' + Math.round(tot.right / Math.max(tot.total, 1) * 100) + '%</p></div>'
+    + '<div class="lesson-card" style="margin-top:12px"><div class="lesson-card-title">문장별 결과</div><table class="prep-table">'
+    + ex.queue.map((q, i) => '<tr><td>' + q.set.label.replace(' 익힘', '') + ' ' + q.item.no + '번</td><td>' + ex.results[i].right + ' / ' + ex.results[i].total + '</td><td>'
+      + (ex.results[i].wrongs.length ? '틀림 ' + ex.results[i].wrongs.length : '✓') + '</td></tr>').join('') + '</table></div>';
+  const wrongIdx = ex.results.map((r, i) => r.wrongs.length ? i : -1).filter(i => i >= 0);
+  if (wrongIdx.length) html += '<button class="lesson-btn primary" id="exRetryWrong" style="margin-top:12px">틀린 문장만 다시 (' + wrongIdx.length + ')</button>';
+  html += '<button class="lesson-btn" id="exRestart" style="margin-top:8px">처음부터 다시</button>'
+    + '<button class="lesson-btn secondary" id="exToLesson" style="margin-top:8px">← 과 학습으로</button>';
+  examContent.innerHTML = html;
+}
+
+
+examContent.addEventListener('click', e => {
+  if (ex && ex.noteQueue) {          // 정답 노트 화면
+    if (e.target.id === 'ntHide') { exNoteHide = e.target.checked; examContent.querySelectorAll('.nt-a').forEach(a => a.classList.toggle('nt-hide', exNoteHide)); return; }
+    const a = e.target.closest('.nt-a.nt-hide'); if (a) { a.classList.remove('nt-hide'); return; }
+    if (e.target.id === 'ntToQuiz') { const q = ex.noteQueue; exStart(q); }
+    if (e.target.id === 'ntBack') lsOpenLesson(lsCur);
+    return;
+  }
+  const tok = e.target.closest('[data-ex-tok]');
+  if (tok) {
+    const i = parseInt(tok.dataset.exTok);
+    if (ex.stage === 4) {          // 단어 파싱: 단어 열기 (채점 후에는 결과 보기)
+      ex.editing = i; ex.ans = {};
+      exRenderParse();
+      return;
+    }
+    if (ex.done) return;
+    if (ex.sel.has(i)) ex.sel.delete(i); else ex.sel.add(i);
+    tok.classList.toggle('sel', ex.sel.has(i));
+    const none = document.getElementById('exNone'); if (none) none.classList.remove('on');
+    return;
+  }
+  if (e.target.id === 'exNone' && !ex.done) {
+    ex.sel.clear();
+    examContent.querySelectorAll('.ex-tok.sel').forEach(x => x.classList.remove('sel'));
+    e.target.classList.toggle('on');
+    return;
+  }
+  const opt = e.target.closest('[data-ex-key]');
+  if (opt) {
+    const key = opt.dataset.exKey, val = opt.dataset.val;
+    if (ex.stage === 4) {          // 파싱 패널: 품사를 바꾸면 항목이 그 품사에 맞게 바뀜
+      if (key === 'pos') { if (ex.ans.pos !== val) ex.ans = { pos: val, vals: {} }; }
+      else ex.ans.vals[key] = val;
+      exRenderParse();
+      return;
+    }
+    if (ex.done) return;
+    examContent.querySelectorAll('[data-ex-key="' + key + '"]').forEach(b => b.classList.remove('s34-selected'));
+    opt.classList.add('s34-selected');
+    ex.ans[key] = val;
+    if (ex.stage === 1) document.getElementById('exSubmit').style.display = 'block';
+    return;
+  }
+  const self = e.target.closest('[data-ex-self]');
+  if (self && ex.stage === 5 && !ex.selfDone) {
+    ex.selfDone = true;
+    exRecord('번역', '번역', self.dataset.exSelf === '1' ? '맞음' : '틀림', '맞음');
+    examContent.querySelectorAll('[data-ex-self]').forEach(b => { b.disabled = true; if (b === self) b.classList.add(self.dataset.exSelf === '1' ? 's34-correct' : 's34-wrong'); });
+    const nx = document.getElementById('exNext');
+    nx.style.display = 'block';
+    nx.innerHTML = '<button class="lesson-btn success" id="exNextBtn">문장 정리 보기 →</button>';
+    return;
+  }
+  const id = e.target.id;
+  if (id === 'exSubmit') exSubmit();
+  else if (id === 'exNextBtn') exNext();
+  else if (id === 'exSaveWord') { ex.parses[ex.editing] = { pos: ex.ans.pos, vals: Object.assign({}, ex.ans.vals) }; ex.editing = null; ex.ans = {}; exRenderParse(); }
+  else if (id === 'exCancelWord') { ex.editing = null; ex.ans = {}; exRenderParse(); }
+  else if (id === 'exCheckAll') exCheckAll();
+  else if (id === 'exToTr') exNext();
+  else if (id === 'exNextSent') { ex.si++; exBeginSentence(); window.scrollTo(0, 0); }
+  else if (id === 'exFinish') exRenderFinal();
+  else if (id === 'exRetryWrong') exStart(ex.results.map((r, i) => r.wrongs.length ? ex.queue[i] : null).filter(Boolean));
+  else if (id === 'exRestart') exStart(ex.queue);
+  else if (id === 'exToLesson') lsOpenLesson(lsCur);
+});
+
+
+// ── 학습 카드: 과별 학습 (10과 · 11과 · 12과) ──────────────────────────
+const lcScreen = document.getElementById('lcScreen'), lcContent = document.getElementById('lcContent'), lcTitle = document.getElementById('lcTitle');
+let lsCur = null, lsTopic = null;
+function lsShowScreen(el) {
+  document.querySelectorAll('.screen').forEach(sc => { sc.style.display = 'none'; });
+  el.style.display = 'block';
+  window.scrollTo(0, 0);
+}
+const LS_T = s => '<span style="text-transform:none">' + s + '</span>';
+// λύω 변화표 한 칸: 접두모음(초록) + 어간 + 어미(빨강)
+function lsSeg(form) {
+  const m = form.match(/^([ἐἔ]?)(λ[υύ])(.*)$/);
+  return m ? (m[1] ? '<span class="vv-aug">' + m[1] + '</span>' : '') + m[2] + '<span class="vv-end">' + m[3] + '</span>' : form;
+}
+function lsLyTable(groups, withEimi) {
+  if (!VV_FORMS) vvBuildForms();
+  const L = VV_FORMS.filter(f => f.verb.lemma === 'λύω');
+  const cell = (g, k) => { const f = L.find(x => x.group === g && x.k === (g === 'ia' && k === 5 ? 0 : k)); return f ? lsSeg(f.form) : ''; };
+  const H = x => '<span class="nt-a vv-mem">' + x + '</span>';
+  return '<label class="check-row" style="font-size:13px;margin-bottom:6px"><input type="checkbox" class="ls-hide"> 형태 가리고 외우기 (누르면 보여요)</label>'
+    + '<table class="vv-table vv-big"><tr><th></th>' + groups.map(g => '<th>' + VV_GROUPS[g] + '</th>').join('') + (withEimi ? '<th>εἰμί 미완료</th>' : '') + '</tr>'
+    + VV_PN.map(([p, n], k) => '<tr><th>' + p + n[0] + '</th>' + groups.map(g => '<td>' + H(cell(g, k)) + '</td>').join('') + (withEimi ? '<td>' + H(VV_EIMI_IMPF[k]) + '</td>' : '') + '</tr>').join('') + '</table>';
+}
+const LS_LESSONS = {
+  10: { title:'10과 학습', sub:'현재 중간태·수동태, ὑπό+속격, 수단의 여격, 디포넌트, 합성동사, οὐ의 위치, 동사가 지배하는 격',
+    topics: [
+      { t:'① 세 가지 태 (§102)', html: () => '<table class="prep-table">'
+        + '<tr><td>능동태</td><td>주어가 동작을 한다<br><b>λύω</b> 내가 푼다</td></tr>'
+        + '<tr><td>중간태</td><td>주어가 동작의 결과에 참여한다 (동작의 주인공을 강조)<br><b>λύομαι</b> 내가 나를 위하여 푼다<br><span class="ex-note">βουλεύω 권고하다 → βουλεύομαι 상담하다, ἄρχω 지배하다 → ἄρχομαι 시작하다처럼 뜻이 아주 달라지기도 함</span></td></tr>'
+        + '<tr><td>수동태</td><td>주어가 동작을 받는다<br><b>λύομαι</b> 내가 풀린다</td></tr></table>' },
+      { t:'② 현재 중간태·수동태 변화 (§103–105)', html: () => lsLyTable(['pa','pm'])
+        + '<div class="vv-endrow"><b>제1시제 중간·수동 인칭 어미</b> -μαι, -σαι, -ται, -μεθα, -σθε, -νται + 연결모음 ο/ε (§104)<br>2인칭 단수 λύεσαι → 줄어서 <b>λύῃ</b></div>'
+        + '<table class="prep-table" style="margin-top:8px"><tr><td>중간</td><td>λύομαι 내가 나를 위하여 푼다 · λυόμεθα 우리가 우리를 위하여 푼다</td></tr><tr><td>수동</td><td>λύομαι 내가 풀린다 · λυόμεθα 우리가 풀린다</td></tr></table>' },
+      { t:'③ 중간·수동 해석 방법', html: () => '<p class="ex-note">현재 시제에서는 중간태와 수동태의 <b>형태가 똑같아요</b> (§102). 그래서 형태만 보고 파싱할 때는 태를 <b>"중간·수동"</b>으로 쓰고, 문장 속에서는 다음 순서로 정해요.</p>'
+        + '<table class="prep-table"><tr><td>1</td><td>기본형이 -ομαι로 끝나는 <b>디포넌트</b>인가? → 형태는 중간·수동이어도 뜻은 <b>능동</b> (ἔρχομαι 간다)</td></tr>'
+        + '<tr><td>2</td><td><b>ὑπό + 속격</b>(행위자)이 있나? → <b>수동</b> (λύονται ὑπὸ τοῦ κυρίου 주로 말미암아 풀린다)</td></tr>'
+        + '<tr><td>3</td><td>ἄρχομαι(시작하다)처럼 중간태 뜻이 따로 있는 동사인가? → <b>중간</b></td></tr>'
+        + '<tr><td>4</td><td>그 밖에는 교재 익힘 문제 방식대로 <b>수동</b>으로 해석 (§102)</td></tr></table>' },
+      { t:'④ ὑπό + 속격: 행위자 (§106)', html: () => '<p class="ex-note">수동태 동사와 함께 쓰여 동작을 한 사람(동인)을 나타내요: "~로 말미암아".</p>'
+        + '<table class="prep-table"><tr><td>능동</td><td><b>ὁ ἀπόστολος λύει τὸν δοῦλον.</b><br>그 사도가 그 종을 푼다.</td></tr>'
+        + '<tr><td>수동</td><td><b>ὁ δοῦλος λύεται ὑπὸ τοῦ ἀποστόλου.</b><br>그 종이 그 사도로 말미암아 풀린다.</td></tr></table>'
+        + '<p class="ex-note">능동의 목적어(대격) → 수동의 주어(주격), 능동의 주어 → ὑπό + 속격. ὑπό + 대격은 "~ 밑에"예요.</p>' },
+      { t:'⑤ 수단의 여격 (§107)', html: () => '<p class="ex-note">전치사 없는 여격만으로 <b>수단·방편</b>("~으로")을 나타내기도 해요.</p>'
+        + '<table class="prep-table"><tr><td>수단</td><td><b>ἐγείρονται τῷ λόγῳ τοῦ κυρίου.</b> 그들은 주님의 말씀으로 일으킴을 받는다.</td></tr>'
+        + '<tr><td>수단</td><td><b>ἄγομεν τοὺς δούλους λόγοις καλοῖς.</b> 우리는 좋은 말로 그 종들을 인도한다.</td></tr></table>'
+        + '<table class="prep-table" style="margin-top:8px"><tr><td>ὑπό + 속격</td><td>행위자(사람) "~로 말미암아"</td></tr><tr><td>전치사 없는 여격</td><td>수단 "~으로" 또는 간접목적어 "~에게"</td></tr></table>' },
+      { t:'⑥ 디포넌트 동사 (§108)', html: () => '<p class="ex-note">능동태 형태가 없고 중간태·수동태 형태만 있는데 뜻은 능동인 동사예요. 낱말 모음에 "디포"라고 적혀 있어요.</p>'
+        + '<table class="prep-table"><tr><td>πορεύομαι</td><td>내가 간다</td></tr><tr><td>ἔρχομαι</td><td>내가 간다, 온다</td></tr><tr><td>γίνομαι</td><td>내가 된다 (주격 보어)</td></tr><tr><td>ἀποκρίνομαι</td><td>내가 대답한다</td></tr></table>'
+        + '<p class="ex-note">단어 퀴즈·암기 카드의 "디포넌트 모음" 칩으로 디포 단어만 따로 외울 수 있어요.</p>' },
+      { t:'⑦ 합성동사 (§109)', html: () => '<p class="ex-note">동사 앞에 전치사를 붙인 동사. 보통 전치사 뜻이 동사 뜻을 꾸며요.</p>'
+        + '<table class="prep-table"><tr><td>ἐκ + πορεύομαι</td><td>ἐκπορεύομαι 내가 나간다</td></tr><tr><td>εἰς + ἔρχομαι</td><td>εἰσέρχομαι 내가 들어간다</td></tr>'
+        + '<tr><td>ἀπό + κρίνομαι</td><td>ἀποκρίνομαι 내가 대답한다 — 전치사와 동사 뜻을 합쳐도 나오지 않는 경우</td></tr></table>' },
+      { t:'⑧ οὐ의 위치 (§110)', html: () => '<p class="ex-note">οὐ는 부정하는 낱말 <b>바로 앞</b>에 와요. 동사 앞에 오는 경우가 가장 많아요. 후접어(proclitic)예요.</p>'
+        + '<table class="prep-table"><tr><td>οὐ λύω</td><td>나는 풀지 않는다</td></tr><tr><td>οὐ λύομαι</td><td>나는 풀리지 않는다</td></tr><tr><td>οὐκ ἐγὼ ἀλλὰ σύ</td><td>내가 아니라 네가 (대명사를 부정)</td></tr></table>'
+        + '<p class="ex-note">모음 앞 οὐκ, 거친 숨표 앞 οὐχ (οὐχ ὑπό…).</p>' },
+      { t:'⑨ 동사에 지배되는 여러 가지 격 (§111)', html: () => '<table class="prep-table">'
+        + '<tr><td>ἀκούω + 속격</td><td>ἀκούω τῆς φωνῆς 내가 그 음성을 듣는다</td></tr><tr><td>ἀκούω + 대격</td><td>ἀκούω τὴν φωνήν 내가 그 음성을 순종한다</td></tr>'
+        + '<tr><td>ἄρχω + 속격</td><td>ἄρχω τῆς βασιλείας 내가 그 나라를 지배한다</td></tr><tr><td>πιστεύω + 여격</td><td>πιστεύω τῷ κυρίῳ 나는 주님을 믿는다</td></tr></table>'
+        + '<p class="ex-note">이런 속격·여격은 "~의", "~에게"가 아니라 목적어 "~을/를"로 옮겨요.</p>' }
+    ],
+    drills: [
+      { mode:'ending', label:'① 어미 구별 (현재 능동 · 현재 중간·수동)', groups:['pa','pm'] },
+      { mode:'make', label:'② 형태 만들기', groups:['pa','pm','dep'] },
+      { mode:'parse', label:'③ 형태 파싱 (시제·태·인칭·수·기본형·뜻)', groups:['pa','pm','dep'] },
+      { mode:'trans', label:'④ 능동 → 수동 바꾸기 (ὑπό + 속격)', groups:['pa','pm'] },
+      { mode:'dat', label:'⑤ 여격·ὑπό 구별 (행위자·수단·~에게)', groups:['pa','pm'] }
+    ] },
+  11: { title:'11과 학습', sub:'미완료 능동태, 접두모음(ἐ- / 장모음 η), 합성동사의 접두모음, εἰμί 미완료, ἔστι(ν)의 악센트',
+    topics: [
+      { t:'① 미완료란? (§114)', html: () => '<p class="ex-note">현재 시제에는 "푼다"와 "풀고 있다"를 가르는 형태가 따로 없지만, 과거에서는 둘이 구별돼요.</p>'
+        + '<table class="prep-table"><tr><td>단순과거</td><td>단순한 과거 "내가 풀었다" (14과)</td></tr><tr><td>미완료</td><td>과거에 <b>계속되거나 반복된</b> 동작 "내가 풀고 있었다, 풀곤 하였다"</td></tr></table>' },
+      { t:'② 미완료 능동태 만들기 (§115, §119)', html: () => '<table class="prep-table"><tr><td>1</td><td>현재 어근을 찾는다: λύω → λυ-</td></tr><tr><td>2</td><td>접두모음을 붙인다</td></tr>'
+        + '<tr><td>3</td><td>연결모음 ο/ε (μ·ν 앞은 ο, 나머지는 ε)</td></tr><tr><td>4</td><td>제2시제 능동 인칭 어미 -ν, -ς, (없음), -μεν, -τε, -ν</td></tr><tr><td>5</td><td>동사 악센트 규칙대로</td></tr></table>'
+        + lsLyTable(['pa','ia'])
+        + '<p class="ex-note">1인칭 단수와 3인칭 복수가 ἔλυον으로 같아요 → 문맥(주어)으로 가려요 (§121). 3인칭 단수 ἔλυε(ν)은 움직이는 ν (§120).</p>' },
+      { t:'③ 접두모음: 자음 앞 ἐ-, 모음은 장음 (§116–118)', html: () => '<table class="prep-table">'
+        + '<tr><td>자음으로 시작</td><td>어근 앞에 <b>ἐ</b>를 붙인다<br>λύω → <b>ἔ</b>λυον, γινώσκω → <b>ἐ</b>γίνωσκον, βλέπω → <b>ἔ</b>βλεπον</td></tr>'
+        + '<tr><td>모음으로 시작</td><td>첫 모음을 <b>길게</b> 한다<br>α → <b>η</b>: ἀκούω → <b>ἤ</b>κουον, ἄγω → <b>ἦ</b>γον<br>ε → <b>η</b>: ἐγείρω → <b>ἤ</b>γειρον, ἐσθίω → <b>ἤ</b>σθιον<br>αι → <b>ῃ</b>: αἴρω → <b>ᾖ</b>ρον (ι가 η 밑에 붙음)</td></tr>'
+        + '<tr><td>주의</td><td>α는 긴 α가 아니라 <b>η</b>가 된다. ἔχω → εἶχον은 불규칙</td></tr></table>' },
+      { t:'④ 합성동사의 접두모음과 악센트 (§122–123)', html: () => '<p class="ex-note">접두모음은 <b>전치사와 동사 사이</b>에 붙어요. 모음 앞에서 전치사의 끝 모음은 떨어져요.</p>'
+        + '<table class="prep-table"><tr><td>ἐκβάλλω</td><td>ἐκ + ε + βαλλ → <b>ἐξέβαλλον</b></td></tr><tr><td>ἀποκτείνω</td><td>ἀπ(ο) + ε + κτειν → <b>ἀπέκτεινον</b></td></tr>'
+        + '<tr><td>ἀπάγω</td><td>ἀπ + ἄγω, α → η → <b>ἀπῆγον</b></td></tr><tr><td>καταβαίνω</td><td>κατ(α) + ε → <b>κατέβαινον</b></td></tr><tr><td>συνάγω</td><td>συν + ἄγω, α → η → <b>συνῆγον</b></td></tr></table>'
+        + '<p class="ex-note">악센트는 접두모음을 넘어 앞으로 갈 수 없어요: ἀπῆγον (ἄπηγον ✗) (§123)</p>' },
+      { t:'⑤ εἰμί 미완료 직설법 (§124)', html: () => '<table class="vv-table vv-big"><tr><th></th><th>εἰμί 미완료</th><th>뜻</th></tr>'
+        + VV_PN.map(([p, n], k) => '<tr><th>' + p + n[0] + '</th><td>' + VV_EIMI_IMPF[k] + '</td><td>' + VV_SUBJ[k] + ' … 있었다(…이었다)</td></tr>').join('') + '</table>' },
+      { t:'⑥ ἔστι(ν)의 악센트 (§125)', html: () => '<p class="ex-note">εἰμί의 3인칭 단수 ἐστί(ν)이 <b>ἔστι(ν)</b>이 되는 경우</p>'
+        + '<table class="prep-table"><tr><td>1</td><td>문장 처음에 나올 때</td></tr><tr><td>2</td><td>존재·가능성을 나타낼 때 ("있다", "~할 수 있다")</td></tr>'
+        + '<tr><td>3</td><td>οὐκ, μή, εἰ, ὡς, καί, ἀλλ’, ἀλλά, τοῦτ’, τοῦτο 뒤에 올 때 (특히 οὐκ ἔστιν)</td></tr></table>'
+        + '<p class="ex-note">ἐστίν 말고 다른 인칭 형태에는 해당하지 않아요.</p>' }
+    ],
+    drills: [
+      { mode:'aug', label:'① 접두모음 붙이기 (ἐ- / 장모음 η)', groups:['ia'] },
+      { mode:'ending', label:'② 어미 구별 (현재 능동·중간·수동 · 미완료 능동)', groups:['pa','pm','ia'] },
+      { mode:'make', label:'③ 형태 만들기 (현재 ↔ 미완료)', groups:['pa','ia','eimi'] },
+      { mode:'parse', label:'④ 형태 파싱 (εἰμί 미완료 포함)', groups:['pa','pm','ia','eimi','dep'] }
+    ] },
+  12: { title:'12과 학습', sub:'미완료 중간태·수동태, 해석 방법, 디포넌트의 미완료, 중성 복수 주어 + 단수 동사, καί와 οὐδέ의 용법',
+    topics: [
+      { t:'① 미완료 중간태·수동태 변화 (§128–132)', html: () => lsLyTable(['im','ia'])
+        + '<div class="vv-endrow"><b>제2시제 중간·수동 인칭 어미</b> -μην, -σο, -το, -μεθα, -σθε, -ντο + 연결모음 ο/ε + 접두모음 (§129)<br>2인칭 단수 ἐλύεσο → 줄어서 <b>ἐλύου</b> (§130)<br>1인칭 단수 ἐλυόμην은 얼티마가 길어서 악센트가 피널트 (§131)</div>'
+        + '<table class="prep-table" style="margin-top:8px"><tr><td>중간</td><td>ἐλυόμην 내가 나를 위하여 풀고 있었다</td></tr><tr><td>수동</td><td>ἐλυόμην 내가 풀리고 있었다</td></tr></table>' },
+      { t:'② 해석 방법 — 동사 하나를 끝까지 읽는 순서', html: () => '<table class="prep-table">'
+        + '<tr><td>1 앞</td><td>접두모음(ἐ- 또는 길어진 모음)이 있나? → 있으면 <b>미완료</b></td></tr>'
+        + '<tr><td>2 끝</td><td>능동 어미(-ω, -ον…)인가, 중간·수동 어미(-μαι, -μην, -ται, -το…)인가?</td></tr>'
+        + '<tr><td>3 기본형</td><td>-ομαι로 끝나는 <b>디포넌트</b>면 뜻은 능동 (§133)</td></tr>'
+        + '<tr><td>4 문맥</td><td>ὑπό + 속격 → 수동. 그 밖에는 교재 익힘대로 <b>수동</b>으로 해석</td></tr>'
+        + '<tr><td>5 뜻</td><td>현재 "~한다 / ~된다", 미완료 "~하고 있었다 / ~되고 있었다"</td></tr></table>' },
+      { t:'③ 디포넌트 동사의 미완료 (§133)', html: () => '<p class="ex-note">현재에서 디포넌트인 동사는 미완료에서도 디포넌트예요.</p>'
+        + '<table class="prep-table"><tr><td>ἔρχομαι</td><td>→ <b>ἠρχόμην</b> 내가 가고 있었다, 가곤 하였다</td></tr><tr><td>ἐκπορεύομαι</td><td>→ ἐξεπορευόμην (ἐκ + ε → ἐξε)</td></tr><tr><td>δέχομαι</td><td>→ ἐδεχόμην, 2인칭 단수 ἐδέχου</td></tr></table>' },
+      { t:'④ 중성 복수 주어와 단수 동사 (§134)', html: () => '<table class="prep-table"><tr><td>τὰ δαιμόνια ἐξέρχεται</td><td>그 귀신들이 나간다</td></tr><tr><td>ταῦτά ἐστι τὰ καλὰ δῶρα</td><td>이것들은 그 좋은 선물들이다</td></tr></table>'
+        + '<p class="ex-note">중성 복수 주어는 단수 동사를 취할 수 있어요. 하지만 반드시 그런 것은 아니어서 복수 동사도 와요: τὰ τέκνα σῴζονται 그 아이들이 구원을 받는다.</p>' },
+      { t:'⑤ καί와 οὐδέ의 용법 (§135–137)', html: () => '<p class="ex-note"><b>판별 순서</b> — καί(οὐδέ) 앞뒤를 보세요.</p>'
+        + '<table class="prep-table"><tr><td>1 짝이 있나?</td><td>καί … καί → "~과 ~이 모두" (both … and)<br>οὐδέ … οὐδέ → "~과 ~이 모두 아니" (neither … nor)</td></tr>'
+        + '<tr><td>2 같은 종류를 잇나?</td><td>앞뒤가 명사-명사, 주어-주어, 동사-동사, 절-절이면 → καί "그리고, ~와", οὐδέ "그리고 … 아니, 또 … 아니" (이때 οὐδέ 앞에는 반드시 οὐ가 한 번 나옴)</td></tr>'
+        + '<tr><td>3 아니면 강조</td><td>갑자기 나타나 <b>바로 뒤의 말</b>을 강조 → καί "~도 역시, ~까지도", οὐδέ "~도 아니, ~까지도 아니"</td></tr></table>'
+        + '<table class="prep-table" style="margin-top:8px"><tr><td>강조</td><td>τοῦτο δὲ <b>καὶ</b> ἐγὼ λέγω 그러나 이것을 나도 역시 말한다<br>γινώσκουσι <b>καὶ</b> τὰ τέκνα τὸν νόμον 그 아이들까지도 그 율법을 안다</td></tr>'
+        + '<tr><td>짝</td><td>τοῦτο λέγουσιν <b>καὶ</b> οἱ ἀπόστολοι <b>καὶ</b> οἱ δοῦλοι 사도들과 종들이 모두 이것을 말한다</td></tr>'
+        + '<tr><td>연결</td><td>τοῦτο δὲ οὐ λέγω ἐγὼ <b>οὐδὲ</b> λέγουσιν αὐτὸ οἱ ἄλλοι 나는 이것을 말하지 않고, 또 다른 사람들도 말하지 않는다</td></tr></table>' }
+    ],
+    drills: [
+      { mode:'kai', label:'① καί·οὐδέ 판별 (연결 / 강조 / 짝)', groups:['im'] },
+      { mode:'ending', label:'② 어미 구별 (미완료 중간·수동 포함 4가지)', groups:['pa','pm','ia','im'] },
+      { mode:'make', label:'③ 형태 만들기 (미완료 능동 ↔ 중간·수동)', groups:['ia','im','dep'] },
+      { mode:'parse', label:'④ 형태 파싱 (모든 시제·태 섞어서)', groups:['pa','pm','ia','im','dep','eimi'] }
+    ] }
+};
+
+function lsOpenHub() {
+  lsCur = null; lsShowScreen(lcScreen); lcTitle.textContent = '학습 카드';
+  lcContent.innerHTML = '<p class="ex-note" style="margin:0 0 10px">과를 골라 들어가면 그 과의 문법 레슨 → 변화 연습 → 익힘 문제 순서로 공부할 수 있어요.</p>'
+    + [10, 11, 12].map(n => '<button class="ls-card" data-ls-open="' + n + '"><div class="ls-card-title">📘 ' + LS_LESSONS[n].title + '</div><div class="ls-card-sub">' + LS_LESSONS[n].sub + '</div>'
+      + '<div class="ls-card-meta">레슨 ' + LS_LESSONS[n].topics.length + ' · 연습 ' + LS_LESSONS[n].drills.length + ' · 익힘 문제 ' + LS_EX[n].length + '문장</div></button>').join('');
+}
+function lsOpenLesson(n) {
+  lsCur = n; lsTopic = null;
+  const L = LS_LESSONS[n];
+  lsShowScreen(lcScreen); lcTitle.textContent = L.title;
+  let h = '<button class="lesson-btn secondary" id="lsToHub" style="margin-bottom:12px">← 학습 카드 목록</button>'
+    + '<div class="menu-card-title" style="margin:4px 0 8px">📖 문법 레슨</div>'
+    + L.topics.map((t, i) => '<div class="ls-topic" data-ls-topic="' + i + '"><div class="ls-topic-head">' + t.t + '<span class="ls-arrow">›</span></div><div class="ls-topic-body" style="display:none"></div></div>').join('')
+    + '<div class="menu-card-title" style="margin:18px 0 8px">✏️ 연습</div>'
+    + L.drills.map((d, i) => '<button class="grammar-btn ls-drill" data-ls-drill="' + i + '">' + d.label + '</button>').join('')
+    + '<div class="menu-card-title" style="margin:18px 0 8px">📚 익힘 문제 (' + n + '과 §' + { 10:112, 11:126, 12:138 }[n] + ')</div>'
+    + '<div class="lesson-card"><p class="ex-note" style="margin:0 0 6px">끝 부호 → 절 나누기 → 동사 찾기 → 단어 파싱(품사부터 직접) → 번역 순서로 풀어요. 풀 문장을 고르세요.</p>'
+    + '<div class="ex-set-row" id="lsExChips">' + LS_EX[n].map(it => '<label class="week-chip on ex-sent-chip"><input type="checkbox" class="ls-ex-cb" value="' + it.no + '" checked>' + it.no
+      + '<span class="ex-sent-gr">' + it.toks.filter(t => !t.punct).slice(0, 2).map(t => t.t).join(' ') + '…</span></label>').join('') + '</div>'
+    + '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button class="ex-none" id="lsExAll">전체 선택</button><button class="ex-none" id="lsExNone">전체 해제</button></div>'
+    + '<label class="check-row" style="margin-top:10px;font-size:13px;font-weight:400"><input type="checkbox" id="lsExShuffle"> 문장 순서 섞기</label>'
+    + '<div id="lsExErr" class="menu-err"></div>'
+    + '<button class="grammar-btn" id="lsExStart" style="background:#b5651d;margin-top:10px">문장 파싱 시작</button>'
+    + '<button class="grammar-btn" id="lsExNote" style="background:#fff;color:#b5651d;border:2px solid #b5651d;margin-top:8px">📒 정답 노트 보기 (고른 문장)</button></div>';
+  lcContent.innerHTML = h;
+}
+function lsExQueue(shuf) {
+  const n = lsCur, sel = new Set([...lcContent.querySelectorAll('.ls-ex-cb:checked')].map(c => parseInt(c.value)));
+  let q = LS_EX[n].filter(it => sel.has(it.no)).map(item => ({ set: { label: n + '과 익힘' }, item }));
+  if (shuf && document.getElementById('lsExShuffle').checked) q = shuffle(q);
+  return q;
+}
+lcContent.addEventListener('click', e => {
+  const open = e.target.closest('[data-ls-open]'); if (open) { lsOpenLesson(parseInt(open.dataset.lsOpen)); return; }
+  if (e.target.id === 'lsToHub') { lsOpenHub(); return; }
+  if (e.target.classList.contains('ls-hide')) { e.target.closest('.ls-topic-body').querySelectorAll('.vv-mem').forEach(a => a.classList.toggle('nt-hide', e.target.checked)); return; }
+  const mem = e.target.closest('.vv-mem.nt-hide'); if (mem) { mem.classList.remove('nt-hide'); return; }
+  const head = e.target.closest('.ls-topic-head');
+  if (head) {
+    const box = head.parentElement, body = box.querySelector('.ls-topic-body'), on = body.style.display === 'none';
+    if (on && !body.innerHTML) body.innerHTML = LS_LESSONS[lsCur].topics[parseInt(box.dataset.lsTopic)].html();
+    body.style.display = on ? 'block' : 'none'; box.classList.toggle('open', on);
+    return;
+  }
+  const dr = e.target.closest('[data-ls-drill]');
+  if (dr) { const d = LS_LESSONS[lsCur].drills[parseInt(dr.dataset.lsDrill)]; vvStart(d.mode, d.groups); return; }
+  if (e.target.id === 'lsExAll' || e.target.id === 'lsExNone') {
+    lcContent.querySelectorAll('.ls-ex-cb').forEach(c => { c.checked = e.target.id === 'lsExAll'; c.closest('.week-chip').classList.toggle('on', c.checked); });
+    return;
+  }
+  if (e.target.id === 'lsExStart' || e.target.id === 'lsExNote') {
+    const q = lsExQueue(e.target.id === 'lsExStart'), err = document.getElementById('lsExErr');
+    if (!q.length) { err.textContent = '문장을 하나 이상 선택해주세요.'; err.style.display = 'block'; return; }
+    if (e.target.id === 'lsExStart') exStart(q); else exRenderNote(q);
+  }
+});
+lcContent.addEventListener('change', e => { if (e.target.classList.contains('ls-ex-cb')) e.target.closest('.week-chip').classList.toggle('on', e.target.checked); });
+document.getElementById('lcMenuBtn').addEventListener('click', lsOpenHub);
+document.getElementById('lcBackBtn').addEventListener('click', () => { if (lsCur) lsOpenHub(); else lsShowScreen(menuScreen); });
+document.getElementById('examBackBtn').addEventListener('click', () => lsOpenLesson(lsCur));
+
+// ── 11과: 접두모음 붙이기 — 현재형을 보고 미완료 1인칭 단수 고르기 ──
+function vvAugQs() {
+  if (!VV_FORMS) vvBuildForms();
+  const vs = shuffle(VV_VERBS.slice()).slice(0, VV_N);
+  return vs.map(v => {
+    const right = vvMake(v.impf, 'ον', v.aug);
+    const bare = vvAccent(v.pres + 'ον');                                   // 접두모음 없음
+    const wrongs = [bare];
+    const first = vvBase(v.pres[0]);
+    if ('αεοηιυω'.includes(first)) wrongs.push(vvAccent('ἐ' + v.pres.replace(/^./, c => c.normalize('NFD')[0]) + 'ον'));  // 모음 앞에 ἐ를 붙임 (✗)
+    if (v.aug) wrongs.push(vvAccent('ἐ' + v.pres + 'ον'));                // 전치사 앞에 ἐ (✗)
+    if (!('αεοηιυω'.includes(first)) && !v.aug) wrongs.push(vvAccent('η' + v.pres + 'ον'));
+    const opts = shuffle([...new Set([right, ...wrongs])]).slice(0, 4);
+    if (!opts.includes(right)) opts[0] = right;
+    return {
+      title: v.lemma + ' → ' + right,
+      prompt: '<div class="vv-prompt-sm">이 동사의 미완료 능동 1인칭 단수는?</div><div class="vv-prompt">' + v.lemma + '</div><div class="ex-note" style="text-align:center">"' + v.act.replace(/다$/, '') + '…" → "내가 ' + v.ipf + '"</div>',
+      fields: [{ key:'form', label:'미완료 1인칭 단수', opts: shuffle(opts), big:true }],
+      check(ans) {
+        const how = v.aug ? '합성동사 → 전치사와 동사 사이에 접두모음 (§122)' : 'αεοηιυω'.includes(first) ? '모음으로 시작 → 첫 모음을 길게 (§118)' : '자음으로 시작 → 앞에 ἐ (§117)';
+        return { ok: ans.form === right, right: { form: right }, answerText: right,
+          show: '<p class="ex-note"><b>' + how + '</b>' + (v.note ? '<br>' + v.note : '') + '</p>' + vvMiniTable(v.lemma, right) };
+      }
+    };
+  });
+}
+
+// ── 10과: 여격·ὑπό 구별 — 밑줄 친 말이 무엇을 나타내나 ──
+const LS_DAT_ITEMS = [
+  { gr:'λύονται οὗτοι οἱ δοῦλοι <u>ὑπὸ τοῦ κυρίου</u>.', ko:'이 종들이 주로 말미암아 풀린다.', a:'행위자 (ὑπό + 속격)', src:'10과 1번' },
+  { gr:'<u>τῷ λόγῳ</u> τοῦ κυρίου ἀγόμεθα εἰς τὴν ἐκκλησίαν.', ko:'우리는 주의 말씀으로 교회 안으로 인도된다.', a:'수단 (전치사 없는 여격)', src:'10과 2번' },
+  { gr:'μετὰ τῶν ἀδελφῶν αὐτοῦ ἄγεται … <u>τῇ φωνῇ</u> τῶν ἀποστόλων.', ko:'… 사도들의 음성으로 인도된다.', a:'수단 (전치사 없는 여격)', src:'10과 13번' },
+  { gr:'ἐγείρονται <u>τῷ λόγῳ</u> τοῦ κυρίου.', ko:'그들은 주님의 말씀으로 일으킴을 받는다.', a:'수단 (전치사 없는 여격)', src:'§107 보기' },
+  { gr:'ἄγομεν τοὺς δούλους <u>λόγοις καλοῖς</u>.', ko:'우리는 좋은 말로 그 종들을 인도한다.', a:'수단 (전치사 없는 여격)', src:'§107 보기' },
+  { gr:'οὐ βαπτίζονται οἱ ἁμαρτωλοὶ <u>ὑπὸ τῶν ἀποστόλων</u>.', ko:'죄인들은 사도들로 말미암아 세례를 받지 않는다.', a:'행위자 (ὑπό + 속격)', src:'10과 6번' },
+  { gr:'σῴζεται <u>ὑπὸ τοῦ κυρίου</u> αὐτῆς.', ko:'그것의 주로 말미암아 구원받는다.', a:'행위자 (ὑπό + 속격)', src:'10과 9번' },
+  { gr:'λέγετε <u>ἐκείνοις τοῖς ἁμαρτωλοῖς</u> …', ko:'너희는 저 죄인들에게 말한다…', a:'간접목적어 ~에게 (여격)', src:'10과 7번' },
+  { gr:'οὐκ ἀποκρινόμεθα <u>τῷ ἀποστόλῳ</u>.', ko:'우리는 그 사도에게 대답하지 않는다.', a:'간접목적어 ~에게 (여격)', src:'10과 10번' },
+  { gr:'ὁ μαθητὴς ἔλεγε παραβολὴν <u>τοῖς ἀδελφοῖς</u> αὐτοῦ.', ko:'그 제자는 그의 형제들에게 비유를 말하고 있었다.', a:'간접목적어 ~에게 (여격)', src:'11과 2번' },
+  { gr:'πιστεύω <u>τῷ κυρίῳ</u>.', ko:'나는 주님을 믿는다.', a:'동사가 지배하는 목적어 (§111)', src:'§111 보기' },
+  { gr:'οὐκ ἀκούετε <u>τῆς φωνῆς</u> τοῦ προφήτου.', ko:'너희는 그 예언자의 음성을 듣지 않는다.', a:'동사가 지배하는 목적어 (§111)', src:'10과 3번' },
+  { gr:'ἄρχει αὐτὸς ὁ θεὸς <u>τῆς βασιλείας</u> αὐτοῦ.', ko:'하나님 자신이 그의 나라를 지배한다.', a:'동사가 지배하는 목적어 (§111)', src:'10과 8번' },
+  { gr:'ἀπέκτεινον οἱ δοῦλοι τὰ τέκνα <u>σὺν τοῖς μαθηταῖς</u>.', ko:'종들이 제자들과 함께 아이들을 죽이고 있었다.', a:'전치사 + 여격 (함께·안에)', src:'11과 3번' },
+  { gr:'οὐ πορεύῃ <u>ἐν τῇ ὁδῷ</u> τῇ κακῇ.', ko:'너는 악한 길로 가지 않는다.', a:'전치사 + 여격 (함께·안에)', src:'10과 12번' }
+];
+const LS_DAT_OPTS = ['행위자 (ὑπό + 속격)', '수단 (전치사 없는 여격)', '간접목적어 ~에게 (여격)', '동사가 지배하는 목적어 (§111)', '전치사 + 여격 (함께·안에)'];
+const LS_DAT_WHY = {
+  '행위자 (ὑπό + 속격)':'수동태 동사 + ὑπό + 속격 → 동작을 한 사람 "~로 말미암아" (§106)',
+  '수단 (전치사 없는 여격)':'전치사 없는 여격이 사람이 아닌 도구·방편 → "~으로" (§107)',
+  '간접목적어 ~에게 (여격)':'말하다·대답하다 등의 상대 → "~에게"',
+  '동사가 지배하는 목적어 (§111)':'ἀκούω·ἄρχω(+속격), πιστεύω(+여격)는 그 격을 목적어로 취함 → "~을/를"',
+  '전치사 + 여격 (함께·안에)':'σύν + 여격 "함께", ἐν + 여격 "안에(서)" — 전치사가 뜻을 정함'
+};
+function lsDatQs() {
+  return shuffle(LS_DAT_ITEMS.slice()).map(it => ({
+    title: it.src,
+    prompt: '<div class="vv-prompt-sm">밑줄 친 말은 무엇을 나타낼까요?</div><div class="vv-sent">' + it.gr + '</div><div class="ex-note" style="text-align:center">' + it.src + '</div>',
+    fields: [{ key:'a', label:'쓰임', opts: LS_DAT_OPTS }],
+    check(ans) { return { ok: ans.a === it.a, right: { a: it.a }, answerText: it.a, show: '<p class="ex-note">' + LS_DAT_WHY[it.a] + '</p><p class="ex-note"><b>' + it.ko + '</b></p>' }; }
+  }));
+}
+
+// ── 12과: καί·οὐδέ 판별 — 교재 §135–137 순서: ① 짝? ② 같은 종류를 잇나? ③ 아니면 뒤의 말 강조 ──
+const LS_KAI_ITEMS = [
+  { gr:'τοῦτο δὲ <u>καὶ</u> ἐγὼ λέγω.', ko:'그러나 이것을 나도 역시 말한다.', use:'강조', mean:'역시, ~도', src:'§135 보기 1', why:'καί 앞(λέγω의 목적어 τοῦτο)과 뒤(ἐγώ)가 같은 종류가 아님 → 바로 뒤 ἐγώ를 강조' },
+  { gr:'γινώσκουσι <u>καὶ</u> τὰ τέκνα τὸν νόμον.', ko:'그 아이들까지도 그 율법을 안다.', use:'강조', mean:'~까지도', src:'§135 보기 2', why:'동사 뒤에 갑자기 καί → 뒤의 주어 τὰ τέκνα를 강조' },
+  { gr:'ὁ θεὸς γινώσκει <u>καὶ</u> τὴν καρδίαν ἡμῶν.', ko:'하나님은 우리의 마음까지도 아신다.', use:'강조', mean:'~까지도', src:'§135 보기 3', why:'목적어 앞의 καί → 목적어를 강조' },
+  { gr:'τοῦτο λέγουσιν <u>καὶ</u> οἱ ἀπόστολοι <u>καὶ</u> οἱ δοῦλοι.', ko:'이것을 그 사도들과 종들이 모두 말한다.', use:'짝', mean:'~과 ~이 모두 (καί…καί)', src:'§137 보기 1', why:'καί가 두 번 → both … and' },
+  { gr:'ὁ ἄνθρωπος <u>καὶ</u> βλέπει <u>καὶ</u> ἀκούει τὸν κύριον.', ko:'그 사람은 주님을 보기도 하고 순종하기도 한다.', use:'짝', mean:'~과 ~이 모두 (καί…καί)', src:'§137 보기 1', why:'동사 앞에 καί가 한 번씩 → "~하기도 하고 ~하기도"' },
+  { gr:'τοῦτο δὲ οὐ λέγω ἐγὼ <u>οὐδὲ</u> λέγουσιν αὐτὸ οἱ ἄλλοι.', ko:'나는 이것을 말하지 않고, 또 다른 사람들도 그것을 말하지 않는다.', use:'연결', mean:'그리고 … 아니, 또 … 아니', src:'§136 보기 1', why:'앞에 οὐ가 한 번 나오고 절과 절을 이음 → 보통 용법' },
+  { gr:'τὴν δόξαν τοῦ θεοῦ βλέπουσιν <u>οὐδὲ</u> οἱ μαθηταί.', ko:'하나님의 영광을 제자들도 보지 못한다.', use:'강조', mean:'~도 아니', src:'§136 보기 2', why:'앞에 οὐ가 없음 → 뒤의 οἱ μαθηταί를 강조하는 특별 용법' },
+  { gr:'ὁ μαθητὴς <u>οὐδὲ</u> βλέπει τὰ πονηρά.', ko:'그 제자는 악한 것들을 보지도 않는다.', use:'강조', mean:'~도 아니', src:'§136 보기 2', why:'앞에 οὐ가 없음 → 뒤의 동사를 강조' },
+  { gr:'τοῦτο λέγουσιν <u>οὐδὲ</u> οἱ ἀπόστολοι <u>οὐδὲ</u> οἱ δοῦλοι.', ko:'이것을 그 사도들과 종들이 모두 말하지 않는다.', use:'짝', mean:'~과 ~이 모두 아니 (οὐδέ…οὐδέ)', src:'§137 보기 2', why:'οὐδέ가 두 번 → neither … nor' },
+  { gr:'σῴζῃ ἀπὸ τῶν ἁμαρτιῶν σου <u>καὶ</u> οἱ ἀδελφοί σου ἀκούουσι…', ko:'너는 구원받고, 너의 형제들은 듣는다…', use:'연결', mean:'그리고', src:'10과 12번', why:'절과 절을 이음' },
+  { gr:'παρελαμβάνετε τὸν ἄρτον … <u>καὶ</u> ἠσθίετε αὐτόν.', ko:'너희는 떡을 받고 있었고 그것을 먹고 있었다.', use:'연결', mean:'그리고', src:'11과 5번', why:'동사(절)와 동사(절)를 이음' },
+  { gr:'ἐν τῷ κόσμῳ ἦν <u>καὶ</u> ὁ κόσμος οὐκ ἔβλεπεν αὐτόν.', ko:'그가 세상에 있었고, 세상은 그를 보지 못하고 있었다.', use:'연결', mean:'그리고', src:'11과 18번', why:'절과 절을 이음' },
+  { gr:'<u>καὶ</u> ἐδιδασκόμεθα ὑπ’ αὐτοῦ <u>καὶ</u> ἐδιδάσκομεν τοὺς ἄλλους.', ko:'우리는 그로 말미암아 가르침을 받기도 하고 다른 사람들을 가르치기도 하였다.', use:'짝', mean:'~과 ~이 모두 (καί…καί)', src:'12과 3번', why:'동사 앞에 καί가 한 번씩' },
+  { gr:'νῦν <u>οὐδὲ</u> διδασκόμεθα <u>οὐδὲ</u> διδάσκομεν.', ko:'지금은 가르침을 받지도 않고 가르치지도 않는다.', use:'짝', mean:'~과 ~이 모두 아니 (οὐδέ…οὐδέ)', src:'12과 3번', why:'οὐδέ가 두 번' },
+  { gr:'ἐδιδασκόμεθα ὑπ’ αὐτοῦ <u>καὶ</u> ἐν ταῖς ἡμέραις ταῖς κακαῖς.', ko:'악한 날들에도 그로 말미암아 가르침을 받고 있었다.', use:'강조', mean:'역시, ~도', src:'12과 6번', why:'뒤에 이어지는 같은 종류가 없음 → "악한 날들에" 강조' },
+  { gr:'ἐφέρετο τὰ δῶρα <u>καὶ</u> πρὸς τοὺς πονηρούς.', ko:'그 선물들이 악한 자들에게까지도 옮겨지고 있었다.', use:'강조', mean:'~까지도', src:'12과 9번', why:'뒤의 "악한 자들에게" 강조' },
+  { gr:'<u>οὐδὲ</u> αὐτὸς πονηρὸς <u>οὐδὲ</u> τὰ ἔργα πονηρά.', ko:'그 자신도 악하지 않고, 그 일들도 악하지 않다.', use:'짝', mean:'~과 ~이 모두 아니 (οὐδέ…οὐδέ)', src:'12과 13번', why:'οὐδέ가 두 번' },
+  { gr:'οὐκ ἔστιν μαθητὴς ὑπὲρ τὸν διδάσκαλον αὐτοῦ <u>οὐδὲ</u> δοῦλος ὑπὲρ τὸν κύριον αὐτοῦ.', ko:'제자는 선생 위에 있지 않고, 종도 주인 위에 있지 않다.', use:'연결', mean:'그리고 … 아니, 또 … 아니', src:'12과 15번', why:'앞에 οὐκ이 있고 절과 절을 이음 → 보통 용법' },
+  { gr:'ἠκούοντο <u>καὶ</u> ἤκουον.', ko:'그들은 들리고 있었고 듣고 있었다.', use:'연결', mean:'그리고', src:'12과 19번', why:'동사와 동사를 이음' },
+  { gr:'ἦγον δὲ <u>καὶ</u> τοὺς ἄλλους.', ko:'다른 사람들도 인도하고 있었다.', use:'강조', mean:'역시, ~도', src:'12과 20번', why:'뒤의 목적어 τοὺς ἄλλους 강조' }
+];
+function lsKaiQs() {
+  return shuffle(LS_KAI_ITEMS.slice()).map(it => {
+    const isOu = /οὐδ/.test(it.gr.match(/<u>(.*?)<\/u>/)[1]);
+    const means = isOu ? LS_CONJ_OPTS['οὐδέ'] : LS_CONJ_OPTS['καί'];
+    const alt = it.use === '강조' && !isOu ? ['역시, ~도', '~까지도'] : [it.mean];
+    return {
+      title: it.src,
+      prompt: '<div class="vv-prompt-sm">밑줄 친 ' + (isOu ? 'οὐδέ' : 'καί') + '는 어떻게 쓰였을까요?</div><div class="vv-sent">' + it.gr + '</div><div class="ex-note" style="text-align:center">' + it.src + '</div>',
+      fields: [
+        { key:'use', label:'① 판별', opts:['짝 (καί…καί / οὐδέ…οὐδέ)', '연결 (같은 종류를 이음)', '강조 (바로 뒤의 말)'] },
+        { key:'mean', label:'② 뜻', opts: means }
+      ],
+      check(ans) {
+        const useR = { '짝':'짝 (καί…καί / οὐδέ…οὐδέ)', '연결':'연결 (같은 종류를 이음)', '강조':'강조 (바로 뒤의 말)' }[it.use];
+        const meanOk = alt.includes(ans.mean);
+        return { ok: ans.use === useR && meanOk, right: { use: useR, mean: meanOk ? ans.mean : it.mean }, answerText: it.use + ' · ' + alt.join(' / '),
+          show: '<p class="ex-note">' + it.why + (it.use === '강조' && !isOu ? ' — "역시"와 "까지도" 둘 다 맞아요 (§135)' : '') + '</p><p class="ex-note"><b>' + it.ko + '</b></p>' };
+      }
+    };
+  });
+}
+
 
 // ── 전치사 도표 연습 (교재 7과 §83, Metzger, Lexical Aids 1960, 103) ──────
 // 도표의 각 칸(x, y는 360×330 도표 좌표)에 맞는 전치사를 아래 목록에서 골라 넣는다.
