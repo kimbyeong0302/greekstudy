@@ -748,7 +748,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-11-05-1";
+const APP_VERSION = "2026-11-05-2";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -764,6 +764,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-11-05", text: "13과·14과 익힘 문제를 3–7번만 남김" },
   { date: "2026-11-05", text: "8주차 단어(13과 미래형 13개, 14과 단순과거 10개) + 학습 카드 13과(미래 능동·중간)·14과(단순과거 능동·중간): 레슨, 미래·단순과거 만들기, 어미 구별, 형태 파싱, 익힘 문제" },
   { date: "2026-10-30", text: "익힘 문제: 관사 없는 명사는 뜻·번역에 '한(단수)/어떤(복수)'을 붙임" },
   { date: "2026-10-29", text: "📚 학습 카드 추가: 10과·11과·12과 학습(문법 레슨, 변화 연습, 익힘 문제 54문장 파싱·정답 노트), 미완료 중간·수동 / 접두모음 붙이기 / 여격·ὑπό 구별 / καί·οὐδέ 판별 연습. 11과 단어는 7주차로 이동" },
@@ -5595,6 +5596,8 @@ function lsAttachKo(t, i, it) {
   if (m.alt && !alt.length) alt = m.alt;
   if (ans) { t.ko = ans; t.koOpts = [...new Set(opts.concat(alt).filter(Boolean))]; t.koAlt = alt; }
 }
+// 13·14과 익힘 문제는 시험 범위인 3–7번만
+[13, 14].forEach(n => { LS_EX[n] = LS_EX[n].filter(it => it.no >= 3 && it.no <= 7); });
 Object.values(LS_EX).forEach(list => list.forEach(it => it.toks.forEach((t, i) => lsAttachKo(t, i, it))));
 
 // ── 익힘 문제 문장 파싱 진행 (끝 부호 → 절 나누기 → 동사 찾기 → 단어 파싱 → 번역) ──
@@ -6293,7 +6296,7 @@ function lsOpenLesson(n) {
     + '<div class="menu-card-title" style="margin:18px 0 8px">✏️ 연습</div>'
     + L.drills.map((d, i) => '<button class="grammar-btn ls-drill" data-ls-drill="' + i + '">' + d.label + '</button>').join('')
     + '<div class="menu-card-title" style="margin:18px 0 8px">📚 익힘 문제 (' + n + '과' + ({ 10:' §112', 11:' §126', 12:' §138' }[n] || '') + ')</div>'
-    + (n >= 13 ? '<p class="ex-note" style="margin:0 0 8px">지금은 보내 주신 페이지에 보이는 문장만 들어 있어요 (' + LS_EX[n].map(it => it.no).join(', ') + '번).</p>' : '')
+    + (n >= 13 ? '<p class="ex-note" style="margin:0 0 8px">3–7번 (시험 범위)</p>' : '')
     + '<div class="lesson-card"><p class="ex-note" style="margin:0 0 6px">끝 부호 → 절 나누기 → 동사 찾기 → 단어 파싱(품사부터 직접) → 번역 순서로 풀어요. <b>관사 없는 명사는 "한(단수)·어떤(복수)"을 붙여 해석</b>해요. 풀 문장을 고르세요.</p>'
     + '<div class="ex-set-row" id="lsExChips">' + LS_EX[n].map(it => '<label class="week-chip on ex-sent-chip"><input type="checkbox" class="ls-ex-cb" value="' + it.no + '" checked>' + it.no
       + '<span class="ex-sent-gr">' + it.toks.filter(t => !t.punct).slice(0, 2).map(t => t.t).join(' ') + '…</span></label>').join('') + '</div>'
