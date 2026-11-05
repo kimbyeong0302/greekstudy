@@ -748,7 +748,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-11-05-2";
+const APP_VERSION = "2026-11-05-3";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -5596,7 +5596,7 @@ function lsAttachKo(t, i, it) {
   if (m.alt && !alt.length) alt = m.alt;
   if (ans) { t.ko = ans; t.koOpts = [...new Set(opts.concat(alt).filter(Boolean))]; t.koAlt = alt; }
 }
-// 13·14과 익힘 문제는 시험 범위인 3–7번만
+// 13·14과 익힘 문제는 과제 범위인 3–7번만
 [13, 14].forEach(n => { LS_EX[n] = LS_EX[n].filter(it => it.no >= 3 && it.no <= 7); });
 Object.values(LS_EX).forEach(list => list.forEach(it => it.toks.forEach((t, i) => lsAttachKo(t, i, it))));
 
@@ -6296,7 +6296,7 @@ function lsOpenLesson(n) {
     + '<div class="menu-card-title" style="margin:18px 0 8px">✏️ 연습</div>'
     + L.drills.map((d, i) => '<button class="grammar-btn ls-drill" data-ls-drill="' + i + '">' + d.label + '</button>').join('')
     + '<div class="menu-card-title" style="margin:18px 0 8px">📚 익힘 문제 (' + n + '과' + ({ 10:' §112', 11:' §126', 12:' §138' }[n] || '') + ')</div>'
-    + (n >= 13 ? '<p class="ex-note" style="margin:0 0 8px">3–7번 (시험 범위)</p>' : '')
+    + (n >= 13 ? '<p class="ex-note" style="margin:0 0 8px">3–7번 (과제 범위)</p>' : '')
     + '<div class="lesson-card"><p class="ex-note" style="margin:0 0 6px">끝 부호 → 절 나누기 → 동사 찾기 → 단어 파싱(품사부터 직접) → 번역 순서로 풀어요. <b>관사 없는 명사는 "한(단수)·어떤(복수)"을 붙여 해석</b>해요. 풀 문장을 고르세요.</p>'
     + '<div class="ex-set-row" id="lsExChips">' + LS_EX[n].map(it => '<label class="week-chip on ex-sent-chip"><input type="checkbox" class="ls-ex-cb" value="' + it.no + '" checked>' + it.no
       + '<span class="ex-sent-gr">' + it.toks.filter(t => !t.punct).slice(0, 2).map(t => t.t).join(' ') + '…</span></label>').join('') + '</div>'
