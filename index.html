@@ -593,7 +593,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   <!-- 학습 카드: 과별 학습 -->
   <div class="menu-card" style="margin-top:18px;border:2px solid #a7c4ef">
     <div class="menu-card-title" style="color:#2e6ed6">📚 학습 카드</div>
-    <p style="font-size:13px;color:#888;margin:0 0 4px;line-height:1.5">과별로 문법 레슨 → 변화 연습 → 익힘 문제(문장 파싱)를 공부해요. 지금은 10과 ~ 14과가 있어요.</p>
+    <p style="font-size:13px;color:#888;margin:0 0 4px;line-height:1.5">과별로 문법 레슨 → 변화 연습 → 익힘 문제(문장 파싱)를 공부해요. 지금은 10과 ~ 16과가 있어요.</p>
     <button id="lcMenuBtn" class="grammar-btn" style="background:#2e6ed6;margin-top:12px">학습 카드 열기</button>
   </div>
 
@@ -748,7 +748,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-11-05-3";
+const APP_VERSION = "2026-11-12-1";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -764,6 +764,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-11-12", text: "학습 카드 15과(제2단순과거 능동·중간)·16과(단순과거·미래 수동, 수동형 디포) 추가 + 익힘 문제 각 20문장. 13과 8–20번·14과 8–19번 문장 파싱 추가(★ 3–7번 과제 범위 표시, '과제 범위만' 선택 버튼). 9주차 단어(15·16과 낱말 모음 26개)" },
   { date: "2026-11-05", text: "13과·14과 익힘 문제를 3–7번만 남김" },
   { date: "2026-11-05", text: "8주차 단어(13과 미래형 13개, 14과 단순과거 10개) + 학습 카드 13과(미래 능동·중간)·14과(단순과거 능동·중간): 레슨, 미래·단순과거 만들기, 어미 구별, 형태 파싱, 익힘 문제" },
   { date: "2026-10-30", text: "익힘 문제: 관사 없는 명사는 뜻·번역에 '한(단수)/어떤(복수)'을 붙임" },
@@ -1552,7 +1553,61 @@ const words = [
   {gr:"πιστεύω, πιστεύσω, ἐπίστευσα", kr:"피스튜오, 피스튜소, 에피스튜사", en:"I believe", ko:"나는 믿는다, 신앙을 가진다, 신뢰한다", week:8,
    etymology:"+ 여격 또는 εἰς + 대격 '~를 믿다'. 10과의 πιστεύω를 세 형태로 다시 외움", pun:"피스톨(pistol)도 믿고 맡긴다"},
   {gr:"ὑποστρέφω, ὑποστρέψω, ὑπέστρεψα", kr:"휘포스트레포, 휘포스트렙소, 휘페스트렙사", en:"I return", ko:"나는 (뒤로, 다시) 돌아선다, 돌아간다", week:8,
-   etymology:"ὑπό + στρέφω(돌리다). 단순과거 ὑπέστρεψα (ὑπο + ε → ὑπε)", pun:"휘포(뒤로) 스트레포(돌다) — 돌아간다"}
+   etymology:"ὑπό + στρέφω(돌리다). 단순과거 ὑπέστρεψα (ὑπο + ε → ὑπε)", pun:"휘포(뒤로) 스트레포(돌다) — 돌아간다"},
+  // 9주차: 15과 낱말 모음 §165 (제2단순과거)
+  {gr:"γάρ", kr:"가르", en:"for (conj.)", ko:"왜냐하면 (접속사)", week:9,
+   etymology:"접속사, 후치어(後置語) — 절의 첫머리에 오지 못하고 둘째 자리에 옴 (§86)", pun:"가르(γάρ)쳐 줄게, 왜냐하면…"},
+  {gr:"εἶπον", kr:"에이폰", en:"I said", ko:"내가 말하였다", week:9, form:"λέγω의 제2단순과거",
+   etymology:"λέγω의 제2단순과거. 접두모음이 보이지 않는 불규칙형", pun:"에이, 폰(phone)으로 말하였다"},
+  {gr:"ἔβαλον", kr:"에발론", en:"I threw", ko:"내가 던졌다", week:9, form:"βάλλω의 제2단순과거",
+   etymology:"βάλλω의 제2단순과거. 현재 어근 βαλλ- → 제2단순과거 어근 βαλ- (§168). 미완료 ἔβαλλον과 λ 하나 차이", pun:"에! 발(βαλ)로 던졌다"},
+  {gr:"ἐγενόμην", kr:"에게노멘", en:"I became", ko:"내가 되었다", week:9, dep:true, form:"γίνομαι의 제2단순과거 (디포)",
+   etymology:"디포. γίνομαι의 제2단순과거 (중간태 형태, 뜻은 능동)", pun:"에게 노(no) 멘(man)이 되었다"},
+  {gr:"εἶδον", kr:"에이돈", en:"I saw", ko:"내가 보았다", week:9, form:"βλέπω의 제2단순과거",
+   etymology:"βλέπω의 제2단순과거 (ὁράω의 제2단순과거로도 봄). 신약에서는 εἶδον의 직설법이 흔히 제2단순과거 어미 대신 단순과거 어미를 취함 (§165)", pun:"에이, 돈(εἶδον)을 보았다"},
+  {gr:"ἔλαβον", kr:"엘라본", en:"I took", ko:"내가 취하였다", week:9, form:"λαμβάνω의 제2단순과거",
+   etymology:"λαμβάνω의 제2단순과거. 어근 λαμβαν- → λαβ- (§168)", pun:"엘(L) 라(λα) 본(β) — 취하였다"},
+  {gr:"ἔλιπον", kr:"엘리폰", en:"I left", ko:"내가 남겨 두었다, 두고 갔다", week:9, form:"λείπω의 제2단순과거",
+   etymology:"λείπω의 제2단순과거. 현재 어근 λειπ- → λιπ-: 미완료 ἔλειπον과 구별 (§170)", pun:"엘리(엘리베이터)에 폰을 두고 갔다"},
+  {gr:"ἔπεσον", kr:"에페손", en:"I fell", ko:"내가 떨어졌다, 넘어졌다", week:9, form:"πίπτω의 제2단순과거",
+   etymology:"πίπτω의 제2단순과거", pun:"에! 페(pe) 손 놓쳐서 떨어졌다"},
+  {gr:"ἤγαγον", kr:"에가곤", en:"I led", ko:"내가 인도하였다", week:9, form:"ἄγω의 제2단순과거",
+   etymology:"ἄγω의 제2단순과거 (모음 α → η 접두모음). 합성동사 συνάγω → συνήγαγον", pun:"에, 가곤(가고) 했던 길로 인도하였다"},
+  {gr:"ἦλθον", kr:"엘톤", en:"I came, went", ko:"내가 왔다, 갔다", week:9, form:"ἔρχομαι의 제2단순과거",
+   etymology:"ἔρχομαι의 제2단순과거. 현재는 디포넌트지만 단순과거는 능동형. εἰσῆλθον, ἐξῆλθον도 같은 방식", pun:"엘(L)톤 트럭이 왔다"},
+  {gr:"ἤνεγκα", kr:"에넹카", en:"I brought, carried, bore", ko:"내가 데려왔다, 가져왔다, 참았다", week:9, form:"φέρω의 단순과거",
+   etymology:"φέρω의 단순과거. λύω의 단순과거처럼 변화하되 -σα 대신 -κα (§165)", pun:"에, 넹! 카트에 가져왔다"},
+  {gr:"ὄψομαι", kr:"옵소마이", en:"I will see", ko:"내가 볼 것이다", week:9, dep:true, form:"βλέπω의 미래 (디포)",
+   etymology:"디포. βλέπω의 미래 (ὁράω의 미래로도 볼 수 있음). optic(시각의)과 같은 뿌리 ὀπ-", pun:"옵(optic)으로 볼 것이다"},
+  {gr:"προσφέρω", kr:"프로스페로", en:"I bring to", ko:"내가 …에게 데려가다, 가져가다", week:9,
+   etymology:"πρός(~에게) + φέρω(가져오다). 가져가는 것은 대격, 받는 이는 여격 (§165)", pun:"프로(pro)에게 페로(가져)간다"},
+  // 9주차: 16과 낱말 모음 §174 (단순과거 수동)
+  {gr:"ἀναλαμβάνω", kr:"아나람바노", en:"I take up", ko:"내가 들어 올리다", week:9,
+   etymology:"ἀνά(위로) + λαμβάνω(취하다). 단순과거 수동 ἀνελήμφθην", pun:"아나(위로) 람바노(취하다) — 들어 올리다"},
+  {gr:"ἐβλήθην", kr:"에블레텐", en:"I was thrown", ko:"내가 던져졌다", week:9, form:"βάλλω의 단순과거 수동",
+   etymology:"βάλλω의 단순과거 수동. 어근이 βλη-로 바뀜 (§180)", pun:"에! 블레(블래스트)로 던져졌다"},
+  {gr:"ἐγενήθην", kr:"에게네텐", en:"I became", ko:"내가 되었다", week:9, dep:true, form:"γίνομαι의 단순과거 수동 (디포)",
+   etymology:"디포. γίνομαι의 단순과거 수동 형태 — ἐγενόμην과 뜻이 같고 둘 다 능동 뜻 (§183)", pun:"에게 네(yes) 텐(ten)이 되었다"},
+  {gr:"ἐγνώσθην", kr:"에그노스텐", en:"I was known", ko:"내가 알려졌다", week:9, form:"γινώσκω의 단순과거 수동",
+   etymology:"γινώσκω의 단순과거 수동. 어근 γνω- + σθη", pun:"에, 그 노스(knows) — 알려졌다"},
+  {gr:"ἐδιδάχθην", kr:"에디닥텐", en:"I was taught", ko:"내가 가르침을 받았다", week:9, form:"διδάσκω의 단순과거 수동",
+   etymology:"διδάσκω의 단순과거 수동. κ + θ → χθ (§179)", pun:"에디(에디슨)가 닥(doc)터에게 가르침을 받았다"},
+  {gr:"ἐκηρύχθην", kr:"에케뤽텐", en:"I was preached, proclaimed", ko:"내가 선포되었다, 전파되었다", week:9, form:"κηρύσσω의 단순과거 수동",
+   etymology:"κηρύσσω의 단순과거 수동. κηρυκ- + θ → χθ (§179)", pun:"에! 케뤽(케릭터)이 선포되었다"},
+  {gr:"ἐλήμφθην", kr:"엘렘프텐", en:"I was taken", ko:"내가 취해졌다", week:9, form:"λαμβάνω의 단순과거 수동",
+   etymology:"λαμβάνω의 단순과거 수동 (미래 λήμψομαι와 같은 λημβ- 어근). β + θ → φθ (§179)", pun:"엘렘(lemma)이 취해졌다"},
+  {gr:"ἐπορεύθην", kr:"에포류텐", en:"I went", ko:"내가 갔다", week:9, dep:true, form:"πορεύομαι의 단순과거 수동 (디포)",
+   etymology:"디포. πορεύομαι의 단순과거 — 수동태 형태지만 능동 뜻", pun:"에, 포류(포르투갈로) 갔다"},
+  {gr:"ἠγέρθην", kr:"에게르텐", en:"I was raised", ko:"내가 일으킴을 받았다", week:9, form:"ἐγείρω의 단순과거 수동",
+   etymology:"ἐγείρω의 단순과거 수동. 어근 ἐγερ- (모음 ε → η 접두모음)", pun:"에, 게르(일어나!) — 일으킴을 받았다"},
+  {gr:"ἠκούσθην", kr:"에쿠스텐", en:"I was heard", ko:"내가 들렸다(聞)", week:9, form:"ἀκούω의 단순과거 수동",
+   etymology:"ἀκούω의 단순과거 수동. acoustic(음향의)과 같은 뿌리", pun:"에쿠스(acoustic)로 들렸다"},
+  {gr:"ἠνέχθην", kr:"에넥텐", en:"I was brought", ko:"내가 데려가졌다", week:9, form:"φέρω의 단순과거 수동",
+   etymology:"φέρω의 단순과거 수동 (단순과거 ἤνεγκα와 같은 ἐνεκ- 어근, κ + θ → χθ)", pun:"에, 넥(neck)을 잡혀 데려가졌다"},
+  {gr:"ἤχθην", kr:"에크텐", en:"I was led", ko:"내가 인도함을 받았다", week:9, form:"ἄγω의 단순과거 수동",
+   etymology:"ἄγω의 단순과거 수동. γ + θ → χθ (§179). συνάγω → συνήχθην", pun:"에크(echo)를 따라 인도함을 받았다"},
+  {gr:"ὤφθην", kr:"오프텐", en:"I was seen, appeared", ko:"내가 보였다", week:9, form:"βλέπω의 단순과거 수동",
+   etymology:"βλέπω의 단순과거 수동 (ὁράω의 단순과거 수동으로도 봄). 미래 ὄψομαι와 같은 ὀπ- 어근, π + θ → φθ", pun:"오프(off)라인에서 보였다"}
 ];
 
 // 퀴즈·암기 카드 공통 목록: 전치사는 격을 문제 쪽(헬라어)에 붙이고 뜻에서는 격 표시를 뺀다.
@@ -4710,29 +4765,33 @@ const VV_END = {
   fa:  ['ω','εις','ει','ομεν','ετε','ουσι(ν)'],        // 미래 능동: 어간 + σ + 제1시제 능동 어미 (§140–142)
   fm:  ['ομαι','ῃ','εται','ομεθα','εσθε','ονται'],     // 미래 중간 (§144)
   aa:  ['α','ας','ε(ν)','αμεν','ατε','αν'],            // 단순과거 능동: ἐ + 어간 + σα + 제2시제 어미 (§159)
-  am:  ['αμην','ω','ατο','αμεθα','ασθε','αντο']        // 단순과거 중간 (§160, ἐλύσασο → ἐλύσω)
+  am:  ['αμην','ω','ατο','αμεθα','ασθε','αντο'],       // 단순과거 중간 (§160, ἐλύσασο → ἐλύσω)
+  a2a: ['ον','ες','ε(ν)','ομεν','ετε','ον'],           // 제2단순과거 능동: 접두모음 + 제2단순과거 어근 + 미완료와 같은 어미 (§169–170)
+  a2m: ['ομην','ου','ετο','ομεθα','εσθε','οντο'],      // 제2단순과거 중간 (§171, ἐλίπεσο → ἐλίπου)
+  ap:  ['ν','ς','','μεν','τε','σαν'],                  // 단순과거 수동: ἐ + 어근 + θη + 제2시제 능동 어미, 연결모음 없음 (§177)
+  fp:  ['ομαι','ῃ','εται','ομεθα','εσθε','ονται']      // 미래 수동: 어근 + θησ + 제1시제 중간·수동 어미 (§178)
 };
 // pres: 현재 어간, impf: 접두모음을 붙인 미완료 어간, aug: 합성동사에서 접두모음이 몇 번째 음절인지(악센트가 그 앞으로 못 감)
 // act·pas·mid·ipf: 3인칭 단수 서술어 뜻 (주어는 인칭에 따라 붙임). pas가 없으면 수동형을 만들지 않음(자동사)
 const VV_VERBS = [
-  { lemma:'λύω', pres:'λυ', impf:'ἐλυ', fut:'λυσ', aor:'ἐλυσ', kf:'풀 것이다', ka:'풀었다', act:'푼다', pas:'풀린다', mid:'자기를 위하여 푼다', ipf:'풀고 있었다' },
-  { lemma:'βλέπω', pres:'βλεπ', impf:'ἐβλεπ', fut:'βλεψ', aor:'ἐβλεψ', kf:'볼 것이다', ka:'보았다', act:'본다', pas:'보인다', ipf:'보고 있었다' },
-  { lemma:'γινώσκω', pres:'γινωσκ', impf:'ἐγινωσκ', fdep:'γνωσ', kfd:'알 것이다', act:'안다', pas:'알려진다', ipf:'알고 있었다' },
-  { lemma:'γράφω', pres:'γραφ', impf:'ἐγραφ', fut:'γραψ', aor:'ἐγραψ', kf:'쓸 것이다', ka:'썼다', act:'쓴다', pas:'기록된다', ipf:'쓰고 있었다' },
-  { lemma:'διδάσκω', pres:'διδασκ', impf:'ἐδιδασκ', fut:'διδαξ', aor:'ἐδιδαξ', kf:'가르칠 것이다', ka:'가르쳤다', act:'가르친다', pas:'가르침을 받는다', ipf:'가르치고 있었다' },
-  { lemma:'λαμβάνω', pres:'λαμβαν', impf:'ἐλαμβαν', fdep:'λημψ', kfd:'취할 것이다', act:'취한다', pas:'취해진다', ipf:'취하고 있었다' },
-  { lemma:'λέγω', pres:'λεγ', impf:'ἐλεγ', act:'말한다', pas:'말해진다', ipf:'말하고 있었다' },
+  { lemma:'λύω', pres:'λυ', impf:'ἐλυ', fut:'λυσ', aor:'ἐλυσ', kf:'풀 것이다', ka:'풀었다', apas:'ἐλυθη', fpas:'λυθησ', kap:'풀렸다', kfp:'풀릴 것이다', act:'푼다', pas:'풀린다', mid:'자기를 위하여 푼다', ipf:'풀고 있었다' },
+  { lemma:'βλέπω', pres:'βλεπ', impf:'ἐβλεπ', fut:'βλεψ', aor:'ἐβλεψ', kf:'볼 것이다', ka:'보았다', a2:'εἰδ', fdep:'ὀψ', kfd:'볼 것이다', apas:'ὠφθη', fpas:'ὀφθησ', kap:'보였다', kfp:'보일 것이다', act:'본다', pas:'보인다', ipf:'보고 있었다' },
+  { lemma:'γινώσκω', pres:'γινωσκ', impf:'ἐγινωσκ', fdep:'γνωσ', kfd:'알 것이다', apas:'ἐγνωσθη', fpas:'γνωσθησ', kap:'알려졌다', kfp:'알려질 것이다', act:'안다', pas:'알려진다', ipf:'알고 있었다' },
+  { lemma:'γράφω', pres:'γραφ', impf:'ἐγραφ', fut:'γραψ', aor:'ἐγραψ', kf:'쓸 것이다', ka:'썼다', apas:'ἐγραφη', fpas:'γραφησ', p2:1, kap:'기록되었다', kfp:'기록될 것이다', act:'쓴다', pas:'기록된다', ipf:'쓰고 있었다' },
+  { lemma:'διδάσκω', pres:'διδασκ', impf:'ἐδιδασκ', fut:'διδαξ', aor:'ἐδιδαξ', kf:'가르칠 것이다', ka:'가르쳤다', apas:'ἐδιδαχθη', fpas:'διδαχθησ', kap:'가르침을 받았다', kfp:'가르침을 받을 것이다', act:'가르친다', pas:'가르침을 받는다', ipf:'가르치고 있었다' },
+  { lemma:'λαμβάνω', pres:'λαμβαν', impf:'ἐλαμβαν', fdep:'λημψ', kfd:'취할 것이다', a2:'ἐλαβ', ka:'취하였다', apas:'ἐλημφθη', fpas:'λημφθησ', kap:'취해졌다', kfp:'취해질 것이다', act:'취한다', pas:'취해진다', ipf:'취하고 있었다' },
+  { lemma:'λέγω', pres:'λεγ', impf:'ἐλεγ', a2:'εἰπ', ka:'말하였다', act:'말한다', pas:'말해진다', ipf:'말하고 있었다' },
   { lemma:'ἔχω', pres:'ἐχ', impf:'εἰχ', fut:'ἑξ', kf:'가질 것이다', act:'가진다', ipf:'가지고 있었다', note:'미완료 εἶχον은 접두모음이 불규칙(ε → ει)' },
-  { lemma:'ἐγείρω', pres:'ἐγειρ', impf:'ἠγειρ', act:'일으킨다', pas:'일으킴을 받는다', ipf:'일으키고 있었다', note:'모음으로 시작 → ε가 η로 길어짐 (§118)' },
-  { lemma:'ἄγω', pres:'ἀγ', impf:'ἠγ', fut:'ἀξ', kf:'인도할 것이다', act:'인도한다', pas:'인도된다', ipf:'인도하고 있었다', note:'모음으로 시작 → α가 η로 길어짐 (§118)' },
-  { lemma:'βάλλω', pres:'βαλλ', impf:'ἐβαλλ', act:'던진다', pas:'던져진다', ipf:'던지고 있었다' },
+  { lemma:'ἐγείρω', pres:'ἐγειρ', impf:'ἠγειρ', apas:'ἠγερθη', fpas:'ἐγερθησ', kap:'일으킴을 받았다', kfp:'일으킴을 받을 것이다', act:'일으킨다', pas:'일으킴을 받는다', ipf:'일으키고 있었다', note:'모음으로 시작 → ε가 η로 길어짐 (§118)' },
+  { lemma:'ἄγω', pres:'ἀγ', impf:'ἠγ', fut:'ἀξ', kf:'인도할 것이다', a2:'ἠγαγ', ka:'인도하였다', apas:'ἠχθη', fpas:'ἀχθησ', kap:'인도함을 받았다', kfp:'인도함을 받을 것이다', act:'인도한다', pas:'인도된다', ipf:'인도하고 있었다', note:'모음으로 시작 → α가 η로 길어짐 (§118)' },
+  { lemma:'βάλλω', pres:'βαλλ', impf:'ἐβαλλ', a2:'ἐβαλ', ka:'던졌다', apas:'ἐβληθη', fpas:'βληθησ', kap:'던져졌다', kfp:'던져질 것이다', act:'던진다', pas:'던져진다', ipf:'던지고 있었다' },
   { lemma:'μένω', pres:'μεν', impf:'ἐμεν', act:'머문다', ipf:'머물고 있었다' },
-  { lemma:'πέμπω', pres:'πεμπ', impf:'ἐπεμπ', fut:'πεμψ', aor:'ἐπεμψ', kf:'보낼 것이다', ka:'보냈다', act:'보낸다', pas:'보내진다', ipf:'보내고 있었다' },
-  { lemma:'βαπτίζω', pres:'βαπτιζ', impf:'ἐβαπτιζ', fut:'βαπτισ', aor:'ἐβαπτισ', kf:'세례를 줄 것이다', ka:'세례를 주었다', act:'세례를 준다', pas:'세례를 받는다', ipf:'세례를 주고 있었다' },
+  { lemma:'πέμπω', pres:'πεμπ', impf:'ἐπεμπ', fut:'πεμψ', aor:'ἐπεμψ', kf:'보낼 것이다', ka:'보냈다', apas:'ἐπεμφθη', fpas:'πεμφθησ', kap:'보내졌다', kfp:'보내질 것이다', act:'보낸다', pas:'보내진다', ipf:'보내고 있었다' },
+  { lemma:'βαπτίζω', pres:'βαπτιζ', impf:'ἐβαπτιζ', fut:'βαπτισ', aor:'ἐβαπτισ', kf:'세례를 줄 것이다', ka:'세례를 주었다', apas:'ἐβαπτισθη', fpas:'βαπτισθησ', kap:'세례를 받았다', kfp:'세례를 받을 것이다', act:'세례를 준다', pas:'세례를 받는다', ipf:'세례를 주고 있었다' },
   { lemma:'κρίνω', pres:'κριν', impf:'ἐκριν', act:'심판한다', pas:'심판을 받는다', ipf:'심판하고 있었다' },
-  { lemma:'ἀκούω', pres:'ἀκου', impf:'ἠκου', fut:'ἀκουσ', aor:'ἠκουσ', kf:'들을 것이다', ka:'들었다', act:'듣는다', pas:'들린다', ipf:'듣고 있었다', note:'모음으로 시작 → α가 η로 길어짐 (§118)' },
-  { lemma:'πιστεύω', pres:'πιστευ', impf:'ἐπιστευ', fut:'πιστευσ', aor:'ἐπιστευσ', kf:'믿을 것이다', ka:'믿었다', act:'믿는다', pas:'믿어진다', ipf:'믿고 있었다' },
-  { lemma:'σῴζω', pres:'σῳζ', impf:'ἐσῳζ', fut:'σωσ', aor:'ἐσωσ', kf:'구원할 것이다', ka:'구원하였다', act:'구원한다', pas:'구원받는다', ipf:'구원하고 있었다' },
+  { lemma:'ἀκούω', pres:'ἀκου', impf:'ἠκου', fut:'ἀκουσ', aor:'ἠκουσ', kf:'들을 것이다', ka:'들었다', apas:'ἠκουσθη', fpas:'ἀκουσθησ', kap:'들렸다', kfp:'들릴 것이다', act:'듣는다', pas:'들린다', ipf:'듣고 있었다', note:'모음으로 시작 → α가 η로 길어짐 (§118)' },
+  { lemma:'πιστεύω', pres:'πιστευ', impf:'ἐπιστευ', fut:'πιστευσ', aor:'ἐπιστευσ', kf:'믿을 것이다', ka:'믿었다', apas:'ἐπιστευθη', fpas:'πιστευθησ', kap:'믿어졌다', kfp:'믿어질 것이다', act:'믿는다', pas:'믿어진다', ipf:'믿고 있었다' },
+  { lemma:'σῴζω', pres:'σῳζ', impf:'ἐσῳζ', fut:'σωσ', aor:'ἐσωσ', kf:'구원할 것이다', ka:'구원하였다', apas:'ἐσωθη', fpas:'σωθησ', kap:'구원받았다', kfp:'구원받을 것이다', act:'구원한다', pas:'구원받는다', ipf:'구원하고 있었다' },
   { lemma:'αἴρω', pres:'αἰρ', impf:'ᾐρ', act:'들어 올린다', pas:'들려 올려진다', ipf:'들어 올리고 있었다', note:'αι → η, ι는 η 밑에 붙음: ᾖρον (§118)' },
   { lemma:'ἐσθίω', pres:'ἐσθι', impf:'ἠσθι', act:'먹는다', pas:'먹힌다', ipf:'먹고 있었다' },
   { lemma:'ἀναβαίνω', pres:'ἀναβαιν', impf:'ἀνεβαιν', aug:1, act:'올라간다', ipf:'올라가고 있었다', note:'합성동사: 접두모음은 ἀνά와 βαίνω 사이, 전치사 끝 모음 탈락 (§122)' },
@@ -4740,32 +4799,37 @@ const VV_VERBS = [
   { lemma:'ἀποθνῄσκω', pres:'ἀποθνῃσκ', impf:'ἀπεθνῃσκ', aug:1, act:'죽는다', ipf:'죽어 가고 있었다', note:'합성동사: ἀπο + ε → ἀπε (§122)' },
   { lemma:'ἀποκτείνω', pres:'ἀποκτειν', impf:'ἀπεκτειν', aug:1, act:'죽인다', pas:'죽임을 당한다', ipf:'죽이고 있었다', note:'합성동사: ἀπο + ε → ἀπε (§122)' },
   { lemma:'ἀποστέλλω', pres:'ἀποστελλ', impf:'ἀπεστελλ', aug:1, act:'보낸다', pas:'보내진다', ipf:'보내고 있었다', note:'합성동사: ἀπο + ε → ἀπε (§122)' },
-  { lemma:'παραλαμβάνω', pres:'παραλαμβαν', impf:'παρελαμβαν', aug:1, act:'받는다', pas:'받아들여진다', ipf:'받고 있었다', note:'합성동사: παρα + ε → παρε (§122)' },
-  { lemma:'συνάγω', pres:'συναγ', impf:'συνηγ', aug:1, act:'모은다', pas:'모인다', ipf:'모으고 있었다', note:'합성동사: σύν과 ἄγω 사이에서 α → η, 악센트는 접두모음 앞으로 못 감 (§122–123)' },
+  { lemma:'παραλαμβάνω', pres:'παραλαμβαν', impf:'παρελαμβαν', aug:1, a2:'παρελαβ', ka:'받았다', act:'받는다', pas:'받아들여진다', ipf:'받고 있었다', note:'합성동사: παρα + ε → παρε (§122)' },
+  { lemma:'συνάγω', pres:'συναγ', impf:'συνηγ', aug:1, a2:'συνηγαγ', ka:'모았다', apas:'συνηχθη', fpas:'συναχθησ', kap:'모였다', kfp:'모일 것이다', act:'모은다', pas:'모인다', ipf:'모으고 있었다', note:'합성동사: σύν과 ἄγω 사이에서 α → η, 악센트는 접두모음 앞으로 못 감 (§122–123)' },
   { lemma:'ἄρχω', pres:'ἀρχ', impf:'ἠρχ', act:'지배한다', ipf:'지배하고 있었다', note:'중간태 ἄρχομαι는 "시작한다" (§102)' },
-  { lemma:'φέρω', pres:'φερ', impf:'ἐφερ', act:'가져온다', pas:'옮겨진다', ipf:'가져오고 있었다' },
-  { lemma:'ἐκβάλλω', pres:'ἐκβαλλ', impf:'ἐξεβαλλ', aug:1, act:'쫓아낸다', pas:'쫓겨난다', ipf:'쫓아내고 있었다', note:'합성동사: ἐκ + ε → ἐξε (§122)' },
+  { lemma:'φέρω', pres:'φερ', impf:'ἐφερ', aor:'ἠνεγκ', noam:1, irr:1, ka:'가져왔다', apas:'ἠνεχθη', fpas:'ἐνεχθησ', kap:'데려가졌다', kfp:'데려가질 것이다', act:'가져온다', pas:'옮겨진다', ipf:'가져오고 있었다' },
+  { lemma:'ἐκβάλλω', pres:'ἐκβαλλ', impf:'ἐξεβαλλ', aug:1, a2:'ἐξεβαλ', ka:'쫓아냈다', apas:'ἐξεβληθη', fpas:'ἐκβληθησ', kap:'쫓겨났다', kfp:'쫓겨날 것이다', act:'쫓아낸다', pas:'쫓겨난다', ipf:'쫓아내고 있었다', note:'합성동사: ἐκ + ε → ἐξε (§122)' },
   // 13과 §139 · 14과 §155 (미래 fut, 단순과거 aor 어간: 자음 + σ 규칙 §145)
-  { lemma:'διώκω', pres:'διωκ', impf:'ἐδιωκ', fut:'διωξ', aor:'ἐδιωξ', kf:'박해할 것이다', ka:'박해하였다', act:'박해한다', pas:'박해를 받는다', ipf:'박해하고 있었다' },
-  { lemma:'δοξάζω', pres:'δοξαζ', impf:'ἐδοξαζ', fut:'δοξασ', aor:'ἐδοξασ', kf:'영광을 돌릴 것이다', ka:'영광을 돌렸다', act:'영광을 돌린다', pas:'영광을 받는다', ipf:'영광을 돌리고 있었다' },
-  { lemma:'κηρύσσω', pres:'κηρυσσ', impf:'ἐκηρυσσ', fut:'κηρυξ', aor:'ἐκηρυξ', kf:'선포할 것이다', ka:'선포하였다', act:'선포한다', pas:'선포된다', ipf:'선포하고 있었다' },
+  { lemma:'διώκω', pres:'διωκ', impf:'ἐδιωκ', fut:'διωξ', aor:'ἐδιωξ', kf:'박해할 것이다', ka:'박해하였다', apas:'ἐδιωχθη', fpas:'διωχθησ', kap:'박해를 받았다', kfp:'박해를 받을 것이다', act:'박해한다', pas:'박해를 받는다', ipf:'박해하고 있었다' },
+  { lemma:'δοξάζω', pres:'δοξαζ', impf:'ἐδοξαζ', fut:'δοξασ', aor:'ἐδοξασ', kf:'영광을 돌릴 것이다', ka:'영광을 돌렸다', apas:'ἐδοξασθη', fpas:'δοξασθησ', kap:'영광을 받았다', kfp:'영광을 받을 것이다', act:'영광을 돌린다', pas:'영광을 받는다', ipf:'영광을 돌리고 있었다' },
+  { lemma:'κηρύσσω', pres:'κηρυσσ', impf:'ἐκηρυσσ', fut:'κηρυξ', aor:'ἐκηρυξ', kf:'선포할 것이다', ka:'선포하였다', apas:'ἐκηρυχθη', fpas:'κηρυχθησ', kap:'선포되었다', kfp:'선포될 것이다', act:'선포한다', pas:'선포된다', ipf:'선포하고 있었다' },
   { lemma:'ἀναβλέπω', pres:'ἀναβλεπ', impf:'ἀνεβλεπ', aug:1, fut:'ἀναβλεψ', aor:'ἀνεβλεψ', kf:'쳐다볼 것이다', ka:'쳐다보았다', act:'쳐다본다', ipf:'쳐다보고 있었다' },
   { lemma:'ἀπολύω', pres:'ἀπολυ', impf:'ἀπελυ', aug:1, fut:'ἀπολυσ', aor:'ἀπελυσ', kf:'놓아줄 것이다', ka:'놓아주었다', act:'놓아준다', pas:'놓임을 받는다', ipf:'놓아주고 있었다' },
   { lemma:'ἐπιστρέφω', pres:'ἐπιστρεφ', impf:'ἐπεστρεφ', aug:1, fut:'ἐπιστρεψ', aor:'ἐπεστρεψ', kf:'돌아설 것이다', ka:'돌아섰다', act:'돌아선다', ipf:'돌아서고 있었다' },
   { lemma:'ὑποστρέφω', pres:'ὑποστρεφ', impf:'ὑπεστρεφ', aug:1, fut:'ὑποστρεψ', aor:'ὑπεστρεψ', kf:'돌아갈 것이다', ka:'돌아갔다', act:'돌아간다', ipf:'돌아가고 있었다' },
-  { lemma:'ἑτοιμάζω', pres:'ἑτοιμαζ', impf:'ἡτοιμαζ', fut:'ἑτοιμασ', aor:'ἡτοιμασ', kf:'준비할 것이다', ka:'준비하였다', act:'준비한다', pas:'준비된다', ipf:'준비하고 있었다' },
+  { lemma:'ἑτοιμάζω', pres:'ἑτοιμαζ', impf:'ἡτοιμαζ', fut:'ἑτοιμασ', aor:'ἡτοιμασ', kf:'준비할 것이다', ka:'준비하였다', apas:'ἡτοιμασθη', fpas:'ἑτοιμασθησ', kap:'준비되었다', kfp:'준비될 것이다', act:'준비한다', pas:'준비된다', ipf:'준비하고 있었다' },
   { lemma:'θαυμάζω', pres:'θαυμαζ', impf:'ἐθαυμαζ', fut:'θαυμασ', aor:'ἐθαυμασ', kf:'놀랄 것이다', ka:'놀랐다', act:'놀란다', ipf:'놀라고 있었다' },
-  { lemma:'θεραπεύω', pres:'θεραπευ', impf:'ἐθεραπευ', fut:'θεραπευσ', aor:'ἐθεραπευσ', kf:'고칠 것이다', ka:'고쳤다', act:'고친다', pas:'고침을 받는다', ipf:'고치고 있었다' },
-  { lemma:'πείθω', pres:'πειθ', impf:'ἐπειθ', fut:'πεισ', aor:'ἐπεισ', kf:'설복시킬 것이다', ka:'설복시켰다', act:'설복시킨다', pas:'설복된다', ipf:'설복시키고 있었다' }
+  { lemma:'θεραπεύω', pres:'θεραπευ', impf:'ἐθεραπευ', fut:'θεραπευσ', aor:'ἐθεραπευσ', kf:'고칠 것이다', ka:'고쳤다', apas:'ἐθεραπευθη', fpas:'θεραπευθησ', kap:'고침을 받았다', kfp:'고침을 받을 것이다', act:'고친다', pas:'고침을 받는다', ipf:'고치고 있었다' },
+  { lemma:'πείθω', pres:'πειθ', impf:'ἐπειθ', fut:'πεισ', aor:'ἐπεισ', kf:'설복시킬 것이다', ka:'설복시켰다', apas:'ἐπεισθη', fpas:'πεισθησ', kap:'설복되었다', kfp:'설복될 것이다', act:'설복시킨다', pas:'설복된다', ipf:'설복시키고 있었다' },
+  // 15과 §165 (제2단순과거 a2) · 16과 §174 (단순과거 수동 apas, 미래 수동 fpas)
+  { lemma:'λείπω', pres:'λειπ', impf:'ἐλειπ', fut:'λειψ', a2:'ἐλιπ', a2m:1, kf:'남길 것이다', ka:'남겨 두었다', act:'남겨 둔다', pas:'남겨진다', ipf:'남겨 두고 있었다', note:'현재 어근 λειπ- / 제2단순과거 어근 λιπ- (§169–170)' },
+  { lemma:'πίπτω', pres:'πιπτ', impf:'ἐπιπτ', a2:'ἐπεσ', ka:'떨어졌다', act:'떨어진다', ipf:'떨어지고 있었다' },
+  { lemma:'προσφέρω', pres:'προσφερ', impf:'προσεφερ', aug:1, aor:'προσηνεγκ', noam:1, irr:1, ka:'데려갔다', apas:'προσηνεχθη', kap:'데려가졌다', act:'데려간다', pas:'데려가진다', ipf:'데려가고 있었다', note:'πρός + φέρω, 단순과거 προσήνεγκα (φέρω → ἤνεγκα)' },
+  { lemma:'ἀναλαμβάνω', pres:'ἀναλαμβαν', impf:'ἀνελαμβαν', aug:1, a2:'ἀνελαβ', ka:'들어 올렸다', apas:'ἀνελημφθη', kap:'들려 올라갔다', act:'들어 올린다', pas:'들려 올라간다', ipf:'들어 올리고 있었다', note:'ἀνά + λαμβάνω (§122)' }
 ];
 // 디포넌트(§108): 중간·수동 형태, 능동 뜻 / ἄρχομαι: 중간태 "시작한다" + ἄρχω의 수동 "지배를 받는다"
 const VV_DEP = [
-  { lemma:'ἔρχομαι', pres:'ἐρχ', impf:'ἠρχ', fut:'ἐλευσ', kf:'갈 것이다', act:'간다' }, { lemma:'γίνομαι', pres:'γιν', impf:'ἐγιν', fut:'γενησ', kf:'될 것이다', act:'된다' },
-  { lemma:'πορεύομαι', pres:'πορευ', impf:'ἐπορευ', fut:'πορευσ', kf:'갈 것이다', act:'간다' }, { lemma:'ἀποκρίνομαι', pres:'ἀποκριν', impf:'ἀπεκριν', aug:1, act:'대답한다' },
-  { lemma:'διέρχομαι', pres:'διερχ', impf:'διηρχ', aug:1, act:'지나서 간다' }, { lemma:'εἰσέρχομαι', pres:'εἰσερχ', impf:'εἰσηρχ', aug:1, act:'들어간다' },
-  { lemma:'ἐξέρχομαι', pres:'ἐξερχ', impf:'ἐξηρχ', aug:1, act:'나간다' },
+  { lemma:'ἔρχομαι', pres:'ἐρχ', impf:'ἠρχ', fut:'ἐλευσ', a2:'ἠλθ', ka:'갔다, 왔다', kf:'갈 것이다', act:'간다' }, { lemma:'γίνομαι', pres:'γιν', impf:'ἐγιν', fut:'γενησ', a2d:'ἐγεν', apd:'ἐγενηθη', ka:'되었다', kf:'될 것이다', act:'된다' },
+  { lemma:'πορεύομαι', pres:'πορευ', impf:'ἐπορευ', fut:'πορευσ', apd:'ἐπορευθη', ka:'갔다', kf:'갈 것이다', act:'간다' }, { lemma:'ἀποκρίνομαι', pres:'ἀποκριν', impf:'ἀπεκριν', aug:1, apd:'ἀπεκριθη', fpd:'ἀποκριθησ', ka:'대답하였다', kf:'대답할 것이다', act:'대답한다' },
+  { lemma:'διέρχομαι', pres:'διερχ', impf:'διηρχ', aug:1, act:'지나서 간다' }, { lemma:'εἰσέρχομαι', pres:'εἰσερχ', impf:'εἰσηρχ', aug:1, fut:'εἰσελευσ', a2:'εἰσηλθ', kf:'들어갈 것이다', ka:'들어갔다', act:'들어간다' },
+  { lemma:'ἐξέρχομαι', pres:'ἐξερχ', impf:'ἐξηρχ', aug:1, fut:'ἐξελευσ', a2:'ἐξηλθ', kf:'나갈 것이다', ka:'나갔다', act:'나간다' },
   // 12과 §127
-  { lemma:'ἀπέρχομαι', pres:'ἀπερχ', impf:'ἀπηρχ', aug:1, act:'가 버린다' }, { lemma:'δέχομαι', pres:'δεχ', impf:'ἐδεχ', fut:'δεξ', aor:'ἐδεξ', kf:'받을 것이다', ka:'받았다', act:'받는다' },
+  { lemma:'ἀπέρχομαι', pres:'ἀπερχ', impf:'ἀπηρχ', aug:1, fut:'ἀπελευσ', a2:'ἀπηλθ', kf:'가 버릴 것이다', ka:'가 버렸다', act:'가 버린다' }, { lemma:'δέχομαι', pres:'δεχ', impf:'ἐδεχ', fut:'δεξ', aor:'ἐδεξ', kf:'받을 것이다', ka:'받았다', act:'받는다' },
   { lemma:'ἐκπορεύομαι', pres:'ἐκπορευ', impf:'ἐξεπορευ', aug:1, act:'나간다' }, { lemma:'κατέρχομαι', pres:'κατερχ', impf:'κατηρχ', aug:1, act:'내려간다' },
   { lemma:'συνέρχομαι', pres:'συνερχ', impf:'συνηρχ', aug:1, act:'같이 간다' },
   // 13과
@@ -4809,6 +4873,13 @@ function vvMake(stem, end, aug) {
 
 // 모든 형태 + 가능한 파싱(readings). 같은 형태가 여러 파싱이면 모두 담는다
 let VV_FORMS = null;
+// 제2단순과거 능동: 1인칭 단수 = 3인칭 복수 (미완료와 같은 어미 §169) → 한 형태에 두 파싱
+function vvAdd2(add, v, p, n, k, voice) {
+  if (!v.a2 || k === 5) return;
+  const rs = [{ tense:'단순과거', voice, p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.ka }];
+  if (k === 0) rs.push({ tense:'단순과거', voice, p:3, n:'복수', lemma:v.lemma, ko: VV_SUBJ[5] + ' ' + v.ka });
+  add(vvMake(v.a2, VV_END.a2a[k], v.aug), 'a2a', v, rs, { k });
+}
 function vvBuildForms() {
   const forms = [];
   const add = (form, group, verb, rs, extra) => forms.push(Object.assign({ form, group, verb, readings: rs }, extra || {}));
@@ -4840,12 +4911,20 @@ function vvBuildForms() {
     if (v.fdep) add(vvMake(v.fdep, VV_END.fm[k]), 'fd', v, [{ tense:'미래', voice:'디포넌트', p, n, lemma:v.lemma, ko: S + ' ' + v.kfd }], { k });
     if (v.aor) {
       add(vvMake(v.aor, VV_END.aa[k], v.aug), 'aa', v, [{ tense:'단순과거', voice:'능동', p, n, lemma:v.lemma, ko: S + ' ' + v.ka }], { k });
-      add(vvMake(v.aor, VV_END.am[k], v.aug), 'am', v, [{ tense:'단순과거', voice:'중간', p, n, lemma:v.lemma, ko: S + ' 자기를 위하여 ' + v.ka }], { k });
+      if (!v.noam) add(vvMake(v.aor, VV_END.am[k], v.aug), 'am', v, [{ tense:'단순과거', voice:'중간', p, n, lemma:v.lemma, ko: S + ' 자기를 위하여 ' + v.ka }], { k });
     }
+    vvAdd2(add, v, p, n, k, '능동');
+    if (v.a2 && v.a2m) add(vvMake(v.a2, VV_END.a2m[k], v.aug), 'a2m', v, [{ tense:'단순과거', voice:'중간', p, n, lemma:v.lemma, ko: S + ' 자기를 위하여 ' + v.ka }], { k });
+    if (v.apas) add(vvMake(v.apas, VV_END.ap[k], v.aug), 'ap', v, [{ tense:'단순과거', voice:'수동', p, n, lemma:v.lemma, ko: S + ' ' + v.kap }], { k });
+    if (v.fpas) add(vvMake(v.fpas, VV_END.fp[k]), 'fp', v, [{ tense:'미래', voice:'수동', p, n, lemma:v.lemma, ko: S + ' ' + v.kfp }], { k });
   }));
   VV_DEP.forEach(v => VV_PN.forEach(([p, n], k) => {
     if (v.fut) add(vvMake(v.fut, VV_END.fm[k]), 'fd', v, [{ tense:'미래', voice:'디포넌트', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.kf }], { k });
     if (v.aor) add(vvMake(v.aor, VV_END.am[k], v.aug), 'ad', v, [{ tense:'단순과거', voice:'디포넌트', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.ka }], { k });
+    vvAdd2(add, v, p, n, k, '능동');   // ἦλθον: 현재는 디포넌트지만 제2단순과거는 능동형
+    if (v.a2d) add(vvMake(v.a2d, VV_END.a2m[k], v.aug), 'a2d', v, [{ tense:'단순과거', voice:'디포넌트', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.ka }], { k });
+    if (v.apd) add(vvMake(v.apd, VV_END.ap[k], v.aug), 'apd', v, [{ tense:'단순과거', voice:'디포넌트', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.ka }], { k });
+    if (v.fpd) add(vvMake(v.fpd, VV_END.fp[k]), 'fd', v, [{ tense:'미래', voice:'디포넌트', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.kf }], { k });
   }));
   VV_DEP.forEach(v => VV_PN.forEach(([p, n], k) => {
     add(vvMake(v.pres, VV_END.pm[k]), 'dep', v, [{ tense:'현재', voice:'디포넌트', p, n, lemma:v.lemma, ko: VV_SUBJ[k] + ' ' + v.act }], { k });
@@ -4859,7 +4938,8 @@ function vvBuildForms() {
   VV_FORMS = forms;
   return forms;
 }
-const VV_GROUPS = { pa:'현재 능동', pm:'현재 중간·수동', dep:'디포넌트', ia:'미완료 능동', im:'미완료 중간·수동', eimi:'εἰμί 미완료', fa:'미래 능동', fm:'미래 중간', fd:'미래 디포넌트', aa:'단순과거 능동', am:'단순과거 중간', ad:'단순과거 디포넌트' };
+const VV_GROUPS = { pa:'현재 능동', pm:'현재 중간·수동', dep:'디포넌트', ia:'미완료 능동', im:'미완료 중간·수동', eimi:'εἰμί 미완료', fa:'미래 능동', fm:'미래 중간', fd:'미래 디포넌트', aa:'단순과거 능동', am:'단순과거 중간', ad:'단순과거 디포넌트',
+  a2a:'제2단순과거 능동', a2m:'제2단순과거 중간', a2d:'제2단순과거 디포넌트', ap:'단순과거 수동', fp:'미래 수동', apd:'단순과거 디포넌트(수동형)' };
 function vvParseText(r) {
   return r.tense + ' ' + (r.voice === '없음' ? '' : r.voice + '태 ') + '직설법 ' + r.p + '인칭 ' + r.n + ' · ' + r.lemma + ' · "' + r.ko + '"';
 }
@@ -4868,15 +4948,19 @@ function vvVerbOf(lemma) { return VV_VERBS.find(v => v.lemma === lemma) || VV_DE
 function vvMiniTable(lemma, hiForm) {
   const v = VV_VERBS.find(x => x.lemma === lemma);
   const fs = VV_FORMS.filter(f => (f.verb.lemma === lemma));
-  const cell = (g, k, imp) => { const f = fs.find(x => x.group === g && !!x.impf === !!imp && x.k === (g === 'ia' && k === 5 ? 0 : k)); return f ? '<td class="' + (f.form === hiForm ? 'vv-hi' : '') + '">' + f.form + '</td>' : '<td class="vv-na">—</td>'; };
+  const cell = (g, k, imp) => { const f = fs.find(x => x.group === g && !!x.impf === !!imp && x.k === ((g === 'ia' || g === 'a2a') && k === 5 ? 0 : k)); return f ? '<td class="' + (f.form === hiForm ? 'vv-hi' : '') + '">' + f.form + '</td>' : '<td class="vv-na">—</td>'; };
   if (!v) {
     const g = fs.some(x => x.group === 'dep') ? 'dep' : fs[0].group;
-    if (g === 'dep') { const ex = ['fd','ad'].filter(x => fs.some(f => f.group === x));
-      return '<table class="vv-table"><tr><th></th><th>현재</th><th>미완료</th>' + ex.map(x => '<th>' + (x === 'fd' ? '미래' : '단순과거') + '</th>').join('') + '</tr>' + VV_PN.map(([p, n], k) => '<tr><th>' + p + n[0] + '</th>' + cell(g, k) + cell(g, k, true) + ex.map(x => cell(x, k)).join('') + '</tr>').join('') + '</table>'; }
+    if (g === 'dep') {
+      const hg0 = (fs.find(x => x.form === hiForm) || {}).group, NEW = ['a2a','a2d','apd'];
+      const ex = (NEW.includes(hg0) ? NEW : ['fd','ad']).filter(x => fs.some(f => f.group === x)), imp = !NEW.includes(hg0);
+      const LBL = { fd:'미래', ad:'단순과거', a2a:'제2단순과거', a2d:'제2단순과거', apd:'단순과거(수동형)' };
+      return '<table class="vv-table"><tr><th></th><th>현재</th>' + (imp ? '<th>미완료</th>' : '') + ex.map(x => '<th>' + LBL[x] + '</th>').join('') + '</tr>' + VV_PN.map(([p, n], k) => '<tr><th>' + p + n[0] + '</th>' + cell(g, k) + (imp ? cell(g, k, true) : '') + ex.map(x => cell(x, k)).join('') + '</tr>').join('') + '</table>'; }
     return '<table class="vv-table"><tr><th></th><th>' + VV_GROUPS[g] + '</th></tr>' + VV_PN.map(([p, n], k) => '<tr><th>' + p + n[0] + '</th>' + cell(g, k) + '</tr>').join('') + '</table>';
   }
   const hf = fs.find(x => x.form === hiForm), hg = hf ? hf.group : '';
-  const fam = ['fa','fm','fd'].includes(hg) ? ['pa','fa','fm'] : ['aa','am','ad'].includes(hg) ? ['pa','aa','am'] : ['pa','pm','ia','im'];
+  const fam = ['fa','fm','fd'].includes(hg) ? ['pa','fa','fm'] : ['aa','am','ad'].includes(hg) ? ['pa','aa','am']
+    : ['a2a','a2m'].includes(hg) ? ['ia','a2a','a2m'] : ['ap','fp'].includes(hg) ? ['aa','ap','fp'] : ['pa','pm','ia','im'];
   const cols = fam.filter(g => fs.some(x => x.group === g));
   return '<table class="vv-table"><tr><th></th>' + cols.map(g => '<th>' + VV_GROUPS[g] + '</th>').join('') + '</tr>'
     + VV_PN.map(([p, n], k) => '<tr><th>' + p + n[0] + '</th>' + cols.map(g => cell(g, k)).join('') + '</tr>').join('') + '</table>';
@@ -4909,7 +4993,7 @@ function vvStart(mode, groups) {
   if (groups) VV_CUR_GROUPS = groups;
   let qs = [];
   const pool = vvPool();
-  if (!['trans','aug','dat','kai','sig','aor'].includes(mode) && !pool.length) { vvContent.innerHTML = '<p class="ex-note">문제 범위를 하나 이상 고르세요.</p>'; vvShow('동사 태 연습'); return; }
+  if (!['trans','aug','dat','kai','sig','aor','a2','aorp'].includes(mode) && !pool.length) { vvContent.innerHTML = '<p class="ex-note">문제 범위를 하나 이상 고르세요.</p>'; vvShow('동사 태 연습'); return; }
   if (mode === 'ending') qs = vvEndingQs();
   if (mode === 'make') qs = vvPick(pool.filter(f => f.group !== 'eimi'), VV_N).map(vvMakeQ);
   if (mode === 'parse') qs = vvPick(pool, VV_N).map(vvParseQ);
@@ -4917,10 +5001,10 @@ function vvStart(mode, groups) {
   if (mode === 'aug') qs = vvAugQs();
   if (mode === 'dat') qs = lsDatQs();
   if (mode === 'kai') qs = lsKaiQs();
-  if (mode === 'sig' || mode === 'aor') qs = vvTenseBuildQs(mode);
+  if (['sig','aor','a2','aorp'].includes(mode)) qs = vvTenseBuildQs(mode);
   if (!qs.length) { vvShow('동사 태 연습'); vvContent.innerHTML = '<p class="ex-note">이 연습에 맞는 문제 범위를 고르세요 (어미 구별은 현재 능동·현재 중간·수동·미완료 능동).</p>'; return; }
   vv = { mode, qs, i: 0, right: 0, wrongs: [] };
-  vvShow({ ending:'어미 구별 퀴즈', make:'형태 만들기', parse:'파싱 연습', trans:'능동 → 수동 바꾸기', aug:'접두모음 붙이기', dat:'여격·ὑπό 구별', kai:'καί·οὐδέ 판별', sig:'미래 만들기', aor:'단순과거 만들기' }[mode]);
+  vvShow({ ending:'어미 구별 퀴즈', make:'형태 만들기', parse:'파싱 연습', trans:'능동 → 수동 바꾸기', aug:'접두모음 붙이기', dat:'여격·ὑπό 구별', kai:'καί·οὐδέ 판별', sig:'미래 만들기', aor:'단순과거 만들기', a2:'제2단순과거 만들기', aorp:'단순과거 수동 만들기' }[mode]);
   vvRenderQ();
 }
 function vvRenderQ() {
@@ -4967,13 +5051,13 @@ function vvBest(readings, ans, keys, val) {
 function vvEndingQs() {
   const gs = vvSelGroups().filter(g => g !== 'eimi' && g !== 'dep');
   const items = [];
-  const TV = { pa:'현재 능동', pm:'현재 중간·수동', ia:'미완료 능동', im:'미완료 중간·수동', fa:'미래 능동', fm:'미래 중간', aa:'단순과거 능동', am:'단순과거 중간' };
-  const TVS = ['pa','pm','ia','im','fa','fm','aa','am'].filter(g => gs.includes(g) || (g === 'pm' && vvSelGroups().includes('dep')));
+  const TV = { pa:'현재 능동', pm:'현재 중간·수동', ia:'미완료 능동', im:'미완료 중간·수동', fa:'미래 능동', fm:'미래 중간', aa:'단순과거 능동', am:'단순과거 중간', ap:'단순과거 수동', fp:'미래 수동' };
+  const TVS = ['pa','pm','ia','im','fa','fm','aa','am','ap','fp'].filter(g => gs.includes(g) || (g === 'pm' && vvSelGroups().includes('dep')));
   TVS.forEach(g => VV_END[g].forEach((e, k) => {
     if (g === 'ia' && k === 5) return;
     const rs = [{ tv: TV[g], p: VV_PN[k][0] + '인칭', n: VV_PN[k][1] }];
     if (g === 'ia' && k === 0) rs.push({ tv: TV[g], p:'3인칭', n:'복수' });
-    items.push({ show: (g === 'ia' || g === 'im' ? 'ἐ- … -' : g === 'aa' || g === 'am' ? 'ἐ- … -σ' : g === 'fa' || g === 'fm' ? '- σ' : '-') + e, rs, g });
+    items.push({ show: (g === 'ia' || g === 'im' ? 'ἐ- … -' : g === 'aa' || g === 'am' ? 'ἐ- … -σ' : g === 'fa' || g === 'fm' ? '- σ' : g === 'ap' ? 'ἐ- … -θη' : g === 'fp' ? '- θησ' : '-') + e, rs, g });
   }));
   if (!items.length) return [];
   const pick = [];
@@ -4982,7 +5066,8 @@ function vvEndingQs() {
     title: it.show,
     prompt: '<div class="vv-prompt-sm">이 어미가 붙은 동사는?</div><div class="vv-prompt">' + it.show + '</div>'
       + (it.g === 'ia' || it.g === 'im' || it.g === 'aa' || it.g === 'am' ? '<div class="ex-note" style="text-align:center">ἐ- = 접두모음</div>' : '')
-      + (it.g === 'fa' || it.g === 'fm' || it.g === 'aa' || it.g === 'am' ? '<div class="ex-note" style="text-align:center">σ = 시제 접미어</div>' : ''),
+      + (it.g === 'fa' || it.g === 'fm' || it.g === 'aa' || it.g === 'am' ? '<div class="ex-note" style="text-align:center">σ = 시제 접미어</div>' : '')
+      + (it.g === 'ap' || it.g === 'fp' ? '<div class="ex-note" style="text-align:center">θη = 단순과거 수동 시제 접미어' + (it.g === 'ap' ? ', ἐ- = 접두모음' : '') + '</div>' : ''),
     fields: [{ key:'tv', label:'시제·태', opts: TVS.map(g => TV[g]) }, { key:'p', label:'인칭', opts:['1인칭','2인칭','3인칭'] }, { key:'n', label:'수', opts:['단수','복수'] }],
     check(ans) {
       const { best, ok } = vvBest(it.rs, ans, ['tv','p','n'], (r, k) => r[k]);
@@ -4990,7 +5075,9 @@ function vvEndingQs() {
         show: '<p class="ex-note">' + it.rs.map(r => r.tv + ' ' + r.p + ' ' + r.n).join(' <b>또는</b> ') + '</p>'
           + (it.g === 'pm' ? '<p class="ex-note">중간·수동 어미: -μαι, -σαι(→ῃ), -ται, -μεθα, -σθε, -νται 앞에 연결모음 ο/ε (§104)</p>' : '')
           + (it.g === 'ia' ? '<p class="ex-note">제2시제 능동 어미 -ν, -ς, 없음, -μεν, -τε, -ν + 접두모음 (§115, §119)</p>' : '')
-          + (it.g === 'im' ? '<p class="ex-note">제2시제 중간·수동 어미 -μην, -σο(→ου), -το, -μεθα, -σθε, -ντο + 접두모음 (§129–130)</p>' : '') };
+          + (it.g === 'im' ? '<p class="ex-note">제2시제 중간·수동 어미 -μην, -σο(→ου), -το, -μεθα, -σθε, -ντο + 접두모음 (§129–130)</p>' : '')
+          + (it.g === 'ap' ? '<p class="ex-note">단순과거 수동: 접두모음 + 어근 + θη + <b>능동</b> 어미 -ν, -ς, 없음, -μεν, -τε, -σαν (연결모음 없음, §177)</p>' : '')
+          + (it.g === 'fp' ? '<p class="ex-note">미래 수동: 어근 + θη + σ + 제1시제 중간·수동 어미, 접두모음 없음 (§178)</p>' : '') };
     }
   }));
 }
@@ -5026,7 +5113,7 @@ function vvParseQ(f) {
     title: f.form,
     prompt: '<div class="vv-prompt-sm">이 동사를 파싱하세요</div><div class="vv-prompt">' + f.form + '</div>',
     fields: [
-      { key:'tense', label:'시제', opts:['현재','미완료','미래','단순과거'] }, { key:'voice', label:'태', opts:['능동','중간','중간·수동','디포넌트','없음'] },
+      { key:'tense', label:'시제', opts:['현재','미완료','미래','단순과거'] }, { key:'voice', label:'태', opts:['능동','중간','수동','중간·수동','디포넌트','없음'] },
       { key:'p', label:'인칭', opts:['1인칭','2인칭','3인칭'] }, { key:'n', label:'수', opts:['단수','복수'] },
       { key:'lemma', label:'기본형', opts: shuffle([...lemmas, ...lemmaPool]) }, { key:'ko', label:'뜻', opts: shuffle(koOpts) }
     ],
@@ -5037,10 +5124,14 @@ function vvParseQ(f) {
       let show = '<p class="ex-note"><b>가능한 파싱 모두</b></p>' + rs.map(r => '<div class="ex-note">· ' + vvParseText(r)  + '</div>').join('');
       if (f.group === 'dep') show += '<p class="ex-note">기본형이 -ομαι → 디포넌트: 형태는 중간·수동, 뜻은 능동 (§108, 미완료도 디포넌트 §133)</p>';
       if (f.group === 'fm' || f.group === 'am') show += '<p class="ex-note">미래·단순과거에서는 중간태와 수동태가 다른 모양이라 이 형태는 <b>중간</b>이에요 (§143, §160).</p>';
-      if (f.group === 'fd' || f.group === 'ad') show += '<p class="ex-note">중간태 형태지만 뜻은 능동인 디포넌트예요 (낱말 모음의 "디포").</p>';
+      if (f.group === 'fd' || f.group === 'ad' || f.group === 'a2d') show += '<p class="ex-note">중간태 형태지만 뜻은 능동인 디포넌트예요 (낱말 모음의 "디포").</p>';
+      if (f.group === 'apd') show += '<p class="ex-note">수동태 형태(θη)지만 뜻은 능동인 디포넌트예요 (§182–183).</p>';
+      if (f.group === 'a2a' || f.group === 'a2m') show += '<p class="ex-note">제2단순과거: 미완료와 어미가 같고 <b>어근</b>만 달라요 (현재 어근 → 미완료, 제2단순과거 어근 → 단순과거, §170).</p>';
+      if (f.group === 'ap' || f.group === 'fp') show += '<p class="ex-note">단순과거·미래의 수동태는 θη로 만들어 중간태와 모양이 달라요 → <b>수동</b> (§172, §176–178).</p>';
+      if (f.group === 'a2a' && VV_DEP.some(x => x.lemma === f.verb.lemma)) show += '<p class="ex-note">현재는 디포넌트지만 제2단순과거는 능동형 ἦλθον으로 변화해요 (§165).</p>';
       if (f.group === 'pm' || f.group === 'im') show += '<p class="ex-note">형태만 보고는 중간인지 수동인지 가를 수 없어 "중간·수동"이 정답이에요. 문장 속에서는 문맥으로 정하고, 교재 익힘 문제는 수동으로 해석해요 (§102, §128).</p>';
       if (v && v.note && (f.group === 'ia' || f.group === 'im')) show += '<p class="ex-note">' + v.note + '</p>';
-      if (!['eimi','dep','fd','ad'].includes(f.group) && VV_VERBS.some(x => x.lemma === f.verb.lemma)) show += vvMiniTable(f.verb.lemma, f.form);
+      if (!['eimi','dep','fd','ad','a2d','apd'].includes(f.group) && VV_VERBS.some(x => x.lemma === f.verb.lemma)) show += vvMiniTable(f.verb.lemma, f.form);
       return { ok, right, answerText: rs.map(vvParseText).join(' / '), show };
     }
   };
@@ -5457,7 +5548,48 @@ LS_EX[13] = [
     PR('ἐκεῖνα','ἐκεῖνος','중성','복수','대격','"저것들을"', { s:'저것들', thing:1 }), V('λήμψονται','λαμβάνω','미래','디포넌트',3,'복수'),
     R('οἱ','남성','복수','주격'), N('ἀπόστολοι','ἀπόστολος','남성','복수','주격','주어'), X(',', true),
     PR('ταῦτα','οὗτος','중성','복수','대격','"이것들을"', { s:'이것들', thing:1 }), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }),
-    C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "형제들도" (동사 λήμψονται 생략)', K_ALSO), R('οἱ','남성','복수','주격'), N('ἀδελφοί','ἀδελφός','남성','복수','주격','주어'), X('.') ]}
+    C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "형제들도" (동사 λήμψονται 생략)', K_ALSO), R('οἱ','남성','복수','주격'), N('ἀδελφοί','ἀδελφός','남성','복수','주격','주어'), X('.') ]},
+  { no:14, ko:'주의 말씀을 통하여 이 맹인들이 쳐다볼(다시 볼) 것이다.', toks:[
+    P('διὰ','διά','속격'), R('τοῦ','남성','단수','속격'), N('λόγου','λόγος','남성','단수','속격'), R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'),
+    V('ἀναβλέψουσιν','ἀναβλέπω','미래','능동',3,'복수','순음 π + σ → ψ (§145). ἀνα- "다시" → 시력을 다시 얻다'), R('οἱ','남성','복수','주격'), N('τυφλοὶ','τυφλός','남성','복수','주격','주어'),
+    PR('οὗτοι','οὗτος','남성','복수','주격','관사+명사 뒤의 지시대명사 → "이 맹인들"', M_THIS('이 사람들')), X('.') ]},
+  { no:15, ko:'그 예언자 자신이 이것들을 그 글들(성경)에 쓸 것이다.', toks:[
+    R('ὁ','남성','단수','주격'), N('προφήτης','προφήτης','남성','단수','주격','주어'),
+    PR('αὐτὸς','αὐτός','남성','단수','주격','관사+명사(ὁ προφήτης) 밖 → 강조 "그 예언자 자신이"', { a:'자신이 (강조)', s:'그', use:'a' }),
+    V('γράψει','γράφω','미래','능동',3,'단수','순음 φ + σ → ψ (§145)'), PR('ταῦτα','οὗτος','중성','복수','대격','"이것들을"', { s:'이것들', thing:1 }),
+    P('ἐν','ἐν','여격'), R('ταῖς','여성','복수','여격'), N('γραφαῖς','γραφή','여성','복수','여격','γραφή 글, 성경'), X('.') ]},
+  { no:16, ko:'어떤 악한 날들이 올 것이다.', toks:[
+    V('ἐλεύσονται','ἔρχομαι','미래','디포넌트',3,'복수','ἔρχομαι의 미래 ἐλεύσομαι (디포, §139)'),
+    A('κακαὶ','κακός','여성','복수','주격','관사 없는 명사를 꾸밈', { a:'악한', s:'악한 것들', use:'a' }), N('ἡμέραι','ἡμέρα','여성','복수','주격','주어'), X('.') ]},
+  { no:17, ko:'너도 악한 자들의 길들로 가 버릴 것이고, 그렇게 그 사람들을 가르칠 것이다.', toks:[
+    V('ἀπελεύσῃ','ἀπέρχομαι','미래','디포넌트',2,'단수','교재 인쇄 ἀπελεύση. ἀπέρχομαι의 미래 ἀπελεύσομαι (ἔρχομαι → ἐλεύσομαι), 2인칭 단수 -ῃ'),
+    C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "너도"', K_ALSO), PP('σὺ','σύ',2,'단수','주격','강조'),
+    P('εἰς','εἰς','대격'), R('τὰς','여성','복수','대격'), N('ὁδοὺς','ὁδός','여성','복수','대격','ὁδός는 여성 명사'),
+    R('τῶν','남성','복수','속격'), A('πονηρῶν','πονηρός','남성','복수','속격','관사 + 형용사 = "악한 자들"', { a:'악한', s:'악한 자들', use:'s' }),
+    C('καὶ','καί',true, NOTE_KAI_LINK, K_AND), V('διδάξεις','διδάσκω','미래','능동',2,'단수','σκ + σ → ξ'), D('οὕτως','οὕτως'),
+    R('τοὺς','남성','복수','대격'), N('ἀνθρώπους','ἄνθρωπος','남성','복수','대격','목적어'), X('.') ]},
+  { no:18, ko:'그들 자신도 이 악한 세상에서 그 복음을 선포할 것이다.', toks:[
+    V('κηρύξουσιν','κηρύσσω','미래','능동',3,'복수','σσ + σ → ξ (§145)'), C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "그들 자신도"', K_ALSO),
+    PR('αὐτοὶ','αὐτός','남성','복수','주격','관사+명사 사이가 아님 → 강조 "그들 자신"', { a:'그들 자신이 (강조)', s:'그들', use:'a', alt:['그들이'] }),
+    R('τὸ','중성','단수','대격'), N('εὐαγγέλιον','εὐαγγέλιον','중성','단수','대격','목적어'),
+    P('ἐν','ἐν','여격'), PR('τούτῳ','οὗτος','남성','단수','여격','"이"', M_THIS('이 사람')), R('τῷ','남성','단수','여격'), N('κόσμῳ','κόσμος','남성','단수','여격'),
+    R('τῷ','남성','단수','여격'), A('κακῷ','κακός','남성','단수','여격','관사를 다시 붙인 한정적 용법', { a:'악한', s:'악한 것', use:'a' }), X('.') ]},
+  { no:19, ko:'이 여자도 그에게로 올 것이고, 그 자신이 그녀를 가르칠 것이다.', toks:[
+    V('ἐλεύσεται','ἔρχομαι','미래','디포넌트',3,'단수'), C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "이 여자도"', K_ALSO),
+    PR('αὕτη','οὗτος','여성','단수','주격','명사 없이 "이 여자"', { a:'이', s:'이 여자', use:'s' }), P('πρὸς','πρός','대격'), PR('αὐτόν','αὐτός','남성','단수','대격','"그"', M_HE),
+    X(',', true), C('καὶ','καί',true, NOTE_KAI_LINK, K_AND),
+    PR('αὐτὸς','αὐτός','남성','단수','주격','관사+명사 사이가 아님 → 강조 "그 자신이"', { a:'그 자신이 (강조)', s:'그', use:'a', alt:['그가'] }),
+    V('διδάξει','διδάσκω','미래','능동',3,'단수'), PR('αὐτήν','αὐτός','여성','단수','대격','"그녀를"', M_HER), X('.') ]},
+  { no:20, ko:'그 복음이 그 악한 날들에 선포되고 있었고 지금도 선포되지만, 저 날에는 주 자신이 올 것이다.', toks:[
+    V('ἐκηρύσσετο','κηρύσσω','미완료','수동',3,'단수','미완료 중간·수동 형태 — 문맥상 수동'), R('τὸ','중성','단수','주격'), N('εὐαγγέλιον','εὐαγγέλιον','중성','단수','주격','주어'),
+    P('ἐν','ἐν','여격'), R('ταῖς','여성','복수','여격'), N('ἡμέραις','ἡμέρα','여성','복수','여격'),
+    R('ταῖς','여성','복수','여격'), A('κακαῖς','κακός','여성','복수','여격','관사를 다시 붙인 한정적 용법', { a:'악한', s:'악한 것들', use:'a' }),
+    X(',', true), V('κηρύσσεται','κηρύσσω','현재','수동',3,'단수','현재 중간·수동 형태 — 문맥상 수동'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }),
+    C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "지금도"', K_ALSO), D('νῦν','νῦν'),
+    X(',', true), C('ἀλλ’','ἀλλά',true,'', { ko:'그러나' }), P('ἐν','ἐν','여격'), PR('ἐκείνῃ','ἐκεῖνος','여성','단수','여격','"저"', M_THAT('저 여자')),
+    R('τῇ','여성','단수','여격'), N('ἡμέρᾳ','ἡμέρα','여성','단수','여격'), V('ἐλεύσεται','ἔρχομαι','미래','디포넌트',3,'단수'),
+    R('ὁ','남성','단수','주격'), N('κύριος','κύριος','남성','단수','주격','주어'),
+    PR('αὐτός','αὐτός','남성','단수','주격','관사+명사(ὁ κύριος) 밖 → 강조 "주 자신이"', { a:'자신이 (강조)', s:'그', use:'a' }), X('.') ]}
 ];
 LS_EX[14] = [
   { no:3, ko:'우리는 주를 믿었고, 그가 우리를 구원할 것이다.', toks:[
@@ -5494,7 +5626,268 @@ LS_EX[14] = [
     P('εἰς','εἰς','대격'), R('τὸν','남성','단수','대격'), N('οἶκόν','οἶκος','남성','단수','대격','뒤 전접어 μου 때문에 악센트 추가'), PP('μου','ἐγώ',1,'단수','속격'),
     X(',', true), C('ἀλλ’','ἀλλά',true,'', { ko:'그러나' }), PR('οὗτοι','οὗτος','남성','복수','주격','"이"', M_THIS('이 사람들')), R('οἱ','남성','복수','주격'),
     A('πονηροὶ','πονηρός','남성','복수','주격','관사 + 형용사 = "악한 자들"', { a:'악한', s:'악한 자들', use:'s' }), D('οὐκ','οὐ'),
-    V('ἐδέξαντο','δέχομαι','단순과거','디포넌트',3,'복수'), X('.') ]}
+    V('ἐδέξαντο','δέχομαι','단순과거','디포넌트',3,'복수'), X('.') ]},
+  { no:11, ko:'그 맹인들이 쳐다보았다(시력을 되찾았다).', toks:[
+    V('ἀνέβλεψαν','ἀναβλέπω','단순과거','능동',3,'복수','합성동사: ἀνα + ε → ἀνε, π + σ → ψ'), R('οἱ','남성','복수','주격'), N('τυφλοί','τυφλός','남성','복수','주격','주어'), X('.') ]},
+  { no:12, ko:'내가 너희를 구원하였으나, 너희는 나를 너희의 집들 안으로 받아들이지 않았다.', toks:[
+    V('ἔσωσα','σῴζω','단순과거','능동',1,'단수','σῴζω의 단순과거 ἔσωσα'), PP('ὑμᾶς','σύ',2,'복수','대격'), PP('ἐγώ','ἐγώ',1,'단수','주격','강조 (뒤의 ὑμεῖς와 대조)'),
+    X(',', true), PP('ὑμεῖς','σύ',2,'복수','주격','대조 강조'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }), PP('ἐμὲ','ἐγώ',1,'단수','대격','강조형 ἐμέ'),
+    D('οὐκ','οὐ'), V('ἐδέξασθε','δέχομαι','단순과거','디포넌트',2,'복수','단순과거 중간 형태 -σασθε, 뜻은 능동'),
+    P('εἰς','εἰς','대격'), R('τοὺς','남성','복수','대격'), N('οἴκους','οἶκος','남성','복수','대격'), PP('ὑμῶν','σύ',2,'복수','속격'), X('.') ]},
+  { no:13, ko:'그들 자신이 악하였고, 그들은 어떤 악한 자들을 그 교회 안으로 보냈다.', toks:[
+    A('πονηροὶ','πονηρός','남성','복수','주격','서술적 용법 (εἰμί의 보어)', { a:'악한 (꾸밈)', p:'악하다 (서술)', s:'악한 자들', use:'p' }),
+    V('ἦσαν','εἰμί','미완료',null,3,'복수','εἰμί 미완료 (§114)'),
+    PR('αὐτοί','αὐτός','남성','복수','주격','관사+명사 사이가 아님 → 강조 "그들 자신이"', { a:'그들 자신이 (강조)', s:'그들', use:'a', alt:['그들이'] }),
+    X(',', true), A('πονηροὺς','πονηρός','남성','복수','대격','관사 없이 명사처럼 → "어떤 악한 자들을"', { a:'악한', s:'어떤 악한 자들', use:'s' }),
+    C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }), V('ἔπεμψαν','πέμπω','단순과거','능동',3,'복수','π + σ → ψ'),
+    P('εἰς','εἰς','대격'), R('τὴν','여성','단수','대격'), N('ἐκκλησίαν','ἐκκλησία','여성','단수','대격'), X('.') ]},
+  { no:14, ko:'너는 나를 그 성전에서 가르쳤다.', toks:[
+    V('ἐδίδαξάς','διδάσκω','단순과거','능동',2,'단수','σκ + σ → ξ. 뒤 전접어 με 때문에 악센트 추가'), PP('με','ἐγώ',1,'단수','대격','전접어형'),
+    P('ἐν','ἐν','여격'), R('τῷ','중성','단수','여격'), N('ἱερῷ','ἱερόν','중성','단수','여격'), X('.') ]},
+  { no:15, ko:'그때에 우리는 이 계명들을 들었고, 다른 것들은 그 교회에서 들을 것이다.', toks:[
+    D('τότε','τότε'), V('ἠκούσαμεν','ἀκούω','단순과거','능동',1,'복수','모음 α → η 접두모음'),
+    PR('ταύτας','οὗτος','여성','복수','대격','"이"', M_THIS('이 여자들')), R('τὰς','여성','복수','대격'), N('ἐντολάς','ἐντολή','여성','복수','대격','목적어'),
+    X(',', true), A('ἄλλας','ἄλλος','여성','복수','대격','명사 없이 "다른 것들(계명들)을"', { a:'다른', s:'다른 것들', use:'s', thing:1 }),
+    C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }), V('ἀκούσομεν','ἀκούω','미래','능동',1,'복수','접두모음 없음 + σ → 미래'),
+    P('ἐν','ἐν','여격'), R('τῇ','여성','단수','여격'), N('ἐκκλησίᾳ','ἐκκλησία','여성','단수','여격'), X('.') ]},
+  { no:16, ko:'저 시간에 그들은 그 세상에서 나갈 것이지만, 그때에는 그들이 우리를 받아들였다.', toks:[
+    P('ἐν','ἐν','여격'), PR('ἐκείνῃ','ἐκεῖνος','여성','단수','여격','"저"', M_THAT('저 여자')), R('τῇ','여성','단수','여격'), N('ὥρᾳ','ὥρα','여성','단수','여격'),
+    V('ἐξελεύσονται','ἐξέρχομαι','미래','디포넌트',3,'복수','ἐξέρχομαι의 미래 (ἔρχομαι → ἐλεύσομαι)'), P('ἐκ','ἐκ','속격'), R('τοῦ','남성','단수','속격'), N('κόσμου','κόσμος','남성','단수','속격'),
+    X(',', true), D('τότε','τότε'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }), V('ἐδέξαντο','δέχομαι','단순과거','디포넌트',3,'복수'), PP('ἡμᾶς','ἐγώ',1,'복수','대격'), X('.') ]},
+  { no:17, ko:'그들은 그의 말을 들었고 놀랐다.', toks:[
+    V('ἤκουσαν','ἀκούω','단순과거','능동',3,'복수','ἀκούω는 속격 목적어를 취함 (§111)'),
+    PR('αὐτοῦ','αὐτός','남성','단수','속격','ἀκούω의 속격 목적어 → "그를 (그의 말을)"', { s:'그', ko:'그를 (그의 말을)' }),
+    C('καὶ','καί',true, NOTE_KAI_LINK + ' (동사-동사)', K_AND), V('ἐθαύμασαν','θαυμάζω','단순과거','능동',3,'복수','ζ는 σ 앞에서 떨어짐'), X('.') ]},
+  { no:18, ko:'너는 그 복음을 받았으나, 이 사람들은 그것을 받지 않을 것이다.', toks:[
+    V('ἐδέξω','δέχομαι','단순과거','디포넌트',2,'단수','단순과거 중간 2인칭 단수: ἐδέξασο → ἐδέξω (§160)'), PP('σὺ','σύ',2,'단수','주격','강조'),
+    R('τὸ','중성','단수','대격'), N('εὐαγγέλιον','εὐαγγέλιον','중성','단수','대격','목적어'),
+    X(',', true), PR('οὗτοι','οὗτος','남성','복수','주격','명사 없이 "이 사람들"', { a:'이', s:'이 사람들', use:'s' }), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }),
+    D('οὐ','οὐ'), V('δέξονται','δέχομαι','미래','디포넌트',3,'복수','χ + σ → ξ, 접두모음 없음 → 미래'), PR('αὐτό','αὐτός','중성','단수','대격','εὐαγγέλιον을 가리킴 "그것을"', M_IT), X('.') ]},
+  { no:19, ko:'우리는 주를 듣지도 않았고, 그를 믿지도 않았다.', toks:[
+    C('οὐδὲ','οὐδέ',false,'οὐδέ … οὐδέ = "~도 ~도 아니" (§137)', U_PAIR), V('ἠκούσαμεν','ἀκούω','단순과거','능동',1,'복수'),
+    R('τὸν','남성','단수','대격'), N('κύριον','κύριος','남성','단수','대격','목적어'),
+    C('οὐδὲ','οὐδέ',true,'두 번째 οὐδέ — 절과 절을 묶음', U_PAIR), V('ἐπιστεύσαμεν','πιστεύω','단순과거','능동',1,'복수'),
+    P('εἰς','εἰς','대격','πιστεύω εἰς + 대격 = "~를 믿다"', { ko:'~를 (πιστεύω εἰς)' }), PR('αὐτόν','αὐτός','남성','단수','대격','"그를"', M_HE), X('.') ]}
+];
+LS_EX[15] = [
+  { no:1, ko:'우리는 주를 보기도 하였고, 그의 말씀들을 듣기도 하였다.', toks:[
+    C('καὶ','καί',false,'καί … καί = "~하기도 하고 ~하기도" (§137)', K_PAIR), V('εἴδομεν','βλέπω','단순과거','능동',1,'복수','εἶδον — βλέπω(ὁράω)의 제2단순과거 (§165)'),
+    R('τὸν','남성','단수','대격'), N('κύριον','κύριος','남성','단수','대격','목적어'),
+    C('καὶ','καί',true,'두 번째 καί — 절과 절을 묶음', K_PAIR), V('ἠκούσαμεν','ἀκούω','단순과거','능동',1,'복수','제1단순과거 (σα)'),
+    R('τοὺς','남성','복수','대격'), N('λόγους','λόγος','남성','복수','대격','목적어'), PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"', M_HE), X('.') ]},
+  { no:2, ko:'왜냐하면 너는 그들의 집들 안으로 들어가지도 않았고, 그들에게 한 비유를 말하지도 않았기 때문이다.', toks:[
+    C('οὐδὲ','οὐδέ',false,'οὐδέ … οὐδέ = "~도 ~도 아니" (§137)', U_PAIR), C('γὰρ','γάρ',false,'후치사: 절의 둘째 자리 (§86). 앞 문장의 이유', { ko:'왜냐하면 (이유)' }),
+    V('εἰσῆλθες','εἰσέρχομαι','단순과거','능동',2,'단수','εἰς + ἦλθον. 현재는 디포넌트지만 제2단순과거는 능동형'),
+    P('εἰς','εἰς','대격'), R('τοὺς','남성','복수','대격'), N('οἴκους','οἶκος','남성','복수','대격'), PR('αὐτῶν','αὐτός','남성','복수','속격','"그들의"', M_THEY),
+    C('οὐδὲ','οὐδέ',true,'두 번째 οὐδέ — 절과 절을 묶음', U_PAIR), V('εἶπες','λέγω','단순과거','능동',2,'단수','εἶπον — λέγω의 제2단순과거 (§165)'),
+    PR('αὐτοῖς','αὐτός','남성','복수','여격','"그들에게"', M_THEY), N('παραβολήν','παραβολή','여성','단수','대격','목적어'), X('.') ]},
+  { no:3, ko:'저 시간에 그들은 주의 어떤 제자들이 되었다.', toks:[
+    P('ἐν','ἐν','여격'), PR('ἐκείνῃ','ἐκεῖνος','여성','단수','여격','"저"', M_THAT('저 여자')), R('τῇ','여성','단수','여격'), N('ὥρᾳ','ὥρα','여성','단수','여격'),
+    V('ἐγένοντο','γίνομαι','단순과거','디포넌트',3,'복수','ἐγενόμην — γίνομαι의 제2단순과거 (중간태 형태, 디포)'),
+    N('μαθηταὶ','μαθητής','남성','복수','주격','γίνομαι의 주격 보어'), R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'), X('.') ]},
+  { no:4, ko:'이 사람들은 어떤 선한 제자들이 되었으나, 저 사람들은 아직 악하였다.', toks:[
+    PR('οὗτοι','οὗτος','남성','복수','주격','명사 없이 "이 사람들"', { a:'이', s:'이 사람들', use:'s' }), C('μὲν','μέν',false,'μέν … δέ 대조', { ko:'한편으로는 (μέν…δέ)' }),
+    V('ἐγένοντο','γίνομαι','단순과거','디포넌트',3,'복수'), N('μαθηταὶ','μαθητής','남성','복수','주격','γίνομαι의 주격 보어'),
+    A('ἀγαθοί','ἀγαθός','남성','복수','주격','명사 뒤에서 꾸밈', { a:'선한', s:'선한 자들', use:'a' }),
+    X(',', true), PR('ἐκεῖνοι','ἐκεῖνος','남성','복수','주격','명사 없이 "저 사람들"', { a:'저', s:'저 사람들', use:'s' }), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }),
+    D('ἔτι','ἔτι'), V('ἦσαν','εἰμί','미완료',null,3,'복수'),
+    A('πονηροί','πονηρός','남성','복수','주격','서술적 용법 (εἰμί의 보어)', { a:'악한 (꾸밈)', p:'악하다 (서술)', s:'악한 자들', use:'p' }), X('.') ]},
+  { no:5, ko:'그들이 그 맹인들을 그에게 데려가고 있었다.', toks:[
+    V('προσέφερον','προσφέρω','미완료','능동',3,'복수','미완료 1인칭 단수와 같은 형태(§121) — 여기서는 3인칭 복수로 읽음. πρός + ε'),
+    PR('αὐτῷ','αὐτός','남성','단수','여격','받는 이 → 여격 "그에게"', M_HE), R('τοὺς','남성','복수','대격'), N('τυφλούς','τυφλός','남성','복수','대격','데려가는 대상 → 대격'), X('.') ]},
+  { no:6, ko:'그 악한 천사들이 하늘에서 떨어졌다.', toks:[
+    V('ἔπεσον','πίπτω','단순과거','능동',3,'복수','ἔπεσον — πίπτω의 제2단순과거. 1인칭 단수와 같은 모양 → 주어 οἱ ἄγγελοι로 3인칭 복수'),
+    P('ἐκ','ἐκ','속격'), R('τοῦ','남성','단수','속격'), N('οὐρανοῦ','οὐρανός','남성','단수','속격'),
+    R('οἱ','남성','복수','주격'), N('ἄγγελοι','ἄγγελος','남성','복수','주격','주어'), R('οἱ','남성','복수','주격'),
+    A('πονηροί','πονηρός','남성','복수','주격','관사를 다시 붙인 한정적 용법', { a:'악한', s:'악한 자들', use:'a' }), X('.') ]},
+  { no:7, ko:'너희는 그 귀신들은 쫓아냈고, 그 아이들은 고쳤다.', toks:[
+    R('τὰ','중성','복수','대격'), C('μὲν','μέν',false,'μέν … δέ 대조 ("~은 …, ~은 …")', { ko:'한편으로는 (μέν…δέ)' }), N('δαιμόνια','δαιμόνιον','중성','복수','대격','목적어'),
+    V('ἐξεβάλετε','ἐκβάλλω','단순과거','능동',2,'복수','ἐκ + ἔβαλον → ἐξέβαλον (제2단순과거)'),
+    X(',', true), R('τὰ','중성','복수','대격'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }), N('τέκνα','τέκνον','중성','복수','대격','목적어'),
+    V('ἐθεραπεύσατε','θεραπεύω','단순과거','능동',2,'복수','제1단순과거 (σα)'), X('.') ]},
+  { no:8, ko:'너희는 그 악한 자들을 너희의 집들 안으로 모았고, 우리는 그 선한 자들을 (모았다).', cl:2, toks:[
+    R('τοὺς','남성','복수','대격'), C('μὲν','μέν',false,'μέν … δέ 대조', { ko:'한편으로는 (μέν…δέ)' }),
+    A('πονηροὺς','πονηρός','남성','복수','대격','관사 + 형용사 = "악한 자들"', { a:'악한', s:'악한 자들', use:'s' }),
+    V('συνηγάγετε','συνάγω','단순과거','능동',2,'복수','συνάγω의 제2단순과거 συνήγαγον (ἄγω → ἤγαγον)'), PP('ὑμεῖς','σύ',2,'복수','주격','대조 강조'),
+    P('εἰς','εἰς','대격'), R('τοὺς','남성','복수','대격'), N('οἴκους','οἶκος','남성','복수','대격'), PP('ὑμῶν','σύ',2,'복수','속격'),
+    X(',', true), R('τοὺς','남성','복수','대격'), C('δὲ','δέ',true,'동사 συνηγάγομεν이 생략됨', { ko:'그러나, 그리고' }),
+    A('ἀγαθοὺς','ἀγαθός','남성','복수','대격','관사 + 형용사 = "선한 자들"', { a:'선한', s:'선한 자들', use:'s' }), PP('ἡμεῖς','ἐγώ',1,'복수','주격','대조 강조'), X('.') ]},
+  { no:9, ko:'너는 그 교회에서 그 복음을 선포하지 않았다. 왜냐하면 너는 한 제자도 되지 않았기 때문이다.', toks:[
+    D('οὐκ','οὐ'), V('ἐκήρυξας','κηρύσσω','단순과거','능동',2,'단수','σσ + σ → ξ (제1단순과거)'), R('τὸ','중성','단수','대격'), N('εὐαγγέλιον','εὐαγγέλιον','중성','단수','대격','목적어'),
+    P('ἐν','ἐν','여격'), R('τῇ','여성','단수','여격'), N('ἐκκλησίᾳ','ἐκκλησία','여성','단수','여격'),
+    X(',', true), C('οὐδὲ','οὐδέ',true,'앞에 οὐ가 있고 절과 절을 이음 → 보통 용법 (§136)', { ko:'그리고 … 아니, 또 … 아니', alt:['~도 아니'] }),
+    C('γὰρ','γάρ',true,'후치사: 절의 둘째 자리 (§86)', { ko:'왜냐하면 (이유)' }),
+    V('ἐγένου','γίνομαι','단순과거','디포넌트',2,'단수','제2단순과거 중간 2인칭 단수: ἐγένεσο → ἐγένου (§171)'), N('μαθητής','μαθητής','남성','단수','주격','γίνομαι의 주격 보어'), X('.') ]},
+  { no:10, ko:'지금 너희는 어떤 선한 말들을 하지만, 이 사람들도 저 날들에 바로 그 말들을 하였다.', toks:[
+    D('νῦν','νῦν'), C('μὲν','μέν',false,'μέν … δέ 대조', { ko:'한편으로는 (μέν…δέ)' }), V('λέγετε','λέγω','현재','능동',2,'복수'),
+    N('λόγους','λόγος','남성','복수','대격','목적어'), A('ἀγαθούς','ἀγαθός','남성','복수','대격','명사 뒤에서 꾸밈', { a:'선한', s:'선한 것들', use:'a' }),
+    X(',', true), V('εἶπον','λέγω','단순과거','능동',3,'복수','εἶπον — 1인칭 단수와 같은 모양, 주어 οὗτοι → 3인칭 복수'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }),
+    PR('οὗτοι','οὗτος','남성','복수','주격','명사 없이 "이 사람들"', { a:'이', s:'이 사람들', use:'s' }), R('τοὺς','남성','복수','대격'),
+    PR('αὐτοὺς','αὐτός','남성','복수','대격','관사와 명사 사이 → "바로 그 (the same)"', { a:'바로 그 (the same)', s:'그들', use:'a' }), N('λόγους','λόγος','남성','복수','대격','목적어'),
+    C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "저 날들에도"', K_ALSO), P('ἐν','ἐν','여격'), R('ταῖς','여성','복수','여격'), N('ἡμέραις','ἡμέρα','여성','복수','여격'),
+    PR('ἐκείναις','ἐκεῖνος','여성','복수','여격','관사+명사 뒤의 지시대명사 "저"', M_THAT('저 여자들')), X('.') ]},
+  { no:11, ko:'우리는 주를 믿었다. 왜냐하면 그 제자들이 우리를 그에게로 인도하였기 때문이다.', toks:[
+    V('ἐπιστεύσαμεν','πιστεύω','단순과거','능동',1,'복수'), P('εἰς','εἰς','대격','πιστεύω εἰς + 대격 = "~를 믿다"', { ko:'~를 (πιστεύω εἰς)' }),
+    R('τὸν','남성','단수','대격'), N('κύριον','κύριος','남성','단수','대격'),
+    X(',', true), R('οἱ','남성','복수','주격'), C('γὰρ','γάρ',true,'후치사: 관사와 명사 사이, 절의 둘째 자리 (§86)', { ko:'왜냐하면 (이유)' }), N('μαθηταὶ','μαθητής','남성','복수','주격','주어'),
+    V('ἤγαγον','ἄγω','단순과거','능동',3,'복수','ἤγαγον — ἄγω의 제2단순과거. 주어 οἱ μαθηταί → 3인칭 복수'), PP('ἡμᾶς','ἐγώ',1,'복수','대격'),
+    P('πρὸς','πρός','대격'), PR('αὐτόν','αὐτός','남성','단수','대격','"그"', M_HE), X('.') ]},
+  { no:12, ko:'이것들은 내가 그 성전에서 너희에게 말하였으나, 저것들은 아직 말하지 않는다.', toks:[
+    PR('ταῦτα','οὗτος','중성','복수','대격','"이것들을"', { s:'이것들', thing:1 }), C('μὲν','μέν',false,'μέν … δέ 대조', { ko:'한편으로는 (μέν…δέ)' }),
+    V('εἶπον','λέγω','단순과거','능동',1,'단수','εἶπον — 뒤 절의 λέγω(1단)와 같은 주어 → 1인칭 단수'), PP('ὑμῖν','σύ',2,'복수','여격','"너희에게"'),
+    P('ἐν','ἐν','여격'), R('τῷ','중성','단수','여격'), N('ἱερῷ','ἱερόν','중성','단수','여격'),
+    X(',', true), PR('ἐκεῖνα','ἐκεῖνος','중성','복수','대격','"저것들을"', { s:'저것들', thing:1 }), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }),
+    D('οὔπω','οὔπω'), V('λέγω','λέγω','현재','능동',1,'단수'), X('.') ]},
+  { no:13, ko:'그때에 너희는 그 교회 안으로 들어갔고, 저 날에는 그 하늘 안으로 들어갈 것이다.', toks:[
+    D('τότε','τότε'), C('μὲν','μέν',false,'μέν … δέ 대조', { ko:'한편으로는 (μέν…δέ)' }),
+    V('εἰσήλθετε','εἰσέρχομαι','단순과거','능동',2,'복수','εἰς + ἤλθετε (제2단순과거 능동형)'), P('εἰς','εἰς','대격'), R('τὴν','여성','단수','대격'), N('ἐκκλησίαν','ἐκκλησία','여성','단수','대격'),
+    X(',', true), P('ἐν','ἐν','여격'), PR('ἐκείνῃ','ἐκεῖνος','여성','단수','여격','"저"', M_THAT('저 여자')), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }),
+    R('τῇ','여성','단수','여격'), N('ἡμέρᾳ','ἡμέρα','여성','단수','여격'),
+    V('εἰσελεύσεσθε','εἰσέρχομαι','미래','디포넌트',2,'복수','εἰσέρχομαι의 미래 (ἔρχομαι → ἐλεύσομαι)'), P('εἰς','εἰς','대격'), R('τὸν','남성','단수','대격'), N('οὐρανόν','οὐρανός','남성','단수','대격'), X('.') ]},
+  { no:14, ko:'그때에 우리는 그의 영광 가운데서 주를 볼 것이다. 왜냐하면 우리가 그를 믿었기 때문이다.', toks:[
+    D('τότε','τότε'), V('ὀψόμεθα','βλέπω','미래','디포넌트',1,'복수','ὄψομαι — βλέπω(ὁράω)의 미래, 디포 (§165)'),
+    R('τὸν','남성','단수','대격'), N('κύριον','κύριος','남성','단수','대격','목적어'), P('ἐν','ἐν','여격'), R('τῇ','여성','단수','여격'), N('δόξῃ','δόξα','여성','단수','여격'),
+    PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"', M_HE), X('·', true), V('ἐπιστεύσαμεν','πιστεύω','단순과거','능동',1,'복수'),
+    C('γὰρ','γάρ',true,'후치사: 절의 둘째 자리 (§86)', { ko:'왜냐하면 (이유)' }), P('εἰς','εἰς','대격','πιστεύω εἰς + 대격 = "~를 믿다"', { ko:'~를 (πιστεύω εἰς)' }),
+    PR('αὐτόν','αὐτός','남성','단수','대격','"그를"', M_HE), X('.') ]},
+  { no:15, ko:'주는 그때에 그 세상에서 나갔으나, 그의 제자들은 아직 그것(세상) 안에 머문다.', toks:[
+    R('ὁ','남성','단수','주격'), C('μὲν','μέν',false,'μέν … δέ 대조', { ko:'한편으로는 (μέν…δέ)' }), N('κύριος','κύριος','남성','단수','주격','주어'),
+    V('ἐξῆλθε','ἐξέρχομαι','단순과거','능동',3,'단수','ἐκ + ἦλθε → ἐξῆλθε (제2단순과거 능동형)'), D('τότε','τότε'),
+    P('ἐκ','ἐκ','속격'), R('τοῦ','남성','단수','속격'), N('κόσμου','κόσμος','남성','단수','속격'),
+    X(',', true), R('οἱ','남성','복수','주격'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }), N('μαθηταὶ','μαθητής','남성','복수','주격','주어'),
+    PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"', M_HE), D('ἔτι','ἔτι'), V('μένουσιν','μένω','현재','능동',3,'복수'),
+    P('ἐν','ἐν','여격'), PR('αὐτῷ','αὐτός','남성','단수','여격','남성 κόσμος를 가리킴 → "그것"', { s:'그것', thing:1 }), X('.') ]},
+  { no:16, ko:'이 계명들을 나는 주로부터 취하였다(받았다). 왜냐하면 나는 그의 한 제자였기 때문이다.', toks:[
+    PR('ταύτας','οὗτος','여성','복수','대격','"이"', M_THIS('이 여자들')), R('τὰς','여성','복수','대격'), N('ἐντολὰς','ἐντολή','여성','복수','대격','목적어'),
+    V('ἔλαβον','λαμβάνω','단순과거','능동',1,'단수','ἔλαβον — λαμβάνω의 제2단순과거. 뒤 ἤμην(1단)과 같은 주어 → 1인칭 단수'),
+    P('ἀπὸ','ἀπό','속격'), R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'),
+    X(',', true), V('ἤμην','εἰμί','미완료',null,1,'단수','εἰμί 미완료 (§114)'), C('γὰρ','γάρ',true,'후치사: 절의 둘째 자리 (§86)', { ko:'왜냐하면 (이유)' }),
+    N('μαθητὴς','μαθητής','남성','단수','주격','εἰμί의 보어 → 주격'), PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"', M_HE), X('.') ]},
+  { no:17, ko:'그때에 너희는 주로부터 그 약속을 받았고, 지금은 그것을 그 세상에서 선포하기도 한다.', toks:[
+    D('τότε','τότε'), C('μὲν','μέν',false,'μέν … δέ 대조', { ko:'한편으로는 (μέν…δέ)' }),
+    V('παρελάβετε','παραλαμβάνω','단순과거','능동',2,'복수','παρά + ἔλαβον → παρέλαβον (제2단순과거)'), R('τὴν','여성','단수','대격'), N('ἐπαγγελίαν','ἐπαγγελία','여성','단수','대격','목적어'),
+    P('παρὰ','παρά','속격'), R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'),
+    X(',', true), D('νῦν','νῦν'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }), C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "선포하기도"', K_ALSO),
+    V('κηρύσσετε','κηρύσσω','현재','능동',2,'복수'), PR('αὐτὴν','αὐτός','여성','단수','대격','여성 ἐπαγγελία를 가리킴 → "그것을"', { s:'그것', thing:1 }),
+    P('ἐν','ἐν','여격'), R('τῷ','남성','단수','여격'), N('κόσμῳ','κόσμος','남성','단수','여격'), X('.') ]},
+  { no:18, ko:'너희는 주에게로 왔고, 그로부터 이것들을 받았다.', toks:[
+    V('ἤλθετε','ἔρχομαι','단순과거','능동',2,'복수','ἦλθον — ἔρχομαι의 제2단순과거 (능동형)'), P('πρὸς','πρός','대격'), R('τὸν','남성','단수','대격'), N('κύριον','κύριος','남성','단수','대격'),
+    C('καὶ','καί',true, NOTE_KAI_LINK, K_AND), V('παρελάβετε','παραλαμβάνω','단순과거','능동',2,'복수'),
+    P('παρ’','παρά','속격','모음 앞에서 끝 모음 α가 떨어짐'), PR('αὐτοῦ','αὐτός','남성','단수','속격','"그"', M_HE),
+    PR('ταῦτα','οὗτος','중성','복수','대격','"이것들을"', { s:'이것들', thing:1 }), X('.') ]},
+  { no:19, ko:'그 자신이 우리를 그의 교회 안으로 모았다.', toks:[
+    V('συνήγαγεν','συνάγω','단순과거','능동',3,'단수','συνάγω의 제2단순과거 συνήγαγον'), PP('ἡμᾶς','ἐγώ',1,'복수','대격'),
+    PR('αὐτὸς','αὐτός','남성','단수','주격','관사+명사 사이가 아님 → 강조 "그 자신이"', { a:'그 자신이 (강조)', s:'그', use:'a', alt:['그가'] }),
+    P('εἰς','εἰς','대격'), R('τὴν','여성','단수','대격'), N('ἐκκλησίαν','ἐκκλησία','여성','단수','대격'), PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"', M_HE), X('.') ]},
+  { no:20, ko:'그 사람들이 하나님의 아들을 보았다. 왜냐하면 그 자신이 한 사람이 되었고, 이 세상에 머물고 있었기 때문이다.', toks:[
+    V('εἶδον','βλέπω','단순과거','능동',3,'복수','εἶδον — 주어 οἱ ἄνθρωποι → 3인칭 복수'), R('οἱ','남성','복수','주격'), N('ἄνθρωποι','ἄνθρωπος','남성','복수','주격','주어'),
+    R('τὸν','남성','단수','대격'), N('υἱὸν','υἱός','남성','단수','대격','목적어'), R('τοῦ','남성','단수','속격'), N('θεοῦ','θεός','남성','단수','속격'),
+    X('·', true), V('ἐγένετο','γίνομαι','단순과거','디포넌트',3,'단수','ἐγενόμην의 3인칭 단수'), C('γὰρ','γάρ',true,'후치사: 절의 둘째 자리 (§86)', { ko:'왜냐하면 (이유)' }),
+    PR('αὐτὸς','αὐτός','남성','단수','주격','관사+명사 사이가 아님 → 강조 "그 자신이"', { a:'그 자신이 (강조)', s:'그', use:'a', alt:['그가'] }),
+    N('ἄνθρωπος','ἄνθρωπος','남성','단수','주격','γίνομαι의 주격 보어'), C('καὶ','καί',true, NOTE_KAI_LINK, K_AND),
+    V('ἔμενεν','μένω','미완료','능동',3,'단수','미완료 — 계속된 과거'), P('ἐν','ἐν','여격'), PR('τούτῳ','οὗτος','남성','단수','여격','"이"', M_THIS('이 사람')),
+    R('τῷ','남성','단수','여격'), N('κόσμῳ','κόσμος','남성','단수','여격'), X('.') ]}
+];
+LS_EX[16] = [
+  { no:1, ko:'우리는 주를 믿었고, 그로 말미암아 알려졌다.', toks:[
+    V('ἐπιστεύσαμεν','πιστεύω','단순과거','능동',1,'복수'), P('εἰς','εἰς','대격','πιστεύω εἰς + 대격 = "~를 믿다"', { ko:'~를 (πιστεύω εἰς)' }),
+    R('τὸν','남성','단수','대격'), N('κύριον','κύριος','남성','단수','대격'), C('καὶ','καί',true, NOTE_KAI_LINK, K_AND),
+    V('ἐγνώσθημεν','γινώσκω','단순과거','수동',1,'복수','γινώσκω의 단순과거 수동 ἐγνώσθην (§174) + 어미 -μεν'),
+    P('ὑπ’','ὑπό','속격','수동 + ὑπό + 속격 = 행위자 (§106). 모음 앞에서 ὑπ’'), PR('αὐτοῦ','αὐτός','남성','단수','속격','"그"', M_HE), X('.') ]},
+  { no:2, ko:'이것들이 그 책들에 기록되었다.', toks:[
+    PR('ταῦτα','οὗτος','중성','복수','주격','주어 "이것들이"', { s:'이것들', thing:1 }),
+    V('ἐγράφη','γράφω','단순과거','수동',3,'단수','단순과거 제2수동 ἐγράφην (θ 없음, §181). 중성 복수 주어 → 단수 동사'),
+    P('ἐν','ἐν','여격'), R('τοῖς','중성','복수','여격'), N('βιβλίοις','βιβλίον','중성','복수','여격'), X('.') ]},
+  { no:3, ko:'너희는 그 아이들을 가르쳤고, 너희 자신도 주로 말미암아 가르침을 받았다.', toks:[
+    V('ἐδιδάξατε','διδάσκω','단순과거','능동',2,'복수','σκ + σ → ξ (제1단순과거)'), R('τὰ','중성','복수','대격'), N('τέκνα','τέκνον','중성','복수','대격','목적어'),
+    X(',', true), V('ἐδιδάχθητε','διδάσκω','단순과거','수동',2,'복수','σκ + θ → χθ (§179), 단순과거 수동'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }),
+    C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "너희 자신도"', K_ALSO),
+    PR('αὐτοὶ','αὐτός','남성','복수','주격','관사+명사 사이가 아님 → 강조 "너희 자신"', { a:'자신이 (강조)', s:'너희 자신', use:'a', alt:['너희 자신이'] }),
+    P('ὑπὸ','ὑπό','속격'), R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'), X('.') ]},
+  { no:4, ko:'그 신실한 자들은 그 하늘 안으로 취해졌고, 그 악한 천사들은 그것(하늘)에서 쫓겨났다.', toks:[
+    V('ἐλήμφθησαν','λαμβάνω','단순과거','수동',3,'복수','λαμβάνω의 단순과거 수동 ἐλήμφθην (§174)'), R('οἱ','남성','복수','주격'),
+    A('πιστοὶ','πιστός','남성','복수','주격','관사 + 형용사 = "신실한 자들"', { a:'신실한', s:'신실한 자들', use:'s' }),
+    P('εἰς','εἰς','대격'), R('τὸν','남성','단수','대격'), N('οὐρανόν','οὐρανός','남성','단수','대격'),
+    X(',', true), V('ἐξεβλήθησαν','ἐκβάλλω','단순과거','수동',3,'복수','ἐκ + ἐβλήθην (βάλλω의 단순과거 수동)'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }),
+    P('ἐξ','ἐκ','속격','모음 앞에서 ἐξ'), PR('αὐτοῦ','αὐτός','남성','단수','속격','남성 οὐρανός를 가리킴 → "그것"', { s:'그것', thing:1 }),
+    R('οἱ','남성','복수','주격'), N('ἄγγελοι','ἄγγελος','남성','복수','주격','주어'), R('οἱ','남성','복수','주격'),
+    A('πονηροί','πονηρός','남성','복수','주격','관사를 다시 붙인 한정적 용법', { a:'악한', s:'악한 자들', use:'a' }), X('.') ]},
+  { no:5, ko:'그 죽은 자들이 주의 말씀으로 일으킴을 받을 것이다.', toks:[
+    V('ἐγερθήσονται','ἐγείρω','미래','수동',3,'복수','ἠγέρθην의 미래 수동 (θη + σ, 접두모음 없음 §178)'), R('οἱ','남성','복수','주격'),
+    A('νεκροὶ','νεκρός','남성','복수','주격','관사 + 형용사 = "죽은 자들"', { a:'죽은', s:'죽은 자들', use:'s' }),
+    R('τῷ','남성','단수','여격'), N('λόγῳ','λόγος','남성','단수','여격','전치사 없는 여격 = 수단 "말씀으로" (§107)', { ko:'말씀으로' }),
+    R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'), X('.') ]},
+  { no:6, ko:'이 맹인들이 그 교회 안으로 모였다.', toks:[
+    PR('οὗτοι','οὗτος','남성','복수','주격','"이"', M_THIS('이 사람들')), R('οἱ','남성','복수','주격'), N('τυφλοὶ','τυφλός','남성','복수','주격','주어'),
+    V('συνήχθησαν','συνάγω','단순과거','수동',3,'복수','σύν + ἤχθην (ἄγω의 단순과거 수동, γ + θ → χθ)'),
+    P('εἰς','εἰς','대격'), R('τὴν','여성','단수','대격'), N('ἐκκλησίαν','ἐκκλησία','여성','단수','대격'), X('.') ]},
+  { no:7, ko:'그 귀신들이 쫓겨났다. 왜냐하면 주가 그것들을 쫓아냈기 때문이다.', toks:[
+    V('ἐξεβλήθη','ἐκβάλλω','단순과거','수동',3,'단수','중성 복수 주어(τὰ δαιμόνια) → 단수 동사'), R('τὰ','중성','복수','주격'), N('δαιμόνια','δαιμόνιον','중성','복수','주격','주어'),
+    X('·', true), R('ὁ','남성','단수','주격'), C('γὰρ','γάρ',true,'후치사: 관사와 명사 사이, 절의 둘째 자리 (§86)', { ko:'왜냐하면 (이유)' }), N('κύριος','κύριος','남성','단수','주격','주어'),
+    V('ἐξέβαλεν','ἐκβάλλω','단순과거','능동',3,'단수','ἐκ + ἔβαλεν (제2단순과거 능동)'), PR('αὐτά','αὐτός','중성','복수','대격','δαιμόνια를 가리킴 "그것들을"', { s:'그것들', thing:1 }), X('.') ]},
+  { no:8, ko:'지금도 그 제자들이 보내지고, 그때에는 그 사도들이 보내졌으며, 저 날에는 그 천사들도 보내질 것이다.', toks:[
+    V('πέμπονται','πέμπω','현재','수동',3,'복수','현재 중간·수동 형태 — 문맥상 수동'), C('μὲν','μέν',false,'μέν … δέ 대조', { ko:'한편으로는 (μέν…δέ)' }),
+    C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "지금도"', K_ALSO), D('νῦν','νῦν'), R('οἱ','남성','복수','주격'), N('μαθηταί','μαθητής','남성','복수','주격','주어'),
+    X(',', true), V('ἐπέμφθησαν','πέμπω','단순과거','수동',3,'복수','π + θ → φθ (§179)'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }), D('τότε','τότε'),
+    R('οἱ','남성','복수','주격'), N('ἀπόστολοι','ἀπόστολος','남성','복수','주격','주어'),
+    C('καὶ','καί',true, NOTE_KAI_LINK, K_AND), V('πεμφθήσονται','πέμπω','미래','수동',3,'복수','πεμφθη + σ + ονται (미래 수동 §178)'),
+    P('ἐν','ἐν','여격'), PR('ἐκείνῃ','ἐκεῖνος','여성','단수','여격','"저"', M_THAT('저 여자')), R('τῇ','여성','단수','여격'), N('ἡμέρᾳ','ἡμέρα','여성','단수','여격'),
+    C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "천사들도"', K_ALSO), R('οἱ','남성','복수','주격'), N('ἄγγελοι','ἄγγελος','남성','복수','주격','주어'), X('.') ]},
+  { no:9, ko:'너는 그 교회 안으로 들어갔고, 세례를 받았다.', toks:[
+    V('εἰσῆλθες','εἰσέρχομαι','단순과거','능동',2,'단수','εἰς + ἦλθες (제2단순과거 능동형)'), P('εἰς','εἰς','대격'), R('τὴν','여성','단수','대격'), N('ἐκκλησίαν','ἐκκλησία','여성','단수','대격'),
+    C('καὶ','καί',true, NOTE_KAI_LINK + ' (동사-동사)', K_AND), V('ἐβαπτίσθης','βαπτίζω','단순과거','수동',2,'단수','βαπτίζω(βαπτιδ-) + θ → σθ (§179)'), X('.') ]},
+  { no:10, ko:'그는 한 세상에서 믿어졌고, 한 영광 가운데 들려 올라갔다.', toks:[
+    V('ἐπιστεύθη','πιστεύω','단순과거','수동',3,'단수','모음 어근 + θη'), P('ἐν','ἐν','여격'), N('κόσμῳ','κόσμος','남성','단수','여격'),
+    X(',', true), V('ἀνελήμφθη','ἀναλαμβάνω','단순과거','수동',3,'단수','ἀνά + ἐλήμφθην (λαμβάνω의 단순과거 수동)'), P('ἐν','ἐν','여격'), N('δόξῃ','δόξα','여성','단수','여격'), X('.') ]},
+  { no:11, ko:'그 죄인들은 저 시간에 구원받았고, 주의 어떤 제자들이 되었다.', toks:[
+    R('οἱ','남성','복수','주격'), N('ἁμαρτωλοὶ','ἁμαρτωλός','남성','복수','주격','주어'), V('ἐσώθησαν','σῴζω','단순과거','수동',3,'복수','σῴζω의 단순과거 수동 ἐσώθην'),
+    P('ἐν','ἐν','여격'), PR('ἐκείνῃ','ἐκεῖνος','여성','단수','여격','"저"', M_THAT('저 여자')), R('τῇ','여성','단수','여격'), N('ὥρᾳ','ὥρα','여성','단수','여격'),
+    C('καὶ','καί',true, NOTE_KAI_LINK, K_AND), V('ἐγενήθησαν','γίνομαι','단순과거','디포넌트',3,'복수','수동태 형태의 디포 ἐγενήθην — 뜻은 능동 "되었다" (§183)'),
+    N('μαθηταὶ','μαθητής','남성','복수','주격','γίνομαι의 주격 보어'), R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'), X('.') ]},
+  { no:12, ko:'우리는 다른 한 장소로 갔다. 왜냐하면 이 사람들이 우리를 받아들이지 않을 것이기 때문이다.', toks:[
+    V('ἐπορεύθημεν','πορεύομαι','단순과거','디포넌트',1,'복수','πορεύομαι의 단순과거 ἐπορεύθην (수동태 형태의 디포, §174)'),
+    P('εἰς','εἰς','대격'), A('ἕτερον','ἕτερος','남성','단수','대격','관사 없는 명사를 꾸밈', { a:'다른', s:'다른 것', use:'a' }), N('τόπον','τόπος','남성','단수','대격'),
+    X('·', true), D('οὐ','οὐ'), C('γὰρ','γάρ',true,'후치사: 절의 둘째 자리 (§86)', { ko:'왜냐하면 (이유)' }),
+    V('δέξονται','δέχομαι','미래','디포넌트',3,'복수'), PP('ἡμᾶς','ἐγώ',1,'복수','대격'),
+    PR('οὗτοι','οὗτος','남성','복수','주격','명사 없이 "이 사람들"', { a:'이', s:'이 사람들', use:'s' }), X('.') ]},
+  { no:13, ko:'하나님이 그 아들로 말미암아 영광을 받았고, 그(하나님)도 그(아들)에게 영광을 돌렸다.', toks:[
+    V('ἐδοξάσθη','δοξάζω','단순과거','수동',3,'단수','ζ(δ) + θ → σθ (§179)'), R('ὁ','남성','단수','주격'), N('θεὸς','θεός','남성','단수','주격','주어'),
+    P('ὑπὸ','ὑπό','속격','수동 + ὑπό + 속격 = 행위자 (§106)'), R('τοῦ','남성','단수','속격'), N('υἱοῦ','υἱός','남성','단수','속격'),
+    X(',', true), V('ἐδόξασε','δοξάζω','단순과거','능동',3,'단수','제1단순과거 능동 (σα → σε)'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }),
+    PR('αὐτόν','αὐτός','남성','단수','대격','아들을 가리킴 "그를"', M_HE), X('.') ]},
+  { no:14, ko:'그 복음은 저 날들에 선포되었고, 지금도 선포될 것이다.', toks:[
+    R('τὸ','중성','단수','주격'), N('εὐαγγέλιον','εὐαγγέλιον','중성','단수','주격','주어'), V('ἐκηρύχθη','κηρύσσω','단순과거','수동',3,'단수','κηρυκ- + θ → χθ (§179)'),
+    P('ἐν','ἐν','여격'), R('ταῖς','여성','복수','여격'), N('ἡμέραις','ἡμέρα','여성','복수','여격'), PR('ἐκείναις','ἐκεῖνος','여성','복수','여격','관사+명사 뒤의 지시대명사 "저"', M_THAT('저 여자들')),
+    X(',', true), V('κηρυχθήσεται','κηρύσσω','미래','수동',3,'단수','κηρυχθη + σ + εται (미래 수동)'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }),
+    C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "지금도"', K_ALSO), D('νῦν','νῦν'), X('.') ]},
+  { no:15, ko:'주의 약속에 따라 한 하늘에 한 장소가 우리를 위하여 준비될 것이다.', toks:[
+    V('ἑτοιμασθήσεται','ἑτοιμάζω','미래','수동',3,'단수','ζ + θ → σθ, 미래 수동'), PP('ἡμῖν','ἐγώ',1,'복수','여격','"우리에게, 우리를 위하여"'),
+    N('τόπος','τόπος','남성','단수','주격','주어'), P('ἐν','ἐν','여격'), N('οὐρανῷ','οὐρανός','남성','단수','여격'),
+    P('κατὰ','κατά','대격'), R('τὴν','여성','단수','대격'), N('ἐπαγγελίαν','ἐπαγγελία','여성','단수','대격'),
+    R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'), X('.') ]},
+  { no:16, ko:'그 아이들이 주에게 데려가졌다.', toks:[
+    R('τὰ','중성','복수','주격'), N('τέκνα','τέκνον','중성','복수','주격','주어'),
+    V('προσηνέχθησαν','προσφέρω','단순과거','수동',3,'복수','πρός + ἠνέχθην (φέρω의 단순과거 수동). 중성 복수 주어지만 사람이라 복수 동사'),
+    R('τῷ','남성','단수','여격'), N('κυρίῳ','κύριος','남성','단수','여격','데려가는 상대 → 여격 "~에게"'), X('.') ]},
+  { no:17, ko:'이 사람들은 주의 얼굴을 보았고, 그의 음성을 들었다.', toks:[
+    V('εἶδον','βλέπω','단순과거','능동',3,'복수','εἶδον — 주어 οὗτοι → 3인칭 복수'), PR('οὗτοι','οὗτος','남성','복수','주격','명사 없이 "이 사람들"', { a:'이', s:'이 사람들', use:'s' }),
+    R('τὸ','중성','단수','대격'), N('πρόσωπον','πρόσωπον','중성','단수','대격','목적어'), R('τοῦ','남성','단수','속격'), N('κυρίου','κύριος','남성','단수','속격'),
+    C('καὶ','καί',true, NOTE_KAI_LINK, K_AND), V('ἤκουσαν','ἀκούω','단순과거','능동',3,'복수','ἀκούω는 속격 목적어를 취함 (§111)'),
+    R('τῆς','여성','단수','속격'), N('φωνῆς','φωνή','여성','단수','속격','ἀκούω의 속격 목적어 → "음성을"', { ko:'음성을' }), PR('αὐτοῦ','αὐτός','남성','단수','속격','"그의"', M_HE), X('.') ]},
+  { no:18, ko:'그 작은 집에서 그 사도의 음성이 들릴 것이다.', toks:[
+    P('ἐν','ἐν','여격'), R('τῷ','남성','단수','여격'), A('μικρῷ','μικρός','남성','단수','여격','관사와 명사 사이 → 한정적 용법', { a:'작은', s:'작은 것', use:'a' }), N('οἴκῳ','οἶκος','남성','단수','여격'),
+    V('ἀκουσθήσεται','ἀκούω','미래','수동',3,'단수','ἠκούσθην의 미래 수동'), R('ἡ','여성','단수','주격'), N('φωνὴ','φωνή','여성','단수','주격','주어'),
+    R('τοῦ','남성','단수','속격'), N('ἀποστόλου','ἀπόστολος','남성','단수','속격'), X('.') ]},
+  { no:19, ko:'나는 그 죄인들의 첫째(괴수)이지만, 나도 구원받았다.', toks:[
+    A('πρῶτός','πρῶτος','남성','단수','주격','εἰμί의 보어. 뒤 전접어 εἰμι 때문에 악센트 추가', { a:'첫째의', s:'첫째', use:'s' }),
+    V('εἰμι','εἰμί','현재',null,1,'단수','전접어'), R('τῶν','남성','복수','속격'), N('ἁμαρτωλῶν','ἁμαρτωλός','남성','복수','속격'),
+    X(',', true), V('ἐσώθην','σῴζω','단순과거','수동',1,'단수'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }),
+    C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "나도"', K_ALSO), PP('ἐγώ','ἐγώ',1,'단수','주격','강조'), X('.') ]},
+  { no:20, ko:'우리는 그 천사들을 볼 것이고, 그들로 말미암아 보이기도 할 것이다.', toks:[
+    V('ὀψόμεθα','βλέπω','미래','디포넌트',1,'복수','ὄψομαι — βλέπω(ὁράω)의 미래, 디포'), C('μὲν','μέν',false,'μέν … δέ 대조', { ko:'한편으로는 (μέν…δέ)' }),
+    R('τοὺς','남성','복수','대격'), N('ἀγγέλους','ἄγγελος','남성','복수','대격','목적어'),
+    X(',', true), V('ὀφθησόμεθα','βλέπω','미래','수동',1,'복수','ὤφθην(βλέπω·ὁράω의 단순과거 수동)의 미래 수동 — 접두모음 없음'), C('δὲ','δέ',true,'', { ko:'그러나, 그리고' }),
+    C('καὶ','καί',false, NOTE_KAI_EMPH + ' — "그들로 말미암아서도"', K_ALSO), P('ὑπ’','ὑπό','속격','수동 + ὑπό + 속격 = 행위자'), PR('αὐτῶν','αὐτός','남성','복수','속격','"그들"', M_THEY), X('.') ]}
 ];
 
 // ── 익힘 문제 단어 뜻(해석): 격·인칭·시제·태에 맞는 뜻 고르기 ──
@@ -5506,19 +5899,20 @@ const LS_NOUN_KO = { 'ὁδός':['길',1], 'δοῦλος':['종'], 'δῶρο�
   'ἁμαρτία':['죄',1], 'βασιλεία':['나라',1], 'εἰρήνη':['평화',1], 'ἡμέρα':['날',1], 'ἄρτος':['떡',1], 'ἱερόν':['성전',1],
   'ἄνθρωπος':['사람'], 'ἄγγελος':['천사'], 'κόσμος':['세상',1], 'βιβλίον':['책',1], 'θάλασσα':['바다',1], 'δόξα':['영광',1],
   'ἔργον':['일',1], 'πλοῖον':['배',1], 'δαιμόνιον':['귀신'], 'χαρά':['기쁨',1], 'ὥρα':['시간',1], 'υἱός':['아들'], 'οὐρανός':['하늘',1],
-  'τόπος':['장소',1] };
+  'τόπος':['장소',1], 'τυφλός':['맹인'], 'γραφή':['글',1], 'ἐντολή':['계명',1], 'εὐαγγέλιον':['복음',1], 'ἐπαγγελία':['약속',1], 'πρόσωπον':['얼굴',1] };
 const LS_PREP_KO = { 'ὑπό속격':'~로 말미암아', 'ὑπό대격':'~ 밑에', 'ἐκ속격':'~에서 (밖으로)', 'ἀπό속격':'~에서, ~로부터', 'πρός대격':'~에게로, ~을 향하여',
   'εἰς대격':'~ 안으로', 'ἐν여격':'~ 안에(서)', 'μετά속격':'~와 함께', 'μετά대격':'~ 후에', 'σύν여격':'~와 함께', 'παρά속격':'~으로부터',
   'παρά여격':'~ 곁에', 'παρά대격':'~과 곁따라', 'διά속격':'~을 통하여', 'διά대격':'~ 때문에', 'περί속격':'~에 대하여', 'περί대격':'~ 주위에',
-  'ὑπέρ속격':'~을 위하여', 'ὑπέρ대격':'~ 위에' };
+  'ὑπέρ속격':'~을 위하여', 'ὑπέρ대격':'~ 위에', 'κατά대격':'~에 따라', 'κατά속격':'~에 대항하여' };
 const LS_CONJ_OPTS = {
   'καί': ['그리고', '역시, ~도', '~까지도', '~과 ~이 모두 (καί…καί)'],
   'οὐδέ': ['그리고 … 아니, 또 … 아니', '~도 아니', '~까지도 아니', '~과 ~이 모두 아니 (οὐδέ…οὐδέ)'],
   'ὅτι': ['~는 것을 (내용)', '왜냐하면 (이유)', '그러나', '그리고'],
   'δέ': ['그러나, 그리고', '왜냐하면', '아니', '그때에'], 'ἀλλά': ['그러나', '왜냐하면', '그리고', '~까지도'],
-  'μέν': ['한편으로는 (μέν…δέ)', '그러나', '왜냐하면', '아니']
+  'μέν': ['한편으로는 (μέν…δέ)', '그러나', '왜냐하면', '아니'],
+  'γάρ': ['왜냐하면 (이유)', '그러나', '그리고', '~까지도']
 };
-const LS_ADV_KO = { 'οὐ':'아니', 'οὐκέτι':'더 이상 … 않다', 'νῦν':'지금', 'τότε':'그때에', 'οὔπω':'아직도 … 아니' };
+const LS_ADV_KO = { 'οὐ':'아니', 'οὐκέτι':'더 이상 … 않다', 'νῦν':'지금', 'τότε':'그때에', 'οὔπω':'아직도 … 아니', 'οὕτως':'그와 같이, 그렇게', 'ἔτι':'아직' };
 const LS_SUBJ = ['내가','네가','그가','우리가','너희가','그들이'];
 // "풀린다" → "풀리고 있었다", "받는다" → "받고 있었다" (미완료 뜻 만들기)
 function koProg(pred) {
@@ -5535,10 +5929,10 @@ function lsVerbPreds(t) {             // 이 동사가 가질 수 있는 서술�
     return { right: T[t.tense], all: Object.values(T).filter(Boolean) };
   }
   if (!v) return null;
-  const all = [v.act, v.ipf, v.kf, v.ka, v.kfd]; if (v.pas) all.push(v.pas, koProg(v.pas));
+  const all = [v.act, v.ipf, v.kf, v.ka, v.kfd, v.kap, v.kfp]; if (v.pas) all.push(v.pas, koProg(v.pas));
   let right;
-  if (t.tense === '미래') right = t.voice === '디포넌트' ? v.kfd : t.voice === '중간' ? '자기를 위하여 ' + v.kf : v.kf;
-  else if (t.tense === '단순과거') right = t.voice === '중간' ? '자기를 위하여 ' + v.ka : v.ka;
+  if (t.tense === '미래') right = t.voice === '디포넌트' ? v.kfd : t.voice === '중간' ? '자기를 위하여 ' + v.kf : t.voice === '수동' ? v.kfp : v.kf;
+  else if (t.tense === '단순과거') right = t.voice === '중간' ? '자기를 위하여 ' + v.ka : t.voice === '수동' ? v.kap : v.ka;
   else right = t.voice === '능동' ? (t.tense === '현재' ? v.act : v.ipf) : (t.tense === '현재' ? v.pas : koProg(v.pas));
   return { right, all: all.filter(Boolean) };
 }
@@ -5548,7 +5942,7 @@ function lsAnarthrous(toks, i) {
   for (let j = i - 1; j >= 0; j--) {
     const u = toks[j];
     if (u.pos === '관사' && u.c === t.c && u.n === t.n) return false;
-    if ((u.pos === '형용사' || (u.pos === '대명사' && !u.person)) || (u.pos === '접속사' && (u.lemma === 'δέ' || u.lemma === 'μέν'))) continue;
+    if ((u.pos === '형용사' || (u.pos === '대명사' && !u.person)) || (u.pos === '접속사' && ['δέ','μέν','γάρ'].includes(u.lemma))) continue;
     break;
   }
   return true;
@@ -5596,8 +5990,6 @@ function lsAttachKo(t, i, it) {
   if (m.alt && !alt.length) alt = m.alt;
   if (ans) { t.ko = ans; t.koOpts = [...new Set(opts.concat(alt).filter(Boolean))]; t.koAlt = alt; }
 }
-// 13·14과 익힘 문제는 과제 범위인 3–7번만
-[13, 14].forEach(n => { LS_EX[n] = LS_EX[n].filter(it => it.no >= 3 && it.no <= 7); });
 Object.values(LS_EX).forEach(list => list.forEach(it => it.toks.forEach((t, i) => lsAttachKo(t, i, it))));
 
 // ── 익힘 문제 문장 파싱 진행 (끝 부호 → 절 나누기 → 동사 찾기 → 단어 파싱 → 번역) ──
@@ -5683,10 +6075,10 @@ function exMyText(i) {
 // ── 정답 노트: 문장마다 끝 부호·절·동사, 단어별 품사·문법·기본형·사전 뜻·문장 속 뜻, 전체 번역 ──
 const EX_DICT_OVR = { 'ὁ':'그 (관사)', 'αὐτός':'그·그녀·그것 / 관사+명사 사이: 바로 그(the same) / 그 밖의 강조: 자신이, 스스로', 'οὗτος':'이, 이것, 이 사람', 'ἐκεῖνος':'저, 저것, 저 사람',
   'ἐγώ':'나', 'σύ':'너', 'δέ':'그러나, 그리고', 'θεός':'하나님, 신', 'εἰμί':'~이다, 있다',
-  'οὐ':'아니 (οὐκ, οὐχ)', 'μέν':'한편으로는 (μέν … δέ)', 'ἐκβάλλω':'나는 쫓아낸다', 'καί':'그리고, 역시, 까지도', 'οὐδέ':'그리고 … 아니, …도 아니, …까지도 아니' };
+  'οὐ':'아니 (οὐκ, οὐχ)', 'μέν':'한편으로는 (μέν … δέ)', 'ἐκβάλλω':'나는 쫓아낸다', 'λείπω':'나는 남겨 둔다, 떠난다', 'πίπτω':'나는 떨어진다, 넘어진다', 'ἕτερος':'다른', 'καί':'그리고, 역시, 까지도', 'οὐδέ':'그리고 … 아니, …도 아니, …까지도 아니' };
 function exDictKo(lemma) {
   if (EX_DICT_OVR[lemma]) return EX_DICT_OVR[lemma];
-  const w = words.find(x => x.gr === lemma);
+  const w = words.find(x => x.gr === lemma) || words.find(x => x.gr.split(',')[0] === lemma);
   return w ? w.ko : '';
 }
 // 형태가 같은 다른 파싱(성·수·격)까지 모두: 
@@ -6076,13 +6468,13 @@ function lsShowScreen(el) {
 const LS_T = s => '<span style="text-transform:none">' + s + '</span>';
 // λύω 변화표 한 칸: 접두모음(초록) + 어간 + 어미(빨강)
 function lsSeg(form) {
-  const m = form.match(/^([ἐἔ]?)(λ[υύ])(.*)$/);
+  const m = form.match(/^([ἐἔ]?)(λ[υύ]|λ[ιίεέ][ιί]?π)(.*)$/);
   return m ? (m[1] ? '<span class="vv-aug">' + m[1] + '</span>' : '') + m[2] + '<span class="vv-end">' + m[3] + '</span>' : form;
 }
-function lsLyTable(groups, withEimi) {
+function lsLyTable(groups, withEimi, lemma) {
   if (!VV_FORMS) vvBuildForms();
-  const L = VV_FORMS.filter(f => f.verb.lemma === 'λύω');
-  const cell = (g, k) => { const f = L.find(x => x.group === g && x.k === (g === 'ia' && k === 5 ? 0 : k)); return f ? lsSeg(f.form) : ''; };
+  const L = VV_FORMS.filter(f => f.verb.lemma === (lemma || 'λύω'));
+  const cell = (g, k) => { const f = L.find(x => x.group === g && x.k === ((g === 'ia' || g === 'a2a') && k === 5 ? 0 : k)); return f ? lsSeg(f.form) : ''; };
   const H = x => '<span class="nt-a vv-mem">' + x + '</span>';
   return '<label class="check-row" style="font-size:13px;margin-bottom:6px"><input type="checkbox" class="ls-hide"> 형태 가리고 외우기 (누르면 보여요)</label>'
     + '<table class="vv-table vv-big"><tr><th></th>' + groups.map(g => '<th>' + VV_GROUPS[g] + '</th>').join('') + (withEimi ? '<th>εἰμί 미완료</th>' : '') + '</tr>'
@@ -6249,10 +6641,83 @@ LS_LESSONS[14] = { title:'14과 학습', sub:'제1단순과거 능동태·중간
     { mode:'parse', label:'④ 형태 파싱 (모든 시제 섞어서)', groups:['pa','ia','fa','fm','aa','am','ad'] }
   ] };
 
+// ── 15과·16과 학습 ──
+LS_LESSONS[15] = { title:'15과 학습', sub:'제2단순과거 능동태·중간태 직설법, 미완료와의 구별, 외워야 할 제2단순과거, γάρ',
+  topics: [
+    { t:'① 제2단순과거란? (§166–168)', html: () => '<p class="ex-note">제2단순과거는 단순과거와 <b>다른 시제가 아니라</b>, 같은 시제(단순과거)의 다른 변화 모양이에요. 뜻도 똑같이 "과거의 단순한 동작"이에요 (§166).</p>'
+      + '<table class="prep-table"><tr><td>제1단순과거</td><td>원어근 + 시제 접미어 <b>-σα</b>: λύω → ἔλυσα</td></tr>'
+      + '<tr><td>제2단순과거</td><td>σα 같은 접미어 없이 <b>어근 자체가 바뀜</b>: λαμβάνω(λαμβαν-) → <b>λαβ-</b> → ἔλαβον, βάλλω(βαλλ-) → <b>βαλ-</b> → ἔβαλον</td></tr></table>'
+      + '<p class="ex-note">어떤 동사가 제2단순과거를 쓰는지는 짐작할 수 없어요 → 낱말 모음(사전)으로 하나씩 외워요 (§167).</p>' },
+    { t:'② 제2단순과거 능동태 (§169–170)', html: () => '<table class="prep-table"><tr><td>1</td><td>제2단순과거 어근을 찾는다: λείπω → <b>λιπ-</b></td></tr><tr><td>2</td><td>접두모음 ἐ를 붙인다 (제2시제)</td></tr>'
+      + '<tr><td>3</td><td>제2시제 능동 어미 -ν, -ς, 없음, -μεν, -τε, -ν</td></tr><tr><td>4</td><td>어근과 어미 사이에 연결모음 ο/ε</td></tr><tr><td>5</td><td>규칙대로 악센트</td></tr></table>'
+      + lsLyTable(['ia','a2a'], false, 'λείπω')
+      + '<p class="ex-note">미완료와 어미가 <b>완전히 같고</b> 어근만 달라요: 미완료는 현재 어근 λειπ- → ἔλειπον "남겨 두고 있었다", 제2단순과거는 λιπ- → ἔλιπον "남겨 두었다" (§170). βάλλω도 미완료 ἔβαλλον / 제2단순과거 ἔβαλον.</p>' },
+    { t:'③ 제2단순과거 중간태 (§171–172)', html: () => lsLyTable(['im','a2m'], false, 'λείπω')
+      + '<p class="ex-note">제2시제 중간 어미 -μην, -σο, -το, -μεθα, -σθε, -ντο + 연결모음. 2인칭 단수 ἐλίπεσο → <b>ἐλίπου</b>. 뜻: "내가 나를 위하여 남겨 두었다".</p>'
+      + '<p class="ex-note">제2단순과거 어근은 <b>능동과 중간에만</b> 써요. 단순과거 수동태는 모양이 따로 있어 16과에서 배워요 — "제2단순과거 수동"은 없어요 (§172).</p>' },
+    { t:'④ 외워야 할 제2단순과거 (§165)', html: () => '<table class="prep-table">'
+      + [['λέγω','εἶπον','내가 말하였다'],['βάλλω','ἔβαλον','내가 던졌다'],['γίνομαι','ἐγενόμην (디포)','내가 되었다'],['βλέπω (ὁράω)','εἶδον','내가 보았다'],
+         ['λαμβάνω','ἔλαβον','내가 취하였다'],['λείπω','ἔλιπον','내가 남겨 두었다, 두고 갔다'],['πίπτω','ἔπεσον','내가 떨어졌다, 넘어졌다'],['ἄγω','ἤγαγον','내가 인도하였다'],
+         ['ἔρχομαι','ἦλθον','내가 왔다, 갔다'],['φέρω','ἤνεγκα','내가 데려왔다, 가져왔다 (-σα 대신 -κα, λύω의 단순과거처럼 변화)']]
+        .map(r => '<tr><td>' + r[0] + '</td><td>→ <b>' + r[1] + '</b> ' + r[2] + '</td></tr>').join('') + '</table>'
+      + '<p class="ex-note">βλέπω의 미래는 <b>ὄψομαι</b> (디포, "내가 볼 것이다"). 합성동사도 같은 방식: εἰσέρχομαι → εἰσῆλθον, ἐξέρχομαι → ἐξῆλθον, ἐκβάλλω → ἐξέβαλον, συνάγω → συνήγαγον, παραλαμβάνω → παρέλαβον.</p>'
+      + '<p class="ex-note">ἔρχομαι·γίνομαι는 현재가 디포넌트예요. ἐγενόμην은 단순과거도 중간태 형태(디포)지만, <b>ἦλθον은 능동형</b>으로 변화해요.</p>' },
+    { t:'⑤ 구별 순서와 γάρ · προσφέρω', html: () => '<table class="prep-table"><tr><td>ἔλειπον</td><td>접두모음 + <b>현재 어근</b> + ο/ε → 미완료 "남겨 두고 있었다"</td></tr>'
+      + '<tr><td>ἔλιπον</td><td>접두모음 + <b>제2단순과거 어근</b> + ο/ε → 단순과거 "남겨 두었다"</td></tr><tr><td>ἔλυσα</td><td>접두모음 + σα → 제1단순과거</td></tr></table>'
+      + '<p class="ex-note">ἔλιπον·εἶπον·ἦλθον처럼 1인칭 단수와 3인칭 복수가 같은 모양이에요 → 주어(문맥)로 정해요.</p>'
+      + '<table class="prep-table" style="margin-top:8px"><tr><td>γάρ</td><td>"왜냐하면" — 후치사라서 절의 <b>둘째 자리</b>에 와요 (§86): οἱ γὰρ μαθηταί … "왜냐하면 그 제자들이 …"</td></tr>'
+      + '<tr><td>προσφέρω</td><td>"…에게 데려가다, 가져가다": 가져가는 것은 대격, 받는 이는 여격 — προσφέρω τὰ τέκνα τῷ κυρίῳ 내가 그 아이들을 주님께 데려간다</td></tr></table>' }
+  ],
+  drills: [
+    { mode:'a2', label:'① 제2단순과거 만들기 (현재 → 제2단순과거)' },
+    { mode:'parse', label:'② 미완료 ↔ 제2단순과거 구별 (파싱)', groups:['ia','a2a'] },
+    { mode:'make', label:'③ 형태 만들기 (제2단순과거 능동·중간·디포)', groups:['a2a','a2m','a2d'] },
+    { mode:'parse', label:'④ 형태 파싱 (모든 시제 섞어서)', groups:['ia','im','fa','aa','am','a2a','a2m','a2d'] }
+  ] };
+LS_LESSONS[16] = { title:'16과 학습', sub:'단순과거 수동태·미래 수동태 직설법, 자음 어근 + θ, 제2수동, 디포넌트의 단순과거와 미래',
+  topics: [
+    { t:'① 단순과거 수동 어간 (§175–176)', html: () => '<p class="ex-note">단순과거 수동태와 미래 수동태는 동사 기본형의 <b>제6형</b>(단순과거 수동)을 기초로 만들어요 (§175).</p>'
+      + '<table class="prep-table"><tr><td>어간</td><td>원어근 + <b>θε</b>: λυθε-</td></tr><tr><td>직설법</td><td>θε가 <b>θη</b>로 길어짐: λυθη-</td></tr></table>' },
+    { t:'② 단순과거 수동태 (§177)', html: () => '<table class="prep-table"><tr><td>1</td><td>원어근 λυ-에</td></tr><tr><td>2</td><td>접두모음 ἐ (제2시제 직설법)</td></tr><tr><td>3</td><td>접미어 θη → ἐλυθη-</td></tr>'
+      + '<tr><td>4</td><td>제2시제 <b>능동</b> 어미 -ν, -ς, 없음, -μεν, -τε, -σαν을 연결모음 없이 바로</td></tr><tr><td>5</td><td>규칙대로 악센트</td></tr></table>'
+      + lsLyTable(['am','ap'])
+      + '<p class="ex-note">수동태인데 어미는 <b>능동 어미</b>예요. 접두모음 + θη가 보이면 단순과거 수동!</p>' },
+    { t:'③ 미래 수동태 (§178)', html: () => lsLyTable(['fm','fp'])
+      + '<p class="ex-note">단순과거 수동 어간 λυθη- + 미래의 σ → <b>λυθησ-</b>. 미래는 제2시제가 아니라서 접두모음이 없고, 제1시제 중간·수동 어미 -μαι, -σαι, -ται … 와 연결모음 ο/ε를 붙여요. 2인칭 단수는 -θήσεσαι 대신 <b>-θήσῃ</b>.</p>'
+      + '<p class="ex-note">미래 중간 λύσομαι "나를 위하여 풀 것이다" ↔ 미래 수동 λυθήσομαι "풀릴 것이다" — 어미는 같고 <b>θη</b>가 있느냐로 구별해요.</p>' },
+    { t:'④ 자음 어근 + θ (§179–180)', html: () => '<table class="prep-table">'
+      + '<tr><td>π · β + θ</td><td>→ <b>φθ</b>: πέμπω → ἐπέμφθην, τρίβω → ἐτρίφθην</td></tr>'
+      + '<tr><td>κ · γ + θ</td><td>→ <b>χθ</b>: διώκω → ἐδιώχθην, ἄγω → ἤχθην, κηρύσσω → ἐκηρύχθην, διδάσκω → ἐδιδάχθην</td></tr>'
+      + '<tr><td>τ · δ · θ + θ</td><td>→ <b>σθ</b>: ἀνύτω → ἠνύσθην, βαπτίζω(βαπτιδ-) → ἐβαπτίσθην, πείθω → ἐπείσθην</td></tr></table>'
+      + '<p class="ex-note">어간이 원어근과 전혀 다르게 되는 경우가 많아 사전으로 하나씩 확인해야 해요 (§180):</p>'
+      + '<table class="prep-table">' + [['λαμβάνω','ἐλήμφθην','내가 취해졌다'],['βάλλω','ἐβλήθην','내가 던져졌다'],['γινώσκω','ἐγνώσθην','내가 알려졌다'],['ἐγείρω','ἠγέρθην','내가 일으킴을 받았다'],
+        ['ἀκούω','ἠκούσθην','내가 들렸다'],['φέρω','ἠνέχθην','내가 데려가졌다'],['βλέπω (ὁράω)','ὤφθην','내가 보였다']]
+        .map(r => '<tr><td>' + r[0] + '</td><td>→ <b>' + r[1] + '</b> ' + r[2] + '</td></tr>').join('') + '</table>' },
+    { t:'⑤ 단순과거 제2수동 (§181)', html: () => '<p class="ex-note">어떤 동사는 단순과거 수동에서 <b>θ가 빠져요</b> — 단순과거 제2수동.</p>'
+      + '<table class="prep-table"><tr><td>γράφω</td><td>ἐγράφθην (✗) → <b>ἐγράφην</b>, ἐγράφης, ἐγράφη, ἐγράφημεν, ἐγράφητε, ἐγράφησαν</td></tr>'
+      + '<tr><td>σπείρω</td><td>ἐσπάρην, ἐσπάρης, ἐσπάρη … (24과)</td></tr></table>' },
+    { t:'⑥ 디포넌트의 단순과거와 미래 (§182–183)', html: () => '<table class="prep-table">'
+      + '<tr><td>수동형만</td><td>ἀποκρίνομαι → 단순과거 <b>ἀπεκρίθην</b>, 미래 <b>ἀποκριθήσομαι</b> (§182)</td></tr>'
+      + '<tr><td>중간형 + 수동형</td><td>γίνομαι → <b>ἐγενόμην</b>(중간형)과 <b>ἐγενήθην</b>(수동형) — 뜻은 같고 둘 다 능동 "되었다" (§183)</td></tr>'
+      + '<tr><td>수동형</td><td>πορεύομαι → <b>ἐπορεύθην</b> 내가 갔다</td></tr></table>'
+      + '<p class="ex-note">디포넌트는 수동태 모양(θη)이라도 뜻은 능동이에요.</p>' },
+    { t:'⑦ 중간 ↔ 수동 한눈에', html: () => '<table class="prep-table">'
+      + '<tr><td>현재</td><td>λύομαι — 중간·수동 같은 모양 (문맥으로)</td></tr><tr><td>미완료</td><td>ἐλυόμην — 중간·수동 같은 모양 (문맥으로)</td></tr>'
+      + '<tr><td>미래</td><td>λύσομαι 중간 ↔ <b>λυθήσομαι</b> 수동</td></tr><tr><td>단순과거</td><td>ἐλυσάμην 중간 ↔ <b>ἐλύθην</b> 수동</td></tr></table>'
+      + '<p class="ex-note">수동 + ὑπό + 속격 = 행위자 "~로 말미암아", 전치사 없는 여격 = 수단 "~으로" (§106–107).</p>' }
+  ],
+  drills: [
+    { mode:'aorp', label:'① 단순과거 수동 만들기 (자음 + θ → φθ·χθ·σθ)' },
+    { mode:'ending', label:'② 어미 구별 (단순과거·미래의 능동·중간·수동)', groups:['aa','am','ap','fa','fm','fp'] },
+    { mode:'make', label:'③ 형태 만들기 (단순과거·미래 수동, 수동형 디포)', groups:['ap','fp','apd'] },
+    { mode:'parse', label:'④ 형태 파싱 (중간 ↔ 수동 섞어서)', groups:['pm','im','fm','am','ap','fp','apd','a2d'] }
+  ] };
+
 // 13과: 현재형 → 미래 1인칭 단수 / 14과: 현재형 → 단순과거 1인칭 단수
 function vvTenseBuildQs(kind) {
   if (!VV_FORMS) vvBuildForms();
-  const vs = shuffle(VV_VERBS.filter(v => kind === 'sig' ? v.fut : v.aor)).slice(0, VV_N);
+  if (kind === 'a2' || kind === 'aorp') return vvTenseBuildQs2(kind);
+  const vs = shuffle(VV_VERBS.filter(v => kind === 'sig' ? v.fut : v.aor && !v.irr)).slice(0, VV_N);
   return vs.map(v => {
     const right = kind === 'sig' ? vvMake(v.fut, 'ω') : vvMake(v.aor, 'α', v.aug);
     const wr = new Set();
@@ -6280,10 +6745,50 @@ function vvTenseBuildQs(kind) {
   });
 }
 
+// 15과: 현재형 → 제2단순과거 1인칭 단수 / 16과: 현재형 → 단순과거 수동 1인칭 단수
+function vvTenseBuildQs2(kind) {
+  const vs = shuffle(VV_VERBS.filter(v => kind === 'a2' ? v.a2 : v.apas)).slice(0, VV_N);
+  return vs.map(v => {
+    const right = kind === 'a2' ? vvMake(v.a2, 'ον', v.aug) : vvMake(v.apas, 'ν', v.aug);
+    const wr = new Set();
+    if (kind === 'a2') {
+      wr.add(vvMake(v.impf, 'ον', v.aug));                       // 미완료 (현재 어근)
+      wr.add(vvMake(v.impf + 'σ', 'α', v.aug));                  // 제1단순과거처럼 σα를 붙임 (✗)
+      wr.add(vvAccent(v.a2.replace(/^[ἐἠ]/, '') + 'ον'));        // 접두모음 없음
+      if (v.aug) wr.add(vvAccent(v.a2.slice(0, 3) + 'ε' + v.a2.slice(3) + 'ον'));
+    } else {
+      wr.add(vvMake(v.impf + 'θη', 'ν', v.aug));                 // 현재 어근에 θη를 그냥 붙임
+      if (v.aor) wr.add(vvMake(v.aor, 'α', v.aug));              // 단순과거 능동
+      if (v.aor && !v.noam) wr.add(vvMake(v.aor, 'αμην', v.aug)); // 단순과거 중간
+      if (v.fpas) wr.add(vvMake(v.fpas, 'ομαι'));                // 미래 수동
+    }
+    wr.delete(right);
+    const opts = shuffle([right, ...shuffle([...wr]).slice(0, 3)]);
+    const lbl = kind === 'a2' ? '제2단순과거 능동 1인칭 단수' : '단순과거 수동 1인칭 단수';
+    return {
+      title: v.lemma + ' → ' + right,
+      prompt: '<div class="vv-prompt-sm">이 동사의 ' + lbl + '는?</div><div class="vv-prompt">' + v.lemma + '</div><div class="ex-note" style="text-align:center">"내가 ' + (kind === 'a2' ? v.ka : v.kap) + '"</div>',
+      fields: [{ key:'form', label: lbl, opts, big:true }],
+      check(ans) {
+        let how;
+        if (kind === 'a2') how = '제2단순과거 어근은 불규칙 → 낱말 모음으로 외워요 (§167–168). 접두모음 + 제2단순과거 어근 + 미완료와 같은 어미';
+        else if (v.p2) how = '단순과거 제2수동: θ가 빠짐 (§181)';
+        else { const st = v.pres.replace(/^(ἀνα|συν|προσ|ἐκ)/, '');
+          how = /[πβφ]$|πτ$/.test(st) ? 'π·β + θ → φθ (§179)' : /[κγχ]$|σκ$|σσ$/.test(st) ? 'κ·γ + θ → χθ (§179)' : /[τδθζ]$/.test(st) ? 'τ·δ·θ(ζ) + θ → σθ (§179)' : /[υιω]$/.test(st) ? '모음 어근 + θη (§176)' : '불규칙한 어간 → 사전으로 확인 (§180)'; }
+        return { ok: ans.form === right, right: { form: right }, answerText: right,
+          show: '<p class="ex-note"><b>' + how + '</b>' + (v.aug ? ' · 합성동사: 접두모음은 전치사와 동사 사이 (§122)' : '') + '</p>' + vvMiniTable(v.lemma, right) };
+      }
+    };
+  });
+}
+
+// 과제 범위 (13·14과 3–7번)
+const LS_HW = { 13:[3,7], 14:[3,7] };
+const lsIsHw = (n, no) => !!LS_HW[n] && no >= LS_HW[n][0] && no <= LS_HW[n][1];
 function lsOpenHub() {
   lsCur = null; lsShowScreen(lcScreen); lcTitle.textContent = '학습 카드';
   lcContent.innerHTML = '<p class="ex-note" style="margin:0 0 10px">과를 골라 들어가면 그 과의 문법 레슨 → 변화 연습 → 익힘 문제 순서로 공부할 수 있어요.</p>'
-    + [10, 11, 12, 13, 14].map(n => '<button class="ls-card" data-ls-open="' + n + '"><div class="ls-card-title">📘 ' + LS_LESSONS[n].title + '</div><div class="ls-card-sub">' + LS_LESSONS[n].sub + '</div>'
+    + [10, 11, 12, 13, 14, 15, 16].map(n => '<button class="ls-card" data-ls-open="' + n + '"><div class="ls-card-title">📘 ' + LS_LESSONS[n].title + '</div><div class="ls-card-sub">' + LS_LESSONS[n].sub + '</div>'
       + '<div class="ls-card-meta">레슨 ' + LS_LESSONS[n].topics.length + ' · 연습 ' + LS_LESSONS[n].drills.length + ' · 익힘 문제 ' + LS_EX[n].length + '문장</div></button>').join('');
 }
 function lsOpenLesson(n) {
@@ -6295,12 +6800,12 @@ function lsOpenLesson(n) {
     + L.topics.map((t, i) => '<div class="ls-topic" data-ls-topic="' + i + '"><div class="ls-topic-head">' + t.t + '<span class="ls-arrow">›</span></div><div class="ls-topic-body" style="display:none"></div></div>').join('')
     + '<div class="menu-card-title" style="margin:18px 0 8px">✏️ 연습</div>'
     + L.drills.map((d, i) => '<button class="grammar-btn ls-drill" data-ls-drill="' + i + '">' + d.label + '</button>').join('')
-    + '<div class="menu-card-title" style="margin:18px 0 8px">📚 익힘 문제 (' + n + '과' + ({ 10:' §112', 11:' §126', 12:' §138' }[n] || '') + ')</div>'
-    + (n >= 13 ? '<p class="ex-note" style="margin:0 0 8px">3–7번 (과제 범위)</p>' : '')
+    + '<div class="menu-card-title" style="margin:18px 0 8px">📚 익힘 문제 (' + n + '과' + ({ 10:' §112', 11:' §126', 12:' §138', 13:' §154', 15:' §173', 16:' §184' }[n] || '') + ')</div>'
+    + (LS_HW[n] ? '<p class="ex-note" style="margin:0 0 8px"><b>★ 3–7번은 과제 범위</b>, 8번부터는 더 풀어 볼 문장이에요.</p>' : '')
     + '<div class="lesson-card"><p class="ex-note" style="margin:0 0 6px">끝 부호 → 절 나누기 → 동사 찾기 → 단어 파싱(품사부터 직접) → 번역 순서로 풀어요. <b>관사 없는 명사는 "한(단수)·어떤(복수)"을 붙여 해석</b>해요. 풀 문장을 고르세요.</p>'
-    + '<div class="ex-set-row" id="lsExChips">' + LS_EX[n].map(it => '<label class="week-chip on ex-sent-chip"><input type="checkbox" class="ls-ex-cb" value="' + it.no + '" checked>' + it.no
+    + '<div class="ex-set-row" id="lsExChips">' + LS_EX[n].map(it => '<label class="week-chip on ex-sent-chip"><input type="checkbox" class="ls-ex-cb" value="' + it.no + '" checked>' + (lsIsHw(n, it.no) ? '★' : '') + it.no
       + '<span class="ex-sent-gr">' + it.toks.filter(t => !t.punct).slice(0, 2).map(t => t.t).join(' ') + '…</span></label>').join('') + '</div>'
-    + '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button class="ex-none" id="lsExAll">전체 선택</button><button class="ex-none" id="lsExNone">전체 해제</button></div>'
+    + '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button class="ex-none" id="lsExAll">전체 선택</button><button class="ex-none" id="lsExNone">전체 해제</button>' + (LS_HW[n] ? '<button class="ex-none" id="lsExHw">★ 과제 범위만</button>' : '') + '</div>'
     + '<label class="check-row" style="margin-top:10px;font-size:13px;font-weight:400"><input type="checkbox" id="lsExShuffle"> 문장 순서 섞기</label>'
     + '<div id="lsExErr" class="menu-err"></div>'
     + '<button class="grammar-btn" id="lsExStart" style="background:#b5651d;margin-top:10px">문장 파싱 시작</button>'
@@ -6327,8 +6832,8 @@ lcContent.addEventListener('click', e => {
   }
   const dr = e.target.closest('[data-ls-drill]');
   if (dr) { const d = LS_LESSONS[lsCur].drills[parseInt(dr.dataset.lsDrill)]; vvStart(d.mode, d.groups); return; }
-  if (e.target.id === 'lsExAll' || e.target.id === 'lsExNone') {
-    lcContent.querySelectorAll('.ls-ex-cb').forEach(c => { c.checked = e.target.id === 'lsExAll'; c.closest('.week-chip').classList.toggle('on', c.checked); });
+  if (e.target.id === 'lsExAll' || e.target.id === 'lsExNone' || e.target.id === 'lsExHw') {
+    lcContent.querySelectorAll('.ls-ex-cb').forEach(c => { c.checked = e.target.id === 'lsExAll' || (e.target.id === 'lsExHw' && lsIsHw(lsCur, parseInt(c.value))); c.closest('.week-chip').classList.toggle('on', c.checked); });
     return;
   }
   if (e.target.id === 'lsExStart' || e.target.id === 'lsExNote') {
