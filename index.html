@@ -748,7 +748,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-11-12-1";
+const APP_VERSION = "2026-11-12-2";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -764,6 +764,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-11-12", text: "인칭·수를 한 칸에서 고르기(해당하는 것 모두): 1인칭 단수와 3인칭 복수가 같은 모양(미완료·제2단순과거 능동 -ον)은 둘 다 골라야 정답 — 문장 파싱, 형태 파싱, 어미 구별" },
   { date: "2026-11-12", text: "학습 카드 15과(제2단순과거 능동·중간)·16과(단순과거·미래 수동, 수동형 디포) 추가 + 익힘 문제 각 20문장. 13과 8–20번·14과 8–19번 문장 파싱 추가(★ 3–7번 과제 범위 표시, '과제 범위만' 선택 버튼). 9주차 단어(15·16과 낱말 모음 26개)" },
   { date: "2026-11-05", text: "13과·14과 익힘 문제를 3–7번만 남김" },
   { date: "2026-11-05", text: "8주차 단어(13과 미래형 13개, 14과 단순과거 10개) + 학습 카드 13과(미래 능동·중간)·14과(단순과거 능동·중간): 레슨, 미래·단순과거 만들기, 어미 구별, 형태 파싱, 익힘 문제" },
@@ -4757,6 +4758,12 @@ function exJosa(stem, c, thing) {
 // 형태는 어간 + 어미로 만들고, 동사 악센트 규칙(뒤로 물러나는 악센트, 접두모음 앞으로는 못 감 §123)으로 악센트를 붙인다.
 const VV_PN = [[1,'단수'],[2,'단수'],[3,'단수'],[1,'복수'],[2,'복수'],[3,'복수']];
 const VV_SUBJ = ['내가','네가','그가','우리가','너희가','그들이'];
+// 인칭·수를 한 칸에서 고르기 (모양이 같은 1인칭 단수·3인칭 복수는 둘 다 골라야 정답)
+const PN_OPTS = ['1인칭 단수','2인칭 단수','3인칭 단수','1인칭 복수','2인칭 복수','3인칭 복수'];
+const PN_SEP = ' / ';
+const pnJoin = arr => PN_OPTS.filter(o => arr.includes(o)).join(PN_SEP);
+const pnToggle = (cur, val) => { const a = cur ? cur.split(PN_SEP) : []; const i = a.indexOf(val); if (i >= 0) a.splice(i, 1); else a.push(val); return pnJoin(a); };
+const PN_LABEL = '인칭·수 (해당하는 것 모두)';
 const VV_END = {
   pa:  ['ω','εις','ει','ομεν','ετε','ουσι(ν)'],       // 현재 능동 (제1시제 능동)
   pm:  ['ομαι','ῃ','εται','ομεθα','εσθε','ονται'],     // 현재 중간·수동 (제1시제 중간·수동 §104)
@@ -5013,7 +5020,7 @@ function vvRenderQ() {
   vvContent.innerHTML = '<div class="pq-progress"><span>' + (vv.i + 1) + ' / ' + vv.qs.length + '</span><span>맞음 ' + vv.right + '</span></div>'
     + '<div class="lesson-card">' + q.prompt + '</div>'
     + '<div class="lesson-card"><div class="s34-fields">' + q.fields.map(f => '<div class="s34-field"><div class="s34-field-lbl">' + f.label + '</div><div class="s34-opts">'
-      + f.opts.map(o => '<button class="s34-opt' + (f.big ? ' vv-gr' : '') + '" data-vv-key="' + f.key + '" data-val="' + String(o).replace(/"/g, '&quot;') + '">' + o + '</button>').join('') + '</div></div>').join('') + '</div>'
+      + f.opts.map(o => '<button class="s34-opt' + (f.big ? ' vv-gr' : '') + '" data-vv-key="' + f.key + '"' + (f.multi ? ' data-multi="1"' : '') + ' data-val="' + String(o).replace(/"/g, '&quot;') + '">' + o + '</button>').join('') + '</div></div>').join('') + '</div>'
     + '<button class="lesson-btn primary" id="vvSubmit" style="margin-top:12px;display:none">확인</button>'
     + '<div id="vvFb" style="margin-top:10px"></div><div id="vvNext" style="display:none;margin-top:8px"></div></div>';
 }
@@ -5021,9 +5028,11 @@ function vvSubmit() {
   const q = vv.qs[vv.i], r = q.check(q.ans);
   vvContent.querySelectorAll('[data-vv-key]').forEach(b => {
     b.disabled = true;
-    const k = b.dataset.vvKey;
-    if (r.right[k] === b.dataset.val) b.classList.add('s34-correct');
-    else if (q.ans[k] === b.dataset.val) b.classList.add('s34-wrong');
+    const k = b.dataset.vvKey, multi = !!b.dataset.multi;
+    const inRight = multi ? String(r.right[k] || '').split(PN_SEP).includes(b.dataset.val) : r.right[k] === b.dataset.val;
+    const mine = multi ? String(q.ans[k] || '').split(PN_SEP).includes(b.dataset.val) : q.ans[k] === b.dataset.val;
+    if (inRight) b.classList.add('s34-correct');
+    else if (mine) b.classList.add('s34-wrong');
   });
   if (r.ok) vv.right++; else vv.wrongs.push({ q, mine: q.fields.map(f => q.ans[f.key]).join(' · '), right: r.answerText });
   document.getElementById('vvSubmit').style.display = 'none';
@@ -5068,10 +5077,11 @@ function vvEndingQs() {
       + (it.g === 'ia' || it.g === 'im' || it.g === 'aa' || it.g === 'am' ? '<div class="ex-note" style="text-align:center">ἐ- = 접두모음</div>' : '')
       + (it.g === 'fa' || it.g === 'fm' || it.g === 'aa' || it.g === 'am' ? '<div class="ex-note" style="text-align:center">σ = 시제 접미어</div>' : '')
       + (it.g === 'ap' || it.g === 'fp' ? '<div class="ex-note" style="text-align:center">θη = 단순과거 수동 시제 접미어' + (it.g === 'ap' ? ', ἐ- = 접두모음' : '') + '</div>' : ''),
-    fields: [{ key:'tv', label:'시제·태', opts: TVS.map(g => TV[g]) }, { key:'p', label:'인칭', opts:['1인칭','2인칭','3인칭'] }, { key:'n', label:'수', opts:['단수','복수'] }],
+    fields: [{ key:'tv', label:'시제·태', opts: TVS.map(g => TV[g]) }, { key:'pn', label: PN_LABEL, opts: PN_OPTS, multi:true }],
     check(ans) {
-      const { best, ok } = vvBest(it.rs, ans, ['tv','p','n'], (r, k) => r[k]);
-      return { ok, right: best, answerText: it.rs.map(r => r.tv + ' ' + r.p + ' ' + r.n).join(' / '),
+      const pn = pnJoin(it.rs.map(r => r.p + ' ' + r.n));
+      const ok = ans.tv === it.rs[0].tv && ans.pn === pn;
+      return { ok, right: { tv: it.rs[0].tv, pn }, answerText: it.rs.map(r => r.tv + ' ' + r.p + ' ' + r.n).join(' / '),
         show: '<p class="ex-note">' + it.rs.map(r => r.tv + ' ' + r.p + ' ' + r.n).join(' <b>또는</b> ') + '</p>'
           + (it.g === 'pm' ? '<p class="ex-note">중간·수동 어미: -μαι, -σαι(→ῃ), -ται, -μεθα, -σθε, -νται 앞에 연결모음 ο/ε (§104)</p>' : '')
           + (it.g === 'ia' ? '<p class="ex-note">제2시제 능동 어미 -ν, -ς, 없음, -μεν, -τε, -ν + 접두모음 (§115, §119)</p>' : '')
@@ -5107,19 +5117,22 @@ function vvParseQ(f) {
   const kos = new Set(rs.map(r => r.ko));
   const others = shuffle(VV_FORMS.filter(x => x.verb.lemma === f.verb.lemma && x.form !== f.form).flatMap(x => x.readings.map(r => r.ko)).filter(k => !kos.has(k)));
   const koOpts = [...kos]; for (const k of others) { if (!koOpts.includes(k)) koOpts.push(k); if (koOpts.length >= 5) break; }
-  const keys = ['tense','voice','p','n','lemma','ko'];
-  const val = (r, k) => k === 'p' ? r.p + '인칭' : r[k];
+  const keys = ['tense','voice','lemma','ko'];
+  const val = (r, k) => r[k];
   return {
     title: f.form,
     prompt: '<div class="vv-prompt-sm">이 동사를 파싱하세요</div><div class="vv-prompt">' + f.form + '</div>',
     fields: [
       { key:'tense', label:'시제', opts:['현재','미완료','미래','단순과거'] }, { key:'voice', label:'태', opts:['능동','중간','수동','중간·수동','디포넌트','없음'] },
-      { key:'p', label:'인칭', opts:['1인칭','2인칭','3인칭'] }, { key:'n', label:'수', opts:['단수','복수'] },
+      { key:'pn', label: PN_LABEL, opts: PN_OPTS, multi:true },
       { key:'lemma', label:'기본형', opts: shuffle([...lemmas, ...lemmaPool]) }, { key:'ko', label:'뜻', opts: shuffle(koOpts) }
     ],
     check(ans) {
-      const { best, ok } = vvBest(rs, ans, keys, val);
+      const { best, ok: ok0 } = vvBest(rs, ans, keys, val);
       const right = {}; keys.forEach(k => { right[k] = val(best, k); });
+      // 같은 기본형·시제·태로 읽히는 인칭·수는 모두 골라야 정답 (예: ἔλυον = 1인칭 단수 / 3인칭 복수)
+      right.pn = pnJoin(rs.filter(r => r.lemma === best.lemma && r.tense === best.tense && r.voice === best.voice).map(r => r.p + '인칭 ' + r.n));
+      const ok = ok0 && ans.pn === right.pn;
       const v = vvVerbOf(f.verb.lemma);
       let show = '<p class="ex-note"><b>가능한 파싱 모두</b></p>' + rs.map(r => '<div class="ex-note">· ' + vvParseText(r)  + '</div>').join('');
       if (f.group === 'dep') show += '<p class="ex-note">기본형이 -ομαι → 디포넌트: 형태는 중간·수동, 뜻은 능동 (§108, 미완료도 디포넌트 §133)</p>';
@@ -5192,8 +5205,11 @@ vvContent.addEventListener('click', e => {
   const opt = e.target.closest('[data-vv-key]');
   if (opt && !opt.disabled) {
     const q = vv.qs[vv.i], k = opt.dataset.vvKey;
-    vvContent.querySelectorAll('[data-vv-key="' + k + '"]').forEach(b => b.classList.remove('s34-selected'));
-    opt.classList.add('s34-selected'); q.ans[k] = opt.dataset.val;
+    if (opt.dataset.multi) { q.ans[k] = pnToggle(q.ans[k], opt.dataset.val); opt.classList.toggle('s34-selected'); }
+    else {
+      vvContent.querySelectorAll('[data-vv-key="' + k + '"]').forEach(b => b.classList.remove('s34-selected'));
+      opt.classList.add('s34-selected'); q.ans[k] = opt.dataset.val;
+    }
     document.getElementById('vvSubmit').style.display = q.fields.every(f => q.ans[f.key]) ? 'block' : 'none';
     return;
   }
@@ -5956,6 +5972,7 @@ function lsAttachKo(t, i, it) {
     if (pr) {
       ans = LS_SUBJ[k] + ' ' + pr.right;
       opts = pr.all.map(p => LS_SUBJ[k] + ' ' + p).concat(LS_SUBJ.filter((s, j) => j !== k).map(s => s + ' ' + pr.right));
+      if (exVerbAmbig(t)) alt = [LS_SUBJ[k === 0 ? 5 : 0] + ' ' + pr.right];   // 같은 형태의 다른 인칭·수 뜻도 정답
     }
   } else if (t.pos === '전치사') {
     ans = m.ko || LS_PREP_KO[t.lemma + t.gov];
@@ -6029,8 +6046,7 @@ function exFieldsFor(pos, t, i) {
   const GNC = [F('g','성',['남성','여성','중성']), F('n','수',['단수','복수']), F('c','격',['주격','속격','여격','대격'])];
   if (pos === '동사') return [
     F('tense','시제',['현재','미완료','미래','단순과거']), F('voice','태',['능동','중간','수동','디포넌트','없음']),
-    F('mood','법',['직설법','가정법','명령법','부정사']), F('person','인칭',['1인칭','2인칭','3인칭']),
-    F('number','수',['단수','복수']), F('lemma','기본형',lemmaOpts()), ...KO()
+    F('mood','법',['직설법','가정법','명령법','부정사']), F('pn', PN_LABEL, PN_OPTS), F('lemma','기본형',lemmaOpts()), ...KO()
   ];
   if (pos === '명사' || pos === '형용사') return [...GNC, F('lemma','기본형',lemmaOpts()), ...KO()];
   if (pos === '관사') return GNC;
@@ -6048,7 +6064,7 @@ function exCorrectVals(t) {
   return v;
 }
 function exCorrectVals0(t) {
-  if (t.pos === '동사') return { tense:t.tense, voice:t.voice || '없음', mood:t.mood, person:t.person + '인칭', number:t.number, lemma:t.lemma };
+  if (t.pos === '동사') return { tense:t.tense, voice:t.voice || '없음', mood:t.mood, pn:pnJoin(exVerbPN(t)), lemma:t.lemma };
   if (t.pos === '명사' || t.pos === '형용사') return { g:t.g, n:t.n, c:t.c, lemma:t.lemma };
   if (t.pos === '관사') return { g:t.g, n:t.n, c:t.c };
   if (t.pos === '대명사') return { person:(t.person || 3) + '인칭', g:t.person ? '없음' : t.g, n:t.n, c:t.c, lemma:t.lemma };
@@ -6058,8 +6074,15 @@ function exCorrectVals0(t) {
 function exParseText(t) {
   return exParseText0(t) + (t.ko ? ' · "' + t.ko + '"' : '') + (exAltText(t) ? ' (같은 형태: ' + exAltText(t) + ')' : '');
 }
+// 동사의 인칭·수: 미완료·제2단순과거 능동 -ον은 1인칭 단수와 3인칭 복수가 같은 모양 (§121, §169) → 둘 다
+function exVerbAmbig(t) {
+  if (t.pos !== '동사' || t.voice !== '능동' || !['미완료','단순과거'].includes(t.tense)) return false;
+  if (!((t.person === 1 && t.number === '단수') || (t.person === 3 && t.number === '복수'))) return false;
+  return /ον$/.test(t.t.normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+}
+function exVerbPN(t) { return exVerbAmbig(t) ? ['1인칭 단수', '3인칭 복수'] : [t.person + '인칭 ' + t.number]; }
 function exParseText0(t) {
-  if (t.pos === '동사') return [t.tense, t.voice, t.mood, t.person + '인칭', t.number].filter(Boolean).join(' ') + ' · ' + t.lemma;
+  if (t.pos === '동사') return [t.tense, t.voice, t.mood, pnJoin(exVerbPN(t))].filter(Boolean).join(' ') + ' · ' + t.lemma;
   if (t.pos === '명사' || t.pos === '형용사') return t.g + ' ' + t.n + ' ' + t.c + ' · ' + t.lemma;
   if (t.pos === '관사') return t.g + ' ' + t.n + ' ' + t.c;
   if (t.pos === '대명사') return (t.person ? t.person + '인칭' : '3인칭 ' + t.g) + ' ' + t.n + ' ' + t.c + ' · ' + t.lemma;
@@ -6100,7 +6123,7 @@ function exAltText(t) {
   return a.length > 1 ? a.map(x => x.g + ' ' + x.n + ' ' + x.c).join(' / ') : '';
 }
 function exGram(t) {
-  if (t.pos === '동사') return [t.tense, t.voice, t.mood, t.person + '인칭', t.number].filter(Boolean).join(' ');
+  if (t.pos === '동사') return [t.tense, t.voice, t.mood, pnJoin(exVerbPN(t))].filter(Boolean).join(' ') + (exVerbAmbig(t) ? ' (같은 형태)' : '');
   if (t.pos === '전치사') return '+' + t.gov;
   if (t.pos === '대명사' && t.person) return t.person + '인칭 ' + t.n + ' ' + t.c;
   if (t.g) return t.g + ' ' + t.n + ' ' + t.c;
@@ -6184,7 +6207,8 @@ function exHeader() {
     + '<div class="ex-steps">' + EX_STAGES.map((n, i) => '<span class="' + (i + 1 < ex.stage ? 'done' : i + 1 === ex.stage ? 'on' : '') + '">' + (i + 1) + ' ' + n + '</span>').join('') + '</div>';
 }
 function exOptsHtml(key, opts, chosen) {
-  return '<div class="s34-opts">' + opts.map(o => '<button class="s34-opt' + (chosen === o ? ' s34-selected' : '') + '" data-ex-key="' + key + '" data-val="' + String(o).replace(/"/g, '&quot;') + '">' + o + '</button>').join('') + '</div>';
+  const on = o => key === 'pn' ? String(chosen || '').split(PN_SEP).includes(o) : chosen === o;
+  return '<div class="s34-opts">' + opts.map(o => '<button class="s34-opt' + (on(o) ? ' s34-selected' : '') + '" data-ex-key="' + key + '" data-val="' + String(o).replace(/"/g, '&quot;') + '">' + o + '</button>').join('') + '</div>';
 }
 const EX_END_OPTS = ['. 마침표 → 평서문', '; 물음표 → 의문문', '· 윗점 → 쌍점·쌍반점(문장 계속)', ', 쉼표 → 아직 안 끝남'];
 function exEndCorrect() {
@@ -6421,7 +6445,7 @@ examContent.addEventListener('click', e => {
     const key = opt.dataset.exKey, val = opt.dataset.val;
     if (ex.stage === 4) {          // 파싱 패널: 품사를 바꾸면 항목이 그 품사에 맞게 바뀜
       if (key === 'pos') { if (ex.ans.pos !== val) ex.ans = { pos: val, vals: {} }; }
-      else ex.ans.vals[key] = val;
+      else ex.ans.vals[key] = key === 'pn' ? pnToggle(ex.ans.vals[key], val) : val;
       exRenderParse();
       return;
     }
