@@ -540,6 +540,19 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
     </div>
   </div>
 
+  <!-- 기말고사 대비: 16–20과 익힘 문제 18·19·20번 -->
+  <div class="menu-card" id="finalCard" style="border:2px solid #f0c674">
+    <div class="menu-card-title" style="color:#b5651d">📝 기말고사 대비 · 문장 파싱</div>
+    <p style="font-size:13px;color:#888;margin:0 0 8px;line-height:1.5">16·17·18·19·20과 익힘 문제 18·19·20번, 15문장: 끝 부호 → 절 나누기 → 동사 찾기 → 단어 파싱(품사부터) → 전체 번역</p>
+    <div id="finalChips"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button class="ex-none" id="finalAll">전체 선택</button><button class="ex-none" id="finalNone">전체 해제</button></div>
+    <label class="check-row" style="margin-top:10px;font-size:13px;font-weight:400"><input type="checkbox" id="finalShuffle"> 문장 순서 섞기</label>
+    <div id="finalErr" class="menu-err"></div>
+    <button id="finalStart" class="grammar-btn" style="background:#b5651d;margin-top:10px">문장 파싱 시작</button>
+    <button id="finalNote" class="grammar-btn" style="background:#fff;color:#b5651d;border:2px solid #b5651d;margin-top:8px">📒 정답 노트 보기 (선택한 문장)</button>
+    <a class="grammar-btn" href="final-answer-note.pdf" target="_blank" rel="noopener" download="기말고사_정답노트.pdf" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box;background:#fff;color:#b5651d;border:2px dashed #b5651d;margin-top:8px">⬇️ 정답 노트 PDF 저장 (15문장 전체)</a>
+  </div>
+
   <div class="menu-card">
     <div class="menu-card-title">모드</div>
     <div class="mode-row" id="modeRow">
@@ -748,7 +761,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-11-26-1";
+const APP_VERSION = "2026-11-26-2";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -764,6 +777,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-11-26", text: "📝 기말고사 대비 (메뉴 맨 위): 16·17·18·19·20과 익힘 문제 18·19·20번 15문장 — 문장 선택해서 파싱, 정답 노트, PDF 저장" },
   { date: "2026-11-26", text: "학습 카드 19과(단순과거 능동·중간 분사, 제2단순과거 분사, οὐ·μή)·20과(단순과거 수동 분사, 속격 독립 구문, 미래 분사) 추가: 레슨, 연습(단순과거 분사 만들기·분사 파싱·분사의 시간·οὐ/μή / 수동 분사 만들기·속격 독립 구문), 익힘 문제 각 20문장. 11주차 단어(19·20과 16개)" },
   { date: "2026-11-19", text: "익힘 문제: 단순과거 동사는 뜻과 전체 번역에 '(단번에)'를 붙여 해석 (예: 우리가 (단번에) 믿었다)" },
   { date: "2026-11-19", text: "학습 카드 17과(명사 제3변화)·18과(현재 분사) 추가: 레슨, 연습(어간 찾기·형태 만들기·파싱·복수 여격 / 분사 만들기·파싱·용법 판별·분사↔직설법), 익힘 문제 각 20문장. 문장 파싱에 '분사' 품사 추가. 10주차 단어(17·18과 16개)" },
@@ -6678,7 +6692,8 @@ function exRenderNote(queue) {
   lsShowScreen(examScreen);
   window.scrollTo(0, 0);
   const H = s => '<span class="nt-a' + (exNoteHide ? ' nt-hide' : '') + '">' + s + '</span>';
-  let html = '<div class="lesson-card"><div class="lesson-card-title">📒 ' + queue[0].set.label + ' 정답 노트</div>'
+  exBackLabel();
+  let html = '<div class="lesson-card"><div class="lesson-card-title">📒 ' + (queue[0].set.title || queue[0].set.label) + ' 정답 노트</div>'
     + '<p class="ex-note">문장마다 ① 끝 부호 ② 절 나누기 ③ 동사 → 단어 파싱 → 전체 번역 순서로 정리했어요.</p>'
     + '<label class="check-row" style="font-size:14px;margin-top:8px"><input type="checkbox" id="ntHide"' + (exNoteHide ? ' checked' : '') + '> 정답 가리고 외우기 (가린 칸을 누르면 보여요)</label></div>';
   queue.forEach(({ set, item }) => {
@@ -6699,13 +6714,17 @@ function exRenderNote(queue) {
         + (t.note ? '<div class="nt-row nt-memo">' + H(t.note) + '</div>' : '') + '</div>').join('') + '</div></div>';
   });
   html += '<button class="lesson-btn primary" id="ntToQuiz" style="margin-top:12px">이 문장들 파싱 연습으로 풀기 →</button>'
-    + '<button class="lesson-btn secondary" id="ntBack" style="margin-top:8px">← 과 학습으로</button>';
+    + '<button class="lesson-btn secondary" id="ntBack" style="margin-top:8px">' + (lsCur ? '← 과 학습으로' : '← 처음 메뉴로') + '</button>';
   examContent.innerHTML = html;
   ex = { noteQueue: queue };
 }
 
 function exClauses(it) { return it.cl || Math.max(it.toks.filter(t => t.pos === '동사').length, 1); }
+// 익힘 문제 화면에서 돌아가기: 과 학습에서 왔으면 과 학습으로, 기말고사 대비(메뉴)에서 왔으면 처음 메뉴로
+function exBack() { if (lsCur) lsOpenLesson(lsCur); else lsShowScreen(menuScreen); }
+function exBackLabel() { document.getElementById('examBackBtn').textContent = lsCur ? '← 과 학습' : '← 메뉴'; }
 function exStart(queue) {
+  exBackLabel();
   ex = { queue, si: 0, results: [] };
   lsShowScreen(examScreen);
   exBeginSentence();
@@ -6946,7 +6965,7 @@ function exRenderFinal() {
   const wrongIdx = ex.results.map((r, i) => r.wrongs.length ? i : -1).filter(i => i >= 0);
   if (wrongIdx.length) html += '<button class="lesson-btn primary" id="exRetryWrong" style="margin-top:12px">틀린 문장만 다시 (' + wrongIdx.length + ')</button>';
   html += '<button class="lesson-btn" id="exRestart" style="margin-top:8px">처음부터 다시</button>'
-    + '<button class="lesson-btn secondary" id="exToLesson" style="margin-top:8px">← 과 학습으로</button>';
+    + '<button class="lesson-btn secondary" id="exToLesson" style="margin-top:8px">' + (lsCur ? '← 과 학습으로' : '← 처음 메뉴로') + '</button>';
   examContent.innerHTML = html;
 }
 
@@ -6956,7 +6975,7 @@ examContent.addEventListener('click', e => {
     if (e.target.id === 'ntHide') { exNoteHide = e.target.checked; examContent.querySelectorAll('.nt-a').forEach(a => a.classList.toggle('nt-hide', exNoteHide)); return; }
     const a = e.target.closest('.nt-a.nt-hide'); if (a) { a.classList.remove('nt-hide'); return; }
     if (e.target.id === 'ntToQuiz') { const q = ex.noteQueue; exStart(q); }
-    if (e.target.id === 'ntBack') lsOpenLesson(lsCur);
+    if (e.target.id === 'ntBack') exBack();
     return;
   }
   const tok = e.target.closest('[data-ex-tok]');
@@ -7016,7 +7035,7 @@ examContent.addEventListener('click', e => {
   else if (id === 'exFinish') exRenderFinal();
   else if (id === 'exRetryWrong') exStart(ex.results.map((r, i) => r.wrongs.length ? ex.queue[i] : null).filter(Boolean));
   else if (id === 'exRestart') exStart(ex.queue);
-  else if (id === 'exToLesson') lsOpenLesson(lsCur);
+  else if (id === 'exToLesson') exBack();
 });
 
 
@@ -7773,6 +7792,37 @@ LS_LESSONS[20] = { title:'20과 학습', sub:'단순과거 수동 분사 λυθ�
     { mode:'pttime', label:'④ 분사의 시간 (…하면서 / …한 후에)' }
   ] };
 
+// ── 기말고사 대비: 16·17·18·19·20과 익힘 문제 18·19·20번 (15문장) ──
+const FINAL_LESSONS = [16, 17, 18, 19, 20], FINAL_NOS = [18, 19, 20];
+const FINAL_SET = FINAL_LESSONS.flatMap(n => FINAL_NOS.map(no => ({ set: { label: n + '과 익힘', title: '기말고사 대비' }, item: LS_EX[n].find(it => it.no === no), key: n + '-' + no })));
+function finalRenderChips() {
+  const box = document.getElementById('finalChips');
+  box.innerHTML = FINAL_LESSONS.map(n => '<div class="ex-set-row"><b style="font-size:13px;width:38px">' + n + '과</b>'
+    + FINAL_NOS.map(no => { const it = LS_EX[n].find(x => x.no === no);
+      return '<label class="week-chip on ex-sent-chip"><input type="checkbox" class="final-cb" value="' + n + '-' + no + '" checked>' + no + '<span class="ex-sent-gr">' + it.toks.filter(t => !t.punct).slice(0, 2).map(t => t.t).join(' ') + '…</span></label>'; }).join('') + '</div>').join('');
+}
+function finalQueue(shuf) {
+  const sel = new Set([...document.querySelectorAll('.final-cb:checked')].map(c => c.value));
+  let q = FINAL_SET.filter(x => sel.has(x.key)).map(x => ({ set: x.set, item: x.item }));
+  if (shuf && document.getElementById('finalShuffle').checked) q = shuffle(q);
+  return q;
+}
+document.getElementById('finalCard').addEventListener('click', e => {
+  const id = e.target.id;
+  if (id === 'finalAll' || id === 'finalNone') {
+    document.querySelectorAll('.final-cb').forEach(c => { c.checked = id === 'finalAll'; c.closest('.week-chip').classList.toggle('on', c.checked); });
+    return;
+  }
+  if (id === 'finalStart' || id === 'finalNote') {
+    const q = finalQueue(id === 'finalStart'), err = document.getElementById('finalErr');
+    if (!q.length) { err.textContent = '문장을 하나 이상 선택해주세요.'; err.style.display = 'block'; return; }
+    err.style.display = 'none'; lsCur = null;
+    if (id === 'finalStart') exStart(q); else exRenderNote(q);
+  }
+});
+document.getElementById('finalCard').addEventListener('change', e => { if (e.target.classList.contains('final-cb')) e.target.closest('.week-chip').classList.toggle('on', e.target.checked); });
+finalRenderChips();
+
 // 과제 범위 (13·14과 3–7번)
 const LS_HW = { 13:[3,7], 14:[3,7] };
 const lsIsHw = (n, no) => !!LS_HW[n] && no >= LS_HW[n][0] && no <= LS_HW[n][1];
@@ -7836,7 +7886,7 @@ lcContent.addEventListener('click', e => {
 lcContent.addEventListener('change', e => { if (e.target.classList.contains('ls-ex-cb')) e.target.closest('.week-chip').classList.toggle('on', e.target.checked); });
 document.getElementById('lcMenuBtn').addEventListener('click', lsOpenHub);
 document.getElementById('lcBackBtn').addEventListener('click', () => { if (lsCur) lsOpenHub(); else lsShowScreen(menuScreen); });
-document.getElementById('examBackBtn').addEventListener('click', () => lsOpenLesson(lsCur));
+document.getElementById('examBackBtn').addEventListener('click', () => exBack());
 
 // ── 11과: 접두모음 붙이기 — 현재형을 보고 미완료 1인칭 단수 고르기 ──
 function vvAugQs() {
