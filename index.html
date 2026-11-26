@@ -551,7 +551,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
     <div id="finalErr" class="menu-err"></div>
     <button id="finalStart" class="grammar-btn" style="background:#b5651d;margin-top:10px">문장 파싱 시작</button>
     <button id="finalNote" class="grammar-btn" style="background:#fff;color:#b5651d;border:2px solid #b5651d;margin-top:8px">📒 정답 노트 보기 (선택한 문장)</button>
-    <button id="finalPdf" class="grammar-btn" style="background:#fff;color:#b5651d;border:2px dashed #b5651d;margin-top:8px">📄 정답 노트 PDF 보기·저장 (15문장 전체)</button>
+    <button id="finalPdf" class="grammar-btn" style="background:#fff;color:#b5651d;border:2px dashed #b5651d;margin-top:8px">📄 정답 노트 · 연습지 PDF (15문장 전체)</button>
   </div>
 
   <div class="menu-card">
@@ -716,6 +716,8 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
   <div class="lesson-card" style="padding:12px">
     <button class="lesson-btn secondary" id="pdfHomeBtnTop">← 처음 메뉴로 돌아가기</button>
     <a class="lesson-btn" href="final-answer-note.pdf" target="_blank" rel="noopener" download="기말고사_정답노트.pdf" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box;background:#eaf1fd;color:#2e6ed6;margin-top:8px">⬇️ PDF 파일 저장 (새 창에서 열림)</a>
+    <a class="lesson-btn" href="final-practice.pdf" target="_blank" rel="noopener" download="기말고사_연습지.pdf" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box;background:#fff4e5;color:#b5651d;margin-top:8px">✏️ 연습지 PDF (빈칸, 시험처럼 풀기)</a>
+    <a class="lesson-btn" href="final-practice-answers.pdf" target="_blank" rel="noopener" download="기말고사_연습지_정답.pdf" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box;background:#e6f6ea;color:#1a6e35;margin-top:8px">✅ 연습지 정답 PDF</a>
     <p class="ex-note" style="margin-top:6px">PDF 파일은 새 창으로 열려요. 다 본 뒤 그 창만 닫으면 이 화면으로 돌아와요. 아래에서 바로 볼 수도 있어요.</p>
   </div>
   <div id="pdfPages"></div>
@@ -777,7 +779,7 @@ h1 { font-size: 22px; text-align: center; margin: 0; font-weight: 700; }
 
 <script>
 // ── 버전 관리 ────────────────────────────────────────────────
-const APP_VERSION = "2026-11-26-3";
+const APP_VERSION = "2026-11-26-4";
 const VER_KEY = 'appVersion';
 (function () {
   try {
@@ -793,6 +795,7 @@ const VER_KEY = 'appVersion';
 
 // ── 업데이트 목록 (최신순) ──────────────────────────────────
 const updates = [
+  { date: "2026-11-26", text: "기말고사 연습지 PDF(빈칸 — 단어 칸마다 파싱, 해석 줄)와 연습지 정답 PDF 추가 (정답 노트 PDF 화면)" },
   { date: "2026-11-26", text: "기말고사 정답 노트 PDF: 앱 안의 PDF 화면에서 보기·저장, '← 처음 메뉴로' 버튼으로 돌아가기" },
   { date: "2026-11-26", text: "📝 기말고사 대비 (메뉴 맨 위): 16·17·18·19·20과 익힘 문제 18·19·20번 15문장 — 문장 선택해서 파싱, 정답 노트, PDF 저장" },
   { date: "2026-11-26", text: "학습 카드 19과(단순과거 능동·중간 분사, 제2단순과거 분사, οὐ·μή)·20과(단순과거 수동 분사, 속격 독립 구문, 미래 분사) 추가: 레슨, 연습(단순과거 분사 만들기·분사 파싱·분사의 시간·οὐ/μή / 수동 분사 만들기·속격 독립 구문), 익힘 문제 각 20문장. 11주차 단어(19·20과 16개)" },
